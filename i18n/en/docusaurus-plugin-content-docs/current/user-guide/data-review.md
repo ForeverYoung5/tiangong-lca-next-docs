@@ -4,52 +4,174 @@ sidebar_position: 7
 
 # Data Review
 
-Data review safeguards dataset quality by checking completeness, traceability, and modelling assumptions. This guide outlines the **roles**, **workflow**, **supporting tools**, and **common blockers** involved.
+Data review is no longer just “submit and wait.” It involves distinct workspaces and responsibilities
+ for authors, review members, and review admins. This page is organised as **pre-submit steps →
+roles → review workspace → FAQ**.
 
-## Roles & responsibilities
+## Before submission
 
-| Role | Key actions | Main screens |
+Before sending data into review from **My Data**, complete two steps first:
+
+1. Run **Data check**
+2. Click **Submit for review**
+
+![Data check button](img/data-check.png)
+
+If the platform finds blocking issues during submission, it opens a problem list. Fix those issues
+first, then submit again.
+
+![Submission validation prompt](img/data-problem.png)
+
+## Who does what
+
+| Role | Primary responsibility | Main entry |
 | --- | --- | --- |
-| **Author** | Prepare data, run self-checks, submit for review, fix feedback | “My Data” editor, message centre |
-| **Reviewer** | Inspect submissions, verify references, approve or request changes | “Review” list, message centre |
-| **Team admin** | Assign reviewers, monitor progress | “My Team”, status filters |
+| Author | Model data, self-check, submit for review, revise after feedback | My Data |
+| Review member (`review-member`) | Review assigned tasks and submit review comments | Avatar menu → Review Management |
+| Review admin (`review-admin`) | Assign work, track progress, manage review members, approve or reject the full review | Avatar menu → Review Management |
+| Team admin | Coordinate with authors and help track project progress | My Team, notification centre |
 
-## Review workflow
+> Review roles and team roles are different permission systems. A person may have both, or only one
+> of them.
 
-1. **Prepare & self-check**  
-   - Click `Data check` in the process/model editor to validate required fields before submission.  
-   - Address any highlighted issues immediately.  
-   ![Data check button](img/data-check.png)
+## How to open the review workspace
 
-2. **Submit for review**  
-   - Use `Submit for review`; the system re-runs the validation.  
-   - If problems remain, a modal lists each blocking item—resolve them and resubmit.  
-   ![Submission validation prompt](img/data-problem.png)
+Users with a review role can open **Review Management** from the avatar menu in the top-right
+corner.
 
-3. **Review execution**  
-   - Reviewers receive notifications in the message centre and can use the status filters to locate pending items.  
-   - Verify references, source quality, language completeness, and modelling assumptions.
+This workspace is role-gated and does not stay visible in the left navigation for everyone.
 
-4. **Feedback & resolution**  
-   - Approved datasets move forward to publication.  
-   - Returned datasets include reviewer notes; authors edit the content and submit again.
+![Review member workspace tabs](img/review-workspace-member-tabs.png)
+
+The marked area `1` shows the tabs visible to the current account. This screenshot is a
+`review-member` example; a `review-admin` sees a different management-oriented tab set.
+
+## Review admin workspace
+
+When a `review-admin` opens Review Management, the current tabs are:
+
+- **Unassigned Task**
+- **Assigned Task**
+- **Rejected Task**
+- **Member Management**
+
+### Unassigned Task
+
+This is where newly submitted reviews are assigned to review members.
+
+Typical actions include:
+
+- Selecting multiple tasks in bulk
+- Opening **Select Reviewer**
+- Setting a review deadline
+- Rejecting the review at the whole-task level
+
+Use this tab first whenever a new submission still needs reviewer assignment.
+
+### Assigned Task
+
+This tab is for monitoring already assigned work.
+
+Review admins can typically:
+
+- Check review progress
+- Open **Review Progress**
+- Add more reviewers to unfinished work
+- Revoke reviewers that are still pending
+- Approve or reject the whole review
+
+### Rejected Task
+
+This tab stores tasks that were rejected at the review-admin level, making it easier to trace what
+needs to be revised or reassigned.
+
+### Member Management
+
+**Member Management** is where the review team itself is maintained. Typical actions include:
+
+- Adding review members
+- Removing review members
+- Promoting `review-member` to `review-admin`
+- Demoting `review-admin` back to `review-member`
+- Inspecting each member's pending and reviewed counts
+
+## Review member workspace
+
+When a `review-member` opens Review Management, the current tabs are:
+
+- **Reviewed**
+- **Pending Review**
+- **Rejected**
+
+### Pending Review
+
+This is the main working area for review members. It lists the tasks currently assigned to the
+logged-in reviewer.
+
+Common actions include:
+
+- Opening task details
+- Filling in review feedback
+- Using **Temporary Save** to keep work in progress
+- Using **Save** to submit the review result
+
+The editing experience differs by object type:
+
+- Process review is more form-oriented
+- Model review typically combines graph views with a right-side information panel
+
+### Reviewed
+
+This tab shows tasks that the current review member has already processed.
+
+### Rejected
+
+This tab is mainly for tasks that were rejected at the review-admin level.
+
+If a task appears here, it usually means the whole review flow was rejected, not just that an
+individual reviewer wrote a negative comment.
+
+## What authors should know
+
+Even if an author does not have a review role, they should still understand the review rhythm:
+
+1. Finish modelling and self-check in **My Data**
+2. Click **Submit for review**
+3. Wait for a review admin to assign reviewers
+4. Revise according to review feedback
+5. Resubmit if necessary
+
+Also watch the **Data Notifications** tab in the top-right notification centre so that review
+feedback is not missed.
 
 ## Status filters
 
-Use the dropdown in the “Review” list to track progress:
-
-- ✅ **All**: Every record, regardless of state.  
-- 🕒 **Unreviewed**: Not yet submitted or assigned.  
-- 🔄 **In review**: Awaiting reviewer action.  
-- ✔️ **Reviewed**: Completed (approved or returned with comments).
+Review-related lists commonly include status filters to help locate items at different stages.
 
 ![Review status filters](img/review-status.png)
 
-## Common blockers
+In practice, interpret those statuses through your role:
 
-- **Missing references**: Ensure flows, previous versions, and sources are correctly linked.  
-- **Incomplete language fields**: Provide both Chinese and English entries where required.  
-- **Insufficient source detail**: Include author, title, publication, year, and DOI/URL; upload attachments if needed.  
-- **Custom units/properties misuse**: Confirm custom definitions align with LCIA requirements; prefer standard assets.
+- Authors care whether they must revise something
+- Review members care which tasks are still pending
+- Review admins care which tasks are unassigned or stuck
 
-If an issue persists, coordinate with the assigned reviewer or your team administrator, and consult the FAQ for known constraints.
+## FAQ
+
+### Why can’t I see Review Management?
+
+Because the entry is shown only to `review-admin` and `review-member`. Regular authors can submit
+for review without having access to the review workspace itself.
+
+### Why did submission not immediately become an active review?
+
+Submission only enters the workflow. A review admin usually still needs to assign reviewers before
+the real review work begins.
+
+### I am a team admin. Why do I still not see Review Management?
+
+Because team administration and review roles are separate permission domains.
+
+### Where can I compare all of these permissions quickly?
+
+Continue with [Permissions & Data Spaces](./permissions-and-data-scopes).

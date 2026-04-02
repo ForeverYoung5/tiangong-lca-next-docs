@@ -3,7 +3,9 @@ title: User Guide Map
 description: Orient different roles to the right TianGong LCA tutorials and best practices.
 ---
 
-Use this page as your compass through the TianGong LCA documentation. Follow the suggested path—**Learn the interface → Understand data modules → Build & reuse data → Validate & publish → Collaborate → Analyse**—or jump directly to the section that matches your role.
+Use this page as your compass through the TianGong LCA documentation. Follow the suggested path—
+**Learn the interface → Move data through the system → Review & collaborate → Understand
+permissions → Analyse**—or jump directly to the section that matches your role.
 
 ## Who should read this?
 
@@ -14,26 +16,30 @@ Use this page as your compass through the TianGong LCA documentation. Follow the
 
 ## Recommended journey
 
-1. **Learn the interface**  
-   Start with the [Key Functions Overview](/en/user-guide/key-functions-introduction) to understand navigation, list controls, and collaboration tools.
-2. **Understand data modules**  
+1. **Learn the interface**
+   Start with the [Key Functions Overview](/en/user-guide/key-functions-introduction) to understand the top bar, avatar menu, list controls, and collaboration tools.
+2. **Understand global import/export flows**
+   Read [TIDAS ZIP Import, Export, and Task Center](/en/user-guide/tidas-zip-workflows) before handling package exchange or background jobs.
+3. **Understand data modules**
    Read the [Data Platform Overview](/en/user-guide/data) to see how Open Data, My Data, Commercial Data, and Team Data fit together.
-3. **Create & maintain data**  
+4. **Create & maintain data**
    Follow [Create My Data](/en/user-guide/create-my-data), [Data Use](/en/user-guide/data-use), and [Search](/en/user-guide/search) to go from raw references to reusable datasets.
-4. **Validate & publish**  
-   Review [Data Review](/en/user-guide/data-review) for roles, workflows, and status tracking.
-5. **Collaborate effectively**  
-   Consult [Team Functions](/en/user-guide/team-function) for role management, invitations, and contribution routines.
-6. **Analyse impacts**  
-   Explore [LCIA Calculation & Results](/en/user-guide/lcia) to run impact assessments and interpret outputs.
+5. **Validate & publish**
+   Review [Data Review](/en/user-guide/data-review) for role-specific workspaces, workflows, and status tracking.
+6. **Collaborate & understand permissions**
+   Consult [Team Functions](/en/user-guide/team-function), [Permissions & Data Spaces](/en/user-guide/permissions-and-data-scopes), and [System Management Workspace](/en/user-guide/system-management).
+7. **Analyse impacts**
+   Explore [Process Analysis Workspace](/en/user-guide/process-analysis) and [LCIA Calculation & Results](/en/user-guide/lcia).
 
 ## Quick shortcuts
 
-- Need a button reference? Jump to the “Page Navigation”, “Data Operations”, or “Collaboration & Notifications” sections in [Key Functions Overview](/en/user-guide/key-functions-introduction).  
+- Need to know which top-bar entry handles import, export, or background progress? Jump to [Key Functions Overview](/en/user-guide/key-functions-introduction) or [TIDAS ZIP Import, Export, and Task Center](/en/user-guide/tidas-zip-workflows).
 - Creating a new dataset? Follow the “Prepare → Build datasets → Data validation” stages in [Create My Data](/en/user-guide/create-my-data).  
-- Facing a review blocker? Check the “Common blockers” table in [Data Review](/en/user-guide/data-review).  
-- Collaborating with teammates? Use the permission matrix in [Team Functions](/en/user-guide/team-function).
+- Facing a review blocker? Check the role-specific guidance and FAQ in [Data Review](/en/user-guide/data-review).
+- Need a fast permission comparison? Go straight to [Permissions & Data Spaces](/en/user-guide/permissions-and-data-scopes).
 
 ## Terminology & more help
 
-Refer to the [Data Platform Overview](/en/user-guide/data) for definitions of models, processes, flows, unit groups, and sources. If you encounter an edge case not covered here, browse the FAQ or contact the support team.
+Refer to the [Data Platform Overview](/en/user-guide/data) for definitions of models, processes,
+flows, unit groups, and sources. If you are maintaining the docs site itself, switch to
+[Docs / Product Sync Guide](/en/dev/docs-product-sync).

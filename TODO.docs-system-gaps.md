@@ -21,6 +21,9 @@ of truth once a gap has been identified.
 ## Verification Notes
 
 - Default online verification target: `https://lca.tiangong.earth/`
+- `../tiangong-lca-next` currently publishes directly from `main`, so docs maintenance normally uses
+  the product repo's `main` branch as the implementation source of truth without a separate
+  production-parity check.
 - Verification credentials may exist in the repo-root `.env` file as:
   - `TIANGONG_LCA_USERNAME`
   - `TIANGONG_LCA_PASSWORD`
@@ -29,6 +32,13 @@ of truth once a gap has been identified.
 - If a gap requires live UI confirmation or refreshed screenshots, prefer Playwright over guesswork.
 - When adding or replacing screenshots, follow the style of existing docs screenshots and add red
   boxes or callouts when that makes the instructional focus clearer.
+- Unless the documentation task specifically needs to compare locales, use the product's English UI
+  for screenshots, even when updating Chinese docs.
+- For local or tightly cropped screenshots, do not force a full-screen composition just to hit a
+  fixed canvas size. Preserve clarity by using higher capture density and repo-consistent PNG
+  density metadata instead.
+- The public docs site is primarily for human readers, so use screenshots when they materially
+  improve comprehension, but do not require screenshots on every page.
 
 ## Status Legend
 
@@ -39,7 +49,7 @@ of truth once a gap has been identified.
 
 ## Active Backlog
 
-### [ ] P0 Account Profile And API Key
+### [x] P0 Account Profile And API Key
 
 Problem:
 The product account page includes a dedicated `Generate API Key` tab with password verification and
@@ -64,7 +74,14 @@ Needed:
 - Link the account guide to MCP and OpenAPI pages instead of documenting API Key generation only in
   integration docs.
 
-### [ ] P0 TIDAS ZIP Import/Export And Task Center
+Resolution:
+
+- `docs/user-guide/account-profile.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/account-profile.md`
+- Account guide now documents the `Generate API Key` tab, password re-verification, one-time key
+  display, and links to the MCP/OpenAPI usage guides.
+
+### [x] P0 TIDAS ZIP Import/Export And Task Center
 
 Problem:
 The product has global TIDAS ZIP import, global TIDAS ZIP export, and a shared task center, but the
@@ -88,7 +105,17 @@ Needed:
 - Document export scopes, asynchronous task behavior, report download, and failure-report reading.
 - Extend the top-bar controls guide so users can discover these entries from the UI.
 
-### [ ] P0 Process Analysis Workspace
+Resolution:
+
+- `docs/user-guide/tidas-zip-workflows.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/tidas-zip-workflows.md`
+- `docs/user-guide/key-functions-introduction.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/key-functions-introduction.md`
+- `sidebars.ts`
+- Public docs now describe the ZIP import/export modal flow, scope restrictions, task-center
+  behavior, and troubleshooting reports.
+
+### [x] P0 Process Analysis Workspace
 
 Problem:
 The product contains a hidden route for process analysis with LCIA profile review, process comparison,
@@ -111,7 +138,17 @@ Needed:
 - Distinguish simple LCIA result viewing from advanced analysis workflows.
 - Document the meaning of current-user, open-data, and all-data scopes where applicable.
 
-### [ ] P0 Review Workspace For Reviewer Roles
+Resolution:
+
+- `docs/user-guide/process-analysis.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/process-analysis.md`
+- `docs/user-guide/lcia.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/lcia.md`
+- `sidebars.ts`
+- Docs now split basic LCIA result viewing from the advanced process-analysis workspace and document
+  the four analysis tabs plus data-scope options.
+
+### [x] P0 Review Workspace For Reviewer Roles
 
 Problem:
 The docs describe the review process at a high level, but the product exposes different review
@@ -132,7 +169,14 @@ Needed:
   management views.
 - Clarify which actions belong to authors, reviewers, team admins, and review admins.
 
-### [ ] P0 System Management Workspace
+Resolution:
+
+- `docs/user-guide/data-review.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/data-review.md`
+- Review docs now explain the separate `review-admin` and `review-member` workspaces, tab meaning,
+  and how the submitter workflow connects to the review workspace.
+
+### [x] P0 System Management Workspace
 
 Problem:
 The product contains a hidden system-management page for system-level teams and members, but the docs
@@ -154,7 +198,16 @@ Needed:
 - If documented, explain roles, member operations, and intended audience.
 - If intentionally undocumented, record the decision here and avoid accidental public mentions.
 
-### [ ] P1 Global Top Bar Control Map
+Resolution:
+
+- Decision: document it publicly, but clearly mark it as a hidden workspace for system-level roles.
+- `docs/user-guide/system-management.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/system-management.md`
+- `sidebars.ts`
+- Public docs now explain the audience, hidden entry point, display-management purpose, and member
+  role operations.
+
+### [x] P1 Global Top Bar Control Map
 
 Problem:
 The current control guide documents dark mode, language, docs entry, and notifications, but not the
@@ -174,7 +227,53 @@ Needed:
 - Expand the top-bar section into a complete control map.
 - Keep screenshots and labels current with the real header layout.
 
-### [ ] P1 Permissions And Data-Space Matrix
+Resolution:
+
+- `docs/user-guide/key-functions-introduction.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/key-functions-introduction.md`
+- The top-bar guide now documents the real global control order, notification tabs, avatar-menu
+  entries, and links to the ZIP workflow guide.
+
+### [x] P1 High-Value Screenshot Coverage For New Guides
+
+Problem:
+The rewritten guides for hidden workspaces and top-bar workflows were text-complete, but several of
+them still lacked current screenshots. That reduced clarity for human readers, especially on entry
+points, modal workflows, and role-gated pages.
+
+System evidence:
+
+- `https://lca.tiangong.earth/`
+- `docs/dev/docs-product-sync.md`
+- `AGENTS.md`
+
+Docs currently involved:
+
+- `docs/user-guide/key-functions-introduction.md`
+- `docs/user-guide/tidas-zip-workflows.md`
+- `docs/user-guide/account-profile.md`
+- `docs/user-guide/process-analysis.md`
+- `docs/user-guide/data-review.md`
+- `docs/user-guide/system-management.md`
+
+Needed:
+
+- Add screenshots only where they materially improve human comprehension.
+- Mark the relevant region with red boxes or numbered callouts.
+- Keep Chinese and English docs aligned, including mirrored image assets.
+
+Resolution:
+
+- Added current screenshots for the top-bar control map, TIDAS ZIP import modal, TIDAS ZIP export
+  modal, account API Key tab, process-analysis workspace, review-member workspace tabs, and system
+  management tabs under both `docs/user-guide/img/` and
+  `i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/`.
+- Inserted those images into the corresponding Chinese and English guides with numbered
+  explanations.
+- Kept the screenshot strategy selective: high-value pages now have visuals, but the repo still does
+  not treat screenshots as mandatory on every doc page.
+
+### [x] P1 Permissions And Data-Space Matrix
 
 Problem:
 Permission boundaries are currently spread across multiple pages. Users must piece together behavior
@@ -197,7 +296,19 @@ Needed:
 - Add one consolidated permissions matrix or a dedicated page.
 - Cover view, copy, edit, contribute, import, export, submit-for-review, and admin actions.
 
-### [ ] P1 Contributor Guide For The Docs/Product Sync Model
+Resolution:
+
+- `docs/user-guide/permissions-and-data-scopes.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/permissions-and-data-scopes.md`
+- `docs/user-guide/data.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/data.md`
+- `docs/user-guide/team-function.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/team-function.md`
+- `sidebars.ts`
+- The docs site now has a consolidated permissions page covering data spaces, team roles, review
+  roles, system roles, and analysis data scopes.
+
+### [x] P1 Contributor Guide For The Docs/Product Sync Model
 
 Problem:
 The public docs repo has only a thin development page. It does not explain that this site is manually
@@ -221,7 +332,16 @@ Needed:
 - Explain source-of-truth boundaries between `docs/**`, `i18n/en/**`, and `../tiangong-lca-next`.
 - Document which product files are common drift hotspots.
 
-### [ ] P1 Chinese/English LCIA Parity
+Resolution:
+
+- `docs/dev/docs-product-sync.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/dev/docs-product-sync.md`
+- `README.md`
+- `sidebars.ts`
+- Maintainer docs now explain source-of-truth boundaries, live verification target, `.env`
+  variable handling, screenshot policy, and common product drift hotspots.
+
+### [x] P1 Chinese/English LCIA Parity
 
 Problem:
 The English LCIA page already covers both process-level and model-level calculation, while the Chinese
@@ -243,7 +363,16 @@ Needed:
 - Decide whether the Chinese page is the source and update English, or vice versa, then keep both in
   sync in the same change.
 
-### [ ] P1 Dev Environment Baseline Drift
+Resolution:
+
+- `docs/user-guide/lcia.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/lcia.md`
+- `docs/user-guide/process-analysis.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/user-guide/process-analysis.md`
+- Chinese and English now use the same page split: `lcia.md` for direct LCIA result viewing and
+  `process-analysis.md` for advanced analysis workflows.
+
+### [x] P1 Dev Environment Baseline Drift
 
 Problem:
 The docs repo still tells readers to use Node 22 for development, while the product-side engineering
@@ -263,7 +392,15 @@ Needed:
 - Update the developer guide to distinguish docs-site runtime requirements from product runtime
   requirements if they intentionally differ.
 
-### [ ] P2 English-Orphan Page Cleanup
+Resolution:
+
+- `docs/dev/dev-env.md`
+- `i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md`
+- `README.md`
+- Developer docs now distinguish the docs repo's `node >=18.0` runtime declaration from the product
+  repo's Node 24 engineering baseline and recommend Node 24 for cross-repo work.
+
+### [x] P2 English-Orphan Page Cleanup
 
 Problem:
 There is at least one English-only page without a matching Chinese source page, which makes long-term
@@ -283,6 +420,22 @@ Needed:
   delete it if obsolete.
 - Record the decision here when resolved.
 
+Resolution:
+
+- Decision: delete the obsolete English-only page and keep `user-guide/data-use.md` as the canonical
+  bilingual page for this topic.
+- Removed: `i18n/en/docusaurus-plugin-content-docs/current/user-guide/tiangong-data.md`
+
 ## Completed
 
-- None yet.
+- P0 Account Profile And API Key
+- P0 TIDAS ZIP Import/Export And Task Center
+- P0 Process Analysis Workspace
+- P0 Review Workspace For Reviewer Roles
+- P0 System Management Workspace
+- P1 Global Top Bar Control Map
+- P1 Chinese/English LCIA Parity
+- P1 Permissions And Data-Space Matrix
+- P1 Contributor Guide For The Docs/Product Sync Model
+- P1 Dev Environment Baseline Drift
+- P2 English-Orphan Page Cleanup

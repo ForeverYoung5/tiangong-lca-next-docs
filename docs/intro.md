@@ -34,19 +34,15 @@ TianGong LCA 平台将为您的 LCA 数据管理和环境影响评估提供全�
 
 **用户指引**模块详细介绍 TianGong LCA 平台的各项核心功能，帮助您全面掌握平台的使用方法：
 
-- **[数据平台介绍](/user-guide/data)**: 了解如何创建、编辑和管理单元过程、物质流、流属性以及相关的联系人和数据源，确保数据的准确性和完整性。
-
-- **[账户管理](/user-guide/account-profile)**: 掌握如何管理个人账户信息、设置安全选项，以及调整平台的使用偏好，确保您的数据和账户安全。
-
-- **[按键功能介绍](/user-guide/key-functions-introduction)**: 了解平台界面中各个按键的具体功能及其使用方法，方便您高效操作和管理生命周期评价相关数据。
-
-- **[数据新建](/user-guide/create-my-data)**: 学习如何创建和管理自己新建的 LCA 数据集，包括模型、过程、流和流属性等，确保数据的准确性和完整性。
-
-- **[数据使用](/user-guide/data-use)**: 探索平台提供的标准化 LCA 数据集，学习如何浏览、引用和管理这些数据，确保数据的一致性和可追溯性。
-
-- **[数据搜索](/user-guide/search)**: 掌握在平台上搜索和下载 LCA 数据集的基础操作，确保您能够快速获取所需数据。
-
-- **[数据审核](/user-guide/data-review)**: 了解平台中的数据审核功能，便于规范数据提交流程并提升数据质量与可信度。
+- **[按键功能介绍](/user-guide/key-functions-introduction)**：先了解顶部全局控件、头像菜单、列表视图和常见操作入口。
+- **[TIDAS ZIP 导入、导出与任务中心](/user-guide/tidas-zip-workflows)**：掌握全局 ZIP 包导入导出流程，以及后台任务的查看与下载方式。
+- **[数据平台介绍](/user-guide/data)**：理解 Open Data、Commercial Data、My Data、Team Data 的差异。
+- **[数据新建](/user-guide/create-my-data)** 与 **[数据使用](/user-guide/data-use)**：完成从创建、复制、引用到复用的常见数据工作流。
+- **[数据审核](/user-guide/data-review)**：理解提交者、审核成员、审核管理员各自的工作区和流程。
+- **[过程分析工作区](/user-guide/process-analysis)** 与 **[LCIA 计算与结果查看](/user-guide/lcia)**：分别处理高级过程分析和单个过程 / 模型的结果查看。
+- **[权限与数据空间矩阵](/user-guide/permissions-and-data-scopes)**：快速对照数据空间、团队角色、审核角色和系统角色。
+- **[账户管理与 API Key](/user-guide/account-profile)**：管理账号资料、密码、邮箱和 API Key。
+- **[团队功能介绍](/user-guide/team-function)** 与 **[系统管理工作区](/user-guide/system-management)**：分别说明团队协作和平台级维护入口。
 
 ## 数据收集
 
@@ -64,6 +60,7 @@ TianGong LCA 平台将为您的 LCA 数据管理和环境影响评估提供全�
 
 - **[私有部署](/deploy/local-deploy)**：使用 Docker 在本地或企业环境中部署 TianGong LCA。
 - **[开发环境配置](/dev/dev-env)**：搭建项目开发环境，支持二次开发与贡献。
+- **[Docs / Product 同步指南](/dev/docs-product-sync)**：面向维护者说明文档站如何与产品仓保持同步。
 
 ## 更新日志
 

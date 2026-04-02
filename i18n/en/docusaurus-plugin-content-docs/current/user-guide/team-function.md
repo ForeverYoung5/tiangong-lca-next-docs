@@ -57,7 +57,7 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 
 - Promote trusted collaborators to admins to distribute onboarding tasks.  
 - After editing in “My Data”, use **Contribute to team** to share updates with colleagues.  
-- Need help finding the right button? Check the controls listed in [Key Functions Overview](/en/user-guide/key-functions-introduction#collaboration--notifications).
+- Need help finding the right button? Check the controls listed in [Key Functions Overview](/en/user-guide/key-functions-introduction#collaboration-actions).
 
 ## FAQ
 
@@ -67,3 +67,6 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
   Ask them to verify the message centre. If nothing appears, confirm the account ID and resend the invite.
 - **Why can’t I edit datasets directly in Team Data?**  
   Team Data is intentionally read-only to prevent conflicts. Copy the dataset to “My Data”, edit it there, and contribute the updated version back to the team.
+
+If you want one place to compare team roles, review roles, system roles, and data spaces, continue
+with [Permissions & Data Spaces](./permissions-and-data-scopes).

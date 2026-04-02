@@ -16,4 +16,4 @@ Track the evolution of TianGong LCA: each entry lists the release date, new capa
 
 ## 2025-06-06
 
-### Added: Data [import & export](/en/user-guide/key-functions-introduction#data-operations) plus [Data check self-validation](/en/user-guide/data-review#review-workflow)
+### Added: Data [import & export](/en/user-guide/key-functions-introduction#data-operations) plus [Data check self-validation](/en/user-guide/data-review#before-submission)

@@ -1,44 +1,80 @@
-# Website
+# TianGong LCA Docs
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This repository contains the public Docusaurus site for TianGong LCA.
 
-## Installation
+## Source of truth
+
+- Chinese public-doc source: `docs/**`
+- English mirror: `i18n/en/docusaurus-plugin-content-docs/current/**`
+- Product behaviour source: `../tiangong-lca-next`
+
+The English tree is a maintained mirror, not a fire-and-forget translation dump. If a public page
+changes in Chinese, update the English mirror in the same change.
+
+## Environment
+
+- Docs repo runtime: `package.json` currently allows `node >=18.0`
+- Recommended workspace baseline: **Node 24**
+
+If you are working across both docs and `../tiangong-lca-next`, use Node 24 to avoid switching
+versions.
+
+## Install
 
 ```bash
-npm update && npm ci
+nvm install 24
+nvm use 24
+npm ci
 ```
 
-## Local Development
+## Common commands
 
 ```bash
 npm run start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
-
-```bash
+npm run lint
+npm run lint:fix
+npm run typecheck
 npm run build
-
 npm run serve
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+## Recommended verification
 
-## Translation
+For public-doc changes, run at least:
 
 ```bash
-npx docusaurus write-translations --locale en
-npx docusaurus write-translations --locale zh-CN
+npm run lint
+npm run build
 ```
+
+If navigation or page structure changes, also check:
+
+- `sidebars.ts`
+- `docs/intro.md`
+- `docs/user-guide/overview.md`
+
+## Translation scaffolding
+
+```bash
+npm run write-translations -- --locale en
+```
+
+Use scaffolding only as a starting point. Final English content should be reviewed and edited
+manually.
+
+## Docs / Product sync
+
+For the full maintainer workflow, read:
+
+- `docs/dev/docs-product-sync.md`
+- `TODO.docs-system-gaps.md`
+
+The default online verification target is `https://lca.tiangong.earth/`.
 
 ## Publish
 
 ```bash
 git tag
-
 git tag v0.0.1
-
 git push origin v0.0.1
 ```

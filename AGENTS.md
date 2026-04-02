@@ -45,6 +45,9 @@ Notes:
 ## Online Verification Environment
 
 - Online system URL: `https://lca.tiangong.earth/`
+- `../tiangong-lca-next` is published directly from its `main` branch.
+- Because of that release model, docs work does not need a separate “is online consistent with
+  `main`?” verification step unless a maintainer explicitly suspects deployment drift or outage.
 - Local credentials and tokens for verification may exist in the repo-root `.env` file.
 - Expected variable names:
   - `TIANGONG_LCA_USERNAME`
@@ -73,12 +76,44 @@ When Playwright is used:
    workflow actually requires authentication.
 2. Verify the target flow before editing docs.
 3. Capture screenshots that match the style of existing docs assets in this repo.
-4. If the screenshot is instructional, add red boxes or clear callouts around the relevant control
+4. Unless the screenshot is specifically meant to compare locales or explain a Chinese-only text
+   difference, use the **English product UI** for screenshots even when the surrounding docs page is
+   Chinese.
+5. Match the repository's existing screenshot sharpness. For local or cropped screenshots, do **not**
+   force a full `1920x1080` composition when it is unnecessary; instead, keep the crop focused but
+   capture it at higher pixel density, typically with `deviceScaleFactor >= 2`, and preserve
+   high-density PNG metadata consistent with existing assets (the current repo commonly uses
+   ~144 DPI metadata).
+6. If the screenshot is instructional, add red boxes or clear callouts around the relevant control
    or region before using it in docs.
-5. Save the asset under the nearest matching docs image directory, for example
+7. Save the asset under the nearest matching docs image directory, for example
    `docs/user-guide/img/` or `docs/MCP/img/`.
-6. Add surrounding explanatory text in the doc so the screenshot supports, rather than replaces, the
+8. Add surrounding explanatory text in the doc so the screenshot supports, rather than replaces, the
    written instructions.
+
+Annotation rules for instructional screenshots:
+
+- Prefer simple numbered callouts over embedding full text labels inside the image.
+- Explain those numbers in the surrounding Markdown text, not by drawing long Chinese or English
+  phrases onto the screenshot itself.
+- Keep the marked UI legible. Do not let labels, badges, or thick boxes cover the actual icon,
+  field, or button being explained.
+- When possible, place number badges outside the target region. Use leader lines or extra whitespace
+  rather than stacking the label directly on top of the UI.
+- If a control cluster is too dense, widen the crop, upscale the image, or split one screenshot into
+  multiple focused screenshots instead of forcing overlapping annotations.
+- If text must appear inside the image, keep it short, use a clean sans-serif style, and make sure
+  it is visually secondary to the real UI.
+- For local screenshots, sharpness matters more than canvas size. A smaller crop is acceptable if
+  the resulting PNG still has crisp UI text and high enough sampling density.
+
+Screenshot decision rule:
+
+- This site is primarily written for human readers, so screenshots should be added when they
+  materially improve comprehension of entry points, control placement, or multi-step UI flows.
+- Do not force screenshots onto every page. Prefer a smaller number of high-value screenshots over
+  repetitive image-heavy pages.
+- If a page is already clear from text plus stable UI labels, text-only documentation is acceptable.
 
 Screenshot hygiene:
 

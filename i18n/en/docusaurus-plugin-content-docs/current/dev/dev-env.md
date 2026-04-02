@@ -2,68 +2,118 @@
 sidebar_position: 1
 ---
 
-# Project Setup
+# Developer Environment
 
-## Installing Dependencies
+This page explains the local setup for `tiangong-lca-next-docs` and how its Node baseline relates to
+the product repo at `../tiangong-lca-next`.
+
+If your work also involves aligning docs with product behaviour, continue with
+[Docs / Product Sync Guide](./docs-product-sync).
+
+## Node baseline
+
+There are currently two baselines to keep in mind:
+
+- **Docs site repo**: `package.json` currently declares `node >=18.0`
+- **Product repo `../tiangong-lca-next`**: the current engineering baseline is **Node 24**
+
+### Recommended approach
+
+If you are only doing light maintenance in the docs repo, Node 18+ is technically enough.
+
+If you also need to:
+
+- inspect the real implementation in `../tiangong-lca-next`
+- switch between the two repos
+- investigate drift between docs and shipped behaviour
+
+then use **Node 24** across both repos to avoid version churn.
+
+## Install dependencies
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
-nvm install
-nvm alias default 22
-nvm use
+nvm install 24
+nvm alias default 24
+nvm use 24
 
-npm install
+npm ci
 ```
 
-## Configuration Files
+## Common commands
 
-You can modify or add extra scripts in the `package.json` file. Below are some pre-configured script commands:
-
-### Debug the Project
-
-🚀 **Start the project in debug mode using the command below** 🚀:
+### Local development
 
 ```bash
-npm start
+npm run start
 ```
 
-The application will run at: [localhost:8000](http://localhost:8000/)
+The local site normally runs at `http://localhost:3000/`.
 
-### Check Code Formatting
+### Markdown lint
 
 ```bash
 npm run lint
 ```
 
-### Check and Auto-Fix Code Formatting
+### Auto-fix lintable Markdown issues
 
 ```bash
 npm run lint:fix
 ```
 
-### Run Tests
+### TypeScript check
 
 ```bash
-npm test
+npm run typecheck
 ```
 
-### Build the Project
+### Production build
 
 ```bash
 npm run build
 ```
 
-## Automatic Deployment
-
-The project's `.github/workflows/build.yml` file is configured with an automatic deployment workflow based on version tags. Simply create a tag that follows the format ‘v*’ locally and push it to the remote repository to trigger a deployment. By configuring the keys `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in the project, automatic deployment to Cloudflare Pages is enabled.
+### Serve the built site locally
 
 ```bash
-# List existing tags
+npm run serve
+```
+
+### Generate translation scaffolding
+
+```bash
+npm run write-translations -- --locale en
+```
+
+## Minimum verification for doc changes
+
+For public-doc content changes, run at least:
+
+```bash
+npm run lint
+npm run build
+```
+
+If your change touches navigation, sidebar structure, links, or bilingual mirrors, also re-check:
+
+- `docs/intro.md`
+- `docs/user-guide/overview.md`
+- `sidebars.ts`
+
+## Release notes
+
+The repository's `.github/workflows/build.yml` uses a tag-triggered publish flow. Create and push a
+tag matching `v*` to trigger deployment.
+
+```bash
 git tag
-
-# Create a new tag
 git tag v0.0.1
-
-# Push the tag to the remote repository
 git push origin v0.0.1
+```
+
+Cloudflare Pages deployment still depends on repository-level environment variables:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`

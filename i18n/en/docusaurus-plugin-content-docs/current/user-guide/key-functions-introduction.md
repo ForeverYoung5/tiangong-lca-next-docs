@@ -4,81 +4,129 @@ sidebar_position: 3
 
 # Key Functions Overview
 
-This guide groups frequently used interface controls by scenario so you can quickly locate the right action while navigating TianGong LCA. Numbers in the screenshots correspond to the labels in each section.
+This guide groups the most important interface controls by scenario. If you are looking for the ZIP
+package workflow specifically, continue with
+[TIDAS ZIP Import, Export, and Task Center](./tidas-zip-workflows).
 
----
+## Global top-bar controls
 
-## Page Navigation
+After sign-in, the top-right area of the main layout shows a set of global controls. These are
+workspace-level actions rather than page-specific buttons.
 
-### Top toolbar
+### Typical order
 
-- **Light / Dark mode**: Switch themes to fit your working environment.  
-- **Language switcher**: Toggle the UI language.  
-- **Documentation link**: Open the TianGong documentation site for detailed guidance.  
-- **Message center**: Review notifications and system alerts—coordinate follow-up with the [Team Guide](/en/user-guide/team-function).
+From left to right, the current header usually includes:
 
-![Top toolbar](img/main-page-buttons.png)
+1. **Import TIDAS ZIP Package**
+2. **Export TIDAS ZIP Package**
+3. **Task Center**
+4. **Notifications**
+5. **Light / Dark mode**
+6. **Language switcher**
+7. **Documentation link**
 
-### Data table controls
+### What each control does
 
-- **Refresh**: Fetch the latest records.  
-- **Display density**: Choose Comfortable / Medium / Compact row spacing.  
-- **Column settings**: Show or hide columns (ID, Category, Version, Updated At, Actions, etc.); Reset returns to defaults.  
-- **Fullscreen**: Hide the sidebar and search bar to maximise the table view.
+| Control | Purpose | Notes |
+| --- | --- | --- |
+| Import TIDAS ZIP Package | Import a ZIP archive that follows the TIDAS package structure | Accepts `.zip` only |
+| Export TIDAS ZIP Package | Export accessible data as a ZIP package | Runs asynchronously and finishes in Task Center |
+| Task Center | Monitor background work | Combines LCA analysis tasks and TIDAS export tasks |
+| Notifications | Review collaboration and review updates | Includes Team, Data, and Issue tabs |
+| Light / Dark mode | Switch theme | Useful for different work environments |
+| Language switcher | Switch UI locale | Also affects which docs locale opens |
+| Documentation link | Open the TianGong docs site | Chinese UI opens Chinese docs; English UI opens English docs |
+
+![Global top-bar control map](img/top-bar-controls-current.png)
+
+The numbered markers follow the current left-to-right order: `1` Import TIDAS ZIP Package,
+`2` Export TIDAS ZIP Package, `3` Task Center, `4` Notifications, `5` Light / Dark mode,
+`6` Language switcher, `7` Documentation link.
+
+### Notification centre
+
+The notification centre currently contains three tabs:
+
+- **Team Notifications**
+- **Data Notifications**
+- **Issue Notifications**
+
+You can also filter the feed by the last 3 days, 7 days, 30 days, or all time. Opening a tab
+updates its viewed timestamp, so it is worth checking regularly.
+
+## Avatar menu entries
+
+Selecting the avatar or account name opens a role-aware menu. Common entries include:
+
+- **Account Profile**
+- **My Team**
+- **Review Management**: visible only to review roles
+- **System Management**: visible only to system roles
+- **Logout**
+
+Related guides:
+
+- [Account Management & API Key](./account-profile)
+- [Data Review](./data-review)
+- [System Management Workspace](./system-management)
+
+## Data table controls
+
+Most list pages also expose a standard group of table controls:
+
+- **Refresh**: Load the latest state
+- **Display density**: Switch between Comfortable / Medium / Compact
+- **Column settings**: Show, hide, or reset columns
+- **Fullscreen**: Hide surrounding UI and focus on the table
 
 ![Table controls](img/page-button-1.png)
 
-You can combine column settings with fullscreen to focus on specific attributes:
+You can combine fullscreen with column settings to tailor the view to a specific task:
 
 ![Column configuration example](img/filter-column-data.png)
 
----
-
-## Data Operations
+## Data operations
 
 ### Row-level actions
 
-- **View versions**: Inspect the revision history of a dataset.  
-- **View details**: Open a read-only view of the full data structure.  
-- **Copy**: Duplicate the dataset into “My Data” for editing.  
-- **Export JSON**: Download a TIDAS-compatible `.json` file for backup or integration.  
-  - ⚠️ Confirm the receiving system understands the TIDAS schema before importing.
+Common actions in dataset tables include:
+
+- **View versions**: Inspect revision history and publication changes
+- **View details**: Open the full record in read-only mode
+- **Copy**: Duplicate the dataset into **My Data**
+- **Export JSON**: Download a TIDAS-compatible `.json` file
+
+> Confirm that the receiving system understands the TIDAS schema before importing exported JSON.
 
 ![Row-level actions](img/page-button-2.png)
 
-### “My Data” exclusive actions
+### “My Data” actions
 
-The “My Data” module adds:
+The **My Data** workspace usually adds:
 
-- **Add new item**: Create a new process, model, flow, etc. Follow the workflow in [Create My Data](/en/user-guide/create-my-data).  
-- **Import**: Upload JSON files that match the TIDAS structure; fields are mapped automatically.  
-- **Edit**: Modify the selected record.  
-- **Contribute to team**: Share the item with your team workspace for collaborative use.
+- **Add new item**
+- **Import**
+- **Edit**
+- **Contribute to team**
+
+See [Create My Data](/en/user-guide/create-my-data) for the full authoring workflow.
 
 ![My Data actions](img/page-button-3.png)
 
-Importing expects well-formed JSON with no structural errors:
-
 ![Import dialog](img/import.png)
 
----
-
-## Collaboration & Notifications
-
-### Message centre
-
-The top-right message icon surfaces pending invitations, review decisions, and other alerts. Check it regularly—especially at the start of a work session—to avoid missing required actions.
-
-![Notification](img/notification.png)
+## Collaboration actions
 
 ### Team management actions
 
-Within “My Team”, authorised users can:
+Inside **My Team**, authorised users can:
 
-- **Invite member / Resend invite**: Search by username and send an invitation.  
-- **Set as admin / Set as member**: Promote or demote a teammate’s role.  
-- **Remove member**: Revoke access for the selected user.
+- **Invite member / Resend invite**
+- **Set as admin / Set as member**
+- **Remove member**
 
 ![Team member actions](img/members-message-actions.png)
 
-Refer to [Team Functions](/en/user-guide/team-function#permission-matrix-and-common-actions) for detailed role capabilities and collaboration tips.
+For role boundaries and related data access rules, see
+[Team Functions](/en/user-guide/team-function#permission-matrix-and-common-actions) and
+[Permissions & Data Spaces](/en/user-guide/permissions-and-data-scopes).

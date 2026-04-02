@@ -46,14 +46,18 @@ const sidebars: SidebarsConfig = {
       items: [
         'user-guide/overview',
         'user-guide/key-functions-introduction',
+        'user-guide/tidas-zip-workflows',
         'user-guide/data',
         'user-guide/create-my-data',
         'user-guide/data-use',
         'user-guide/search',
         'user-guide/data-review',
+        'user-guide/process-analysis',
         'user-guide/lcia',
+        'user-guide/permissions-and-data-scopes',
         'user-guide/account-profile',
         'user-guide/team-function',
+        'user-guide/system-management',
       ],
     },
     {
@@ -124,7 +128,7 @@ const sidebars: SidebarsConfig = {
         description: '获取私有化部署步骤与开发环境配置指南。',
         slug: '/deploy-and-dev',
       },
-      items: ['deploy/local-deploy', 'dev/dev-env'],
+      items: ['deploy/local-deploy', 'dev/dev-env', 'dev/docs-product-sync'],
     },
     {
       type: 'category',

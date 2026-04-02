@@ -6,7 +6,7 @@ sidebar_position: 1
 
 # Introduction
 
-TianGong LCA is an open-source LCA data platform built upon the TIDAS (**T**Iangong **DA**ta **S**ystem) data system. The platform offers flexible usage options, allowing users to either access the [**online system**](https://lca.tiangong.earth/) or implement [**local deployment**](/i18n/en/docusaurus-plugin-content-docs/current/deploy/local-deploy.md). TianGong LCA supports multi-team and multi-user collaboration, enabling team members to work together on complex LCA data preparation projects.
+TianGong LCA is an open-source LCA data platform built upon the TIDAS (**T**Iangong **DA**ta **S**ystem) data system. The platform offers flexible usage options, allowing users to either access the [**online system**](https://lca.tiangong.earth/) or implement [**local deployment**](/en/deploy/local-deploy). TianGong LCA supports multi-team and multi-user collaboration, enabling team members to work together on complex LCA data preparation projects.
 
 The TianGong LCA platform supports the following key functions:
 
@@ -33,12 +33,15 @@ The **Quick Start** section helps new users complete their first essential tasks
 
 The **User Guide** is the core reference for daily work on TianGong LCA. Recommended entries include:
 
-- **[Interface Essentials](/en/user-guide/key-functions-introduction)**: Learn the top navigation, list actions, and collaboration controls.
+- **[Interface Essentials](/en/user-guide/key-functions-introduction)**: Learn the global top bar, avatar menu, list controls, and common actions.
+- **[TIDAS ZIP Import, Export, and Task Center](/en/user-guide/tidas-zip-workflows)**: Use the global ZIP-package workflow and monitor asynchronous jobs.
 - **[Data Platform Overview](/en/user-guide/data)**: Understand the scope and permissions of Open Data, My Data, Commercial Data, and Team Data.
-- **[Data Creation](/en/user-guide/create-my-data)**: Follow the step-by-step workflow to prepare processes, models, flows, and supporting references.
-- **[Data Use & Search](/en/user-guide/data-use)** and **[Search](/en/user-guide/search)**: Retrieve datasets, copy them to your workspace, and manage reusable assets.
-- **[Data Review](/en/user-guide/data-review)**: Coordinate submission, self-check, and reviewer responsibilities.
-- **[Team Collaboration](/en/user-guide/team-function)** and **[LCIA](/en/user-guide/lcia)**: Configure team roles and run impact assessment calculations.
+- **[Data Creation](/en/user-guide/create-my-data)** and **[Data Use](/en/user-guide/data-use)**: Move through the everyday create, copy, cite, and reuse workflow.
+- **[Data Review](/en/user-guide/data-review)**: Understand how authors, review members, and review admins work across different review tabs.
+- **[Process Analysis Workspace](/en/user-guide/process-analysis)** and **[LCIA Calculation & Results](/en/user-guide/lcia)**: Separate advanced process analysis from direct process/model result reading.
+- **[Permissions & Data Spaces](/en/user-guide/permissions-and-data-scopes)**: Compare data spaces, team roles, review roles, and system roles in one place.
+- **[Account Management & API Key](/en/user-guide/account-profile)**: Manage profile data, password, email, and API key generation.
+- **[Team Functions](/en/user-guide/team-function)** and **[System Management Workspace](/en/user-guide/system-management)**: Cover team collaboration and platform-level maintenance entry points.
 
 ## Data Collection
 
@@ -55,6 +58,7 @@ The **User Guide** is the core reference for daily work on TianGong LCA. Recomme
 
 - **[Self-Hosted Deployment](/en/deploy/local-deploy)**: Launch TianGong LCA and the supporting Supabase stack with Docker.
 - **[Developer Environment](/en/dev/dev-env)**: Configure the project locally for customization or contributions.
+- **[Docs / Product Sync Guide](/en/dev/docs-product-sync)**: Explain how maintainers should keep the docs site aligned with the product repo.
 
 ## Changelog
 

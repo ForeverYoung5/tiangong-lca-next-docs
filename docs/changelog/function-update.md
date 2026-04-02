@@ -16,4 +16,4 @@ sidebar_position: 1
 
 ## 2025-06-06
 
-### 新增功能：数据[导入与导出](/user-guide/key-functions-introduction#我的数据专属动作)功能，[Data check 自检](/user-guide/data-review#审核流程)能力
+### 新增功能：数据[导入与导出](/user-guide/key-functions-introduction#我的数据专属动作)功能，[Data check 自检](/user-guide/data-review#提交前准备)能力

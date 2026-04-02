@@ -66,3 +66,6 @@ These elements appear in every module, but permissions differ.
 | Team Data | ✅ | | | | | ✅ |
 
 Next steps: proceed to [Create My Data](/en/user-guide/create-my-data) to build content, or jump to [Team Functions](/en/user-guide/team-function) for collaboration guidance.
+
+For a consolidated view of data spaces, team roles, review roles, and system roles, continue with
+[Permissions & Data Spaces](./permissions-and-data-scopes).
