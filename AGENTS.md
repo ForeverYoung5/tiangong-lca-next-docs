@@ -74,6 +74,7 @@ Route those tasks to:
 
 ## Runtime Facts
 
+- Repo-local AI-doc maintenance is enforced by `.github/workflows/ai-doc-lint.yml` using the vendored `.github/scripts/ai-doc-lint.*` files.
 - Chinese docs are the source of truth for this site; English pages are maintained mirrors and must be updated in the same change
 - The canonical local commands are `npm run lint`, `npm run build`, and `npm run typecheck`
 - Use Playwright or equivalent product verification only when text inspection of `../tiangong-lca-next` is not enough to confirm the current UI flow or screenshot target

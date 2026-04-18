@@ -101,7 +101,7 @@
       "notes": [
         "Run npm run typecheck when changing Docusaurus TypeScript config such as sidebars.ts or docusaurus.config.ts.",
         "If product behavior is ambiguous, verify against ../tiangong-lca-next before changing public docs.",
-        "AI-doc changes should still run the root warning-only ai-doc-lint."
+        "AI-doc changes should still run the repo-local ai-doc-lint workflow or the equivalent local node command."
       ]
     }
   }
