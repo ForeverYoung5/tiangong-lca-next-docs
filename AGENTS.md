@@ -1,206 +1,98 @@
-# AGENTS - Tiangong LCA Next Docs
+---
+title: next-docs AI Working Guide
+docType: contract
+scope: repo
+status: active
+authoritative: true
+owner: next-docs
+language: en
+whenToUse:
+  - when a task may change public Docusaurus documentation, site navigation, screenshots, or docs-product drift tracking
+  - when deciding whether work belongs in this repository, in tiangong-lca-next, or in lca-workspace
+  - when routing from the workspace root into tiangong-lca-next-docs
+whenToUpdate:
+  - when product/docs ownership boundaries change
+  - when the bilingual public-doc workflow changes
+  - when the repo-local AI bootstrap docs under ai/ change
+checkPaths:
+  - AGENTS.md
+  - README.md
+  - TODO.docs-system-gaps.md
+  - ai/**/*.yaml
+  - docs/**
+  - i18n/en/docusaurus-plugin-content-docs/current/**
+  - sidebars.ts
+  - docusaurus.config.ts
+  - src/**
+  - static/**
+  - package.json
+lastReviewedAt: 2026-04-18
+lastReviewedCommit: 5c945a72f0847e9c27f56a38eb9aca7389f69fa9
+related:
+  - ai/repo.yaml
+  - ai/doc-impact.yaml
+  - README.md
+  - TODO.docs-system-gaps.md
+---
 
-Use this file as the single entry point for AI agents working in this repository.
+## Repo Contract
 
-## Repo Purpose
+`tiangong-lca-next-docs` owns the public TianGong LCA documentation site built with Docusaurus. Start here when the task may change published docs pages, navigation, screenshots, or the durable backlog that tracks docs drift against the product.
 
-- This repository publishes the public TianGong LCA documentation site with Docusaurus.
-- The primary product counterpart is `../tiangong-lca-next`.
-- This repo is manually synchronized with the product repo. There is no automatic docs generation
-  from product code, routes, or UI labels.
+## AI Load Order
 
-## Runtime Baseline
+Load docs in this order:
 
-- Node.js `>=18.0` per `package.json`.
-- Stack: Docusaurus 3 + React 19 + TypeScript.
+1. `AGENTS.md`
+2. `ai/repo.yaml`
+3. `ai/doc-impact.yaml`
+4. `README.md` for maintainer workflow details
+5. `TODO.docs-system-gaps.md` when the task is part of an existing drift item
+6. the target page under `docs/**` and its English mirror under `i18n/en/docusaurus-plugin-content-docs/current/**`
 
-Core commands:
+Do not start by guessing product behavior from the docs repo alone.
 
-```bash
-npm install
-npm run start
-npm run build
-npm run lint
-npm run typecheck
-```
+## Repo Ownership
 
-Notes:
+This repo owns:
 
-- `npm run lint` runs `markdownlint-cli2` across all Markdown files in the repo.
-- `npm run build` should be used when changing Docusaurus config, sidebars, MDX, routes, or locale
-  structure.
-- Avoid bulk translation regeneration unless explicitly needed; `write-translations` can create noisy
-  diffs and does not replace manual review.
+- `docs/**` as the canonical Chinese public-doc source
+- `i18n/en/docusaurus-plugin-content-docs/current/**` as the maintained English mirror
+- `sidebars.ts`, `docusaurus.config.ts`, `src/**`, and `static/**` for docs-site structure and presentation
+- `TODO.docs-system-gaps.md` for durable tracking of product/docs drift
 
-## Repo Landmarks
+This repo does not own:
 
-- `docs/**`: Chinese public docs source files.
-- `i18n/en/docusaurus-plugin-content-docs/current/**`: English public docs mirror.
-- `sidebars.ts`: public navigation structure.
-- `docusaurus.config.ts`: site config, locales, navbar, footer, and search.
-- `static/**`: site assets.
-- `README.md`: maintainer-facing repo usage notes.
-- `TODO.docs-system-gaps.md`: internal backlog for product/docs drift. Keep durable gap tracking here.
+- shipped product behavior
+- product routes, API semantics, or hidden-role UI logic
+- workspace integration state after merge
 
-## Online Verification Environment
+Route those tasks to:
 
-- Online system URL: `https://lca.tiangong.earth/`
-- `../tiangong-lca-next` is published directly from its `main` branch.
-- Because of that release model, docs work does not need a separate “is online consistent with
-  `main`?” verification step unless a maintainer explicitly suspects deployment drift or outage.
-- Local credentials and tokens for verification may exist in the repo-root `.env` file.
-- Expected variable names:
-  - `TIANGONG_LCA_USERNAME`
-  - `TIANGONG_LCA_PASSWORD`
-  - `TIANGONG_LCA_API_KEY`
+- `tiangong-lca-next` for shipped product behavior and UI truth
+- `lca-workspace` for root integration after merge
 
-Hard rules:
+## Runtime Facts
 
-- Never paste secret values into docs, commits, PR text, or chat summaries unless the human
-  explicitly asks for that.
-- Do not commit `.env` or move secret values into tracked files.
-- If you only need to mention credential availability, refer to the variable names, not the values.
+- Repo-local AI-doc maintenance is enforced by `.github/workflows/ai-doc-lint.yml` using the vendored `.github/scripts/ai-doc-lint.*` files.
+- Chinese docs are the source of truth for this site; English pages are maintained mirrors and must be updated in the same change
+- The canonical local commands are `npm run lint`, `npm run build`, and `npm run typecheck`
+- Use Playwright or equivalent product verification only when text inspection of `../tiangong-lca-next` is not enough to confirm the current UI flow or screenshot target
+- If a page is only partially fixed, update `TODO.docs-system-gaps.md` in the same working session
 
-## Playwright And Screenshot Workflow
+## Hard Boundaries
 
-Use Playwright when product verification needs more than static code inspection, especially when:
+- Do not document product behavior here without checking `../tiangong-lca-next`
+- Do not update a Chinese page without updating the paired English mirror in the same change
+- Do not leave durable drift notes only in chat when `TODO.docs-system-gaps.md` should be updated
+- Do not treat a merged repo PR here as workspace-delivery complete if the root repo still needs a submodule bump
 
-- a docs page depends on exact UI wording or control placement
-- the current screenshots look stale or mismatched
-- a hidden or role-based workflow needs confirmation in the live system
-- a new how-to page would be materially clearer with a real product screenshot
+## Workspace Integration
 
-When Playwright is used:
+A merged PR in `tiangong-lca-next-docs` is repo-complete, not delivery-complete.
 
-1. Prefer logging into `https://lca.tiangong.earth/` with the `.env` credentials only when the
-   workflow actually requires authentication.
-2. Verify the target flow before editing docs.
-3. Capture screenshots that match the style of existing docs assets in this repo.
-4. Unless the screenshot is specifically meant to compare locales or explain a Chinese-only text
-   difference, use the **English product UI** for screenshots even when the surrounding docs page is
-   Chinese.
-5. Match the repository's existing screenshot sharpness. For local or cropped screenshots, do **not**
-   force a full `1920x1080` composition when it is unnecessary; instead, keep the crop focused but
-   capture it at higher pixel density, typically with `deviceScaleFactor >= 2`, and preserve
-   high-density PNG metadata consistent with existing assets (the current repo commonly uses
-   ~144 DPI metadata).
-6. If the screenshot is instructional, add red boxes or clear callouts around the relevant control
-   or region before using it in docs.
-7. Save the asset under the nearest matching docs image directory, for example
-   `docs/user-guide/img/` or `docs/MCP/img/`.
-8. Add surrounding explanatory text in the doc so the screenshot supports, rather than replaces, the
-   written instructions.
+If the docs change must ship through the workspace:
 
-Annotation rules for instructional screenshots:
-
-- Prefer simple numbered callouts over embedding full text labels inside the image.
-- Explain those numbers in the surrounding Markdown text, not by drawing long Chinese or English
-  phrases onto the screenshot itself.
-- Keep the marked UI legible. Do not let labels, badges, or thick boxes cover the actual icon,
-  field, or button being explained.
-- When possible, place number badges outside the target region. Use leader lines or extra whitespace
-  rather than stacking the label directly on top of the UI.
-- If a control cluster is too dense, widen the crop, upscale the image, or split one screenshot into
-  multiple focused screenshots instead of forcing overlapping annotations.
-- If text must appear inside the image, keep it short, use a clean sans-serif style, and make sure
-  it is visually secondary to the real UI.
-- For local screenshots, sharpness matters more than canvas size. A smaller crop is acceptable if
-  the resulting PNG still has crisp UI text and high enough sampling density.
-
-Screenshot decision rule:
-
-- This site is primarily written for human readers, so screenshots should be added when they
-  materially improve comprehension of entry points, control placement, or multi-step UI flows.
-- Do not force screenshots onto every page. Prefer a smaller number of high-value screenshots over
-  repetitive image-heavy pages.
-- If a page is already clear from text plus stable UI labels, text-only documentation is acceptable.
-
-Screenshot hygiene:
-
-- Avoid exposing passwords, API keys, raw tokens, or unrelated personal information.
-- Keep the viewport focused on the target workflow, not the entire desktop.
-- If a screenshot includes user-identifying or irrelevant noise, crop or replace it before use.
-
-## Source Of Truth Rules
-
-- For shipped product behavior, treat `../tiangong-lca-next` as the source of truth.
-- For Chinese public docs, treat `docs/**` as the source of truth unless an explicit exception is
-  documented.
-- For English public docs, treat `i18n/en/docusaurus-plugin-content-docs/current/**` as the mirror
-  that must stay aligned with the Chinese source.
-- For internal maintenance records, use repo-root files such as `AGENTS.md` and
-  `TODO.docs-system-gaps.md`. Do not put internal-only notes under `docs/**` unless they are meant
-  to be published on the public site.
-
-## Documentation Workflow
-
-When making public documentation changes:
-
-1. Inspect the relevant product behavior in `../tiangong-lca-next` first.
-2. Update the Chinese page in `docs/**`.
-3. Update the English mirror in `i18n/en/docusaurus-plugin-content-docs/current/**` in the same
-   change.
-4. Update `sidebars.ts`, `docs/intro.md`, `docs/user-guide/overview.md`, or `docs/changelog/*` if
-   the information architecture or discovery path changed.
-5. If the change closes only part of a known gap, update `TODO.docs-system-gaps.md` in the same
-   session.
-
-When adding a new public page:
-
-1. Add the Chinese source page under `docs/**`.
-2. Add the English mirror under `i18n/en/docusaurus-plugin-content-docs/current/**`.
-3. Register the page in `sidebars.ts` if it should be discoverable in site navigation.
-4. Ensure cross-links use site-relative doc links, not raw repository paths.
-
-## Drift Hotspots To Check
-
-These product areas are especially likely to drift from the docs site:
-
-- `../tiangong-lca-next/config/routes.ts`
-- `../tiangong-lca-next/src/app.tsx`
-- `../tiangong-lca-next/src/components/RightContent/index.tsx`
-- `../tiangong-lca-next/src/components/ImportTidasPackage/index.tsx`
-- `../tiangong-lca-next/src/components/ExportTidasPackage/index.tsx`
-- `../tiangong-lca-next/src/components/LcaTaskCenter/index.tsx`
-- `../tiangong-lca-next/src/pages/Account/index.tsx`
-- `../tiangong-lca-next/src/pages/Review/index.tsx`
-- `../tiangong-lca-next/src/pages/ManageSystem/index.tsx`
-- `../tiangong-lca-next/src/pages/Processes/Analysis/index.tsx`
-
-Check these areas whenever the docs touch:
-
-- account and authentication
-- API keys
-- data import/export
-- task center behavior
-- review workflow
-- admin/system management
-- advanced LCIA or analysis workflows
-- top-bar controls and navigation
-
-## Writing Rules
-
-- Prefer updating an existing page over creating a near-duplicate page.
-- Keep user-facing docs task-oriented and product-accurate.
-- Distinguish public user docs from maintainer/internal guidance.
-- Use concrete product labels that match the UI.
-- If screenshots are outdated but text is being updated anyway, note the screenshot gap in
-  `TODO.docs-system-gaps.md`.
-- If a Chinese page is renamed, moved, or removed, update the English mirror and sidebar references
-  in the same change.
-- If you find an English-only orphan page, either restore the Chinese source, merge it, or record
-  the exception in `TODO.docs-system-gaps.md`.
-
-## Validation Expectations
-
-- Run `npm run lint` after changing Markdown files.
-- Run `npm run build` when changing site structure, navigation, MDX, config, or localization paths.
-- Run `npm run typecheck` when editing TypeScript config files such as `docusaurus.config.ts` or
-  `sidebars.ts`.
-
-## Change Discipline
-
-- Keep diffs scoped to the documentation problem being solved.
-- Do not silently rewrite large sections of unrelated content.
-- If you change the documentation workflow or maintenance contract for this repo, update this file
-  first.
+1. merge the child PR into `tiangong-lca-next-docs`
+2. update the `lca-workspace` submodule pointer deliberately
+3. complete any later workspace-level validation that depends on the updated docs snapshot

@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "lastReviewedAt": "2026-04-18",
+  "lastReviewedCommit": "5c945a72f0847e9c27f56a38eb9aca7389f69fa9",
+  "repo": {
+    "id": "next-docs",
+    "path": "tiangong-lca-next-docs",
+    "canonicalRepo": "linancn/tiangong-lca-next-docs",
+    "purpose": "Public Docusaurus documentation site for TianGong LCA.",
+    "entryDoc": "AGENTS.md",
+    "docImpactDoc": "ai/doc-impact.yaml",
+    "readmeDoc": "README.md",
+    "defaultBranch": "main",
+    "dailyTrunk": "main",
+    "routinePrBase": "main",
+    "branchModel": "M1",
+    "workspaceIntegrationRequired": true,
+    "rootIntegrationRule": "lca-workspace/main may bump merged main-branch docs snapshots when the workspace intends to ship the updated docs site state.",
+    "trackedBy": {
+      "workspaceParentIssue": "https://github.com/tiangong-lca/workspace/issues/73",
+      "repoIssue": "https://github.com/linancn/tiangong-lca-next-docs/issues/33"
+    },
+    "sourceOfTruth": {
+      "stableManualEditPaths": [
+        {
+          "path": "docs/**",
+          "role": "canonical Chinese public-doc source"
+        },
+        {
+          "path": "i18n/en/docusaurus-plugin-content-docs/current/**",
+          "role": "maintained English mirror of the public docs"
+        },
+        {
+          "path": "sidebars.ts",
+          "role": "public navigation structure"
+        },
+        {
+          "path": "docusaurus.config.ts",
+          "role": "site config, locales, navbar, footer, and plugin wiring"
+        },
+        {
+          "path": "src/**",
+          "role": "docs-site components and custom site behavior"
+        },
+        {
+          "path": "static/**",
+          "role": "published docs assets including screenshots and images"
+        },
+        {
+          "path": "TODO.docs-system-gaps.md",
+          "role": "durable maintenance backlog for product/docs drift"
+        }
+      ],
+      "nonOwnerBoundaries": [
+        {
+          "repo": "tiangong-lca-next",
+          "doesNotOwn": [
+            "shipped product behavior",
+            "route truth",
+            "UI control semantics"
+          ]
+        },
+        {
+          "repo": "lca-workspace",
+          "doesNotOwn": [
+            "root integration state",
+            "submodule pointer updates"
+          ]
+        }
+      ]
+    },
+    "taskHotspots": [
+      {
+        "topic": "public page content and bilingual mirror sync",
+        "paths": [
+          "docs/**",
+          "i18n/en/docusaurus-plugin-content-docs/current/**"
+        ]
+      },
+      {
+        "topic": "site navigation and docs discovery",
+        "paths": [
+          "sidebars.ts",
+          "docusaurus.config.ts",
+          "src/**"
+        ]
+      },
+      {
+        "topic": "product/docs drift tracking and screenshots",
+        "paths": [
+          "TODO.docs-system-gaps.md",
+          "static/**"
+        ]
+      }
+    ],
+    "validation": {
+      "baselineLocalCommands": [
+        "npm run lint",
+        "npm run build"
+      ],
+      "notes": [
+        "Run npm run typecheck when changing Docusaurus TypeScript config such as sidebars.ts or docusaurus.config.ts.",
+        "If product behavior is ambiguous, verify against ../tiangong-lca-next before changing public docs.",
+        "AI-doc changes should still run the repo-local ai-doc-lint workflow or the equivalent local node command."
+      ]
+    }
+  }
+}
