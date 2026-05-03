@@ -1,0 +1,227 @@
+version: 1
+layout: repo
+lastReviewedAt: "2026-05-03"
+lastReviewedCommit: "f98057b9104556ba4fa7a79f5409565e6aed24a8"
+
+catalog:
+  repos:
+    - id: next-docs
+      path: .
+      canonicalRepo: linancn/tiangong-lca-next-docs
+      entryDoc: AGENTS.md
+      workflowDocs:
+        - docs/agents/repo-validation.md
+        - docs/agents/repo-architecture.md
+      workspaceIntegrationRequired: true
+
+ownership:
+  domains:
+    - id: repo-governance-and-docs
+      paths:
+        include:
+          - AGENTS.md
+          - README.md
+          - TODO.docs-system-gaps.md
+          - .docpact/config.yaml
+          - docs/agents/**
+          - .github/workflows/ai-doc-lint.yml
+      ownerRepo: next-docs
+    - id: public-doc-content
+      paths:
+        include:
+          - docs/**
+          - i18n/en/docusaurus-plugin-content-docs/current/**
+          - static/**
+      ownerRepo: next-docs
+    - id: docs-site-structure
+      paths:
+        include:
+          - sidebars.ts
+          - docusaurus.config.ts
+          - src/**
+          - package.json
+          - tsconfig.json
+      ownerRepo: next-docs
+
+coverage:
+  include:
+    - AGENTS.md
+    - README.md
+    - TODO.docs-system-gaps.md
+    - .docpact/config.yaml
+    - docs/agents/**
+    - docs/**
+    - i18n/en/docusaurus-plugin-content-docs/current/**
+    - static/**
+    - sidebars.ts
+    - docusaurus.config.ts
+    - src/**
+    - package.json
+    - tsconfig.json
+    - .github/workflows/ai-doc-lint.yml
+  exclude:
+    - .git/**
+    - .github/scripts/**
+    - .docpact/runs/**
+    - node_modules/**
+    - build/**
+    - .docusaurus/**
+
+freshness:
+  warn_after_commits: 40
+  warn_after_days: 60
+  critical_after_days: 120
+
+routing:
+  intents:
+    public-content:
+      paths:
+        - docs/**
+        - i18n/en/docusaurus-plugin-content-docs/current/**
+        - static/**
+    site-structure:
+      paths:
+        - sidebars.ts
+        - docusaurus.config.ts
+        - src/**
+        - package.json
+        - tsconfig.json
+    drift-backlog:
+      paths:
+        - TODO.docs-system-gaps.md
+    repo-docs:
+      paths:
+        - AGENTS.md
+        - README.md
+        - .docpact/config.yaml
+        - docs/agents/**
+        - .github/workflows/ai-doc-lint.yml
+    proof:
+      paths:
+        - docs/agents/repo-validation.md
+        - package.json
+        - sidebars.ts
+        - docusaurus.config.ts
+        - src/**
+    root-integration:
+      paths:
+        - AGENTS.md
+
+docInventory:
+  include:
+    - AGENTS.md
+    - README.md
+    - TODO.docs-system-gaps.md
+    - .docpact/config.yaml
+    - docs/agents/repo-validation.md
+    - docs/agents/repo-architecture.md
+
+repo:
+  id: next-docs
+  owner: next-docs
+
+rules:
+  - id: next-docs-bootstrap-contract
+    scope: repo
+    repo: next-docs
+    triggers:
+      - path: AGENTS.md
+        kind: doc-contract
+      - path: .docpact/config.yaml
+        kind: doc-ai-layer
+      - path: docs/agents/repo-validation.md
+        kind: deep-doc
+      - path: docs/agents/repo-architecture.md
+        kind: deep-doc
+      - path: ai/**
+        kind: legacy-doc-ai-layer
+      - path: .github/scripts/ai-doc-lint.mjs
+        kind: legacy-automation
+      - path: .github/scripts/ai-doc-lint.test.mjs
+        kind: legacy-automation
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+    reason: Repo entry guidance, machine-readable routing, retained source docs, and legacy AI-doc removal must stay aligned.
+  - id: next-docs-readme-and-backlog-contract
+    scope: repo
+    repo: next-docs
+    triggers:
+      - path: README.md
+        kind: repo-landing
+      - path: TODO.docs-system-gaps.md
+        kind: docs-backlog
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: README.md
+        mode: review_or_update
+      - path: TODO.docs-system-gaps.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+    reason: Maintainer workflow and durable docs-drift backlog must stay aligned with the repo contract.
+  - id: next-docs-public-content-contract
+    scope: repo
+    repo: next-docs
+    triggers:
+      - path: docs/**
+        kind: public-doc-source
+      - path: i18n/en/docusaurus-plugin-content-docs/current/**
+        kind: public-doc-mirror
+      - path: static/**
+        kind: public-asset
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+    reason: Public pages, mirrors, and assets define what this repo publishes and must keep ownership and proof expectations aligned.
+  - id: next-docs-site-structure-contract
+    scope: repo
+    repo: next-docs
+    triggers:
+      - path: sidebars.ts
+        kind: site-nav
+      - path: docusaurus.config.ts
+        kind: site-config
+      - path: src/**
+        kind: site-runtime
+      - path: package.json
+        kind: site-runtime-config
+      - path: tsconfig.json
+        kind: site-runtime-config
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+    reason: Navigation, site config, and runtime wiring change how future docs work should be routed and checked.
+  - id: next-docs-doc-governance-ci
+    scope: repo
+    repo: next-docs
+    triggers:
+      - path: .github/workflows/ai-doc-lint.yml
+        kind: automation
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+    reason: Documentation governance automation changes alter the maintenance gate and proof expectations.
