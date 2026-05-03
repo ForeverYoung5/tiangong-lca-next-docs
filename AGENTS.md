@@ -13,12 +13,13 @@ whenToUse:
 whenToUpdate:
   - when product/docs ownership boundaries change
   - when the bilingual public-doc workflow changes
-  - when the repo-local AI bootstrap docs under ai/ change
+  - when repo-local docpact governance or source docs change
 checkPaths:
   - AGENTS.md
   - README.md
   - TODO.docs-system-gaps.md
-  - ai/**/*.yaml
+  - .docpact/config.yaml
+  - docs/agents/**
   - docs/**
   - i18n/en/docusaurus-plugin-content-docs/current/**
   - sidebars.ts
@@ -26,11 +27,12 @@ checkPaths:
   - src/**
   - static/**
   - package.json
-lastReviewedAt: 2026-04-18
-lastReviewedCommit: 5c945a72f0847e9c27f56a38eb9aca7389f69fa9
+lastReviewedAt: 2026-05-03
+lastReviewedCommit: f98057b9104556ba4fa7a79f5409565e6aed24a8
 related:
-  - ai/repo.yaml
-  - ai/doc-impact.yaml
+  - .docpact/config.yaml
+  - docs/agents/repo-architecture.md
+  - docs/agents/repo-validation.md
   - README.md
   - TODO.docs-system-gaps.md
 ---
@@ -44,11 +46,12 @@ related:
 Load docs in this order:
 
 1. `AGENTS.md`
-2. `ai/repo.yaml`
-3. `ai/doc-impact.yaml`
-4. `README.md` for maintainer workflow details
-5. `TODO.docs-system-gaps.md` when the task is part of an existing drift item
-6. the target page under `docs/**` and its English mirror under `i18n/en/docusaurus-plugin-content-docs/current/**`
+2. `.docpact/config.yaml`
+3. `docs/agents/repo-architecture.md`
+4. `docs/agents/repo-validation.md`
+5. `README.md` for maintainer workflow details
+6. `TODO.docs-system-gaps.md` when the task is part of an existing drift item
+7. the target page under `docs/**` and its English mirror under `i18n/en/docusaurus-plugin-content-docs/current/**`
 
 Do not start by guessing product behavior from the docs repo alone.
 
@@ -74,11 +77,12 @@ Route those tasks to:
 
 ## Runtime Facts
 
-- Repo-local AI-doc maintenance is enforced by `.github/workflows/ai-doc-lint.yml` using the vendored `.github/scripts/ai-doc-lint.*` files.
+- Repo-local documentation governance is enforced through `.docpact/config.yaml` and `.github/workflows/ai-doc-lint.yml`.
 - Chinese docs are the source of truth for this site; English pages are maintained mirrors and must be updated in the same change
 - The canonical local commands are `npm run lint`, `npm run build`, and `npm run typecheck`
 - Use Playwright or equivalent product verification only when text inspection of `../tiangong-lca-next` is not enough to confirm the current UI flow or screenshot target
 - If a page is only partially fixed, update `TODO.docs-system-gaps.md` in the same working session
+- For documentation-governance changes, run `docpact validate-config --root . --strict` and `docpact lint --root . --base origin/main --head HEAD --mode enforce`
 
 ## Hard Boundaries
 
