@@ -17,7 +17,12 @@ checkPaths:
   - AGENTS.md
   - .docpact/config.yaml
   - .github/workflows/ai-doc-lint.yml
+  - .github/workflows/publish-docs.yml
   - package.json
+  - context7.json
+  - scripts/generate-llms-txt.mjs
+  - scripts/check-publication-scope.mjs
+  - scripts/publication-policy.mjs
   - sidebars.ts
   - docusaurus.config.ts
   - docs/**
@@ -34,7 +39,7 @@ related:
   - docs/agents/repo-architecture.md
 ---
 
-# next-docs Validation Guide
+## next-docs Validation Guide
 
 The canonical local commands are:
 
@@ -42,6 +47,8 @@ The canonical local commands are:
 npm run lint
 npm run build
 npm run typecheck
+npm run docs:llms:check
+npm run docs:publication-scope:check
 ```
 
 Use the narrowest command set that proves the touched area.
@@ -50,6 +57,8 @@ Use the narrowest command set that proves the touched area.
 
 - Public docs changes require checking the Chinese source and English mirror together.
 - Navigation or site-config changes require at least typecheck and build when feasible.
+- Publication pipeline changes require `npm run docs:llms:check` and `npm run docs:publication-scope:check`; if they affect build output, also run `npm run build` and rerun the publication-scope check afterward.
+- `static/llms.txt` must list only public docs pages, and `context7.json` must keep Context7 scoped to public docs with internal agent, TODO, plan, incident, and governance execution records excluded.
 - Product-behavior documentation changes require checking `../tiangong-lca-next` when behavior is ambiguous.
 - Partial fixes to product/docs drift must update `TODO.docs-system-gaps.md`.
 - Documentation-governance changes require docpact validation.

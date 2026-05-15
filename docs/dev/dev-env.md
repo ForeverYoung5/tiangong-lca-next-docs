@@ -1,5 +1,30 @@
 ---
 sidebar_position: 1
+title: 开发环境配置
+docType: guide
+scope: repo
+status: active
+authoritative: true
+owner: next-docs
+language: zh-CN
+whenToUse:
+  - when setting up local next-docs development or validation commands
+  - when publishing docs, llms.txt, or Context7 source updates
+whenToUpdate:
+  - when package scripts, build commands, publish workflow, or publication-scope checks change
+checkPaths:
+  - package.json
+  - .github/workflows/build.yml
+  - .github/workflows/publish-docs.yml
+  - scripts/generate-llms-txt.mjs
+  - scripts/check-publication-scope.mjs
+  - context7.json
+  - static/llms.txt
+lastReviewedAt: 2026-05-15
+lastReviewedCommit: 20f0a67cd7ec473f1d37fff4df534ea7fcb44349
+related:
+  - i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
+  - docs/agents/repo-validation.md
 ---
 
 # 开发环境配置
@@ -57,6 +82,26 @@ npm run start
 npm run lint
 ```
 
+### 生成和检查 AI 文档索引
+
+```bash
+npm run docs:llms
+npm run docs:llms:check
+```
+
+`docs:llms` 会从公开 Docusaurus 文档生成 `static/llms.txt`。`docs:llms:check`
+用于确认已提交的索引与当前公开文档内容一致。
+
+### 检查公开发布范围
+
+```bash
+npm run docs:publication-scope:check
+```
+
+该命令会检查 `static/llms.txt`、`sidebars.ts`、`context7.json` 以及存在时的
+`build/llms.txt`，防止内部 agent 文档、TODO、计划、事故记录或治理执行材料进入公开 AI
+消费范围。
+
 ### 自动修复可修复的 Markdown 问题
 
 ```bash
@@ -93,6 +138,8 @@ npm run write-translations -- --locale en
 
 ```bash
 npm run lint
+npm run docs:llms:check
+npm run docs:publication-scope:check
 npm run build
 ```
 
@@ -104,8 +151,17 @@ npm run build
 
 ## 发布说明
 
-仓库中的 `.github/workflows/build.yml` 使用基于 tag 的自动发布流程。创建符合 `v*` 规则的
-标签并推送后，即可触发发布。
+仓库中的 `.github/workflows/publish-docs.yml` 会在 `main` 收到 push 后自动执行发布闭环：
+
+1. 生成并检查 `static/llms.txt`
+2. 运行公开范围检查
+3. 执行 lint、typecheck、Docusaurus build
+4. 部署 Cloudflare Pages
+5. 验证公开站点的 `/llms.txt`
+6. 刷新 Context7，或在缺少 secret / refresh 失败时留下可见 follow-up
+
+仓库仍保留 `.github/workflows/build.yml` 的 tag 发布流程，适合版本式 release。创建符合
+`v*` 规则的标签并推送后，即可触发该流程。
 
 ```bash
 git tag
@@ -117,3 +173,8 @@ Cloudflare Pages 相关自动部署仍依赖仓库环境中的：
 
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
+- `CONTEXT7_API_KEY`（用于自动刷新 Context7；缺失时 workflow 会保留 pending follow-up）
+
+可选仓库变量：
+
+- `CONTEXT7_LIBRARY_NAME`（默认使用 `/${{ github.repository }}` 形式的 Context7 library id）

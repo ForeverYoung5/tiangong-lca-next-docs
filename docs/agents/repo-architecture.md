@@ -22,6 +22,11 @@ checkPaths:
   - docusaurus.config.ts
   - src/**
   - static/**
+  - context7.json
+  - .github/workflows/publish-docs.yml
+  - scripts/generate-llms-txt.mjs
+  - scripts/check-publication-scope.mjs
+  - scripts/publication-policy.mjs
   - TODO.docs-system-gaps.md
   - .githooks/pre-push
   - scripts/docpact-gate.sh
@@ -34,7 +39,7 @@ related:
   - docs/agents/repo-validation.md
 ---
 
-# next-docs Repo Architecture
+## next-docs Repo Architecture
 
 `tiangong-lca-next-docs` owns the public TianGong LCA documentation site built with Docusaurus.
 
@@ -43,6 +48,7 @@ related:
 - `docs/**` is the canonical Chinese public-doc source.
 - `i18n/en/docusaurus-plugin-content-docs/current/**` is the maintained English mirror and should change with its paired Chinese page.
 - `sidebars.ts`, `docusaurus.config.ts`, `src/**`, and `static/**` define site structure, presentation, screenshots, and custom site behavior.
+- `static/llms.txt`, `context7.json`, `.github/workflows/publish-docs.yml`, and `scripts/*llms*` / `scripts/*publication*` define the public AI-consumption and post-merge publication boundary.
 - `TODO.docs-system-gaps.md` is the durable backlog for product/docs drift.
 
 ## Non-Owner Boundaries

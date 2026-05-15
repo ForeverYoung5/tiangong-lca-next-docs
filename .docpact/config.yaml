@@ -25,6 +25,7 @@ ownership:
           - .docpact/config.yaml
           - docs/agents/**
           - .github/workflows/ai-doc-lint.yml
+          - .github/workflows/publish-docs.yml
       ownerRepo: next-docs
     - id: public-doc-content
       paths:
@@ -41,6 +42,10 @@ ownership:
           - src/**
           - package.json
           - tsconfig.json
+          - context7.json
+          - scripts/generate-llms-txt.mjs
+          - scripts/check-publication-scope.mjs
+          - scripts/publication-policy.mjs
       ownerRepo: next-docs
 
     - id: local-docpact-push-gate
@@ -64,12 +69,17 @@ coverage:
     - docs/**
     - i18n/en/docusaurus-plugin-content-docs/current/**
     - static/**
+    - context7.json
+    - scripts/generate-llms-txt.mjs
+    - scripts/check-publication-scope.mjs
+    - scripts/publication-policy.mjs
     - sidebars.ts
     - docusaurus.config.ts
     - src/**
     - package.json
     - tsconfig.json
     - .github/workflows/ai-doc-lint.yml
+    - .github/workflows/publish-docs.yml
   exclude:
     - .git/**
     - .github/scripts/**
@@ -102,6 +112,11 @@ routing:
         - src/**
         - package.json
         - tsconfig.json
+        - context7.json
+        - scripts/generate-llms-txt.mjs
+        - scripts/check-publication-scope.mjs
+        - scripts/publication-policy.mjs
+        - .github/workflows/publish-docs.yml
     drift-backlog:
       paths:
         - TODO.docs-system-gaps.md
@@ -233,6 +248,8 @@ rules:
     triggers:
       - path: .github/workflows/ai-doc-lint.yml
         kind: automation
+      - path: .github/workflows/publish-docs.yml
+        kind: automation
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -241,6 +258,36 @@ rules:
       - path: docs/agents/repo-validation.md
         mode: review_or_update
     reason: Documentation governance automation changes alter the maintenance gate and proof expectations.
+  - id: next-docs-publication-pipeline
+    scope: repo
+    repo: next-docs
+    triggers:
+      - path: .github/workflows/publish-docs.yml
+        kind: publication-automation
+      - path: context7.json
+        kind: ai-publication-config
+      - path: static/llms.txt
+        kind: ai-publication-index
+      - path: scripts/generate-llms-txt.mjs
+        kind: publication-automation
+      - path: scripts/check-publication-scope.mjs
+        kind: publication-automation
+      - path: scripts/publication-policy.mjs
+        kind: publication-automation
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: README.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/dev/dev-env.md
+        mode: review_or_update
+      - path: i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
+        mode: review_or_update
+    reason: The publish workflow, llms.txt generator, publication scope policy, and Context7 source config define what public docs are exposed after main merges.
   - id: next-docs-local-docpact-push-gate
     scope: repo
     repo: next-docs

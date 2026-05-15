@@ -1,4 +1,34 @@
-# TianGong LCA Docs
+---
+title: TianGong LCA Docs README
+docType: guide
+scope: repo
+status: active
+authoritative: true
+owner: next-docs
+language: en
+whenToUse:
+  - when setting up or maintaining the public Docusaurus docs repository
+  - when choosing local validation commands for public docs, llms.txt, or publication-scope work
+whenToUpdate:
+  - when docs repo setup, validation, publication, or AI-consumption commands change
+checkPaths:
+  - README.md
+  - package.json
+  - .github/workflows/publish-docs.yml
+  - scripts/generate-llms-txt.mjs
+  - scripts/check-publication-scope.mjs
+  - scripts/publication-policy.mjs
+  - context7.json
+  - static/llms.txt
+lastReviewedAt: 2026-05-15
+lastReviewedCommit: 20f0a67cd7ec473f1d37fff4df534ea7fcb44349
+related:
+  - AGENTS.md
+  - docs/agents/repo-validation.md
+  - docs/dev/dev-env.md
+---
+
+## TianGong LCA Docs
 
 This repository contains the public Docusaurus site for TianGong LCA.
 
@@ -33,6 +63,9 @@ npm ci
 npm run start
 npm run lint
 npm run lint:fix
+npm run docs:llms
+npm run docs:llms:check
+npm run docs:publication-scope:check
 npm run typecheck
 npm run build
 npm run serve
@@ -44,6 +77,8 @@ For public-doc changes, run at least:
 
 ```bash
 npm run lint
+npm run docs:llms:check
+npm run docs:publication-scope:check
 npm run build
 ```
 
@@ -72,6 +107,12 @@ For the full maintainer workflow, read:
 The default online verification target is `https://lca.tiangong.earth/`.
 
 ## Publish
+
+Every push to `main` runs `.github/workflows/publish-docs.yml`, which regenerates `static/llms.txt`,
+checks the publication scope, builds the Docusaurus site, deploys Cloudflare Pages, verifies
+`/llms.txt`, and refreshes Context7 when `CONTEXT7_API_KEY` is configured.
+
+The legacy tag-triggered release workflow remains available for version-style releases:
 
 ```bash
 git tag

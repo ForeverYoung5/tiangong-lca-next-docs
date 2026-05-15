@@ -1,5 +1,30 @@
 ---
 sidebar_position: 1
+title: Developer Environment
+docType: guide
+scope: repo
+status: active
+authoritative: true
+owner: next-docs
+language: en
+whenToUse:
+  - when setting up local next-docs development or validation commands
+  - when publishing docs, llms.txt, or Context7 source updates
+whenToUpdate:
+  - when package scripts, build commands, publish workflow, or publication-scope checks change
+checkPaths:
+  - package.json
+  - .github/workflows/build.yml
+  - .github/workflows/publish-docs.yml
+  - scripts/generate-llms-txt.mjs
+  - scripts/check-publication-scope.mjs
+  - context7.json
+  - static/llms.txt
+lastReviewedAt: 2026-05-15
+lastReviewedCommit: 20f0a67cd7ec473f1d37fff4df534ea7fcb44349
+related:
+  - docs/dev/dev-env.md
+  - docs/agents/repo-validation.md
 ---
 
 # Developer Environment
@@ -57,6 +82,26 @@ The local site normally runs at `http://localhost:3000/`.
 npm run lint
 ```
 
+### Generate and check the AI docs index
+
+```bash
+npm run docs:llms
+npm run docs:llms:check
+```
+
+`docs:llms` generates `static/llms.txt` from the public Docusaurus docs. `docs:llms:check`
+confirms that the committed index still matches the current public-doc source.
+
+### Check publication scope
+
+```bash
+npm run docs:publication-scope:check
+```
+
+This command checks `static/llms.txt`, `sidebars.ts`, `context7.json`, and `build/llms.txt` when a
+build exists. It prevents internal agent docs, TODOs, plans, incident records, or governance
+execution material from entering the public AI-consumption scope.
+
 ### Auto-fix lintable Markdown issues
 
 ```bash
@@ -93,6 +138,8 @@ For public-doc content changes, run at least:
 
 ```bash
 npm run lint
+npm run docs:llms:check
+npm run docs:publication-scope:check
 npm run build
 ```
 
@@ -104,8 +151,18 @@ If your change touches navigation, sidebar structure, links, or bilingual mirror
 
 ## Release notes
 
-The repository's `.github/workflows/build.yml` uses a tag-triggered publish flow. Create and push a
-tag matching `v*` to trigger deployment.
+The repository's `.github/workflows/publish-docs.yml` runs the post-merge publish loop on every
+push to `main`:
+
+1. Generate and check `static/llms.txt`
+2. Run the publication-scope check
+3. Run lint, typecheck, and the Docusaurus build
+4. Deploy Cloudflare Pages
+5. Verify the public `/llms.txt`
+6. Refresh Context7, or leave a visible follow-up when the secret is missing or refresh fails
+
+The repository still keeps `.github/workflows/build.yml` for tag-triggered release publishing. Create
+and push a tag matching `v*` to trigger that flow.
 
 ```bash
 git tag
@@ -117,3 +174,8 @@ Cloudflare Pages deployment still depends on repository-level environment variab
 
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
+- `CONTEXT7_API_KEY` for automatic Context7 refresh. If it is missing, the workflow leaves a pending follow-up.
+
+Optional repository variable:
+
+- `CONTEXT7_LIBRARY_NAME`, defaulting to the Context7 library id form `/${{ github.repository }}`

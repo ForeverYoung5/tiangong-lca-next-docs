@@ -1,0 +1,33 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "TianGong LCA Docs",
+  "description": "Public TianGong LCA user documentation, integration guides, OpenAPI usage notes, MCP setup, deployment guidance, FAQ, and changelog.",
+  "branch": "main",
+  "folders": [
+    "docs",
+    "i18n/en/docusaurus-plugin-content-docs/current"
+  ],
+  "excludeFolders": [
+    "docs/agents",
+    ".agents",
+    ".docpact",
+    "_docs",
+    ".github",
+    "scripts",
+    "build",
+    ".docusaurus",
+    "node_modules"
+  ],
+  "excludeFiles": [
+    "AGENTS.md",
+    "README.md",
+    "TODO.docs-system-gaps.md",
+    "CHANGELOG.md",
+    "LICENSE.md"
+  ],
+  "rules": [
+    "Use only public Docusaurus docs pages; do not expose internal agent, planning, incident, TODO, or governance execution records.",
+    "Treat zh-CN docs under docs/ as the source of truth and /en pages as maintained English mirrors.",
+    "Prefer stable user-facing pages, OpenAPI guides, MCP guides, deployment docs, FAQ, and changelog entries for answers."
+  ]
+}
