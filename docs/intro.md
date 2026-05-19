@@ -52,6 +52,7 @@ TianGong LCA 平台将为您的 LCA 数据管理和环境影响评估提供全�
 
 ## 集成与扩展
 
+- **[CLI 命令行工具](/integration/cli)**：在脚本和本地流水线中查询数据、校验 TIDAS 数据集、重写引用并保存治理结果。
 - **[天工LCA MCP（本地）](/MCP/lca_local)**：了解如何在本地环境部署 MCP Server 并与 openLCA、Cherry Studio 等工具配合使用。
 - **[天工LCA MCP（远程）](/MCP/lca_remote)**：掌握远程服务的认证方式与常见调用流程。
 - **[天工知识库MCP](/MCP/KB_remote)**：接入知识库工具，扩展检索与分析能力。

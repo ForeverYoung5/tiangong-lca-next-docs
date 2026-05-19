@@ -111,3 +111,7 @@ Custom unit groups or flow properties can introduce conversion issues or LCIA fa
 2. **Run `Data check`** on the process or model editor to validate required fields and references.  
 3. **Submit for review** and monitor the status via the message centre or the filters described in [Data Review](/en/user-guide/data-review).  
 4. **Collaborate** by contributing the dataset to your team if others need to continue the work.
+
+If your team already generates JSON/JSONL rows locally, or needs to check process, flow, and
+lifecyclemodel payloads in bulk, use the [CLI](/en/integration/cli) `dataset validate` command to
+catch schema issues before review submission or draft writes.

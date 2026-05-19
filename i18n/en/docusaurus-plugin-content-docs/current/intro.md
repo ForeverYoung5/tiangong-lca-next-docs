@@ -50,6 +50,7 @@ The **User Guide** is the core reference for daily work on TianGong LCA. Recomme
 
 ## Integrations & Extensions
 
+- **[CLI](/en/integration/cli)**: Query data, validate TIDAS datasets, rewrite references, and save governance results from scripts and local pipelines.
 - **[TianGong LCA MCP – Local](/en/MCP/lca_local)**: Set up the MCP server locally and connect it with tools like openLCA or Cherry Studio.
 - **[TianGong LCA MCP – Remote](/en/MCP/lca_remote)**: Authenticate against the hosted MCP service and learn common invocation workflows.
 - **[TianGong Knowledge Base MCP](/en/MCP/KB_remote)**: Link with the knowledge-base tooling to extend search and analysis capabilities.

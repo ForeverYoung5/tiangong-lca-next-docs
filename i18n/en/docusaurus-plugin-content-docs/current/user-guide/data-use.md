@@ -41,3 +41,10 @@ sidebar_position: 5
 
 ![](./img/open2.png)
 ![](./img/open3.png)
+
+## Automated data governance
+
+When you need to query data from scripts, read specific versions, validate local rows in bulk, or
+rewrite flow references from an old version to a new version, use the [CLI](/en/integration/cli).
+The web UI is best for one-off viewing, copying, and citation; the CLI is better for repeatable
+governance tasks.

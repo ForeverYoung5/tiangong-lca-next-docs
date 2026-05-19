@@ -112,4 +112,8 @@ description: 按照准备→建模→验证的流程，在“我的数据”模�
 3. **提交审核**：确认无误后点击 `Submit for review`，并关注消息中心或[数据审核](./data-review)中的状态筛选了解进度。  
 4. **团队协作**：若需他人协助，可通过“贡献给团队”将数据同步至团队空间，再结合[团队功能](./team-function)进行协作。
 
+如果团队已经在本地生成 JSON/JSONL 数据行，或需要批量检查 process、flow、lifecyclemodel payload，可使用
+[CLI 命令行工具](/integration/cli)执行 `dataset validate`，在提交审核或写回草稿前发现 schema
+问题。
+
 按照以上流程操作，即可在 TianGong LCA 中稳定构建可复用的数据资产。
