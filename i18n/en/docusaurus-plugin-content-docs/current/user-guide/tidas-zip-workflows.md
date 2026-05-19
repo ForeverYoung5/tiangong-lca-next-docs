@@ -34,6 +34,10 @@ If you need the broader control map first, start with
 - The UI accepts **one `.zip` file**
 - Non-ZIP files are rejected immediately
 - The system validates structure, references, and conflicts before import
+- In process datasets, `annualSupplyOrProductionVolume` must be stored as localized text whose
+  `#text` value starts with a number followed by a space and a unit or context suffix
+- Exchange `location` values should use ILCD location codes such as `CN` or `GLO`; legacy non-empty
+  strings remain compatible, but multilingual text objects should no longer be used for this field
 
 ### Import steps
 

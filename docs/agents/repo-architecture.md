@@ -34,7 +34,7 @@ related:
   - docs/agents/repo-validation.md
 ---
 
-# next-docs Repo Architecture
+## next-docs Repo Architecture
 
 `tiangong-lca-next-docs` owns the public TianGong LCA documentation site built with Docusaurus.
 

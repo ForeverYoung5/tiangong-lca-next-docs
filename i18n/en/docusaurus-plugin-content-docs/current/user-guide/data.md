@@ -37,6 +37,10 @@ These elements appear in every module, but permissions differ.
 - Ideal for research, referencing, and comparison.  
 - Supports search, filtering, copy, and export.
 
+Auxiliary data pages such as sources, contacts, flow properties, and unit groups continue to use
+standard keyword search and filters. Results remain limited by the current data space and account
+permissions.
+
 ### Commercial Data
 
 - Presents descriptive metadata for commercial datasets.  

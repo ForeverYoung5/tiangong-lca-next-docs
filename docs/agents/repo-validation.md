@@ -34,7 +34,7 @@ related:
   - docs/agents/repo-architecture.md
 ---
 
-# next-docs Validation Guide
+## next-docs Validation Guide
 
 The canonical local commands are:
 

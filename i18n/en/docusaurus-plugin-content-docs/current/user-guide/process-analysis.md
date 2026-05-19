@@ -46,6 +46,23 @@ Choose them according to your goal:
 
 Process search narrows the list of available candidates for all tabs below.
 
+## How Process Data Affects Analysis
+
+Process analysis depends on a process-network snapshot. When the snapshot is built, the platform
+uses the input exchange `location` as the preferred supply-region anchor. If that value is missing
+or cannot be used, the consumer process location is used as the fallback anchor.
+
+When an input flow can link to multiple provider processes, the platform first filters candidates
+by supply region, then weights providers in the selected geography tier by annual supply or
+production volume. If a provider has no parseable positive annual volume, it receives a default raw
+weight of `1.0`.
+
+For more explainable analysis results, keep process records tidy:
+
+- Select standard ILCD location codes on input exchanges
+- Fill in a parseable annual supply or production volume for processes
+- Keep reference flows, units, and flow properties aligned with platform defaults
+
 ![Process analysis workspace](./img/process-analysis-workspace.png)
 
 In the screenshot, `1` marks the shared input area used by every analysis tab, and `2` marks the

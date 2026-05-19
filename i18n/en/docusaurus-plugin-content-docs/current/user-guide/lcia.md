@@ -36,6 +36,17 @@ Confirm the following first:
 Heavy use of custom units, custom flow properties, or non-standard elementary flows can lead to
 missing results or incorrect magnitudes.
 
+### Which Fields Affect Provider Matching?
+
+When the platform builds an LCIA snapshot for a model or process network, provider matching first
+uses the input exchange location code as the supply-region anchor. If that value is not available,
+the consumer process location is used as a fallback.
+
+Inside the selected geography tier, if multiple candidate processes can provide the same product
+flow, the platform weights them by annual supply or production volume. Missing, invalid, or
+non-positive annual volume values fall back to a default raw weight of `1.0`. This keeps regional
+supply mixes stable and makes coverage diagnostics easier to interpret.
+
 ## Process-level LCIA
 
 ### Process-level entry point

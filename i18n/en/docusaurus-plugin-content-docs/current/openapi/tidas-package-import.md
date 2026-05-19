@@ -295,3 +295,8 @@ Client recommendations:
   integrations should prefer API keys
 - Keep the Edge Function base URL aligned with the deployed environment that
   serves your product UI
+- If the package contains process datasets, make sure `annualSupplyOrProductionVolume` localized
+  `#text` values start with a number and include a unit or context suffix after a space; this value
+  can be used later when provider shares are weighted by process supply volume
+- For process exchanges, send `location` as an ILCD location code when possible. Legacy non-empty
+  strings remain compatible, but `StringMultiLang` objects are no longer valid for this field

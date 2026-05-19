@@ -275,3 +275,7 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 - `prepare_upload` 成功后，仍需完成上传、`enqueue` 和轮询
 - API Key 认证与浏览器 JWT 共用同一套接口，但外部 API 集成优先推荐 API Key
 - 如需与产品前端对齐，请使用与当前部署环境一致的 Edge Function base URL
+- 如果导入包包含过程数据，请确保 `annualSupplyOrProductionVolume` 的本地化文本以数字开头，
+  且数字后包含单位或上下文后缀；这会影响后续过程供应量权重的解析
+- 过程交换项的 `location` 建议传 ILCD 地理位置代码；平台仍兼容旧的非空字符串，但不会把
+  `StringMultiLang` 形状作为有效地理位置写入

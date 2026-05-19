@@ -19,6 +19,19 @@ description: Answers about building models in TianGong LCA and how it compares w
 | Data format | Uses the open TIDAS JSON schema for transparency and integration | Proprietary database formats |
 | Version control | Built-in drafts, history, and status tracking | Depends on external file management |
 
+## How are multiple matching provider processes allocated?
+
+When one input flow can link to multiple provider processes, TianGong LCA first chooses a supply
+region:
+
+- The input exchange location code is preferred
+- If the exchange has no usable location, the consumer process location is used as a fallback
+
+Inside the selected geography tier, candidates are weighted by annual supply or production volume.
+If that value is missing, cannot be parsed, or is not positive, the provider receives a default raw
+weight of `1.0`. Filling standard location codes and annual volumes therefore makes model results
+easier to explain.
+
 ## Can I interoperate with other software?
 
 - **JSON export**: Download datasets as TIDAS JSON, then map fields for import into other tools.  
