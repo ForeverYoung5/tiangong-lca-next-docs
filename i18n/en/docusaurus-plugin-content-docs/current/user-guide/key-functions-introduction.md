@@ -13,6 +13,13 @@ package workflow specifically, continue with
 After sign-in, the top-right area of the main layout shows a set of global controls. These are
 workspace-level actions rather than page-specific buttons.
 
+### Public dashboard entry
+
+The platform also exposes a public national carbon dashboard at `/dashboard/national-carbon`. It
+does not require sign-in and is hidden from the signed-in side navigation. Use it when you need a
+direct display link for the national carbon prototype dashboard, including overview, regional
+status, outcome metrics, and computability views.
+
 ### Typical order
 
 From left to right, the current header usually includes:

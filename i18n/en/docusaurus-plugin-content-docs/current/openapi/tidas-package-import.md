@@ -266,13 +266,15 @@ fails, the `import_report` contains a machine-readable issue list.
       }
     },
     {
-      "issue_code": "localized_text_language_error",
-      "severity": "warning",
-      "category": "processes",
-      "file_path": "processes/b.json",
-      "location": "processDataSet/name/baseName/0",
-      "message": "Localized text error at processDataSet/name/baseName/0: invalid lang",
-      "context": {}
+      "issue_code": "cas_number_checksum_error",
+      "severity": "error",
+      "category": "flows",
+      "file_path": "flows/b.json",
+      "location": "flowDataSet/flowInformation/dataSetInformation/CASNumber",
+      "message": "CASNumber '64-17-4' has an invalid check digit.",
+      "context": {
+        "validator": "cas-number"
+      }
     }
   ]
 }
@@ -284,6 +286,9 @@ Client recommendations:
 - Also display raw `message`, `file_path`, and `location` for debugging
 - Use `summary.error_count`, `summary.warning_count`, and
   `summary.validation_issue_count` for top-level summaries
+- For `cas_number_checksum_error`, ask the user to correct the CAS number check digit in the flow
+  data. The validator still checks the standard CAS structure and now also verifies that the final
+  check digit matches.
 
 ## Implementation Notes
 

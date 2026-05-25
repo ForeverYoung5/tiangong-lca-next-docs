@@ -250,13 +250,15 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
       }
     },
     {
-      "issue_code": "localized_text_language_error",
-      "severity": "warning",
-      "category": "processes",
-      "file_path": "processes/b.json",
-      "location": "processDataSet/name/baseName/0",
-      "message": "Localized text error at processDataSet/name/baseName/0: invalid lang",
-      "context": {}
+      "issue_code": "cas_number_checksum_error",
+      "severity": "error",
+      "category": "flows",
+      "file_path": "flows/b.json",
+      "location": "flowDataSet/flowInformation/dataSetInformation/CASNumber",
+      "message": "CASNumber '64-17-4' has an invalid check digit.",
+      "context": {
+        "validator": "cas-number"
+      }
     }
   ]
 }
@@ -268,6 +270,8 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 - 同时展示 `message`、`file_path`、`location` 等原始字段，便于排查
 - 使用 `summary.error_count`、`summary.warning_count`、`summary.validation_issue_count`
   做顶部汇总
+- 对 `cas_number_checksum_error`，提示用户修正流数据中的 CAS 编号校验码；系统会保留标准
+  CAS 结构校验，同时检查最后一位校验码是否匹配
 
 ## 常见注意事项
 

@@ -62,6 +62,9 @@ datasets were skipped.
 
 If required fields, references, or package structure fail validation, the import is blocked and the
 modal explains the issues.
+For CAS numbers in flow data, validation checks both the
+`2-7 digits-2 digits-1 digit` structure and the final check digit. If the check digit is wrong, the
+package is reported as invalid and import does not continue.
 
 #### Conflict rejection
 
@@ -75,6 +78,7 @@ troubleshooting artifact. It helps answer:
 
 - Which objects failed validation
 - Which references could not be resolved
+- Which CAS numbers have an invalid format or check digit
 - Which objects conflict with existing records
 - Which open datasets were skipped
 
