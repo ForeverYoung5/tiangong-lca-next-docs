@@ -27,15 +27,15 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-05-08
-lastReviewedCommit: 77fb69cdd95f467f5f4841cf8e0b42b451dba3ce
+lastReviewedAt: 2026-05-25
+lastReviewedCommit: 831e870f4aec8df7c99869cb11395f0a8c69bcf7
 related:
   - AGENTS.md
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
 ---
 
-# next-docs Validation Guide
+## next-docs Validation Guide
 
 The canonical local commands are:
 

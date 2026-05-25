@@ -33,6 +33,10 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 - 只支持上传 **一个 `.zip` 文件**
 - 非 ZIP 文件会被系统直接拒绝
 - 导入前系统会执行结构校验、引用校验和冲突检查
+- 过程数据中的 `annualSupplyOrProductionVolume` 会按多语言文本校验，但网页端会引导您录入
+  数字，并自动带上参考流单位说明
+- 过程交换项的 `location` 建议填写 TIDAS / ILCD 位置代码，例如 `CN`、`CN-BJ`、`RER` 或
+  `GLO`；旧的非空文本仍可用于兼容外部数据
 
 ### 导入步骤
 

@@ -32,6 +32,11 @@ Confirm the following first:
 - You are reusing the platform's standard flow properties, unit groups, and elementary flows where
   possible
 - The selected impact method actually contains matching characterisation factors
+- Product input exchanges used by model or contribution-path solving have appropriate exchange
+  locations. If left blank, the system uses the consumer process location as the default supply
+  region
+- Provider processes have numeric annual supply or production volume values where available, because
+  those values affect how demand is split across multiple providers in the same region
 
 Heavy use of custom units, custom flow properties, or non-standard elementary flows can lead to
 missing results or incorrect magnitudes.
