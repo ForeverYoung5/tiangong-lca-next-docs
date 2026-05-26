@@ -51,6 +51,36 @@ TianGong LCA 现在提供了一个独立的**过程分析工作区**，用于在
 图中 `1` 为所有分析标签共享的公共输入区，`2` 为四个分析标签。建议先设定范围和候选过程，再
 切换到具体分析页签执行计算。
 
+## 过程建模字段对分析的影响
+
+过程分析依赖后台求解生成的过程网络快照。对于产品输入交换，求解会先确定供给地区，再在该
+地区内寻找可用 provider。
+
+建模时请特别留意：
+
+- 交换项中的 **Location** 可以作为显式供给地区，例如 `CN`、`CN-BJ`、`RER` 或 `GLO`。
+- 如果交换项没有可用 Location，系统会使用消费过程自身的
+  `locationOfOperationSupplyOrProduction` 作为默认供给地区。
+- 多个 provider 可供应同一参考流时，系统会在选中的地区范围内使用 provider 过程的年度供应或
+  产量作为相对权重。
+- 年度供应或产量只影响 provider 之间的分摊比例，不会放大或缩小该交换项本身的技术需求量。
+
+因此，如果贡献路径或分组结果与预期不一致，请先检查相关过程的交换项 Location、过程地区以及
+年度供应或产量字段。
+
+## 快照覆盖诊断
+
+可计算快照会生成 coverage 诊断，用于解释 provider linking 和矩阵写入质量。诊断中常见的关注点
+包括：
+
+- provider candidate 数量、resolved strategy 和 unresolved reason 分布
+- geography tier、strategy × geography tier、供给地区来源和 exchange Location 覆盖情况
+- 年度供应或产量权重的可用性，以及缺失、非法或非正数值时的 fallback-to-one 情况
+- no-provider gap 的主要流和主要过程
+
+这些诊断主要用于排查“为什么某个过程没有贡献路径”“为什么某个地区 fallback 被使用”或“为什么
+多个 provider 的分摊比例看起来相近”等问题。普通查看单个 LCIA 结果时通常不需要逐项阅读。
+
 ## 标签一：过程画像
 
 **过程画像**适合查看一个过程的 LCIA 影响轮廓。

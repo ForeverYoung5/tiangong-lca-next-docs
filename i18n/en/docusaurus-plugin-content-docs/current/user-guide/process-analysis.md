@@ -52,6 +52,41 @@ In the screenshot, `1` marks the shared input area used by every analysis tab, a
 four analysis tabs. Set the scope and candidate processes first, then switch into the specific
 analysis mode you need.
 
+## How Process Modelling Fields Affect Analysis
+
+Process analysis depends on process-network snapshots built by the backend solver. For product input
+exchanges, the solver first determines a supply region, then searches for available providers in that
+region.
+
+Pay special attention to these modelling fields:
+
+- Exchange **Location** can act as an explicit supply region, such as `CN`, `CN-BJ`, `RER`, or
+  `GLO`.
+- If the exchange has no usable Location, the system uses the consumer process
+  `locationOfOperationSupplyOrProduction` as the default supply region.
+- When multiple providers can supply the same reference flow, the system uses each provider
+  process's annual supply or production volume as a relative weight within the selected region.
+- Annual supply or production volume only affects the split between providers. It does not increase
+  or reduce the technical demand of the exchange itself.
+
+If contribution paths or grouped results differ from what you expected, first check the related
+exchange Location, process geography, and annual supply or production volume fields.
+
+## Snapshot Coverage Diagnostics
+
+Computable snapshots generate coverage diagnostics that explain provider linking and matrix-write
+quality. Common signals include:
+
+- Provider candidate counts, resolved strategy counts, and unresolved reason counts
+- Geography tier, strategy x geography tier, supply-region source, and exchange Location coverage
+- Annual supply or production volume weight availability, including fallback-to-one cases when
+  values are missing, invalid, or non-positive
+- Top flows and processes behind no-provider gaps
+
+These diagnostics are most useful when investigating why a process has no contribution path, why a
+geography fallback was used, or why several providers received similar shares. You usually do not
+need to inspect every field when reading a single LCIA result.
+
 ## Tab 1: Process profile
 
 **Process profile** is for inspecting the LCIA profile of one process.

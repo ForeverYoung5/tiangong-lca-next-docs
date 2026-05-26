@@ -285,6 +285,24 @@ Client recommendations:
 - Use `summary.error_count`, `summary.warning_count`, and
   `summary.validation_issue_count` for top-level summaries
 
+## Process And Flow Field Compatibility Notes
+
+If an external system generates or repairs a TIDAS package, pay special attention to these fields:
+
+- `processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness.annualSupplyOrProductionVolume`
+  is carried as localized text. The text should start with a numeric value and may include unit or
+  reference-flow context, for example `1200 kg`. The web UI derives unit context from the reference
+  flow, but API clients should provide a package value that can pass validation.
+- `processDataSet.exchanges.exchange[].location` is the supply-region anchor for an exchange. Prefer
+  TIDAS / ILCD location codes such as `CN`, `CN-BJ`, `RER`, or `GLO`. Non-empty legacy strings remain
+  accepted for compatibility with external data.
+- If `exchange.location` is missing, later solving falls back to the consumer process
+  `locationOfOperationSupplyOrProduction` as the supply-region meaning. The import API validates the
+  package shape and fields; it does not infer business geography for the importer.
+- `CASNumber` fields must match the `2-7` digits, hyphen, `2` digits, hyphen, check digit structure
+  and pass the CAS Registry Number check-digit rule. A check-digit failure is returned in
+  `validation_issues` as `cas_number_checksum_error`.
+
 ## Implementation Notes
 
 - Package validation is not completed synchronously in the browser; it runs in

@@ -32,6 +32,11 @@ Confirm the following first:
 - You are reusing the platform's standard flow properties, unit groups, and elementary flows where
   possible
 - The selected impact method actually contains matching characterisation factors
+- Product input exchanges used by model or contribution-path solving have appropriate exchange
+  locations. If left blank, the system uses the consumer process location as the default supply
+  region
+- Provider processes have numeric annual supply or production volume values where available, because
+  those values affect how demand is split across multiple providers in the same region
 
 Heavy use of custom units, custom flow properties, or non-standard elementary flows can lead to
 missing results or incorrect magnitudes.
@@ -110,6 +115,11 @@ Common causes include:
 - Incorrect unit conversion
 - Custom unit groups or flow properties that do not align with platform defaults
 - An incorrect reference flow or functional unit
+- Unexpected upstream provider geography matching or annual supply / production volume weighting
+
+If snapshot coverage diagnostics are available, check the provider match rate, supply-region source,
+annual-volume fallback, and no-provider gaps. These indicators help separate data-modelling issues
+from geography fallback or incomplete provider coverage.
 
 ### Why should I use Process Analysis instead?
 

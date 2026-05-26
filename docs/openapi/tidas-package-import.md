@@ -269,6 +269,22 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 - 使用 `summary.error_count`、`summary.warning_count`、`summary.validation_issue_count`
   做顶部汇总
 
+## 过程与流字段兼容说明
+
+如果外部系统需要生成或修复 TIDAS package，请特别注意以下字段：
+
+- `processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness.annualSupplyOrProductionVolume`
+  使用多语言文本结构承载。文本应以数值开头，后面可以跟随单位或参考流说明，例如
+  `1200 kg`。网页端会从参考流推导单位说明，但 API 调用方应在包内提供可校验的字段值。
+- `processDataSet.exchanges.exchange[].location` 是交换项的供给地区锚点。推荐使用 TIDAS /
+  ILCD 位置代码，例如 `CN`、`CN-BJ`、`RER` 或 `GLO`。为兼容历史数据，非空字符串仍会被接受。
+- 如果 `exchange.location` 缺失，后续求解会退回使用消费过程自身的
+  `locationOfOperationSupplyOrProduction` 作为供给地区语义。导入 API 只负责校验包结构和字段，
+  不会替导入方推断业务地区。
+- `CASNumber` 字段必须符合 `2-7` 位数字、短横线、`2` 位数字、短横线、校验位的结构，并通过
+  CAS Registry Number 校验位规则。校验位错误会作为 `cas_number_checksum_error` 返回在
+  `validation_issues` 中。
+
 ## 常见注意事项
 
 - 导入校验不会在浏览器本地同步完成，而是在异步 worker 中执行

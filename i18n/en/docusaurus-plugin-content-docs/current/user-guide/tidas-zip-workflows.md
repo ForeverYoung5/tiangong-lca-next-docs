@@ -34,6 +34,12 @@ If you need the broader control map first, start with
 - The UI accepts **one `.zip` file**
 - Non-ZIP files are rejected immediately
 - The system validates structure, references, and conflicts before import
+- Process `annualSupplyOrProductionVolume` is validated as localized text, while the web form guides
+  you to enter a number and appends the reference-flow unit context
+- Process exchange `location` should use TIDAS / ILCD location codes such as `CN`, `CN-BJ`, `RER`,
+  or `GLO`; legacy non-empty text remains accepted for external-data compatibility
+- Flow `CASNumber` values must pass both format and check-digit validation; an invalid check digit
+  blocks import as a validation issue
 
 ### Import steps
 
