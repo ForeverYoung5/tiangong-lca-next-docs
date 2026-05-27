@@ -15,8 +15,14 @@ sidebar_position: 5
    - Input/output inventories
    - Industry and product classifications
    - [Reference: CIFA Guidelines Chapter 6 Appendix](https://www.carbonfootprint.network/docs/cifa-guidelines/lca-database-guideline/chapter-6-appendix#product-classification)
-4. View Version History: Click "All Versions" in the dataset list to access the version history page.
+4. View Version History: Click "All Versions" in the dataset list to open the version history drawer.
 5. View Historical Data: Click "View" next to specific versions to see detailed historical data.
+
+### Latest and all versions
+
+Dataset lists show the latest version for each dataset ID by default, so the current record is easy
+to find first. To review history, open the "All Versions" drawer; in selection workflows, choose the
+required historical version and save to reference that version.
 
 ![](./img/open1.png)
 
