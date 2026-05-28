@@ -34,6 +34,12 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 - 非 ZIP 文件会被系统直接拒绝
 - 导入前系统会执行结构校验、引用校验和冲突检查
 
+### 外部 LCA 格式需先转换
+
+网页端导入入口只接收已经整理成 TIDAS 结构的 ZIP 数据包。如果原始数据来自 EcoSpold 1、
+EcoSpold 2、openLCA JSON-LD、SimaPro CSV 或 openLCA process XLSX 等外部 LCA 格式，请先使用
+TIDAS 工具链转换并校验生成的 TIDAS 包，再回到网页端上传生成的 ZIP 文件。
+
 ### 导入步骤
 
 1. 点击顶部工具条中的**导入 TIDAS ZIP 数据包**。

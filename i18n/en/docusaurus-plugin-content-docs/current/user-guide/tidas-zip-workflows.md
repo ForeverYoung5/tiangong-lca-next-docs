@@ -35,6 +35,13 @@ If you need the broader control map first, start with
 - Non-ZIP files are rejected immediately
 - The system validates structure, references, and conflicts before import
 
+### Convert external LCA formats first
+
+The web import entry accepts ZIP packages that already follow the TIDAS structure. If the original
+data comes from external LCA formats such as EcoSpold 1, EcoSpold 2, openLCA JSON-LD, SimaPro CSV,
+or openLCA process XLSX, use the TIDAS tooling to convert and validate the generated TIDAS package
+first, then upload the resulting ZIP file in the web UI.
+
 ### Import steps
 
 1. Click **Import TIDAS ZIP Package** in the top bar.
