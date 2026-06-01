@@ -72,6 +72,24 @@ sidebar_position: 3
     npx -p @tiangong-lca/mcp-server tiangong-lca-mcp-http-local
     ```
 
+### GLAD 数据集查询工具
+
+本地 MCP Server 现在会注册只读的 GLAD 数据集工具。使用前请在启动 MCP Server 的同一环境中配置：
+
+```bash
+GLAD_API_KEY=your-glad-api-key
+GLAD_API_BASE_URL=https://www.globallcadataaccess.org/api/v1
+```
+
+连接成功后，工具列表中可看到：
+
+- `Search_GLAD_Datasets_Tool`：按关键词、行业、格式、地区、数据提供方、LCIA 方法等条件检索
+  GLAD 数据集描述。
+- `Get_GLAD_Dataset_Tool`：根据 `refId` 和 `dataProvider` 获取单个 GLAD 数据集描述。
+
+如果运行时返回 HTML 或 Cloudflare 校验页面，而不是 JSON，请确认当前 Node.js 运行环境能直接访问
+GLAD API，或将 `GLAD_API_BASE_URL` 指向可访问的 GLAD 兼容端点。
+
 ## MCP Server的调用
 
 ### Inspector

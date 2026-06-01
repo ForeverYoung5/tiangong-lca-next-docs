@@ -35,6 +35,18 @@ sidebar_position: 4
 
 ## MCP Server的调用
 
+### GLAD 数据集查询工具
+
+远程 MCP Server 也支持只读 GLAD 数据集查询工具；是否出现在工具列表中取决于服务端是否已配置
+GLAD API Key。
+
+- `Search_GLAD_Datasets_Tool`：按关键词、行业、格式、地区、数据提供方、LCIA 方法等条件检索
+  GLAD 数据集描述。
+- `Get_GLAD_Dataset_Tool`：根据 `refId` 和 `dataProvider` 获取单个 GLAD 数据集描述。
+
+这些工具读取 GLAD 描述信息，不会修改 TianGong LCA 数据。调用远程 MCP 时，仍按下文使用
+Bearer token 或 API Key 连接 TianGong LCA MCP 服务。
+
 ### Inspector
 
 MCP Inspector启动：在终端输入如下命令，输入后自动跳转至Inspector页面。  

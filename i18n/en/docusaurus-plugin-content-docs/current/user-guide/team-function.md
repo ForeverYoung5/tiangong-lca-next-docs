@@ -25,6 +25,10 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 
 ![Create team flow](img/create-team.png)
 
+New teams are not public by default and are not automatically submitted for homepage display. The
+platform only applies those behaviours after you enable the related **Public** or homepage-display
+option. If you request homepage display, upload both the light and dark team logos.
+
 ### Join a team
 
 1. Use **Join Team** to search for existing teams and view contact information.  

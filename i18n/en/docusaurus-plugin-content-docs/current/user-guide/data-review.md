@@ -22,6 +22,14 @@ first, then submit again.
 
 ![Submission validation prompt](img/data-problem.png)
 
+When you submit a **process** for review, the platform now runs a numerical stability gate after
+Data check passes. After the gate passes, the review request includes the gate run ID and checksum
+for the current process revision.
+
+If the gate is `queued` or `running`, submission pauses until the run finishes. If it returns
+`blocked`, `stale`, or `error`, the page shows the blocking reason or error message. Fix the current
+process revision, save it, and submit again.
+
 ## Who does what
 
 | Role | Primary responsibility | Main entry |

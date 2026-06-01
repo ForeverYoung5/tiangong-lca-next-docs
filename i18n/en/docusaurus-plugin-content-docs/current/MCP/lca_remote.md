@@ -34,6 +34,18 @@ Log in to the [Tiangong Life Cycle Data Platform](https://lca.tiangong.earth). F
 
 ## MCP Server Invocation
 
+### GLAD dataset tools
+
+The remote MCP server can also expose read-only GLAD dataset tools. Their availability depends on
+whether the server environment has a GLAD API key configured.
+
+- `Search_GLAD_Datasets_Tool`: searches GLAD dataset descriptors by query, sector, format, location,
+  data provider, LCIA method, and related filters.
+- `Get_GLAD_Dataset_Tool`: fetches one GLAD dataset descriptor by `refId` and `dataProvider`.
+
+These tools read GLAD descriptor information and do not modify TianGong LCA data. When calling the
+remote MCP service, keep using the Bearer token or API key connection flow described below.
+
 ### Inspector
 
 MCP Inspector Launch: Enter the following command in the terminal, which will automatically redirect to the Inspector page.  

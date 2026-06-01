@@ -72,6 +72,26 @@ Depending on your system type, download nvm to your local machine from the corre
     npx -p @tiangong-lca/mcp-server tiangong-lca-mcp-http-local
     ```
 
+### GLAD dataset tools
+
+The local MCP server now registers read-only GLAD dataset tools. Before starting the server, set
+these variables in the same environment:
+
+```bash
+GLAD_API_KEY=your-glad-api-key
+GLAD_API_BASE_URL=https://www.globallcadataaccess.org/api/v1
+```
+
+After the client connects, the tool list can include:
+
+- `Search_GLAD_Datasets_Tool`: searches GLAD dataset descriptors by query, sector, format, location,
+  data provider, LCIA method, and related filters.
+- `Get_GLAD_Dataset_Tool`: fetches one GLAD dataset descriptor by `refId` and `dataProvider`.
+
+If the runtime receives an HTML or Cloudflare verification page instead of JSON, confirm that the
+current Node.js runtime can reach the GLAD API directly, or point `GLAD_API_BASE_URL` at an accessible
+GLAD-compatible endpoint.
+
 ## MCP Server Invocation
 
 ### Inspector

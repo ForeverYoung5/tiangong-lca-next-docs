@@ -31,11 +31,15 @@ From left to right, the current header usually includes:
 | --- | --- | --- |
 | Import TIDAS ZIP Package | Import a ZIP archive that follows the TIDAS package structure | Accepts `.zip` only |
 | Export TIDAS ZIP Package | Export accessible data as a ZIP package | Runs asynchronously and finishes in Task Center |
+| Data Dashboard | Open the national carbon data dashboard | Visible only to system admins or owners, usually between export and Task Center |
 | Task Center | Monitor background work | Combines LCA analysis tasks and TIDAS export tasks |
 | Notifications | Review collaboration and review updates | Includes Team, Data, and Issue tabs |
 | Light / Dark mode | Switch theme | Useful for different work environments |
 | Language switcher | Switch UI locale | Also affects which docs locale opens |
 | Documentation link | Open the TianGong docs site | Chinese UI opens Chinese docs; English UI opens English docs |
+
+If your account has the system admin or system owner role, the top bar also shows **Data Dashboard**.
+Regular users do not see this button.
 
 ![Global top-bar control map](img/top-bar-controls-current.png)
 

@@ -106,6 +106,7 @@ const sidebars: SidebarsConfig = {
           label: 'MCP AI 服务',
           href: 'https://tidas.tiangong.earth/docs/integration/tidas-to-ai',
         },
+        'integration/cli',
       ],
     },
     {
