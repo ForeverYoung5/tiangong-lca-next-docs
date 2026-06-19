@@ -18,7 +18,7 @@ Within “My Data” you control the full lifecycle of TianGong LCA datasets. Th
    - Tick the desired row (highlighted in purple).  
    - Click “Save” to confirm and exit the panel.  
    ![](./img/choose.png)
-3. **Versioning**: Fill in the version number first and save a draft. Continue editing afterwards and save frequently to prevent data loss.
+3. **Versioning**: Fill in the version number first and save a draft. Continue editing afterwards and save frequently to prevent data loss. After one dataset has multiple versions, list pages usually show only the latest version visible in the current data space. Use **View versions** when you need to review, copy, or reference an older version.
 
 ### Recommended preparation order
 

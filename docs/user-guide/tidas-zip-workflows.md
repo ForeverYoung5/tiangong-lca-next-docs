@@ -152,3 +152,7 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 - 需要自动化集成
 - 需要在脚本中循环导入多个包
 - 需要把校验与错误报告纳入外部流水线
+
+如果源数据来自 EcoSpold 2 `.spold` 文件或其他外部 LCA 工具格式，应先使用 TIDAS 工具链完成转换
+与校验，再把生成的 TIDAS ZIP 交给网页端或 API。网页端不会直接接收 `.spold`、SimaPro CSV 或
+openLCA 项目文件。

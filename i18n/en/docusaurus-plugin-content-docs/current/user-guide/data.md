@@ -15,6 +15,8 @@ Use this page to understand the scope, permissions, and typical usage of each da
 - **Flow**: Material, energy, or economic flow linked to unit groups and flow properties.  
 - **Unit group**: A set of related units with defined conversion factors.  
 - **Sources / Contacts**: Reference documents and responsible people attached to datasets.
+- **Dataset version**: One dataset UUID can have multiple versions. Lists show the latest version
+  visible in the current data space; use **View versions** to inspect or select earlier versions.
 
 These elements appear in every module, but permissions differ.
 

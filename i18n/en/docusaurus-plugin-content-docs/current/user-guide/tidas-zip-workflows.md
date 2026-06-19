@@ -158,3 +158,7 @@ Use the API when:
 - You need automation
 - You need repeated imports in scripts or pipelines
 - You want external systems to process validation and error reports directly
+
+If the source data starts as EcoSpold 2 `.spold` files or another external LCA-tool format, convert
+and validate it with the TIDAS tooling first, then submit the generated TIDAS ZIP through the web UI
+or API. The web UI does not directly accept `.spold`, SimaPro CSV, or openLCA project files.

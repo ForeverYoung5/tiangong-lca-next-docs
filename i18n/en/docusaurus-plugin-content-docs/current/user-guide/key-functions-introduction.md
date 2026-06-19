@@ -8,6 +8,13 @@ This guide groups the most important interface controls by scenario. If you are 
 package workflow specifically, continue with
 [TIDAS ZIP Import, Export, and Task Center](./tidas-zip-workflows).
 
+## Public dashboard page
+
+The product also includes public display pages that do not appear in the main workspace menu. The
+national carbon data capability dashboard is available at `/dashboard/national-carbon` and shows the
+national data-building status, data-status distribution, and province-level coverage. It is intended
+for display and monitoring, not for editing, review, import, or export work.
+
 ## Global top-bar controls
 
 After sign-in, the top-right area of the main layout shows a set of global controls. These are
