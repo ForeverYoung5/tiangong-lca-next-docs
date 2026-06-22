@@ -8,7 +8,7 @@ sidebar_position: 5
 
 1. Open Data Panel: Locate the left navigation bar and click "Open Data" or "Commercial Data" to activate the data management interface.
 2. Navigate Process Directory: Select target entries in the hierarchical list to jump to the corresponding data space.
-3. View Data Details: Click the "View" button on the right side of the data list to see comprehensive information including:
+3. View Data Details: Data lists show the latest version of each object by default. Click the "View" button on the right side of the data list to see comprehensive information including:
    - Geographic coordinates
    - Timestamp ranges
    - System boundaries

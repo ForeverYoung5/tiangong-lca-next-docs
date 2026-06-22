@@ -27,6 +27,9 @@ These elements appear in every module, but permissions differ.
 | **My Data** | Authors and maintainers | Create, edit, import, and version datasets | Full CRUD | Create, import, edit, contribute, submit for review |
 | **Team Data** | Team members | Share and reuse collaborative assets | Read-only | Discover, reference, copy to My Data |
 
+**Version note**: Data lists show the latest version of each object by default. Use **All Versions**
+on a row when you need to inspect earlier versions.
+
 > Open Data and Commercial Data cannot be edited directly. Copy them to [My Data](/en/user-guide/create-my-data) before making changes.
 
 ## Module details

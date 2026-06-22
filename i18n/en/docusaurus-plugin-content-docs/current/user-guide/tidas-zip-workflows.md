@@ -35,6 +35,11 @@ If you need the broader control map first, start with
 - Non-ZIP files are rejected immediately
 - The system validates structure, references, and conflicts before import
 
+When a ZIP package is prepared from EcoSpold1 or EcoSpold2 sources by the companion conversion
+tooling, the conversion keeps source UUIDs, exchange identifiers, location, reference-year metadata,
+and deduplicated flows where possible. The web UI still uploads the converted TIDAS ZIP package, not
+raw EcoSpold files.
+
 ### Import steps
 
 1. Click **Import TIDAS ZIP Package** in the top bar.

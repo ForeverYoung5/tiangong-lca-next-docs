@@ -43,6 +43,12 @@ The numbered markers follow the current left-to-right order: `1` Import TIDAS ZI
 `2` Export TIDAS ZIP Package, `3` Task Center, `4` Notifications, `5` Light / Dark mode,
 `6` Language switcher, `7` Documentation link.
 
+### Public dashboard entry
+
+The national carbon dashboard is currently available through the standalone public path
+`/dashboard/national-carbon`. It shows the national carbon dashboard prototype and is not part of
+the numbered signed-in top-bar controls or the main application menu.
+
 ### Notification centre
 
 The notification centre currently contains three tabs:
