@@ -51,6 +51,7 @@ const sidebars: SidebarsConfig = {
         'user-guide/create-my-data',
         'user-guide/data-use',
         'user-guide/search',
+        'user-guide/notifications',
         'user-guide/data-review',
         'user-guide/process-analysis',
         'user-guide/lcia',
@@ -98,6 +99,7 @@ const sidebars: SidebarsConfig = {
         slug: '/integration',
       },
       items: [
+        'integration/cli',
         'MCP/lca_local',
         'MCP/lca_remote',
         'MCP/KB_remote',
