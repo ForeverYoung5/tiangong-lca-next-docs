@@ -51,6 +51,7 @@ const sidebars: SidebarsConfig = {
         'user-guide/create-my-data',
         'user-guide/data-use',
         'user-guide/search',
+        'user-guide/notifications',
         'user-guide/data-review',
         'user-guide/process-analysis',
         'user-guide/lcia',
