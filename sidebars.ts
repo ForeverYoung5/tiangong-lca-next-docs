@@ -101,6 +101,7 @@ const sidebars: SidebarsConfig = {
         'MCP/lca_local',
         'MCP/lca_remote',
         'MCP/KB_remote',
+        'integration/cli',
         {
           type: 'link',
           label: 'MCP AI 服务',

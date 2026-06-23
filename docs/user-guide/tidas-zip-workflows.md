@@ -76,6 +76,15 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 如果您需要做自动化导入、重复执行或更细粒度的错误处理，建议改用
 [TIDAS 数据包导入 API](/docs/openapi/tidas-package-import)。
 
+### 导入后的保真与复核材料
+
+从 EcoSpold1、EcoSpold2 或 openLCA JSON-LD 转换得到的 TIDAS 数据包，可能同时包含两类信息：
+
+- 已安全映射到正式 TIDAS 字段的名称、分类、来源、单位、地理位置、CAS、评审记录、交换量和流程连接等信息。
+- 暂时不适合写入正式字段、但仍需要保留的原始来源信息。这类内容会保存在 `common:other` 的 `TIDAS_IMPORT_TRACE_V1` 追踪记录中，部分自动补齐内容会带有 `TIDAS_IMPORT_PLACEHOLDER` 标记。
+
+如果转换工具随数据包生成 `mapping.csv`，建议把它作为专家复核清单使用。该文件会帮助您区分哪些字段已经正式写入、哪些只保留在追踪信息中、哪些是占位或自动生成内容。导入前后都可以结合 JSON 报告和 `mapping.csv` 检查关键流程、流、来源和生命周期模型连接是否符合预期。
+
 ## 导出 TIDAS ZIP 数据包
 
 ### 基本行为

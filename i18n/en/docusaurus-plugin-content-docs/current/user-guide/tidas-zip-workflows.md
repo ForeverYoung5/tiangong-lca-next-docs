@@ -81,6 +81,22 @@ troubleshooting artifact. It helps answer:
 For repeatable automation or deeper control over error handling, use
 [TIDAS Package Import API](/en/docs/openapi/tidas-package-import).
 
+### Fidelity and review artifacts after import
+
+TIDAS packages converted from EcoSpold1, EcoSpold2, or openLCA JSON-LD may contain two kinds of
+information:
+
+- Values that were safely mapped into formal TIDAS fields, such as names, classifications, sources,
+  units, geography, CAS values, reviews, exchange amounts, and process links.
+- Source information that should be retained but is not safe to place in a formal field yet. This
+  information is stored in `common:other` as `TIDAS_IMPORT_TRACE_V1` trace records, and generated
+  placeholders may use the `TIDAS_IMPORT_PLACEHOLDER` marker.
+
+If the conversion tool generates `mapping.csv` next to the package, use it as an expert review
+checklist. It helps distinguish values written to formal fields, values kept only in trace data,
+and generated or placeholder content. Before and after import, review the JSON report and
+`mapping.csv` together to confirm important processes, flows, sources, and lifecycle-model links.
+
 ## Export TIDAS ZIP Package
 
 ### Core behaviour
