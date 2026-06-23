@@ -173,6 +173,12 @@ Use this tab when you need to understand which upstream paths dominate the impac
 Some analyses can trigger background solving work. If processing takes longer, keep an eye on the
 shared [TIDAS ZIP Import, Export, and Task Center](./tidas-zip-workflows) guidance.
 
+If a background task returns a matrix-readiness report, use `next_action` to route the repair:
+provider-closure issues usually need supplier or annual-volume evidence, graph-readiness issues
+usually need reference-flow, allocation, or duplicate-structure repair, LCIA issues usually need
+matching characterisation factors, and compute-stability issues require matrix-structure repair
+before rerunning.
+
 ## When not to use this workspace
 
 You usually do not need this workspace when:

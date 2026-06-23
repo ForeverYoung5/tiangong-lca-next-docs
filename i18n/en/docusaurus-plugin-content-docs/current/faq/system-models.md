@@ -19,6 +19,11 @@ description: Answers about building models in TianGong LCA and how it compares w
 | Data format | Uses the open TIDAS JSON schema for transparency and integration | Proprietary database formats |
 | Version control | Built-in drafts, history, and status tracking | Depends on external file management |
 
+When a model moves into LCIA, process analysis, or review submission, the platform may return a
+matrix-readiness or numerical-stability gate report. Use its blockers, findings, and `next_action`
+to repair provider evidence, reference flows, allocation fractions, LCIA factors, or matrix
+structure before rerunning calculation or submitting again.
+
 ## Can I interoperate with other software?
 
 - **JSON export**: Download datasets as TIDAS JSON, then map fields for import into other tools.  

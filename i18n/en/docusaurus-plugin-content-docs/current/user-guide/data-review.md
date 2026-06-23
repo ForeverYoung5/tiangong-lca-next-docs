@@ -22,6 +22,11 @@ first, then submit again.
 
 ![Submission validation prompt](img/data-problem.png)
 
+Process data also runs the **Numerical stability gate** before review submission. The gate can be
+queued, running, passed, blocked, stale, or failed. Only a current revision with a passed gate enters
+the review workflow. If the gate is blocked, repair the reported reference-flow, exchange amount,
+provider evidence, LCIA factor, or matrix-stability issue, then save and submit again.
+
 ## Who does what
 
 | Role | Primary responsibility | Main entry |

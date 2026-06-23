@@ -170,6 +170,10 @@ TianGong LCA 现在提供了一个独立的**过程分析工作区**，用于在
 部分分析任务会触发后台求解。出现等待时，请留意顶部的
 [TIDAS ZIP 导入、导出与任务中心](./tidas-zip-workflows) 中介绍的**任务中心**提示。
 
+如果后台任务返回 matrix readiness 报告，优先根据 `next_action` 判断下一步：provider closure
+问题通常需要补充供应方或年产量证据，graph readiness 问题通常需要修复参考流、分配比例或重复结构，
+LCIA 问题通常需要补齐表征因子，compute stability 问题则需要修复矩阵结构后重跑。
+
 ## 什么时候不用这个工作区
 
 以下场景通常不必进入过程分析工作区：

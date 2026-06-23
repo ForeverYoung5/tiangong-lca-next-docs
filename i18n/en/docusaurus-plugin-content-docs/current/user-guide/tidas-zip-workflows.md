@@ -34,6 +34,9 @@ If you need the broader control map first, start with
 - The UI accepts **one `.zip` file**
 - Non-ZIP files are rejected immediately
 - The system validates structure, references, and conflicts before import
+- When EcoSpold1 source data stores `inputGroup` or `outputGroup` as child elements of an exchange,
+  conversion reads those group values as well. This preserves product inputs, resource inputs, and
+  emission outputs with the correct direction and flow type, reducing manual cleanup after import.
 
 ### Import steps
 

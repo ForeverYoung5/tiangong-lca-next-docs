@@ -34,6 +34,11 @@ Log in to the [Tiangong Life Cycle Data Platform](https://lca.tiangong.earth). F
 
 ## MCP Server Invocation
 
+The remote MCP tool list may include `Search_GLAD_Datasets_Tool` and `Get_GLAD_Dataset_Tool`.
+These tools search GLAD dataset descriptors and retrieve one GLAD dataset. GLAD credentials are
+configured on the remote service side; callers only need to configure the TianGong LCA remote MCP
+authentication described below.
+
 ### Inspector
 
 MCP Inspector Launch: Enter the following command in the terminal, which will automatically redirect to the Inspector page.  

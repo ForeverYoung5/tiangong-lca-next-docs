@@ -35,6 +35,10 @@ sidebar_position: 4
 
 ## MCP Server的调用
 
+远程 MCP 服务的工具列表可能包含 `Search_GLAD_Datasets_Tool` 与 `Get_GLAD_Dataset_Tool`。这两个
+工具用于检索 GLAD 数据集描述和读取单个 GLAD 数据集详情；所需 GLAD 凭据由远程服务端环境配置，
+调用方只需要按下文配置 TianGong LCA 的远程 MCP 认证。
+
 ### Inspector
 
 MCP Inspector启动：在终端输入如下命令，输入后自动跳转至Inspector页面。  

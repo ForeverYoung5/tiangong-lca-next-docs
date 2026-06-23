@@ -18,6 +18,10 @@ description: 回答在 TianGong LCA 中构建模型时与其他 LCA 软件的差
 | 数据结构 | 采用 TIDAS JSON 结构，支持开放接口与自动化集成 | 以专有数据库格式为主 |
 | 版本控制 | 支持 Data check、自检与审核状态筛选 | 需依赖外部版本管理或手动记录 |
 
+当模型需要进入 LCIA、过程分析或提交审核流程时，平台可能会返回 matrix readiness 或数值稳定性
+门禁报告。请优先按报告中的 blocker、finding 和 `next_action` 修复 provider、参考流、分配比例、
+LCIA 因子或矩阵结构问题，再重新计算或重新提交。
+
 ## 是否可以与其他软件互通？
 
 - **导出 JSON**：用户可将过程或模型导出为标准 JSON，转换后导入其他平台。  

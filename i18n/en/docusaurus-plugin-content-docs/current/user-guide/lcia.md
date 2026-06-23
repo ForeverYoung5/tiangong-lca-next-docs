@@ -103,6 +103,11 @@ Check:
 - Whether unit conversions are valid
 - Whether the selected impact method contains matching factors
 
+If the task or report includes matrix-readiness information, also inspect `status`, `blockers`,
+`findings`, and `next_action`. Common next steps include adding provider evidence, repairing
+reference flows or allocation fractions, adding LCIA factors, and fixing sparse-matrix or solver
+stability issues.
+
 ### Why do the result magnitudes look wrong?
 
 Common causes include:
@@ -110,6 +115,10 @@ Common causes include:
 - Incorrect unit conversion
 - Custom unit groups or flow properties that do not align with platform defaults
 - An incorrect reference flow or functional unit
+
+When a readiness report points to `repair_compute_stability_then_recheck` or a related blocker,
+check for self loops, duplicate structures, non-finite values, and negative LCIA anomalies before
+rerunning the calculation.
 
 ### Why should I use Process Analysis instead?
 

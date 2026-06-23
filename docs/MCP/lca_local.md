@@ -72,6 +72,17 @@ sidebar_position: 3
     npx -p @tiangong-lca/mcp-server tiangong-lca-mcp-http-local
     ```
 
+如需使用 GLAD 数据集查询工具，请在启动 MCP Server 的环境中配置：
+
+```bash
+GLAD_API_KEY=your-glad-api-key
+GLAD_API_BASE_URL=https://www.globallcadataaccess.org/api/v1
+```
+
+配置后，工具列表中会出现 `Search_GLAD_Datasets_Tool` 与 `Get_GLAD_Dataset_Tool`。前者用于按
+关键词、地区、数据格式、部门、数据提供方等条件检索 GLAD 数据集描述，后者用于按 `refId` 和
+数据提供方读取单个数据集详情。
+
 ## MCP Server的调用
 
 ### Inspector

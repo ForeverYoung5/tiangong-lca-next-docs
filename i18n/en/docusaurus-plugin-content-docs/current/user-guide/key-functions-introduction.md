@@ -62,6 +62,7 @@ Selecting the avatar or account name opens a role-aware menu. Common entries inc
 - **My Team**
 - **Review Management**: visible only to review roles
 - **System Management**: visible only to system roles
+- **Data Dashboard**: visible only to system admins, for national data-construction status
 - **Logout**
 
 Related guides:
@@ -69,6 +70,9 @@ Related guides:
 - [Account Management & API Key](./account-profile)
 - [Data Review](./data-review)
 - [System Management Workspace](./system-management)
+
+**Data Dashboard** opens `/dashboard/national-carbon` and shows data-construction progress, regional
+distribution, and status summaries.
 
 ## Data table controls
 
