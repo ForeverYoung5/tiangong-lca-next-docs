@@ -1,4 +1,34 @@
-# Docs/System Gap TODO
+---
+title: Docs/System Gap TODO
+docType: backlog
+scope: repo
+status: active
+authoritative: false
+owner: next-docs
+language: en
+whenToUse:
+  - when recording durable product/docs drift discovered during docs maintenance
+  - when a docs impact worker finds user-visible product behavior that is not yet covered by public docs
+whenToUpdate:
+  - when public docs drift is found, reprioritized, verified, or closed
+  - when publication checks reveal a user-facing documentation gap that needs follow-up work
+checkPaths:
+  - TODO.docs-system-gaps.md
+  - docs/**
+  - i18n/en/docusaurus-plugin-content-docs/current/**
+  - scripts/generate-llms-txt.mjs
+  - scripts/check-publication-scope.mjs
+  - context7.json
+  - static/llms.txt
+lastReviewedAt: 2026-05-15
+lastReviewedCommit: 20f0a67cd7ec473f1d37fff4df534ea7fcb44349
+related:
+  - AGENTS.md
+  - README.md
+  - docs/dev/docs-product-sync.md
+---
+
+## Docs/System Gap TODO
 
 This file is a long-term maintenance backlog for gaps between:
 
@@ -17,6 +47,8 @@ of truth once a gap has been identified.
 - Prefer one durable item per gap area instead of scattered notes.
 - Keep internal maintenance notes here at repo root. Do not place them under `docs/**` unless they
   are meant to be published on the site.
+- Publication pipeline changes (`llms.txt`, Context7, or publish workflow) do not replace this
+  backlog; if they reveal stale or missing user-facing documentation, add or update an item here.
 
 ## Verification Notes
 

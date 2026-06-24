@@ -26,6 +26,11 @@ checkPaths:
   - docusaurus.config.ts
   - src/**
   - static/**
+  - context7.json
+  - .github/workflows/publish-docs.yml
+  - scripts/generate-llms-txt.mjs
+  - scripts/check-publication-scope.mjs
+  - scripts/publication-policy.mjs
   - package.json
   - .githooks/**
   - scripts/docpact
@@ -83,7 +88,8 @@ Route those tasks to:
 
 - Repo-local documentation governance is encoded in `.docpact/config.yaml` and enforced locally by the pre-push docpact gate; `.github/workflows/ai-doc-lint.yml` is manual-dispatch fallback.
 - Chinese docs are the source of truth for this site; English pages are maintained mirrors and must be updated in the same change
-- The canonical local commands are `npm run lint`, `npm run build`, and `npm run typecheck`
+- The canonical local commands are `npm run lint`, `npm run build`, `npm run typecheck`, `npm run docs:llms:check`, and `npm run docs:publication-scope:check`
+- `static/llms.txt`, `context7.json`, and `.github/workflows/publish-docs.yml` define the public AI-consumption and post-merge publication boundary
 - Use Playwright or equivalent product verification only when text inspection of `../tiangong-lca-next` is not enough to confirm the current UI flow or screenshot target
 - If a page is only partially fixed, update `TODO.docs-system-gaps.md` in the same working session
 - For documentation-governance changes, run `scripts/docpact validate-config --root . --strict` and `scripts/docpact lint --root . --base origin/main --head HEAD --mode enforce`
@@ -94,6 +100,7 @@ Route those tasks to:
 - Do not update a Chinese page without updating the paired English mirror in the same change
 - Do not leave durable drift notes only in chat when `TODO.docs-system-gaps.md` should be updated
 - Do not treat a merged repo PR here as workspace-delivery complete if the root repo still needs a submodule bump
+- Do not add internal agent docs, TODOs, plans, incidents, or governance runbooks to `static/llms.txt` or the Context7 source scope
 
 ## Workspace Integration
 
