@@ -1,6 +1,7 @@
 name: Publish docs
 
 on:
+  pull_request:
   push:
     branches:
       - main
@@ -19,7 +20,49 @@ env:
   CLOUDFLARE_PROJECT_NAME: tiangong-lca-next-docs
 
 jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate llms.txt
+        run: npm run docs:llms
+
+      - name: Check llms.txt
+        run: npm run docs:llms:check
+
+      - name: Check publication scope before build
+        run: npm run docs:publication-scope:check
+
+      - name: Lint markdown
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build Docusaurus site
+        run: npm run build
+
+      - name: Check publication scope after build
+        run: npm run docs:publication-scope:check
+
   publish:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
