@@ -22,6 +22,11 @@ first, then submit again.
 
 ![Submission validation prompt](img/data-problem.png)
 
+During submission, the platform may run a **Numerical stability gate** first. If the page says the
+submission is queued, running, submitting, or still processing in the background, wait for the task
+to finish. You can retry later to refresh the latest status. The dataset enters the review workflow
+only after the gate passes and submission completes.
+
 ## Who does what
 
 | Role | Primary responsibility | Main entry |
@@ -137,9 +142,10 @@ Even if an author does not have a review role, they should still understand the 
 
 1. Finish modelling and self-check in **My Data**
 2. Click **Submit for review**
-3. Wait for a review admin to assign reviewers
-4. Revise according to review feedback
-5. Resubmit if necessary
+3. Wait for the numerical stability gate and submission job to finish
+4. Wait for a review admin to assign reviewers
+5. Revise according to review feedback
+6. Resubmit if necessary
 
 Also watch the **Data Notifications** tab in the top-right notification centre so that review
 feedback is not missed.

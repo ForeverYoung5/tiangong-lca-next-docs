@@ -28,8 +28,9 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 ### Join a team
 
 1. Use **Join Team** to search for existing teams and view contact information.  
-2. Reach out to the owner or administrator to request an invitation.  
-3. Membership is invitation-only; self-enrolment is not supported.
+2. Only teams with **Public Display** enabled appear in Join Team search results. If you cannot find the team, ask the team owner to confirm whether it is public.  
+3. Reach out to the owner or administrator to request an invitation.  
+4. Membership is invitation-only; self-enrolment is not supported.
 
 ![Join team search](img/join-team.png)
 

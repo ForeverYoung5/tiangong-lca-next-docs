@@ -109,5 +109,5 @@ Custom unit groups or flow properties can introduce conversion issues or LCIA fa
 
 1. **Save drafts** frequently to avoid losing progress.  
 2. **Run `Data check`** on the process or model editor to validate required fields and references.  
-3. **Submit for review** and monitor the status via the message centre or the filters described in [Data Review](/en/user-guide/data-review).  
+3. **Submit for review**. The platform may first queue a **Numerical stability gate** and show queued, running, background-processing, or completed states. Wait for it to finish, retry later if you need to refresh the latest status, and monitor the message centre or the filters described in [Data Review](/en/user-guide/data-review).  
 4. **Collaborate** by contributing the dataset to your team if others need to continue the work.

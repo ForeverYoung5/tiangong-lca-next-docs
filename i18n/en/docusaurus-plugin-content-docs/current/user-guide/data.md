@@ -29,6 +29,10 @@ These elements appear in every module, but permissions differ.
 
 > Open Data and Commercial Data cannot be edited directly. Copy them to [My Data](/en/user-guide/create-my-data) before making changes.
 
+When you enter a standard UUID in a data-list keyword search box, the page can show **Find data containing this ID**.
+Use it to find datasets whose body or reference fields contain that ID. Results still follow the current data space,
+status filter, and team permissions.
+
 ## Module details
 
 ### Open Data

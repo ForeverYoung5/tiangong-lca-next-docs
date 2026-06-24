@@ -17,6 +17,7 @@ sidebar_position: 5
    - [Reference: CIFA Guidelines Chapter 6 Appendix](https://www.carbonfootprint.network/docs/cifa-guidelines/lca-database-guideline/chapter-6-appendix#product-classification)
 4. View Version History: Click "All Versions" in the dataset list to access the version history page.
 5. View Historical Data: Click "View" next to specific versions to see detailed historical data.
+6. Reverse-look up UUID references: If you enter a standard UUID in the list search box, the page shows **Find data containing this ID**. Click it to see which datasets in the current data space contain that ID, including the data type, name, version, and ID.
 
 ![](./img/open1.png)
 
