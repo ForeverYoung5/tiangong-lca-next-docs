@@ -27,8 +27,6 @@ related:
   - docs/agents/repo-validation.md
 ---
 
-# 开发环境配置
-
 本页说明 `tiangong-lca-next-docs` 的本地开发环境，以及它与产品仓
 `../tiangong-lca-next` 之间的 Node 基线关系。
 

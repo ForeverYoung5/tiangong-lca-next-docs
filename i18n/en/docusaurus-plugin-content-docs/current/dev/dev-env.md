@@ -27,8 +27,6 @@ related:
   - docs/agents/repo-validation.md
 ---
 
-# Developer Environment
-
 This page explains the local setup for `tiangong-lca-next-docs` and how its Node baseline relates to
 the product repo at `../tiangong-lca-next`.
 
