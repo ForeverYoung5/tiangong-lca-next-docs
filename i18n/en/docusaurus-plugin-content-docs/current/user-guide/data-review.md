@@ -141,7 +141,7 @@ Even if an author does not have a review role, they should still understand the 
 4. Revise according to review feedback
 5. Resubmit if necessary
 
-Also watch the **Data Notifications** tab in the top-right notification centre so that review
+Also watch the **Data Notifications** tab in the top-right [Notification Center](./notifications) so that review
 feedback is not missed.
 
 ## Status filters
