@@ -177,6 +177,8 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 - `artifacts`：任务关联制品列表
 - `artifacts_by_kind.import_report`：导入报告制品
 - `artifacts_by_kind.import_report.signed_download_url`：导入报告 JSON 的临时下载地址
+- `artifacts_by_kind.import_report.download_status`：下载状态，例如 `available`、`not_ready`、`expired`、`deleted`、`object_missing`、`storage_path_invalid` 或 `signed_url_failed`
+- `artifacts_by_kind.import_report.download_error_code` / `download_error_message`：当 `signed_download_url` 为空时，说明制品尚未就绪、已过期、已删除、对象缺失或签名 URL 创建失败等原因
 
 当 `status=completed` 时，通常需要继续下载 `import_report`，并以报告内容作为最终业务结果。
 

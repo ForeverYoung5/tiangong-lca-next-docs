@@ -20,6 +20,17 @@ sidebar_position: 5
 
 ![](./img/open1.png)
 
+## Reference Lookup
+
+On data lists for processes, flows, sources, unit groups, flow properties, contacts, and models, use **Reference Lookup** in the search area to find which datasets contain a specific dataset UUID.
+
+1. Select **Reference Lookup** in the list search area. This automatically turns off AI Recommendation mode.
+2. Enter a complete dataset UUID. If the UUID is incomplete, the page prompts you to enter a complete dataset UUID before running Reference Lookup.
+3. Click **Find data containing this ID** or press Enter to run the lookup.
+4. Results still follow the current data space, team, status, and dataset-type filters. When many records match, the page shows up to the first 50 reference lookup results.
+
+Use Reference Lookup before deleting, revising, or replacing a dataset when you need to check which other records still reference that ID.
+
 ## Citing Data
 
 1. Open Selection Panel: Click the "Select" button next to the content you wish to cite to open the information panel.

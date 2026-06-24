@@ -186,6 +186,13 @@ Key response fields:
 - `artifacts_by_kind.import_report`: the import report artifact
 - `artifacts_by_kind.import_report.signed_download_url`: a temporary URL for
   downloading the import report JSON
+- `artifacts_by_kind.import_report.download_status`: download state, such as
+  `available`, `not_ready`, `expired`, `deleted`, `object_missing`,
+  `storage_path_invalid`, or `signed_url_failed`
+- `artifacts_by_kind.import_report.download_error_code` /
+  `download_error_message`: when `signed_download_url` is null, these fields
+  explain whether the artifact is not ready, expired, deleted, missing from
+  storage, or failed signed URL creation
 
 When `status=completed`, clients usually still need to download the
 `import_report` artifact and interpret that payload as the final business
