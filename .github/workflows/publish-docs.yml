@@ -195,7 +195,7 @@ jobs:
             echo "::warning::Could not mark ${DOCS_IMPACT_ISSUE_REPO}#${DOCS_IMPACT_ISSUE_NUMBER} docs-publish-pending."
           gh issue edit "$DOCS_IMPACT_ISSUE_NUMBER" \
             --repo "$DOCS_IMPACT_ISSUE_REPO" \
-            --remove-label docs-publish-complete,docs-publish-blocked,context7-refresh-complete || true
+            --remove-label docs-publish-complete,docs-publish-blocked,context7-refresh-pending,context7-refresh-complete,context7-refresh-blocked || true
 
       - name: Report missing Cloudflare secrets
         if: steps.context.outputs.cloudflare_ready != 'true'
@@ -364,6 +364,16 @@ jobs:
         run: |
           set -euo pipefail
 
+          if [ -n "${DOCS_IMPACT_ISSUE_NUMBER}" ]; then
+            GH_TOKEN="${DOCS_IMPACT_ROOT_TOKEN:-$GH_TOKEN}" gh issue edit "$DOCS_IMPACT_ISSUE_NUMBER" \
+              --repo "$DOCS_IMPACT_ISSUE_REPO" \
+              --add-label context7-refresh-pending || \
+              echo "::warning::Could not mark ${DOCS_IMPACT_ISSUE_REPO}#${DOCS_IMPACT_ISSUE_NUMBER} context7-refresh-pending."
+            GH_TOKEN="${DOCS_IMPACT_ROOT_TOKEN:-$GH_TOKEN}" gh issue edit "$DOCS_IMPACT_ISSUE_NUMBER" \
+              --repo "$DOCS_IMPACT_ISSUE_REPO" \
+              --remove-label context7-refresh-complete,context7-refresh-blocked || true
+          fi
+
           if [ -z "${CONTEXT7_API_KEY}" ]; then
             echo "status=pending_missing_secret" >> "$GITHUB_OUTPUT"
             echo "Context7 refresh is pending because CONTEXT7_API_KEY is not configured."
@@ -431,11 +441,11 @@ jobs:
               echo "::warning::Could not comment on ${DOCS_IMPACT_ISSUE_REPO}#${DOCS_IMPACT_ISSUE_NUMBER}."
             GH_TOKEN="${DOCS_IMPACT_ROOT_TOKEN:-$GH_TOKEN}" gh issue edit "$DOCS_IMPACT_ISSUE_NUMBER" \
               --repo "$DOCS_IMPACT_ISSUE_REPO" \
-              --add-label docs-publish-blocked,context7-refresh-pending || \
+              --add-label context7-refresh-blocked || \
               echo "::warning::Could not mark ${DOCS_IMPACT_ISSUE_REPO}#${DOCS_IMPACT_ISSUE_NUMBER} Context7 blocked."
             GH_TOKEN="${DOCS_IMPACT_ROOT_TOKEN:-$GH_TOKEN}" gh issue edit "$DOCS_IMPACT_ISSUE_NUMBER" \
               --repo "$DOCS_IMPACT_ISSUE_REPO" \
-              --remove-label context7-refresh-complete || true
+              --remove-label context7-refresh-pending,context7-refresh-complete || true
           fi
 
           exit 1
@@ -458,7 +468,7 @@ jobs:
             --remove-label context7-refresh-pending || true
           gh issue edit "$DOCS_IMPACT_ISSUE_NUMBER" \
             --repo "$DOCS_IMPACT_ISSUE_REPO" \
-            --remove-label docs-publish-blocked || true
+            --remove-label context7-refresh-blocked || true
 
       - name: Record Context7 pending follow-up
         if: steps.context7.outputs.status == 'pending_missing_secret'
@@ -508,7 +518,7 @@ jobs:
               echo "::warning::Could not mark ${DOCS_IMPACT_ISSUE_REPO}#${DOCS_IMPACT_ISSUE_NUMBER} context7-refresh-pending."
             GH_TOKEN="${DOCS_IMPACT_ROOT_TOKEN:-$GH_TOKEN}" gh issue edit "$DOCS_IMPACT_ISSUE_NUMBER" \
               --repo "$DOCS_IMPACT_ISSUE_REPO" \
-              --remove-label context7-refresh-complete || true
+              --remove-label context7-refresh-complete,context7-refresh-blocked || true
           fi
 
       - name: Write publish summary
