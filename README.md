@@ -21,7 +21,7 @@ checkPaths:
   - context7.json
   - static/llms.txt
 lastReviewedAt: 2026-06-25
-lastReviewedCommit: a82fe667a1e836ea9be8b31727fe6f1b0d70b707
+lastReviewedCommit: 3c79b5c1091b38868810ea764d7fcb1a0ae6e236
 related:
   - AGENTS.md
   - docs/agents/repo-validation.md
