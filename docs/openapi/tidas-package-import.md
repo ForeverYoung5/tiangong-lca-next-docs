@@ -269,6 +269,19 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 - 使用 `summary.error_count`、`summary.warning_count`、`summary.validation_issue_count`
   做顶部汇总
 
+### 流程数据集字段兼容性
+
+导入流程会按照当前 TIDAS schema 校验 `processes/*.json`。准备流程数据集时，特别注意
+`processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness` 下的
+`annualSupplyOrProductionVolume`：
+
+- 该字段现在是必填项
+- 值应按 TIDAS `Real` 类型提供，也就是可解析为数字的字符串，例如 `"123.45"` 或 `"1.2E3"`
+- 不要再把该字段写成 `StringMultiLang` 多语言文本对象
+
+如果仍使用旧格式，导入报告会返回 `schema_error`，并在 `file_path`、`location` 和 `message`
+中指出对应的流程文件与字段位置。
+
 ## 常见注意事项
 
 - 导入校验不会在浏览器本地同步完成，而是在异步 worker 中执行
