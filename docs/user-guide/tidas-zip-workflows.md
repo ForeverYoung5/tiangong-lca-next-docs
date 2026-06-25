@@ -77,6 +77,15 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 - 哪些对象与当前环境冲突
 - 哪些开放数据被系统跳过
 
+### 从 EcoSpold 或 openLCA 生成 ZIP 时
+
+如果 ZIP 由 `tidas-tools` 从 EcoSpold1、EcoSpold2 或 openLCA JSON-LD 转换生成，导入前建议先检查转换目录中的报告与审查文件：
+
+- EcoSpold1 / EcoSpold2 转换会尽量保留来源过程、流、交换编号、分类、地理位置、CAS 号和数值文本；无法安全写入正式字段的来源信息会保存在 TIDAS import trace 中。
+- openLCA JSON-LD 转换会把可解析的 `defaultProvider` 关系生成候选生命周期模型，并把无法直接映射的来源元数据保留为 trace，便于后续人工核对。
+- 转换成功并通过校验后会生成 `mapping.csv`，用于专家复核正式字段、trace-only 字段、占位字段和生成字段。导入前请优先查看该文件以及 `conversion-report.json`。
+- 若报告中出现 schema、引用、CAS 或分类问题，应先回到来源数据或转换配置中修正，再重新生成 ZIP。
+
 如果您需要做自动化导入、重复执行或更细粒度的错误处理，建议改用
 [TIDAS 数据包导入 API](/docs/openapi/tidas-package-import)。
 

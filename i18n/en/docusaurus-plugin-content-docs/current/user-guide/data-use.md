@@ -16,7 +16,7 @@ sidebar_position: 5
    - Industry and product classifications
    - [Reference: CIFA Guidelines Chapter 6 Appendix](https://www.carbonfootprint.network/docs/cifa-guidelines/lca-database-guideline/chapter-6-appendix#product-classification)
 4. View Version History: Click "All Versions" in the dataset list to access every historical version for that dataset.
-5. View Historical Data: Click "View" next to specific versions to see detailed historical data.
+5. View Historical Data: Click "View" next to specific versions to see detailed historical data. When a page supports version selection, choose the target historical version and submit it.
 
 ![](./img/open1.png)
 
@@ -24,7 +24,7 @@ sidebar_position: 5
 
 1. Open Selection Panel: Click the "Select" button next to the content you wish to cite to open the information panel.
 2. Switch Categories: Use the top navigation bar to select different data categories.
-3. Select Data: Check the boxes for target information (selected rows will highlight in purple).
+3. Select Data: Check the boxes for target information (selected rows will highlight in purple). To cite a historical version, open "All Versions" first and select the target version.
 4. Save Changes: Click "Save" at the bottom of the edit page to return to the previous panel.
 
 > Important: **Commercial data cannot be cited**
