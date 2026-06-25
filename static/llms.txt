@@ -4,7 +4,7 @@ Public documentation index for TianGong LCA users, integrators, and AI retrieval
 
 Source site: https://docs.tiangong.earth
 Source repository: https://github.com/linancn/tiangong-lca-next-docs
-Source commit: 20f0a67cd7ec473f1d37fff4df534ea7fcb44349
+Source commit: 171e605ecc57ad8deb7d56a567fcee63f036052b
 Publication scope: public Docusaurus docs only. Internal agent, plan, incident, TODO, and governance execution records are excluded.
 
 ## English (en)
@@ -19,7 +19,7 @@ Publication scope: public Docusaurus docs only. Internal agent, plan, incident, 
 - [Developer Environment](https://docs.tiangong.earth/en/dev/dev-env) - This page explains the local setup for tiangong-lca-next-docs and how its Node baseline relates to the product repo at ../tiangong-lca-next.
 - [Docs / Product Sync Guide](https://docs.tiangong.earth/en/dev/docs-product-sync) - Explain how maintainers should keep the docs site aligned with the tiangong-lca-next product repo, including source boundaries, verification workflow, and screenshot rules.
 - [TIDAS Package Import API](https://docs.tiangong.earth/en/docs/openapi/tidas-package-import) - Import TIDAS ZIP packages through the TianGong LCA API with API key authentication.
-- [Commercial Database Access](https://docs.tiangong.earth/en/faq/commercial-database) - For inquiries regarding HiQLCD database access, please contact us through the following channels:
+- [Commercial Database Access](https://docs.tiangong.earth/en/faq/commercial-database) - This page provides contact information for commercial database access and licensing inquiries. Dataset scope, licensing terms, delivery method, and usage conditions are determined...
 - [Registration and Login](https://docs.tiangong.earth/en/faq/email-verification) - Alternative text
 - [Terminology Explanation](https://docs.tiangong.earth/en/faq/explanation) - Example: Company A commissions Research Institute B to carry out a life cycle assessment project. The research team (Team C) is responsible for generating the data, and the datase...
 - [Sources & Citation](https://docs.tiangong.earth/en/faq/sources-and-citation) - Ensure TianGong LCA datasets remain traceable and properly referenced.
@@ -57,7 +57,7 @@ Publication scope: public Docusaurus docs only. Internal agent, plan, incident, 
 - [开发环境配置](https://docs.tiangong.earth/dev/dev-env) - 本页说明 tiangong-lca-next-docs 的本地开发环境，以及它与产品仓 ../tiangong-lca-next 之间的 Node 基线关系。
 - [Docs / Product 同步指南](https://docs.tiangong.earth/dev/docs-product-sync) - 为维护者说明 docs 站点如何与 tiangong-lca-next 产品仓保持同步，包括来源边界、验证方式和截图规范。
 - [TIDAS 数据包导入 API](https://docs.tiangong.earth/docs/openapi/tidas-package-import) - 使用 API Key 调用 TianGong LCA 的 TIDAS 数据包导入流程。
-- [商业数据库获取](https://docs.tiangong.earth/faq/commercial-database) - 如您需获取HiQLCD数据库事宜，请通过以下指定方式联络：
+- [商业数据库获取](https://docs.tiangong.earth/faq/commercial-database) - 本页用于说明商业数据库相关的获取与授权咨询方式。商业数据的具体内容、授权范围、交付方式和使用条件，以对应数据提供方确认为准。
 - [注册与登录](https://docs.tiangong.earth/faq/email-verification) - 替代文字
 - [名词解释](https://docs.tiangong.earth/faq/explanation) - 示例：某公司(CompanyA)委托研究机构(Research Institute B)开展一个生命周期评估项目。研究人员团队(TeamC)负责生成数据，并由该团队成员(Person D)录入数据集信息。数据完成后，由国际环境数据库协会(IEDA)进行注册备案。最终数据的所有权归公司(CompanyA)，但只有公司内部研究小组(Group E)可以排他性访...
 - [数据来源与引用](https://docs.tiangong.earth/faq/sources-and-citation) - 规范 TianGong LCA 数据的引用方式，提升溯源透明度。
