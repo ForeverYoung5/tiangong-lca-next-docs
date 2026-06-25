@@ -10,6 +10,21 @@ description: Answers about building models in TianGong LCA and how it compares w
 3. Connect inputs and outputs, set the reference process, and define the reference flow quantity.  
 4. Save the model—see [Create My Data](/en/user-guide/create-my-data#create-model) for the full workflow.
 
+## How does the platform choose providers for product inputs?
+
+When a product input exchange is not explicitly linked to one provider, TianGong
+LCA uses an implicit regional supply mix in the solver snapshot.
+`exchange.location` on the product input is used first as the supply region. If
+no usable exchange location exists, the consumer process location is used as the
+default supply-region anchor. The system chooses the best geography tier first,
+then weights providers inside that tier by their annual supply or production
+volume.
+
+This allocation decides which providers carry one input demand; it does not
+increase or reduce the total amount of that input. If a provider has no valid
+annual volume, the system keeps it with a default positive weight and exposes
+the fallback in snapshot coverage or provider-linking diagnostics.
+
 ## How does TianGong LCA differ from other LCA platforms?
 
 | Aspect | TianGong LCA | Traditional desktop tools (SimaPro, GaBi, Umberto, openLCA, etc.) |

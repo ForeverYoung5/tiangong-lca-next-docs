@@ -288,18 +288,24 @@ Client recommendations:
 ### Process Dataset Field Compatibility
 
 The import worker validates `processes/*.json` against the current TIDAS schema.
-When preparing process datasets, pay special attention to
-`annualSupplyOrProductionVolume` under
-`processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness`:
+When preparing process datasets, pay special attention to these fields:
 
-- The field is now required
-- The value should use the TIDAS `Real` type, meaning a numeric string such as
-  `"123.45"` or `"1.2E3"`
-- Do not send this field as an old `StringMultiLang` multilingual text object
+- `processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness.annualSupplyOrProductionVolume`
+  is now required and uses a field-specific multilingual text shape. Each
+  `#text` value should start with a parseable number and keep a unit or context
+  suffix, such as `"123.45 kg/year"` or `"1.2E3 kg/year"`.
+- Do not send `annualSupplyOrProductionVolume` as an old plain numeric string,
+  and do not omit the unit or context suffix.
+- `processDataSet.exchanges.exchange[].location` should use a TIDAS / ILCD
+  location category code when possible, such as `CN`, `CN-BJ`, `RER`, or `GLO`.
+  Non-empty legacy strings are still accepted for external data compatibility.
+- `exchange.location` is not multilingual text; do not send a `StringMultiLang`
+  object or array. For product input exchanges, this field also acts as the
+  explicit supply-region anchor used by downstream provider linking.
 
-Packages that still use the old shape fail with `schema_error`; the import
-report points to the process file and field through `file_path`, `location`, and
-`message`.
+Packages with field shapes or values that do not match the current schema fail
+with `schema_error`; the import report points to the process file and field
+through `file_path`, `location`, and `message`.
 
 ## Implementation Notes
 

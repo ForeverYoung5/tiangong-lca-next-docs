@@ -110,6 +110,12 @@ Common causes include:
 - Incorrect unit conversion
 - Custom unit groups or flow properties that do not align with platform defaults
 - An incorrect reference flow or functional unit
+- A product input exchange `exchange.location` points to a different supply
+  region, or process annual supply / production volume changes the provider
+  shares across multiple providers
+- Missing, invalid, or non-positive annual volume uses a default positive
+  weight. When investigating, check snapshot coverage and provider-linking
+  diagnostics for fallback counts and supply-region sources
 
 ### Why should I use Process Analysis instead?
 
