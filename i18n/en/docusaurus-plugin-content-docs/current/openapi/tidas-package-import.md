@@ -285,6 +285,22 @@ Client recommendations:
 - Use `summary.error_count`, `summary.warning_count`, and
   `summary.validation_issue_count` for top-level summaries
 
+### Process Dataset Field Compatibility
+
+The import worker validates `processes/*.json` against the current TIDAS schema.
+When preparing process datasets, pay special attention to
+`annualSupplyOrProductionVolume` under
+`processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness`:
+
+- The field is now required
+- The value should use the TIDAS `Real` type, meaning a numeric string such as
+  `"123.45"` or `"1.2E3"`
+- Do not send this field as an old `StringMultiLang` multilingual text object
+
+Packages that still use the old shape fail with `schema_error`; the import
+report points to the process file and field through `file_path`, `location`, and
+`message`.
+
 ## Implementation Notes
 
 - Package validation is not completed synchronously in the browser; it runs in

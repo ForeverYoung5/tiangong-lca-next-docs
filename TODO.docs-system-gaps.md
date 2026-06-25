@@ -20,8 +20,8 @@ checkPaths:
   - scripts/check-publication-scope.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-05-15
-lastReviewedCommit: 20f0a67cd7ec473f1d37fff4df534ea7fcb44349
+lastReviewedAt: 2026-06-25
+lastReviewedCommit: 844f1dba3339131593d1995569acd8eb16a8022a
 related:
   - AGENTS.md
   - README.md
