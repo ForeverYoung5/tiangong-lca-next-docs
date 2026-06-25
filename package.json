@@ -5,6 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
+    "prebuild": "npm run docs:llms",
     "build": "docusaurus build",
     "docs:llms": "node scripts/generate-llms-txt.mjs",
     "docs:llms:check": "node scripts/generate-llms-txt.mjs --check",

@@ -118,6 +118,9 @@ npm run typecheck
 npm run build
 ```
 
+`npm run build` runs `npm run docs:llms` through `prebuild` first, so hosted platforms that only
+invoke the standard build command still publish an `llms.txt` file with the current build commit.
+
 ### Serve the built site locally
 
 ```bash
