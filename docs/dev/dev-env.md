@@ -21,7 +21,7 @@ checkPaths:
   - context7.json
   - static/llms.txt
 lastReviewedAt: 2026-06-25
-lastReviewedCommit: 96bac00b9b5db325d635e353315918b5148ef61d
+lastReviewedCommit: a82fe667a1e836ea9be8b31727fe6f1b0d70b707
 related:
   - i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
   - docs/agents/repo-validation.md
