@@ -380,7 +380,7 @@ jobs:
             exit 0
           fi
 
-          node -e "console.log(JSON.stringify({libraryName: process.env.CONTEXT7_LIBRARY_NAME, branch: 'main'}))" > /tmp/context7-refresh.json
+          node -e "console.log(JSON.stringify({libraryName: process.env.CONTEXT7_LIBRARY_NAME}))" > /tmp/context7-refresh.json
 
           status_code="$(curl -sS -o /tmp/context7-response.json -w '%{http_code}' \
             -X POST 'https://context7.com/api/v1/refresh' \
