@@ -118,6 +118,9 @@ npm run typecheck
 npm run build
 ```
 
+`npm run build` 会先通过 `prebuild` 自动执行 `npm run docs:llms`，确保托管平台只调用
+标准构建命令时，发布产物中的 `llms.txt` 也会写入当前构建 commit。
+
 ### 本地预览构建产物
 
 ```bash

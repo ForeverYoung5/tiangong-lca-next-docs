@@ -71,6 +71,9 @@ npm run build
 npm run serve
 ```
 
+`npm run build` runs `npm run docs:llms` through `prebuild` first, so hosted platforms that only
+invoke the standard build command still publish `llms.txt` with the current build commit.
+
 ## Recommended verification
 
 For public-doc changes, run at least:
