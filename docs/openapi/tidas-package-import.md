@@ -285,6 +285,16 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 如果字段形状或取值不符合当前 schema，导入报告会返回 `schema_error`，并在 `file_path`、
 `location` 和 `message` 中指出对应的流程文件与字段位置。
 
+### CAS 号校验
+
+当前 TIDAS schema 会把 CAS 号标记为 `cas-number` 格式。导入 worker 会先检查形如
+`64-17-5` 的结构，再校验最后一位 CAS 校验位。
+
+- TIDAS JSON 中的 CAS 号如果校验位错误，会作为格式问题返回。
+- eILCD/ILCD flow XML 中的 `CASNumber` 也会补充校验校验位。
+- 当报告中的 `issue_code` 为 `cas_number_checksum_error` 时，说明字符串结构看起来像 CAS 号，
+  但校验位不匹配，应回到来源数据修正 CAS 号。
+
 ## 常见注意事项
 
 - 导入校验不会在浏览器本地同步完成，而是在异步 worker 中执行

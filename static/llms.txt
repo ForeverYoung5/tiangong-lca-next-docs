@@ -4,7 +4,7 @@ Public documentation index for TianGong LCA users, integrators, and AI retrieval
 
 Source site: https://docs.tiangong.earth
 Source repository: https://github.com/linancn/tiangong-lca-next-docs
-Source commit: 07aa71f9dc9af99edb164e00136476ad3cc5607e
+Source commit: dc4773ff60a995d3cf16ee38bcaa25bb4e05417c
 Publication scope: public Docusaurus docs only. Internal agent, plan, incident, TODO, and governance execution records are excluded.
 
 ## English (en)
@@ -72,7 +72,7 @@ Publication scope: public Docusaurus docs only. Internal agent, plan, incident, 
 - [数据新建](https://docs.tiangong.earth/user-guide/create-my-data) - 按照准备→建模→验证的流程，在“我的数据”模块中创建过程、模型、流及配套信息。
 - [数据平台介绍](https://docs.tiangong.earth/user-guide/data) - 本文帮助您从宏观角度理解 TianGong LCA 数据模块的定位、权限差异与常见用法，为后续的数据新建和数据审核做准备。
 - [数据审核](https://docs.tiangong.earth/user-guide/data-review) - 数据审核不仅是“提交并等待结果”，还涉及提交者、审核成员、审核管理员之间的不同工作区和职责。 本页按提交前准备 → 角色分工 → 审核工作区 → 常见问题展开说明。
-- [数据使用](https://docs.tiangong.earth/user-guide/data-use) - 1. 展开数据面板：定位左侧导航栏，单击“开放数据”或“商业数据”，激活数据管理界面。 2. 定位过程目录：在分级列表中选中目标条目，页面跳转至相应数据空间。 3. 查看数据：点击相应数据列表右侧的“查看”键，可查看数据的全维度信息。包含地理位置坐标、时间戳范围、系统边界、输入输出清单、所属行业与产品等。 4. 查看历史版本：在数据集列表点击“所有版本”键...
+- [数据使用](https://docs.tiangong.earth/user-guide/data-use) - 1. 展开数据面板：定位左侧导航栏，单击“开放数据”或“商业数据”，激活数据管理界面。 2. 定位过程目录：在分级列表中选中目标条目，页面跳转至相应数据空间。 3. 查看数据：数据列表和搜索结果默认展示每个数据集 ID 的最新可见版本。点击相应数据列表右侧的“查看”键，可查看数据的全维度信息。包含地理位置坐标、时间戳范围、系统边界、输入输出清单、所属行业与...
 - [按键功能介绍](https://docs.tiangong.earth/user-guide/key-functions-introduction) - 本文按使用场景归纳界面中的常用按钮，重点覆盖顶部全局控件、数据列表操作以及协作入口。 如果您要处理 TIDAS ZIP 数据包，请继续阅读 TIDAS ZIP 导入、导出与任务中心。
 - [LCIA 计算与结果查看](https://docs.tiangong.earth/user-guide/lcia) - 本页说明 TianGong LCA 中两类常见的 LCIA（生命周期影响评价）使用方式：
 - [用户指南导航](https://docs.tiangong.earth/user-guide/overview) - 帮助不同角色快速定位到 TianGong LCA 用户文档中的操作指南与最佳实践。

@@ -307,6 +307,16 @@ Packages with field shapes or values that do not match the current schema fail
 with `schema_error`; the import report points to the process file and field
 through `file_path`, `location`, and `message`.
 
+### CAS Number Validation
+
+The current TIDAS schema marks CAS numbers with the `cas-number` format. The import worker checks
+the `64-17-5` style shape and then validates the final CAS check digit.
+
+- TIDAS JSON CAS numbers with a bad check digit are returned as format issues.
+- `CASNumber` values in eILCD/ILCD flow XML receive the same supplemental check-digit validation.
+- If the report contains `issue_code: "cas_number_checksum_error"`, the value looks like a CAS
+  number but its check digit does not match; fix the source CAS number before retrying.
+
 ## Implementation Notes
 
 - Package validation is not completed synchronously in the browser; it runs in

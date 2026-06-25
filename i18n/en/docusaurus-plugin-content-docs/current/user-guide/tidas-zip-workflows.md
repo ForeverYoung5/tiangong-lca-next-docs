@@ -34,6 +34,10 @@ If you need the broader control map first, start with
 - The UI accepts **one `.zip` file**
 - Non-ZIP files are rejected immediately
 - The system validates structure, references, and conflicts before import
+- Validation covers TIDAS JSON; when the package contains eILCD/ILCD XML, the XML is checked
+  against the packaged schemas
+- Flow records with CAS numbers also validate the CAS check digit, so a structurally valid CAS
+  number with the wrong check digit is still reported as a validation issue
 
 ### Import steps
 
@@ -62,6 +66,8 @@ datasets were skipped.
 
 If required fields, references, or package structure fail validation, the import is blocked and the
 modal explains the issues.
+Common causes include schema mismatches, missing references, eILCD/ILCD XML that does not match the
+packaged schemas, or an invalid CAS number check digit.
 
 #### Conflict rejection
 
@@ -75,6 +81,7 @@ troubleshooting artifact. It helps answer:
 
 - Which objects failed validation
 - Which references could not be resolved
+- Whether any CAS numbers have invalid check digits
 - Which objects conflict with existing records
 - Which open datasets were skipped
 

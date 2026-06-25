@@ -8,14 +8,14 @@ sidebar_position: 5
 
 1. Open Data Panel: Locate the left navigation bar and click "Open Data" or "Commercial Data" to activate the data management interface.
 2. Navigate Process Directory: Select target entries in the hierarchical list to jump to the corresponding data space.
-3. View Data Details: Click the "View" button on the right side of the data list to see comprehensive information including:
+3. View Data Details: Data lists and search results show the latest visible version for each dataset ID by default. Click the "View" button on the right side of the data list to see comprehensive information including:
    - Geographic coordinates
    - Timestamp ranges
    - System boundaries
    - Input/output inventories
    - Industry and product classifications
    - [Reference: CIFA Guidelines Chapter 6 Appendix](https://www.carbonfootprint.network/docs/cifa-guidelines/lca-database-guideline/chapter-6-appendix#product-classification)
-4. View Version History: Click "All Versions" in the dataset list to access the version history page.
+4. View Version History: Click "All Versions" in the dataset list to access every historical version for that dataset.
 5. View Historical Data: Click "View" next to specific versions to see detailed historical data.
 
 ![](./img/open1.png)
