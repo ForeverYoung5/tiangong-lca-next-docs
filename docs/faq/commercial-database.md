@@ -4,8 +4,14 @@ sidebar_position: 5
 
 # 商业数据库获取
 
-如您需获取HiQLCD数据库事宜，请通过以下指定方式联络：
+本页用于说明商业数据库相关的获取与授权咨询方式。商业数据的具体内容、授权范围、交付方式和使用条件，以对应数据提供方确认为准。
 
-1. 邮件对接： [info@hiqlcd.com](mailto:info@hiqlcd.com)
-2. 微信对接：LZJ10247（备注"HiQLCD技术对接"）
-HiQLCD的LCAZ专家将解答您的任何问题！
+## HiQLCD 数据库咨询
+
+如需咨询 HiQLCD 数据库获取或授权事宜，请通过以下邮箱联系：
+
+- [wangym@hiqlcd.com](mailto:wangym@hiqlcd.com)
+
+## 其他商业数据
+
+如需了解其他商业数据的获取方式，请以平台页面展示的信息或对应数据提供方说明为准。

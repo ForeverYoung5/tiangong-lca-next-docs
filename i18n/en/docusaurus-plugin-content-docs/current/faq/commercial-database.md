@@ -4,9 +4,14 @@ sidebar_position: 5
 
 # Commercial Database Access
 
-For inquiries regarding HiQLCD database access, please contact us through the following channels:
+This page provides contact information for commercial database access and licensing inquiries. Dataset scope, licensing terms, delivery method, and usage conditions are determined by the corresponding data provider.
 
-1. Email: [info@hiqlcd.com](mailto:info@hiqlcd.com)  
-2. WeChat: LZJ10247 (Please add note "HiQLCD Technical Inquiry")
+## HiQLCD Inquiries
 
-Our LCA experts will be happy to assist you with any questions!
+For HiQLCD database access or licensing inquiries, contact:
+
+- [wangym@hiqlcd.com](mailto:wangym@hiqlcd.com)
+
+## Other Commercial Data
+
+For other commercial datasets, follow the information shown on the platform page or by the corresponding data provider.
