@@ -16,6 +16,7 @@ Within “My Data” you control the full lifecycle of TianGong LCA datasets. Th
    - Click the “Select” button next to the field.  
    - Use the tabs to switch categories.  
    - Tick the desired row (highlighted in purple).  
+   - To reference a historical version, open **All Versions** for that row, select the version, then save.  
    - Click “Save” to confirm and exit the panel.  
    ![](./img/choose.png)
 3. **Versioning**: Fill in the version number first and save a draft. Continue editing afterwards and save frequently to prevent data loss.
@@ -109,5 +110,5 @@ Custom unit groups or flow properties can introduce conversion issues or LCIA fa
 
 1. **Save drafts** frequently to avoid losing progress.  
 2. **Run `Data check`** on the process or model editor to validate required fields and references.  
-3. **Submit for review** and monitor the status via the message centre or the filters described in [Data Review](/en/user-guide/data-review).  
+3. **Submit for review** and monitor the status via the notification center or the filters described in [Data Review](/en/user-guide/data-review).  
 4. **Collaborate** by contributing the dataset to your team if others need to continue the work.

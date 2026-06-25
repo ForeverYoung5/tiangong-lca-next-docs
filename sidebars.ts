@@ -98,6 +98,7 @@ const sidebars: SidebarsConfig = {
         slug: '/integration',
       },
       items: [
+        'integration/cli',
         'MCP/lca_local',
         'MCP/lca_remote',
         'MCP/KB_remote',

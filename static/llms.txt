@@ -4,7 +4,7 @@ Public documentation index for TianGong LCA users, integrators, and AI retrieval
 
 Source site: https://docs.tiangong.earth
 Source repository: https://github.com/linancn/tiangong-lca-next-docs
-Source commit: dc4773ff60a995d3cf16ee38bcaa25bb4e05417c
+Source commit: b86f42ad154fae6069234f0ee657cafa58e0f302
 Publication scope: public Docusaurus docs only. Internal agent, plan, incident, TODO, and governance execution records are excluded.
 
 ## English (en)
@@ -24,6 +24,7 @@ Publication scope: public Docusaurus docs only. Internal agent, plan, incident, 
 - [Terminology Explanation](https://docs.tiangong.earth/en/faq/explanation) - Example: Company A commissions Research Institute B to carry out a life cycle assessment project. The research team (Team C) is responsible for generating the data, and the datase...
 - [Sources & Citation](https://docs.tiangong.earth/en/faq/sources-and-citation) - Ensure TianGong LCA datasets remain traceable and properly referenced.
 - [System Modelling](https://docs.tiangong.earth/en/faq/system-models) - Answers about building models in TianGong LCA and how it compares with other LCA tools.
+- [TianGong LCA CLI](https://docs.tiangong.earth/en/integration/cli) - Use the TianGong LCA CLI when you need repeatable scripts for search, data validation, process building, lifecycle model building, or batch review. The web UI is better for one-of...
 - [TianGong Knowledge Base MCP](https://docs.tiangong.earth/en/MCP/KB_remote) - Check the TianGong MCP Hub for updated knowledge-base tooling guides, scripts, and FAQs. The essentials are summarised below.
 - [TianGong LCA MCP (Local)](https://docs.tiangong.earth/en/MCP/lca_local) - Visit the TianGong MCP Hub for the latest plug-in samples, configuration scripts, and FAQs. This page summarises the key steps for local deployment.
 - [TianGong LCA MCP (Remote)](https://docs.tiangong.earth/en/MCP/lca_remote) - For the latest release notes, tooling samples, and integration tips, visit the TianGong MCP Hub. This page highlights the essentials for using the remote service.
@@ -62,6 +63,7 @@ Publication scope: public Docusaurus docs only. Internal agent, plan, incident, 
 - [名词解释](https://docs.tiangong.earth/faq/explanation) - 示例：某公司(CompanyA)委托研究机构(Research Institute B)开展一个生命周期评估项目。研究人员团队(TeamC)负责生成数据，并由该团队成员(Person D)录入数据集信息。数据完成后，由国际环境数据库协会(IEDA)进行注册备案。最终数据的所有权归公司(CompanyA)，但只有公司内部研究小组(Group E)可以排他性访...
 - [数据来源与引用](https://docs.tiangong.earth/faq/sources-and-citation) - 规范 TianGong LCA 数据的引用方式，提升溯源透明度。
 - [系统建模](https://docs.tiangong.earth/faq/system-models) - 回答在 TianGong LCA 中构建模型时与其他 LCA 软件的差异及注意事项。
+- [TianGong LCA CLI](https://docs.tiangong.earth/integration/cli) - TianGong LCA CLI 适合需要脚本化查询、数据校验、流程构建、生命周期模型构建或批量审查的用户。网页端适合单次交互操作；CLI 适合可重复的本地或流水线任务。
 - [天工知识库MCP](https://docs.tiangong.earth/MCP/KB_remote) - 如需查看知识库工具的最新说明、示例与常见问题，可访问天工MCP Hub。
 - [天工LCA MCP（本地）](https://docs.tiangong.earth/MCP/lca_local) - 访问天工MCP Hub获取最新插件示例、配置脚本与常见问题说明，下文概述本地部署的关键步骤。
 - [天工LCA MCP（远程）](https://docs.tiangong.earth/MCP/lca_remote) - 更多发布说明和工具示例可参阅天工MCP Hub，该站点持续更新远程服务的配置注意事项。

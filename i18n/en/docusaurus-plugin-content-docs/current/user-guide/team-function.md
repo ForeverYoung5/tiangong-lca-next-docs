@@ -20,7 +20,7 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 ### Create a team
 
 1. Click **Create Team**.  
-2. Provide a name, description, and (optionally) contact details.  
+2. Provide a name and description. **Publicize team information** is off by default; enable it only when others should be able to contact the team owner by email.  
 3. Confirm to become the team owner.
 
 ![Create team flow](img/create-team.png)
@@ -37,7 +37,7 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 
 1. **Send invitation**: Owners or admins search for a username and send an invite.  
    ![Send invitation](img/add-member.png) ![Invitation email detail](img/team-member-email.png)
-2. **Receive notification**: Invited users see a badge in the message centre; accepting joins them to the team.  
+2. **Receive notification**: Invited users see a badge in the notification center; accepting joins them to the team.  
    ![Invitation notification](img/team-invitation.png)
 3. **Collaborate**: New members gain access to team datasets and can contribute through “My Data → Contribute to team”.  
    ![Team data view](img/team-member-data.png)
@@ -64,7 +64,7 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 - **Why do contributed processes sometimes miss flow units?**  
   Ensure the underlying flows (not just the processes) are also contributed or shared; otherwise unit definitions remain private.
 - **Why didn’t my teammate receive an invitation?**  
-  Ask them to verify the message centre. If nothing appears, confirm the account ID and resend the invite.
+  Ask them to verify the notification center. If nothing appears, confirm the account ID and resend the invite.
 - **Why can’t I edit datasets directly in Team Data?**  
   Team Data is intentionally read-only to prevent conflicts. Copy the dataset to “My Data”, edit it there, and contribute the updated version back to the team.
 
