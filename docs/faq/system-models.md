@@ -9,6 +9,15 @@ description: 回答在 TianGong LCA 中构建模型时与其他 LCA 软件的差
 2. 打开“模型”模块，点击 `+` 创建模型，并通过右侧节点选择器将过程拖入画布。  
 3. 连接输入输出流，设置基准过程与基准流量，完成后保存。详细操作可参考[数据新建](../user-guide/create-my-data#create-model)。  
 
+## 平台如何为产品输入选择供应者？
+
+当产品输入交换没有显式连接到唯一 provider 时，TianGong LCA 会在求解快照中使用隐式区域供应组合。
+产品输入的 `exchange.location` 会优先作为供应区域；如果没有可用位置，则使用消费过程的位置作为默认供应区域。
+系统先选择最合适的地理层级，再在该层级内按 provider 过程的年供应量或年产量分配份额。
+
+这类分配只决定一条输入需求由哪些 provider 承担，不会放大或缩小该输入的总需求量。如果某个 provider
+缺少有效年量，系统会使用默认正权重保留它，并在覆盖率或 provider linking 诊断中暴露 fallback 情况。
+
 ## 与其他 LCA 软件相比有哪些差异？
 
 | 关注点 | TianGong LCA | 传统桌面软件（如 SimaPro、GaBi、openLCA 等） |

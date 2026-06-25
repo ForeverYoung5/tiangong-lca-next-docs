@@ -271,16 +271,19 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 
 ### 流程数据集字段兼容性
 
-导入流程会按照当前 TIDAS schema 校验 `processes/*.json`。准备流程数据集时，特别注意
-`processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness` 下的
-`annualSupplyOrProductionVolume`：
+导入流程会按照当前 TIDAS schema 校验 `processes/*.json`。准备流程数据集时，特别注意以下字段：
 
-- 该字段现在是必填项
-- 值应按 TIDAS `Real` 类型提供，也就是可解析为数字的字符串，例如 `"123.45"` 或 `"1.2E3"`
-- 不要再把该字段写成 `StringMultiLang` 多语言文本对象
+- `processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness.annualSupplyOrProductionVolume`
+  现在是必填项，值应使用字段专用的多语言文本结构。每个 `#text` 需要以可解析的数字开头，并保留
+  单位或上下文后缀，例如 `"123.45 kg/year"` 或 `"1.2E3 kg/year"`。
+- 不要把 `annualSupplyOrProductionVolume` 写成只有数字的旧字符串，也不要省略单位 / 上下文后缀。
+- `processDataSet.exchanges.exchange[].location` 推荐使用 TIDAS / ILCD location category code，例如
+  `CN`、`CN-BJ`、`RER` 或 `GLO`。为兼容外部历史数据，系统仍接受非空普通字符串。
+- `exchange.location` 不是多语言文本；不要提交 `StringMultiLang` 对象或数组。对于产品输入交换，
+  该字段还会作为后续 provider linking 的显式 supply-region anchor。
 
-如果仍使用旧格式，导入报告会返回 `schema_error`，并在 `file_path`、`location` 和 `message`
-中指出对应的流程文件与字段位置。
+如果字段形状或取值不符合当前 schema，导入报告会返回 `schema_error`，并在 `file_path`、
+`location` 和 `message` 中指出对应的流程文件与字段位置。
 
 ## 常见注意事项
 

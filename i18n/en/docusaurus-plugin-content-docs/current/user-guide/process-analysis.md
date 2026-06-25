@@ -168,6 +168,15 @@ The result area typically includes:
 
 Use this tab when you need to understand which upstream paths dominate the impact.
 
+Contribution paths expand the provider-linking results in the current solver
+snapshot. For product input exchanges, `exchange.location` can set the supply
+region. If no explicit location is available, the consumer process location is
+used as the default supply-region anchor. When multiple providers are available,
+the system chooses the geography tier first, then weights providers by annual
+supply or production volume inside that tier. Missing or invalid annual volume
+uses a default positive weight. This split changes the upstream provider mix; it
+does not change the total demand of the input exchange.
+
 ## Relation to Task Center
 
 Some analyses can trigger background solving work. If processing takes longer, keep an eye on the
