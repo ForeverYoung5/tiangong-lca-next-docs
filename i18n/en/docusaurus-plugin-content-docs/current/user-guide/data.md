@@ -28,6 +28,9 @@ These elements appear in every module, but permissions differ.
 | **Team Data** | Team members | Share and reuse collaborative assets | Read-only | Discover, reference, copy to My Data |
 
 > Open Data and Commercial Data cannot be edited directly. Copy them to [My Data](/en/user-guide/create-my-data) before making changes.
+>
+> Data lists and search results show the **latest visible version** for each dataset ID by default.
+> Use **View versions** on a row when you need to inspect history.
 
 ## Module details
 
@@ -35,7 +38,7 @@ These elements appear in every module, but permissions differ.
 
 - Audited, standardised lifecycle datasets curated by the TianGong team.  
 - Ideal for research, referencing, and comparison.  
-- Supports search, filtering, copy, and export.
+- Supports search, filtering, copy, and export; list results show the latest published version for each dataset.
 
 ### Commercial Data
 
@@ -46,7 +49,7 @@ These elements appear in every module, but permissions differ.
 ### My Data
 
 - Your main authoring workspace for models, processes, flows, unit groups, sources, and contacts.  
-- Supports drafts, imports/exports, versioning, and team contributions.  
+- Supports drafts, imports/exports, versioning, and team contributions; ordinary lists prefer the latest visible version.  
 - See [Create My Data](/en/user-guide/create-my-data) and [Data Use](/en/user-guide/data-use) for detailed workflows.  
 - ⚠️ Prefer the platform’s standard unit groups and flow properties to avoid LCIA compatibility issues.
 
