@@ -54,7 +54,7 @@ The **Change Email** tab shows your current email and asks for:
 - Confirm new email
 
 After submission, the platform sends a verification email to the new address. Check both your inbox
-and notification centre until the change is confirmed.
+and the [notification center](./notifications) until the change is confirmed.
 
 ![Change Email](./img/change-email.png)
 

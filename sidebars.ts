@@ -46,6 +46,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'user-guide/overview',
         'user-guide/key-functions-introduction',
+        'user-guide/notifications',
         'user-guide/tidas-zip-workflows',
         'user-guide/data',
         'user-guide/create-my-data',

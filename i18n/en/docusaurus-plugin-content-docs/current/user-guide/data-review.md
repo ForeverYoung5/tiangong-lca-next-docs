@@ -29,7 +29,7 @@ first, then submit again.
 | Author | Model data, self-check, submit for review, revise after feedback | My Data |
 | Review member (`review-member`) | Review assigned tasks and submit review comments | Avatar menu → Review Management |
 | Review admin (`review-admin`) | Assign work, track progress, manage review members, approve or reject the full review | Avatar menu → Review Management |
-| Team admin | Coordinate with authors and help track project progress | My Team, notification centre |
+| Team admin | Coordinate with authors and help track project progress | My Team, [notification center](./notifications) |
 
 > Review roles and team roles are different permission systems. A person may have both, or only one
 > of them.
@@ -141,8 +141,8 @@ Even if an author does not have a review role, they should still understand the 
 4. Revise according to review feedback
 5. Resubmit if necessary
 
-Also watch the **Data Notifications** tab in the top-right notification centre so that review
-feedback is not missed.
+Also watch the **Data Notifications** tab in the top-right [notification center](./notifications) so
+that review feedback is not missed.
 
 ## Status filters
 
