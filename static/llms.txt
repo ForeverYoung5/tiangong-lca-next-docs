@@ -4,7 +4,7 @@ Public documentation index for TianGong LCA users, integrators, and AI retrieval
 
 Source site: https://docs.tiangong.earth
 Source repository: https://github.com/linancn/tiangong-lca-next-docs
-Source commit: 854fc9112fd7a68ff0ea285739b8b805f8d514d1
+Source commit: 51c427778d3d4b3290b310916b1c5a11d820423f
 Publication scope: public Docusaurus docs only. Internal agent, plan, incident, TODO, and governance execution records are excluded.
 
 ## English (en)
