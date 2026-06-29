@@ -55,6 +55,24 @@ tiangong-lca lifecyclemodel --help
 tiangong-lca review --help
 ```
 
+## Automation Gates
+
+For data-production pipelines, the CLI also provides quality-gate commands that are useful before writing data, publishing data, or handing work to a reviewer:
+
+```bash
+tiangong-lca process identity-preflight --input ./process-preflight.json --out-dir ./process-preflight --json
+tiangong-lca flow identity-preflight --input ./flow-preflight.json --out-dir ./flow-preflight --json
+tiangong-lca process build-plan validate --input ./process-build-plan.json --out-dir ./process-build-plan --json
+tiangong-lca flow build-plan validate --input ./flow-build-plan.json --out-dir ./flow-build-plan --json
+tiangong-lca publish run --input ./publish-request.json --dry-run --json
+```
+
+- `identity-preflight` compares a target process or flow with candidate data and reports whether automation can reuse it, should route it to manual review, or should block new creation.
+- `build-plan validate` checks whether a process or flow build plan includes identity decisions, evidence bindings, naming plans, and the required reference-flow or flow-property fields.
+- `publish run --dry-run` reports publish ruleset results before a real write or publish step.
+
+These commands write machine-readable reports under `outputs/` or `reports/` in the selected `--out-dir`. For automation, read fields such as `status`, `blockers`, `issues`, `files`, and artifact paths instead of relying on terminal text.
+
 ## Validation and failure reports
 
 `dataset validate`, `process save-draft`, `lifecyclemodel save-draft`, and related repair commands run local TIDAS schema validation before writing data. When fast validation fails, the current CLI uses SDK-backed deep validation to provide more specific issue paths and messages.

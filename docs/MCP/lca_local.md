@@ -72,6 +72,19 @@ sidebar_position: 3
     npx -p @tiangong-lca/mcp-server tiangong-lca-mcp-http-local
     ```
 
+4. 可选 GLAD 数据集查询配置
+
+    如果需要在 MCP 工具中查询 GLAD（Global LCA Data Access）数据集，请在启动 MCP Server 前配置服务器环境变量：
+
+    ```bash
+    GLAD_API_KEY=your-glad-api-key
+    GLAD_API_BASE_URL=https://www.globallcadataaccess.org/api/v1
+    ```
+
+    `GLAD_API_BASE_URL` 通常保持默认值；只有在您的运行环境需要访问兼容代理或私有网关时才需要覆盖。GLAD 工具依赖服务器端 API Key，不要把密钥写入公开文档、聊天记录或共享配置。
+
+    配置后，工具列表中会出现 `Search_GLAD_Datasets_Tool` 和 `Get_GLAD_Dataset_Tool`。前者可按关键词、行业、格式、地区或公开可访问性筛选数据集描述；后者可通过 `refId` 和 `dataProvider` 获取单个 GLAD 数据集描述。这些工具返回的是 GLAD 数据集元数据与访问描述，不等同于把数据集导入 TianGong LCA。需要导入或转换时，请继续使用 TIDAS ZIP 或对应转换工具链。
+
 ## MCP Server的调用
 
 ### Inspector

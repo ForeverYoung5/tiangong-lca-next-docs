@@ -57,6 +57,10 @@ npx @modelcontextprotocol/inspector
 
     ![](img/12.png)
 
+If the remote MCP service has GLAD dataset search enabled, the tool list also includes `Search_GLAD_Datasets_Tool` and `Get_GLAD_Dataset_Tool`. For remote usage, you still configure only the TianGong MCP Bearer token described on this page; the GLAD API key is configured on the remote server. If the tools are not listed, the current remote service usually has not enabled GLAD integration.
+
+GLAD query tools are for finding external LCA dataset metadata and access descriptions. They do not automatically write external data into TianGong LCA. Use the TIDAS ZIP workflow or the appropriate conversion toolchain when you need to migrate or import data.
+
 ### Cherry Studio
 
 At the [Cherry Studio official website](https://www.cherry-ai.com/download), follow the [official documentation](https://docs.cherry-ai.com/pre-basic/installation) to download the software to your local machine and open it.
