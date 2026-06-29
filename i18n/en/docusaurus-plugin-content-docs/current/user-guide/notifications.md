@@ -9,6 +9,8 @@ collaboration, data review, and issue feedback. To confirm the entry point first
 Select the notification icon in the top toolbar. The notification center is a global entry point and
 does not depend on the current page.
 
+![Notification center entry and dialog](./img/notification.png)
+
 The notification center currently contains three tabs:
 
 - **Team Notifications**: collaboration reminders such as team invitations.
