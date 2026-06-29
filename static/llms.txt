@@ -4,7 +4,7 @@ Public documentation index for TianGong LCA users, integrators, and AI retrieval
 
 Source site: https://docs.tiangong.earth
 Source repository: https://github.com/linancn/tiangong-lca-next-docs
-Source commit: b86f42ad154fae6069234f0ee657cafa58e0f302
+Source commit: 276003646592c29faac905e002f779c7f6427f73
 Publication scope: public Docusaurus docs only. Internal agent, plan, incident, TODO, and governance execution records are excluded.
 
 ## English (en)
@@ -38,6 +38,7 @@ Publication scope: public Docusaurus docs only. Internal agent, plan, incident, 
 - [Data Usage Guide](https://docs.tiangong.earth/en/user-guide/data-use) - 1. Open Data Panel: Locate the left navigation bar and click "Open Data" or "Commercial Data" to activate the data management interface. 2. Navigate Process Directory: Select targ...
 - [Key Functions Overview](https://docs.tiangong.earth/en/user-guide/key-functions-introduction) - This guide groups the most important interface controls by scenario. If you are looking for the ZIP package workflow specifically, continue with TIDAS ZIP Import, Export, and Task...
 - [LCIA Calculation & Results](https://docs.tiangong.earth/en/user-guide/lcia) - This page covers the two common LCIA usage patterns in TianGong LCA:
+- [Notification Center](https://docs.tiangong.earth/en/user-guide/notifications) - The notification center sits in the top-right toolbar after sign-in. It collects reminders for team collaboration, data review, and issue feedback. To confirm the entry point firs...
 - [User Guide Map](https://docs.tiangong.earth/en/user-guide/overview) - Orient different roles to the right TianGong LCA tutorials and best practices.
 - [Permissions & Data Spaces](https://docs.tiangong.earth/en/user-guide/permissions-and-data-scopes) - Consolidate the main access boundaries for Open Data, Commercial Data, My Data, Team Data, review roles, and system roles.
 - [Process Analysis Workspace](https://docs.tiangong.earth/en/user-guide/process-analysis) - Explain the LCA Analysis workspace in My Data → Processes, including profile, comparison, grouped results, and contribution-path analysis.
@@ -77,6 +78,7 @@ Publication scope: public Docusaurus docs only. Internal agent, plan, incident, 
 - [数据使用](https://docs.tiangong.earth/user-guide/data-use) - 1. 展开数据面板：定位左侧导航栏，单击“开放数据”或“商业数据”，激活数据管理界面。 2. 定位过程目录：在分级列表中选中目标条目，页面跳转至相应数据空间。 3. 查看数据：数据列表和搜索结果默认展示每个数据集 ID 的最新可见版本。点击相应数据列表右侧的“查看”键，可查看数据的全维度信息。包含地理位置坐标、时间戳范围、系统边界、输入输出清单、所属行业与...
 - [按键功能介绍](https://docs.tiangong.earth/user-guide/key-functions-introduction) - 本文按使用场景归纳界面中的常用按钮，重点覆盖顶部全局控件、数据列表操作以及协作入口。 如果您要处理 TIDAS ZIP 数据包，请继续阅读 TIDAS ZIP 导入、导出与任务中心。
 - [LCIA 计算与结果查看](https://docs.tiangong.earth/user-guide/lcia) - 本页说明 TianGong LCA 中两类常见的 LCIA（生命周期影响评价）使用方式：
+- [通知中心](https://docs.tiangong.earth/user-guide/notifications) - 通知中心位于登录后界面右上角顶部工具条，用于集中查看团队协作、数据审核和问题反馈相关提醒。 如果您只想确认入口位置，可以先查看 按键功能介绍。
 - [用户指南导航](https://docs.tiangong.earth/user-guide/overview) - 帮助不同角色快速定位到 TianGong LCA 用户文档中的操作指南与最佳实践。
 - [权限与数据空间矩阵](https://docs.tiangong.earth/user-guide/permissions-and-data-scopes) - 汇总 Open Data、Commercial Data、My Data、Team Data，以及审核角色和系统角色的主要权限边界。
 - [过程分析工作区](https://docs.tiangong.earth/user-guide/process-analysis) - 说明“我的数据 → 过程”中的 LCA Analysis 工作区，包括过程画像、影响比较、分组结果和贡献路径分析。
