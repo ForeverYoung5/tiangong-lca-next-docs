@@ -56,6 +56,13 @@ npx @modelcontextprotocol/inspector
 
     ![](img/12.png)
 
+如果远程 MCP 服务启用了 GLAD 数据集查询能力，工具列表中还会出现 `Search_GLAD_Datasets_Tool`
+和 `Get_GLAD_Dataset_Tool`。远程使用时，您仍然只需要按本页配置 TianGong MCP 的 Bearer token；
+GLAD API Key 由远程服务端配置。若列表中没有这些工具，通常表示当前远程服务尚未启用 GLAD 集成。
+
+GLAD 查询工具用于查找外部 LCA 数据集的元数据和访问描述，不会自动把外部数据写入 TianGong LCA。
+需要迁移或导入数据时，请使用 TIDAS ZIP 流程或相应转换工具链。
+
 ### Cherry Studio
 
 在[Cherry Studio官网](https://www.cherry-ai.com/download)，参照[官方文档](https://docs.cherry-ai.com/pre-basic/installation)下载软件至本地并打开。  

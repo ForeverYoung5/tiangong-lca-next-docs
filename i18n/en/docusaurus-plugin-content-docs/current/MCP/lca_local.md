@@ -72,6 +72,19 @@ Depending on your system type, download nvm to your local machine from the corre
     npx -p @tiangong-lca/mcp-server tiangong-lca-mcp-http-local
     ```
 
+4. Optional GLAD dataset search configuration
+
+    To query GLAD (Global LCA Data Access) datasets from MCP tools, configure these server environment variables before starting MCP Server:
+
+    ```bash
+    GLAD_API_KEY=your-glad-api-key
+    GLAD_API_BASE_URL=https://www.globallcadataaccess.org/api/v1
+    ```
+
+    `GLAD_API_BASE_URL` usually stays at the default value. Override it only when your runtime must use a compatible proxy or private gateway. GLAD tools depend on a server-side API key; do not put the key in public docs, chat logs, or shared configuration.
+
+    After configuration, the tool list includes `Search_GLAD_Datasets_Tool` and `Get_GLAD_Dataset_Tool`. Use the search tool to filter dataset descriptors by keyword, sector, format, geography, or public accessibility. Use the get tool with `refId` and `dataProvider` to fetch one GLAD dataset descriptor. These tools return GLAD dataset metadata and access descriptions. They do not import the dataset into TianGong LCA. Use the TIDAS ZIP workflow or the appropriate conversion toolchain when you need to import or convert data.
+
 ## MCP Server Invocation
 
 ### Inspector

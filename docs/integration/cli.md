@@ -55,6 +55,25 @@ tiangong-lca lifecyclemodel --help
 tiangong-lca review --help
 ```
 
+## 自动化质量门
+
+面向数据生产流水线时，CLI 还提供了一组适合在写入、发布或人工交接前运行的质量门命令：
+
+```bash
+tiangong-lca process identity-preflight --input ./process-preflight.json --out-dir ./process-preflight --json
+tiangong-lca flow identity-preflight --input ./flow-preflight.json --out-dir ./flow-preflight --json
+tiangong-lca process build-plan validate --input ./process-build-plan.json --out-dir ./process-build-plan --json
+tiangong-lca flow build-plan validate --input ./flow-build-plan.json --out-dir ./flow-build-plan --json
+tiangong-lca publish run --input ./publish-request.json --dry-run --json
+```
+
+- `identity-preflight` 会把目标过程或流与候选数据对比，输出是否可自动复用、需要人工复核或应阻止新建的判定。
+- `build-plan validate` 用于检查过程或流构建计划是否包含身份判定、证据绑定、名称计划和必要的参考流 / 流属性信息。
+- `publish run --dry-run` 会输出发布规则集的校验结果，适合在真正写入或发布前做流水线拦截。
+
+这些命令会把机器可读报告写入 `--out-dir` 下的 `outputs/` 或 `reports/` 目录。接入自动化时，应优先读取报告中的
+`status`、`blockers`、`issues`、`files` 和具体制品路径。
+
 ## 校验与失败报告
 
 `dataset validate`、`process save-draft`、`lifecyclemodel save-draft` 以及相关修复命令会先进行本地 TIDAS schema 校验。当前 CLI 在快速校验失败后，会使用 SDK 的深度校验补充更具体的问题路径和消息。
