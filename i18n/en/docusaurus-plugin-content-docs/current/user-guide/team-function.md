@@ -35,7 +35,7 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 
 ## Invitation workflow
 
-1. **Send invitation**: Owners or admins search for a username and send an invite.  
+1. **Send invitation**: Owners or admins enter a registered user's email address and send an invite.  
    ![Send invitation](img/add-member.png) ![Invitation email detail](img/team-member-email.png)
 2. **Receive notification**: Invited users see a badge in the notification center; accepting joins them to the team.  
    ![Invitation notification](img/team-invitation.png)
@@ -64,7 +64,7 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 - **Why do contributed processes sometimes miss flow units?**  
   Ensure the underlying flows (not just the processes) are also contributed or shared; otherwise unit definitions remain private.
 - **Why didn’t my teammate receive an invitation?**  
-  Ask them to verify the notification center. If nothing appears, confirm the account ID and resend the invite.
+  Ask them to verify the notification center. If nothing appears, confirm that the email belongs to a registered account, that the user is not already in another team, and that they do not have another pending team invitation. If they previously rejected this team's invite, use **Re-invite** from the member list.
 - **Why can’t I edit datasets directly in Team Data?**  
   Team Data is intentionally read-only to prevent conflicts. Copy the dataset to “My Data”, edit it there, and contribute the updated version back to the team.
 

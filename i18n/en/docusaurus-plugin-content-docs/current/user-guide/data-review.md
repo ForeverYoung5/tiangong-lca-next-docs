@@ -22,6 +22,12 @@ first, then submit again.
 
 ![Submission validation prompt](img/data-problem.png)
 
+Review submission also passes through the **numeric stability gate**. If the platform says the task
+is queued, the gate is running, or submission is still being processed in the background, click
+**Submit for review** again later to refresh the latest state. The dataset enters review only after
+the gate passes. If the gate is blocked, stale, or cannot finish, follow the message, save the
+corrected process data, and submit again.
+
 ## Who does what
 
 | Role | Primary responsibility | Main entry |

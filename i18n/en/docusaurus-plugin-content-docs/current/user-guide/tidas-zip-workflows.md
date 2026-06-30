@@ -151,6 +151,10 @@ Inside Task Center you can usually:
 - **Details**: inspect IDs, timestamps, filenames, and other metadata
 - **Remove**: remove a record from the local task list
 
+Export ZIP files, uploaded import sources, and report files in Task Center are not long-term
+archives. Download any files you need to keep soon after the task finishes. If an older download
+link has expired, run the import or export again to generate a fresh result file.
+
 ### A common export failure
 
 One common failure is an export package that exceeds the environment's large-file upload limit.
