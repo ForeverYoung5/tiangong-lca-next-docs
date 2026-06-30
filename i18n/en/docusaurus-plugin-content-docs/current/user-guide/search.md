@@ -8,8 +8,9 @@ The TianGong LCA Platform provides powerful full-text search capabilities, suppo
 
 ## Search Features
 
-- **Full-text search**: Deep search across all fields including but not limited to name, category, flow properties and other key fields
-- **Smart matching**: Supports fuzzy search, exact matching and AI-powered recommendations
+- **Full-text search**: Searches names, categories, flow properties, input/output flow names, and system-extracted text fields
+- **Smart matching**: Supports fuzzy search, exact matching, and AI-powered recommendations; hybrid search keeps Chinese and English keywords or aliases in recall and falls back to text recall when semantic matches are insufficient
+- **Scope and filters**: Results follow the current data source scope, such as TianGong public data, commercial data, my data, or team data, plus the active filters
 - **Real-time results**: Instant search results with multi-dimensional filtering and flexible sorting
 
 ## Search Examples
@@ -31,6 +32,7 @@ Search results for "coal":
 
 ## Important Notes
 
-- Search results are subject to user permissions
+- Search results are subject to user permissions; "my data" and "team data" searches only return records the signed-in user can access
 - Commercial data module only displays metadata search results
+- Chinese terms, English terms, common abbreviations, and CAS numbers can use standardized aliases to improve recall stability
 - Using standard classification systems improves search efficiency
