@@ -20,7 +20,7 @@ checkPaths:
   - scripts/check-publication-scope.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-06-29
+lastReviewedAt: 2026-06-30
 lastReviewedCommit: 343f5b408d9ed74bc646171dbd6a3c14ca92adfb
 related:
   - i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md

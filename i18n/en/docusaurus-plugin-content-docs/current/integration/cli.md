@@ -42,6 +42,8 @@ tiangong-lca search process --input ./search-process.request.json --json
 tiangong-lca flow get --id <flow-id> --version <version> --json
 tiangong-lca process list --state-code 100 --limit 20 --json
 tiangong-lca dataset validate --input ./rows.jsonl --type auto --out-dir ./dataset-validate --json
+tiangong-lca dataset evidence-search plan --query "China 2026 electricity mix data" --out-dir ./evidence-search --json
+tiangong-lca dataset evidence-search run --input ./evidence-search.request.json --results ./search-results.json --out-dir ./evidence-search --json
 tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./process-save-draft --dry-run --json
 tiangong-lca lifecyclemodel validate-build --run-dir ./lifecyclemodel-run --json
 ```
@@ -68,7 +70,8 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 ```
 
 - `identity-preflight` compares a target process or flow with candidate data and reports whether automation can reuse it, should route it to manual review, or should block new creation.
-- `build-plan validate` checks whether a process or flow build plan includes identity decisions, evidence bindings, naming plans, and the required reference-flow or flow-property fields.
+- `build-plan validate` checks whether a process or flow build plan includes identity decisions, evidence bindings, naming plans, `unit_of_analysis` decisions, and the required reference-flow or flow-property fields.
+- `dataset evidence-search plan/run` plans field-level public evidence retrieval and records external search results; the CLI owns the query matrix, budget, result normalization, and evidence declaration artifacts, while human or agent workflows still own source judgement.
 - `publish run --dry-run` reports publish ruleset results before a real write or publish step.
 
 These commands write machine-readable reports under `outputs/` or `reports/` in the selected `--out-dir`. For automation, read fields such as `status`, `blockers`, `issues`, `files`, and artifact paths instead of relying on terminal text.
@@ -82,5 +85,6 @@ That means:
 - data that passes validation still uses the fast path;
 - invalid data should return more actionable field paths, issue codes, and messages;
 - before any `--commit` write, schema-invalid rows are blocked and recorded in `failures.jsonl` or the validation report under the output directory.
+- `dataset evidence-search run` writes the search plan, normalized results, report, and, when evidence is insufficient or partial, an evidence declaration JSON under `outputs/`.
 
 For pipeline integrations, read JSON fields such as `status`, `counts`, `issues`, `files`, and generated `outputs/**` artifacts instead of relying only on terminal text.

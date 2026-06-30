@@ -42,6 +42,8 @@ tiangong-lca search process --input ./search-process.request.json --json
 tiangong-lca flow get --id <flow-id> --version <version> --json
 tiangong-lca process list --state-code 100 --limit 20 --json
 tiangong-lca dataset validate --input ./rows.jsonl --type auto --out-dir ./dataset-validate --json
+tiangong-lca dataset evidence-search plan --query "中国2026年电力结构数据" --out-dir ./evidence-search --json
+tiangong-lca dataset evidence-search run --input ./evidence-search.request.json --results ./search-results.json --out-dir ./evidence-search --json
 tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./process-save-draft --dry-run --json
 tiangong-lca lifecyclemodel validate-build --run-dir ./lifecyclemodel-run --json
 ```
@@ -68,7 +70,8 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 ```
 
 - `identity-preflight` 会把目标过程或流与候选数据对比，输出是否可自动复用、需要人工复核或应阻止新建的判定。
-- `build-plan validate` 用于检查过程或流构建计划是否包含身份判定、证据绑定、名称计划和必要的参考流 / 流属性信息。
+- `build-plan validate` 用于检查过程或流构建计划是否包含身份判定、证据绑定、名称计划、`unit_of_analysis` 决策和必要的参考流 / 流属性信息。
+- `dataset evidence-search plan/run` 用于规划字段级公开证据检索并记录外部搜索结果；CLI 负责查询矩阵、预算、结果归一化和证据声明制品，来源判断仍需由人工或 agent 工作流完成。
 - `publish run --dry-run` 会输出发布规则集的校验结果，适合在真正写入或发布前做流水线拦截。
 
 这些命令会把机器可读报告写入 `--out-dir` 下的 `outputs/` 或 `reports/` 目录。接入自动化时，应优先读取报告中的
@@ -83,5 +86,6 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 - 校验通过的数据仍走快速路径；
 - 校验失败的数据会尽量返回更可操作的字段路径、错误码和消息；
 - `--commit` 写入前仍会拦截 schema-invalid 行，并把失败明细写入输出目录中的 `failures.jsonl` 或校验报告。
+- `dataset evidence-search run` 会在 `outputs/` 中写出检索计划、归一化结果、报告，以及在证据不足或只有部分时写出证据声明 JSON。
 
 如果要把 CLI 结果接入流水线，请读取 JSON 输出中的 `status`、`counts`、`issues`、`files` 和各命令生成的 `outputs/**` 制品，而不是只依赖终端文本。
