@@ -144,6 +144,8 @@ Even if an author does not have a review role, they should still understand the 
 
 1. Finish modelling and self-check in **My Data**
 2. Click **Submit for review**
+   - If submission creates a background task, track it in the top-right **Task Center** before
+     waiting for assignment or feedback.
 3. Wait for a review admin to assign reviewers
 4. Revise according to review feedback
 5. Resubmit if necessary
