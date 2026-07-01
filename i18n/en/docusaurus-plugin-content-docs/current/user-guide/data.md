@@ -32,10 +32,10 @@ These elements appear in every module, but permissions differ.
 > Data lists and search results show the **latest visible version** for each dataset ID by default.
 > Use **View versions** on a row when you need to inspect history.
 >
-> If you have copied a dataset ID, paste the complete ID into the search box on Contacts, Sources,
-> Unit groups, Flow properties, Flows, Processes, or Models lists, then click **Find data containing this ID**.
+> If you have copied a dataset ID, enable **Reference Lookup** on Contacts, Sources, Unit groups,
+> Flow properties, Flows, Processes, or Models lists, then search with the complete dataset UUID.
 > This shows records in the current data space that reference that ID, subject to the same source,
-> team, and permission limits.
+> team, and permission limits, with up to the first 50 reference lookup results shown.
 
 ## Module details
 
