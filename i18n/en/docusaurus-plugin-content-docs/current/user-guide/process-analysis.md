@@ -174,8 +174,11 @@ region. If no explicit location is available, the consumer process location is
 used as the default supply-region anchor. When multiple providers are available,
 the system chooses the geography tier first, then weights providers by annual
 supply or production volume inside that tier. Missing or invalid annual volume
-uses a default positive weight. This split changes the upstream provider mix; it
-does not change the total demand of the input exchange.
+uses a default positive weight. Only a quantitative reference output is treated
+as an eligible provider for that product flow; same-`flow_id` non-reference
+outputs are recorded only as diagnostic candidates. This split changes the
+upstream provider mix; it does not change the total demand of the input
+exchange.
 
 ## Relation to Task Center
 

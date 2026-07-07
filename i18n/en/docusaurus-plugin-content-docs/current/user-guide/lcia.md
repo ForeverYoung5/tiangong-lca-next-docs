@@ -116,6 +116,12 @@ Common causes include:
 - Missing, invalid, or non-positive annual volume uses a default positive
   weight. When investigating, check snapshot coverage and provider-linking
   diagnostics for fallback counts and supply-region sources
+- Automatic provider linking treats only a quantitative reference output as an
+  eligible provider for that product flow. Same-`flow_id` non-reference outputs
+  are recorded only as diagnostic candidates and do not automatically enter the
+  supply mix. If diagnostics report `rejected_non_reference_only`, repair the
+  reference output, add provider data, or model the market / co-product process
+  explicitly before recalculating.
 
 ### Why should I use Process Analysis instead?
 

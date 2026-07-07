@@ -18,12 +18,18 @@ LCA uses an implicit regional supply mix in the solver snapshot.
 no usable exchange location exists, the consumer process location is used as the
 default supply-region anchor. The system chooses the best geography tier first,
 then weights providers inside that tier by their annual supply or production
-volume.
+volume. Automatic linking treats only a quantitative reference output as an
+eligible provider for that product flow; a same-`flow_id` non-reference output
+does not automatically enter the provider set only because it has an amount or
+allocation fraction.
 
 This allocation decides which providers carry one input demand; it does not
 increase or reduce the total amount of that input. If a provider has no valid
 annual volume, the system keeps it with a default positive weight and exposes
 the fallback in snapshot coverage or provider-linking diagnostics.
+If every same-flow candidate is a non-reference output, diagnostics expose the
+input as `rejected_non_reference_only`; repair the reference output, add
+provider data, or model the market / co-product process explicitly.
 
 ## How does TianGong LCA differ from other LCA platforms?
 
