@@ -90,18 +90,18 @@ Once the groundwork is complete, move on to processes and models.
 
 ## Unit groups & flow properties (advanced)
 
-Custom unit groups or flow properties can introduce conversion issues or LCIA failures. Use them only when absolutely necessary.
+Custom unit groups or flow properties can introduce conversion issues or LCIA failures. Use them only when absolutely necessary. In **My Data**, unit group and flow property creation, import, copy, and similar maintenance entry points are available only to system administrators; if the page says they need to be added or supplemented, contact an administrator.
 
 ### Create a unit group
 
-1. Open **My Data → Unit groups** and click `+`.  
+1. If you are a system administrator, open **My Data → Unit groups** and click `+`. Other users should contact an administrator when unit groups need to be added or supplemented.  
 2. Fill in “Unit group information”, “Modelling & validation”, and “Management information”.  
 3. Under **Units**, add each unit, define conversion factors, and mark the reference unit (e.g. `kg` in a mass group).  
    ![](./img/unitgroup.png)
 
 ### Create a flow property
 
-1. Open **My Data → Flow properties** and click `+`.  
+1. If you are a system administrator, open **My Data → Flow properties** and click `+`. Other users should contact an administrator when flow properties need to be added or supplemented.  
 2. Complete “Flow property information”, “Modelling & validation”, and “Management information”.  
 3. Align the property category (technical / chemical / economic / other) with a compatible unit group.  
 4. For updated datasets, link the previous version in “Management information”.
