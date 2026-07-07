@@ -135,13 +135,15 @@ handled by the task center rather than the export dialog itself.
 
 ### What it shows
 
-Task Center is the shared background-job panel in the top bar. It currently combines:
+Task Center is the shared background-job panel in the top bar. It now combines several task types:
 
 - **LCA** tasks
 - **TIDAS Export** tasks
+- **TIDAS Import** tasks
+- **Review Submit** tasks
 
-> The current web import flow does not create a task-center item. Import feedback stays inside the
-> import modal.
+The import modal still returns the current operation result. When import work enters the background
+task flow, Task Center shows the validation, import, and report stages.
 
 ### Common actions
 
@@ -150,7 +152,8 @@ Inside Task Center you can usually:
 - **Clear finished**
 - **Download**: available only for completed TIDAS export jobs
 - **Details**: inspect IDs, timestamps, filenames, and other metadata
-- **Remove**: remove a record from the local task list
+- **Diagnostics**: inspect failure reasons, backend task IDs, or request context
+- **View**: open task details and confirm progress, stages, and available actions
 
 ### A common export failure
 
