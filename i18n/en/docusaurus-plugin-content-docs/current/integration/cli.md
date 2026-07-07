@@ -85,6 +85,8 @@ That means:
 - data that passes validation still uses the fast path;
 - invalid data should return more actionable field paths, issue codes, and messages;
 - before any `--commit` write, schema-invalid rows are blocked and recorded in `failures.jsonl` or the validation report under the output directory.
+- For batch draft writes, pass `--target-user-id` with `process save-draft --commit`. The CLI verifies the current auth session and any visible draft owner before writing, while readback verification still proves the final owner and payload.
+- `dataset classification apply --type location` can create the missing parent object and target field when `target_path` explicitly points at a schema-derived location field. Ambiguous paths or non-location fields still block.
 - `dataset evidence-search run` writes the search plan, normalized results, report, and, when evidence is insufficient or partial, an evidence declaration JSON under `outputs/`.
 
 For pipeline integrations, read JSON fields such as `status`, `counts`, `issues`, `files`, and generated `outputs/**` artifacts instead of relying only on terminal text.

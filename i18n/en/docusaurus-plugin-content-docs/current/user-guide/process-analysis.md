@@ -182,8 +182,16 @@ exchange.
 
 ## Relation to Task Center
 
-Some analyses can trigger background solving work. If processing takes longer, keep an eye on the
-shared [TIDAS ZIP Import, Export, and Task Center](./tidas-zip-workflows) guidance.
+Some analyses can trigger background solving work. If processing takes longer, keep an eye on
+**Task Center** in the top bar:
+
+- Task Center combines **LCA Calculation**, TIDAS import/export, and review-submit background jobs in one panel.
+- You can switch by task type, and the panel uses progress bars, status tags, and stage labels to show current progress.
+- Use **View** or **Details** to inspect result IDs, snapshot IDs, task IDs, failure reasons, and diagnostics.
+- Finished tasks can be cleared; failed tasks should be opened first so you can decide whether to rerun the related analysis.
+
+If you are working with TIDAS packages, also see the
+[TIDAS ZIP Import, Export, and Task Center](./tidas-zip-workflows) task-center guidance.
 
 ## When not to use this workspace
 
