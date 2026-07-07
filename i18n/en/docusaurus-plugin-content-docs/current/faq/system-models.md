@@ -10,6 +10,14 @@ description: Answers about building models in TianGong LCA and how it compares w
 3. Connect inputs and outputs, set the reference process, and define the reference flow quantity.  
 4. Save the model—see [Create My Data](/en/user-guide/create-my-data#create-model) for the full workflow.
 
+## If saving a model reports a missing reference process, what should I do?
+
+If saving shows “The model is missing reference process information. Complete or rebind the
+reference process, then try again.”, the current model does not have a usable
+`referenceToReferenceProcess`. Return to the model canvas, confirm that the node used as the
+reference process still exists, then set the reference process and reference flow quantity again
+before saving.
+
 ## How does the platform choose providers for product inputs?
 
 When a product input exchange is not explicitly linked to one provider, TianGong
