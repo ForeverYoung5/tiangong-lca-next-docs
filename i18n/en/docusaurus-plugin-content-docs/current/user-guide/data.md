@@ -53,7 +53,7 @@ These elements appear in every module, but permissions differ.
 
 ### My Data
 
-- Your main authoring workspace for models, processes, flows, unit groups, sources, and contacts.  
+- Your main authoring workspace for models, processes, flows, sources, contacts, and related records. Unit groups and flow properties are foundational configuration; adding or supplementing them is normally handled by system administrators. Contact an administrator when you need those records added.  
 - Supports drafts, imports/exports, versioning, and team contributions; ordinary lists prefer the latest visible version.  
 - See [Create My Data](/en/user-guide/create-my-data) and [Data Use](/en/user-guide/data-use) for detailed workflows.  
 - ⚠️ Prefer the platform’s standard unit groups and flow properties to avoid LCIA compatibility issues.
@@ -70,8 +70,10 @@ These elements appear in every module, but permissions differ.
 | --- | --- | --- | --- | --- | --- | --- |
 | Open Data | ✅ | | | | | ✅ |
 | Commercial Data | | ✅ | | | | ✅ |
-| My Data | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| My Data | ✅ | ✅ | ✅* | ✅ | ✅ | ✅* |
 | Team Data | ✅ | | | | | ✅ |
+
+`*` Unit group and flow property creation, import, copy, and similar maintenance entry points are available only to system administrators. If the page says “Need to add or supplement unit groups? Contact an administrator.” or “Need to add or supplement flow properties? Contact an administrator.”, ask an administrator to maintain the foundational configuration first.
 
 Next steps: proceed to [Create My Data](/en/user-guide/create-my-data) to build content, or jump to [Team Functions](/en/user-guide/team-function) for collaboration guidance.
 
