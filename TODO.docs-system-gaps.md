@@ -21,7 +21,7 @@ checkPaths:
   - context7.json
   - static/llms.txt
 lastReviewedAt: 2026-07-07
-lastReviewedCommit: fcd00d0c745ee92c1b75ab3ab244d52370daee41
+lastReviewedCommit: a7590ad7cc284cb021b1951490dfaa3af3c0446e
 related:
   - AGENTS.md
   - README.md
