@@ -111,6 +111,10 @@ LCIA 会把 LCI（生命周期清单）结果转换为环境影响类别结果�
   provider 的分配份额发生变化
 - 年供应量 / 年产量缺失、非法或非正时，系统会使用默认正权重；如需排查，应结合快照覆盖率与
   provider linking 诊断查看 fallback 数量和供应区域来源
+- 自动 provider linking 只把 quantitative reference output 视为可供应该产品流的 provider；
+  同 `flow_id` 的非 reference output 只会作为诊断候选项记录，不会自动参与供给组合。如果诊断中
+  出现 `rejected_non_reference_only`，需要修复参考输出、补充 provider 数据，或显式建模 market /
+  co-product 过程后再重算。
 
 ### 为什么我更需要“过程分析工作区”？
 
