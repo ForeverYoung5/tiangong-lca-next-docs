@@ -19,7 +19,7 @@ Within “My Data” you control the full lifecycle of TianGong LCA datasets. Th
    - To reference a historical version, open **All Versions** for that row, select the version, then save.  
    - Click “Save” to confirm and exit the panel.  
    ![](./img/choose.png)
-3. **Versioning**: Fill in the version number first and save a draft. Continue editing afterwards and save frequently to prevent data loss.
+3. **Versioning**: For a first-time dataset, fill in or confirm the version field as required by the page, then save frequently to prevent data loss. When you open **Create Version** from **All Versions**, the version field shows “The new version will be generated automatically.” The system creates the next version from the selected source version, so do not edit the version number manually.
 
 ### Recommended preparation order
 

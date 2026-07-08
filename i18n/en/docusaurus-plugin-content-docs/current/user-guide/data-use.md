@@ -17,6 +17,7 @@ sidebar_position: 5
    - [Reference: CIFA Guidelines Chapter 6 Appendix](https://www.carbonfootprint.network/docs/cifa-guidelines/lca-database-guideline/chapter-6-appendix#product-classification)
 4. View Version History: Click "All Versions" in the dataset list to access every historical version for that dataset.
 5. View Historical Data: Click "View" next to specific versions to see detailed historical data. When a page supports version selection, choose the target historical version and submit it.
+6. Continue the same dataset ID: To create a new version from a historical version, select the source version in **All Versions** and click **Create Version**. The form shows “The new version will be generated automatically,” and the system assigns the next version when you save. If you need an independently editable copy instead, use **Copy Data**.
 
 ![](./img/open1.png)
 

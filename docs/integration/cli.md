@@ -42,6 +42,7 @@ tiangong-lca search process --input ./search-process.request.json --json
 tiangong-lca flow get --id <flow-id> --version <version> --json
 tiangong-lca process list --state-code 100 --limit 20 --json
 tiangong-lca dataset validate --input ./rows.jsonl --type auto --out-dir ./dataset-validate --json
+tiangong-lca dataset import-lca convert --input ./openlca-package.zip --output-dir ./import-lca --target both --json
 tiangong-lca dataset evidence-search plan --query "中国2026年电力结构数据" --out-dir ./evidence-search --json
 tiangong-lca dataset evidence-search run --input ./evidence-search.request.json --results ./search-results.json --out-dir ./evidence-search --json
 tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./process-save-draft --dry-run --json
@@ -87,6 +88,7 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 - 校验失败的数据会尽量返回更可操作的字段路径、错误码和消息；
 - `--commit` 写入前仍会拦截 schema-invalid 行，并把失败明细写入输出目录中的 `failures.jsonl` 或校验报告。
 - 批量写入草稿时，`process save-draft --commit` 建议同时传入 `--target-user-id`。CLI 会校验当前认证会话和可见草稿所有者，写入后仍以回读结果证明最终 owner 与 payload。
+- `dataset import-lca convert` 会按 tidas-tools 的默认行为写出过程依赖包；如需关闭请传 `--no-process-bundles`，如需自定义目录请传 `--process-bundles-dir`。报告中的 `mapping_csv`、`process_bundles_dir` 和 `process_bundles_index` 只在对应文件真实存在时填写，`mapping.csv.gz` 需要转换工具显式启用后才会出现。
 - `dataset classification apply --type location` 在 `target_path` 明确指向 schema 派生的 location 字段时，可以创建缺失的父对象和目标字段；模糊路径或非 location 字段仍会被阻止。
 - `dataset evidence-search run` 会在 `outputs/` 中写出检索计划、归一化结果、报告，以及在证据不足或只有部分时写出证据声明 JSON。
 

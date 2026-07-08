@@ -20,8 +20,9 @@ checkPaths:
   - scripts/check-publication-scope.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-07
-lastReviewedCommit: 6b8868d7ce3e441d3f49c0376c62261f0a5e3671
+lastReviewedAt: 2026-07-08
+lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
+lastReviewedNote: "Reviewed docs-impact issue #377 public docs and llms.txt changes; local development guidance remains aligned with the Chinese source."
 related:
   - docs/dev/dev-env.md
   - docs/agents/repo-validation.md

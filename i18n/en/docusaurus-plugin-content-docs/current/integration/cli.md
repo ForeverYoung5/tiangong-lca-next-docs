@@ -42,6 +42,7 @@ tiangong-lca search process --input ./search-process.request.json --json
 tiangong-lca flow get --id <flow-id> --version <version> --json
 tiangong-lca process list --state-code 100 --limit 20 --json
 tiangong-lca dataset validate --input ./rows.jsonl --type auto --out-dir ./dataset-validate --json
+tiangong-lca dataset import-lca convert --input ./openlca-package.zip --output-dir ./import-lca --target both --json
 tiangong-lca dataset evidence-search plan --query "China 2026 electricity mix data" --out-dir ./evidence-search --json
 tiangong-lca dataset evidence-search run --input ./evidence-search.request.json --results ./search-results.json --out-dir ./evidence-search --json
 tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./process-save-draft --dry-run --json
@@ -86,6 +87,7 @@ That means:
 - invalid data should return more actionable field paths, issue codes, and messages;
 - before any `--commit` write, schema-invalid rows are blocked and recorded in `failures.jsonl` or the validation report under the output directory.
 - For batch draft writes, pass `--target-user-id` with `process save-draft --commit`. The CLI verifies the current auth session and any visible draft owner before writing, while readback verification still proves the final owner and payload.
+- `dataset import-lca convert` follows the tidas-tools default for process dependency bundles. Pass `--no-process-bundles` to disable them, or `--process-bundles-dir` to choose a custom directory. The report fills `mapping_csv`, `process_bundles_dir`, and `process_bundles_index` only when those files exist on disk; `mapping.csv.gz` appears only when the converter is explicitly configured to write it.
 - `dataset classification apply --type location` can create the missing parent object and target field when `target_path` explicitly points at a schema-derived location field. Ambiguous paths or non-location fields still block.
 - `dataset evidence-search run` writes the search plan, normalized results, report, and, when evidence is insufficient or partial, an evidence declaration JSON under `outputs/`.
 
