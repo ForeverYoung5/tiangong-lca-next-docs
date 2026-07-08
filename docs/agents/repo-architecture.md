@@ -32,8 +32,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-07
-lastReviewedCommit: 6b8868d7ce3e441d3f49c0376c62261f0a5e3671
+lastReviewedAt: 2026-07-08
+lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
+lastReviewedNote: "Reviewed docs-impact issue #377 public content changes; ownership and integration boundaries remain accurate."
 related:
   - AGENTS.md
   - .docpact/config.yaml

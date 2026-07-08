@@ -20,8 +20,9 @@ checkPaths:
   - scripts/check-publication-scope.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-07
-lastReviewedCommit: a7590ad7cc284cb021b1951490dfaa3af3c0446e
+lastReviewedAt: 2026-07-08
+lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
+lastReviewedNote: "Reviewed docs-impact issue #377 dataset-versioning and CLI import coverage; no new system-gap backlog item remains after public docs updates."
 related:
   - AGENTS.md
   - README.md
