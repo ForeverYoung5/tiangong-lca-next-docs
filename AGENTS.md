@@ -31,14 +31,16 @@ checkPaths:
   - scripts/generate-llms-txt.mjs
   - scripts/check-publication-scope.mjs
   - scripts/publication-policy.mjs
+  - scripts/check-screenshots.mjs
+  - scripts/check-screenshots.test.mjs
   - package.json
   - .githooks/**
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-08
-lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
-lastReviewedNote: "Reviewed docs-impact issue #377 public docs and llms.txt changes; repo ownership, bilingual workflow, and publication boundary remain accurate."
+lastReviewedAt: 2026-07-23
+lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
+lastReviewedNote: "Updated for Issue #110: screenshot manifests now preserve the existing bilingual asset layout and composition-specific image ratios."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -72,6 +74,7 @@ This repo owns:
 - `docs/**` as the canonical Chinese public-doc source
 - `i18n/en/docusaurus-plugin-content-docs/current/**` as the maintained English mirror
 - `sidebars.ts`, `docusaurus.config.ts`, `src/**`, and `static/**` for docs-site structure and presentation
+- `scripts/check-screenshots.mjs` for screenshot manifest, bilingual asset, image integrity, composition, and Markdown relationship validation
 - `TODO.docs-system-gaps.md` for durable tracking of product/docs drift
 
 This repo does not own:
@@ -89,7 +92,7 @@ Route those tasks to:
 
 - Repo-local documentation governance is encoded in `.docpact/config.yaml` and enforced locally by the pre-push docpact gate; `.github/workflows/ai-doc-lint.yml` is manual-dispatch fallback.
 - Chinese docs are the source of truth for this site; English pages are maintained mirrors and must be updated in the same change
-- The canonical local commands are `npm run lint`, `npm run build`, `npm run typecheck`, `npm run docs:llms:check`, and `npm run docs:publication-scope:check`
+- The canonical local commands are `npm run lint`, `npm run build`, `npm run typecheck`, `npm run docs:llms:check`, `npm run docs:publication-scope:check`, and `npm run docs:screenshots:check`
 - `static/llms.txt`, `context7.json`, and `.github/workflows/publish-docs.yml` define the public AI-consumption and post-merge publication boundary
 - Use Playwright or equivalent product verification only when text inspection of `../tiangong-lca-next` is not enough to confirm the current UI flow or screenshot target
 - If a page is only partially fixed, update `TODO.docs-system-gaps.md` in the same working session
@@ -102,6 +105,7 @@ Route those tasks to:
 - Do not leave durable drift notes only in chat when `TODO.docs-system-gaps.md` should be updated
 - Do not treat a merged repo PR here as workspace-delivery complete if the root repo still needs a submodule bump
 - Do not add internal agent docs, TODOs, plans, incidents, or governance runbooks to `static/llms.txt` or the Context7 source scope
+- Do not add or replace a public screenshot without the same-path English mirror asset and a passing screenshot manifest check
 
 ## Workspace Integration
 

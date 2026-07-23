@@ -27,14 +27,16 @@ checkPaths:
   - scripts/generate-llms-txt.mjs
   - scripts/check-publication-scope.mjs
   - scripts/publication-policy.mjs
+  - scripts/check-screenshots.mjs
+  - scripts/check-screenshots.test.mjs
   - TODO.docs-system-gaps.md
   - .githooks/pre-push
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-08
-lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
-lastReviewedNote: "Reviewed docs-impact issue #377 public content changes; ownership and integration boundaries remain accurate."
+lastReviewedAt: 2026-07-23
+lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
+lastReviewedNote: "Updated for Issue #110: screenshot validation now codifies mirrored page-local assets and composition-specific proportions."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -50,6 +52,7 @@ related:
 - `docs/**` is the canonical Chinese public-doc source.
 - `i18n/en/docusaurus-plugin-content-docs/current/**` is the maintained English mirror and should change with its paired Chinese page.
 - `sidebars.ts`, `docusaurus.config.ts`, `src/**`, and `static/**` define site structure, presentation, screenshots, and custom site behavior.
+- `scripts/check-screenshots.mjs` validates visual evidence without moving screenshots out of their existing page-local `img/` directories. Ordinary Chinese and English mirror assets remain byte-identical; replacements preserve their prior composition, while additions name an existing same-class reference image.
 - `static/llms.txt`, `context7.json`, `.github/workflows/publish-docs.yml`, and `scripts/*llms*` / `scripts/*publication*` define the public AI-consumption and post-merge publication boundary.
 - `TODO.docs-system-gaps.md` is the durable backlog for product/docs drift.
 

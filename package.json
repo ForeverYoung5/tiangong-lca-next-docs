@@ -10,6 +10,8 @@
     "docs:llms": "node scripts/generate-llms-txt.mjs",
     "docs:llms:check": "node scripts/generate-llms-txt.mjs --check",
     "docs:publication-scope:check": "node scripts/check-publication-scope.mjs",
+    "docs:screenshots:check": "node scripts/check-screenshots.mjs",
+    "docs:screenshots:test": "node --test scripts/check-screenshots.test.mjs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",

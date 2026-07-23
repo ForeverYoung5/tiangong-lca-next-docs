@@ -59,6 +59,11 @@ description: 为维护者说明 docs 站点如何与 tiangong-lca-next 产品仓
 - 只记录变量名，不记录变量值
 - 不要把实际值写进文档、截图说明、提交信息或聊天摘要
 
+docs-impact 自动截图账号不使用本仓 `.env`。固定机根工作区的 `.env.local`
+只保存 `DOCS_SCREENSHOT_ENV_FILE` 指针，真实账号变量位于仓库外、权限不宽于
+`0600` 的秘密文件中，并且只由截图子进程读取。不要把秘密文件复制到 docs、
+source 或产品 worktree。
+
 ## 推荐维护流程
 
 ### 1. 先看 backlog
@@ -134,6 +139,20 @@ description: 为维护者说明 docs 站点如何与 tiangong-lca-next 产品仓
 - 对局部图，优先使用更高的采样倍率，例如 `deviceScaleFactor >= 2`，并保持与仓库既有截图接
   近的高密度 PNG 元数据（当前仓库大量旧图约为 144 DPI）。
 
+资产放置与比例规则：
+
+- 图片继续跟随页面子树。例如 `docs/user-guide/example.md` 的图片放在
+  `docs/user-guide/img/`，英文镜像放在
+  `i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/`。
+- 普通英文 UI 截图在两处使用相同文件名和相同二进制内容；只有明确解释 locale
+  差异时才允许不同文件。
+- 替换图片默认保持原像素尺寸、宽高比、裁剪和视觉焦点；新增图片必须声明一个
+  同类现有图片作为 composition reference。
+- 比例按画面用途保持一致，而不是全站统一成 16:9。全屏、弹窗、控件条、标签区和
+  超宽工作区可以继续使用各自现有比例。
+- 图片放在相关段落、列表或步骤附近即可。只要至少一侧正文能够说明它支持的功能、
+  步骤、状态或结果，就不强制补写“如下图”、双侧图注或编号列表。
+
 文档目标与截图取舍原则：
 
 - 本站主要是给**人类读者**看的，因此在入口难找、结构复杂、仅靠文字不够直观时，应优先补
@@ -151,9 +170,10 @@ description: 为维护者说明 docs 站点如何与 tiangong-lca-next 产品仓
 - 审核或系统管理等隐藏入口难以仅靠文字解释
 - 现有截图已经与真实界面明显不符
 
-如果本轮只根据代码就能准确落文档，而截图工具链暂时不稳定，可以先完成文字同步，再单独补
-截图；但若该页面主要面向人类操作指导且缺图会显著影响理解，应把截图补齐作为后续高优先级工
-作。
+如果视觉判断是 `optional`，且准确文字已经足够，截图工具暂时不可用时可以明确记录
+`visual action: none`。如果判断为 `required`，不能把截图降级为普通后续项；只有账号
+已经认证成功、目标权限确实被拒绝且根 docs-impact 校验通过时，才允许保留无图的 Draft
+PR，并在同一 PR 中等待权限恢复后补图。
 
 ## 最低校验要求
 
@@ -162,6 +182,14 @@ description: 为维护者说明 docs 站点如何与 tiangong-lca-next 产品仓
 ```bash
 npm run lint
 npm run build
+```
+
+新增、替换或复用截图时还必须执行：
+
+```bash
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
 ```
 
 如果这次同步涉及大量结构变更，也建议手动浏览本地站点，重点检查：

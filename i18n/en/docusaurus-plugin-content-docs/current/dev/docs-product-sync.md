@@ -59,6 +59,13 @@ Only two rules matter:
 - Record variable names only, never values
 - Never place actual values in docs, screenshot notes, commit messages, or summaries
 
+The docs-impact screenshot account does not use this repository's `.env`.
+The fixed machine's root-workspace `.env.local` stores only the
+`DOCS_SCREENSHOT_ENV_FILE` pointer. The real account variables stay in an
+outside-repository secret file with permissions no broader than `0600`, and
+only the screenshot child process reads it. Never copy that file into a docs,
+source, or product worktree.
+
 ## Recommended maintenance workflow
 
 ### 1. Start from the backlog
@@ -138,6 +145,26 @@ Annotation rules:
   PNG density metadata aligned with the repo's existing assets (many current screenshots are around
   144 DPI).
 
+Asset placement and composition rules:
+
+- Keep images beside their page subtree. For example, an image for
+  `docs/user-guide/example.md` belongs under `docs/user-guide/img/`, with its
+  English mirror under
+  `i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/`.
+- Ordinary English-UI screenshots use the same file name and identical bytes
+  in both trees. Different binaries are allowed only for an explicitly
+  documented locale comparison.
+- A replacement keeps the prior pixel dimensions, ratio, crop, and visual
+  focus by default. A new screenshot names an existing same-class composition
+  reference.
+- Match ratios by composition purpose rather than forcing every screenshot to
+  16:9. Full screens, tall or compact modals, control strips, tabs, and
+  ultrawide workspaces retain their own established proportions.
+- Place the image near the related paragraph, list, or step. Valid prose on
+  either side is enough when it explains the supported function, step, state,
+  or result; fixed “shown below” wording, two-sided captions, and numbered
+  lists are not mandatory.
+
 Documentation goal and screenshot tradeoff:
 
 - This site is primarily for **human readers**, so screenshots should be added when they materially
@@ -157,10 +184,12 @@ Screenshots are especially useful when:
 - hidden entry points such as Review or System Management are hard to explain with text alone
 - existing screenshots are clearly out of date
 
-If the docs can be updated accurately from code inspection and the screenshot toolchain is unstable,
-complete the text sync first and add screenshots in a later pass; however, if a page is primarily a
-human task guide and the missing screenshot would materially hurt comprehension, treat screenshot
-completion as a high-priority follow-up.
+When the visual decision is `optional` and accurate text is sufficient, a
+tooling problem may be recorded with `visual action: none`. When the visual is
+`required`, do not demote it to an ordinary follow-up. A screenshot-free Draft
+PR is allowed only after successful authentication, a proven authorization
+denial, and a passing root docs-impact access validation; the same PR must gain
+the screenshot before it becomes ready.
 
 ## Minimum verification
 
@@ -169,6 +198,14 @@ After public-doc changes, run at least:
 ```bash
 npm run lint
 npm run build
+```
+
+When screenshots are added, replaced, or reused, also run:
+
+```bash
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
 ```
 
 If the sync also changes information architecture, manually inspect the local site and verify:
