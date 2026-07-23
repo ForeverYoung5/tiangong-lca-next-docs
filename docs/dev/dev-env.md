@@ -12,17 +12,20 @@ whenToUse:
   - when publishing docs, llms.txt, or Context7 source updates
 whenToUpdate:
   - when package scripts, build commands, publish workflow, or publication-scope checks change
+  - when docs-impact screenshot validation commands or evidence contracts change
 checkPaths:
   - package.json
   - .github/workflows/build.yml
   - .github/workflows/publish-docs.yml
   - scripts/generate-llms-txt.mjs
   - scripts/check-publication-scope.mjs
+  - scripts/check-screenshots.mjs
+  - scripts/check-screenshots.test.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-08
-lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
-lastReviewedNote: "Reviewed docs-impact issue #377 public docs and llms.txt changes; local dev and publication command guidance remains accurate."
+lastReviewedAt: 2026-07-23
+lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
+lastReviewedNote: "Updated for issue #110 with the repo-native docs-impact screenshot test/check commands and their manifest/diff contract."
 related:
   - i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
   - docs/agents/repo-validation.md
@@ -101,6 +104,22 @@ npm run docs:publication-scope:check
 `build/llms.txt`，防止内部 agent 文档、TODO、计划、事故记录或治理执行材料进入公开 AI
 消费范围。
 
+### 检查 docs-impact 截图证据
+
+```bash
+npm run docs:screenshots:test
+npm run docs:screenshots:check
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
+```
+
+`docs:screenshots:test` 运行截图合同回归测试。`docs:screenshots:check` 在没有 manifest 时会确认
+所选 diff 不包含文档截图变更；存在新增、替换或复用证据时，应传入本地 visual result 和
+完整 name-status diff。校验覆盖中英文页面本地资产、引用与 alt、各语言页面的邻近说明、
+144 DPI、hash、比例及 action 对应的 diff 状态。权限受阻的 Draft 例外仍由 workspace
+`validate-visual-evidence.rb` 复核本地 0600 access report。
+
 ### 自动修复可修复的 Markdown 问题
 
 ```bash
@@ -140,6 +159,7 @@ npm run write-translations -- --locale en
 
 ```bash
 npm run lint
+npm run docs:screenshots:check
 npm run docs:llms:check
 npm run docs:publication-scope:check
 npm run build

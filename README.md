@@ -18,11 +18,12 @@ checkPaths:
   - scripts/generate-llms-txt.mjs
   - scripts/check-publication-scope.mjs
   - scripts/publication-policy.mjs
+  - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-08
-lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
-lastReviewedNote: "Reviewed docs-impact issue #377 public docs and llms.txt changes; setup, validation, and publication commands remain accurate."
+lastReviewedAt: 2026-07-23
+lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
+lastReviewedNote: "Updated for Issue #110: added the repo-native screenshot evidence validation command."
 related:
   - AGENTS.md
   - docs/agents/repo-validation.md
@@ -67,6 +68,7 @@ npm run lint:fix
 npm run docs:llms
 npm run docs:llms:check
 npm run docs:publication-scope:check
+npm run docs:screenshots:check
 npm run typecheck
 npm run build
 npm run serve
@@ -85,6 +87,19 @@ npm run docs:llms:check
 npm run docs:publication-scope:check
 npm run build
 ```
+
+When a change adds, replaces, or reuses screenshots, pass the local visual
+evidence manifest:
+
+```bash
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
+```
+
+Without a manifest, the command succeeds as `not_applicable` when the selected
+diff has no public screenshot changes and fails if screenshot binaries changed
+without declared evidence.
 
 If navigation or page structure changes, also check:
 

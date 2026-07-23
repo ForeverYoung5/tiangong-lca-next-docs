@@ -1,7 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-07-08"
-lastReviewedCommit: "8246f72601ead64197bfdbc5bbc861fa4e92b0dc"
+lastReviewedAt: "2026-07-23"
+lastReviewedCommit: "471aa2bd61fe7de09b78f60a11305771e265d7d6"
+lastReviewedNote: "Updated for Issue #110: repo-native screenshot manifest, bilingual asset, composition, and Markdown relationship validation now owns the screenshot evidence boundary."
 
 catalog:
   repos:
@@ -46,6 +47,8 @@ ownership:
           - scripts/generate-llms-txt.mjs
           - scripts/check-publication-scope.mjs
           - scripts/publication-policy.mjs
+          - scripts/check-screenshots.mjs
+          - scripts/check-screenshots.test.mjs
       ownerRepo: next-docs
 
     - id: local-docpact-push-gate
@@ -75,6 +78,8 @@ coverage:
     - scripts/generate-llms-txt.mjs
     - scripts/check-publication-scope.mjs
     - scripts/publication-policy.mjs
+    - scripts/check-screenshots.mjs
+    - scripts/check-screenshots.test.mjs
     - sidebars.ts
     - docusaurus.config.ts
     - src/**
@@ -119,6 +124,8 @@ routing:
         - scripts/generate-llms-txt.mjs
         - scripts/check-publication-scope.mjs
         - scripts/publication-policy.mjs
+        - scripts/check-screenshots.mjs
+        - scripts/check-screenshots.test.mjs
         - .github/workflows/publish-docs.yml
     drift-backlog:
       paths:
@@ -235,6 +242,10 @@ rules:
         kind: site-runtime-config
       - path: tsconfig.json
         kind: site-runtime-config
+      - path: scripts/check-screenshots.mjs
+        kind: docs-screenshot-validation
+      - path: scripts/check-screenshots.test.mjs
+        kind: docs-screenshot-validation-test
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update

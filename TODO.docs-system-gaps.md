@@ -18,11 +18,12 @@ checkPaths:
   - i18n/en/docusaurus-plugin-content-docs/current/**
   - scripts/generate-llms-txt.mjs
   - scripts/check-publication-scope.mjs
+  - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-08
-lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
-lastReviewedNote: "Reviewed docs-impact issue #377 dataset-versioning and CLI import coverage; no new system-gap backlog item remains after public docs updates."
+lastReviewedAt: 2026-07-23
+lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
+lastReviewedNote: "Reviewed for Issue #110: screenshot automation closes the evidence-validation gap without creating a new product/docs drift backlog item."
 related:
   - AGENTS.md
   - README.md
@@ -57,11 +58,11 @@ of truth once a gap has been identified.
 - `../tiangong-lca-next` currently publishes directly from `main`, so docs maintenance normally uses
   the product repo's `main` branch as the implementation source of truth without a separate
   production-parity check.
-- Verification credentials may exist in the repo-root `.env` file as:
-  - `TIANGONG_LCA_USERNAME`
-  - `TIANGONG_LCA_PASSWORD`
-  - `TIANGONG_LCA_API_KEY`
-- Treat these as secrets. Record variable names only, never their values.
+- Docs-impact screenshot credentials do not live in this repository. The fixed machine's root
+  workspace `.env.local` stores only `DOCS_SCREENSHOT_ENV_FILE`; the pointed-to external regular
+  file must have permissions no broader than `0600`.
+- Treat the pointer target and its values as secrets. Never copy them into a worktree, manifest,
+  issue, PR, log, or command argument.
 - If a gap requires live UI confirmation or refreshed screenshots, prefer Playwright over guesswork.
 - When adding or replacing screenshots, follow the style of existing docs screenshots and add red
   boxes or callouts when that makes the instructional focus clearer.

@@ -23,6 +23,8 @@ checkPaths:
   - scripts/generate-llms-txt.mjs
   - scripts/check-publication-scope.mjs
   - scripts/publication-policy.mjs
+  - scripts/check-screenshots.mjs
+  - scripts/check-screenshots.test.mjs
   - sidebars.ts
   - docusaurus.config.ts
   - docs/**
@@ -32,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-08
-lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
-lastReviewedNote: "Reviewed docs-impact issue #377 validation evidence; required local commands and docpact guidance remain accurate."
+lastReviewedAt: 2026-07-23
+lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
+lastReviewedNote: "Updated for Issue #110: added screenshot manifest and bilingual asset proof."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -51,6 +53,7 @@ npm run build
 npm run typecheck
 npm run docs:llms:check
 npm run docs:publication-scope:check
+npm run docs:screenshots:check
 ```
 
 Use the narrowest command set that proves the touched area.
@@ -62,6 +65,8 @@ Use the narrowest command set that proves the touched area.
 - Publication pipeline changes require `npm run docs:llms:check` and `npm run docs:publication-scope:check`; if they affect build output, also run `npm run build` and rerun the publication-scope check afterward.
 - `static/llms.txt` must list only public docs pages, and `context7.json` must keep Context7 scoped to public docs with internal agent, TODO, plan, incident, and governance execution records excluded.
 - Product-behavior documentation changes require checking `../tiangong-lca-next` when behavior is ambiguous.
+- Screenshot additions, replacements, or reuse require `npm run docs:screenshots:check -- --manifest <visual-result.json> --diff-file <name-status.diff>`. The check owns PNG integrity and 144 DPI metadata, same-path bilingual assets, Markdown references and alt text, nearby explanatory prose, action-specific diff behavior, and composition-reference ratios.
+- Screenshot replacement must preserve the prior composition within the declared tolerance unless the manifest records an `aspectRatioChangeReason`. A new screenshot must name a repository image with the same `compositionClass`; the validator does not force unrelated screenshots into one global ratio.
 - Partial fixes to product/docs drift must update `TODO.docs-system-gaps.md`.
 - Documentation-governance changes require docpact validation.
 

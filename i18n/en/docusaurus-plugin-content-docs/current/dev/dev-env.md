@@ -12,17 +12,20 @@ whenToUse:
   - when publishing docs, llms.txt, or Context7 source updates
 whenToUpdate:
   - when package scripts, build commands, publish workflow, or publication-scope checks change
+  - when docs-impact screenshot validation commands or evidence contracts change
 checkPaths:
   - package.json
   - .github/workflows/build.yml
   - .github/workflows/publish-docs.yml
   - scripts/generate-llms-txt.mjs
   - scripts/check-publication-scope.mjs
+  - scripts/check-screenshots.mjs
+  - scripts/check-screenshots.test.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-08
-lastReviewedCommit: 8246f72601ead64197bfdbc5bbc861fa4e92b0dc
-lastReviewedNote: "Reviewed docs-impact issue #377 public docs and llms.txt changes; local development guidance remains aligned with the Chinese source."
+lastReviewedAt: 2026-07-23
+lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
+lastReviewedNote: "Updated for issue #110 with the repo-native docs-impact screenshot test/check commands and their manifest/diff contract."
 related:
   - docs/dev/dev-env.md
   - docs/agents/repo-validation.md
@@ -101,6 +104,24 @@ This command checks `static/llms.txt`, `sidebars.ts`, `context7.json`, and `buil
 build exists. It prevents internal agent docs, TODOs, plans, incident records, or governance
 execution material from entering the public AI-consumption scope.
 
+### Check docs-impact screenshot evidence
+
+```bash
+npm run docs:screenshots:test
+npm run docs:screenshots:check
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
+```
+
+`docs:screenshots:test` runs the screenshot-contract regression suite. Without a manifest,
+`docs:screenshots:check` confirms that the selected diff contains no documentation screenshot
+changes. For add, replace, or reuse evidence, pass the local visual result and the complete
+name-status diff. The validator checks page-local bilingual assets, references and alt text, nearby
+explanation in each language page, 144 DPI metadata, hashes, ratios, and action-specific diff state.
+The workspace `validate-visual-evidence.rb` remains responsible for validating the local 0600 access
+report used by the access-denied Draft exception.
+
 ### Auto-fix lintable Markdown issues
 
 ```bash
@@ -140,6 +161,7 @@ For public-doc content changes, run at least:
 
 ```bash
 npm run lint
+npm run docs:screenshots:check
 npm run docs:llms:check
 npm run docs:publication-scope:check
 npm run build
