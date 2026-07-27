@@ -23,9 +23,9 @@ checkPaths:
   - scripts/check-screenshots.test.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-23
-lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
-lastReviewedNote: "Updated for issue #110 with the repo-native docs-impact screenshot test/check commands and their manifest/diff contract."
+lastReviewedAt: 2026-07-27
+lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
+lastReviewedNote: "Updated for Issue #112: clean-checkout dependency setup now uses the repository's current lockfile-free installation command."
 related:
   - i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
   - docs/agents/repo-validation.md
@@ -65,8 +65,11 @@ nvm install 24
 nvm alias default 24
 nvm use 24
 
-npm ci
+npm install --no-package-lock
 ```
+
+仓库当前不提交 package lock，因此干净 checkout 不能使用 `npm ci`。除非另一个依赖治理变更明确
+引入 lockfile，本地安装请保持不生成 lockfile。
 
 ## 常用命令
 

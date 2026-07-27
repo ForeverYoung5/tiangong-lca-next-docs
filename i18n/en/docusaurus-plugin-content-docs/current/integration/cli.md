@@ -1,10 +1,146 @@
-# TianGong LCA CLI
+# Command-Line Integration
 
-Use the TianGong LCA CLI when you need repeatable scripts for search, data validation, process building, lifecycle model building, or batch review. The web UI is better for one-off interactive work; the CLI is better for local automation and pipelines.
+Command-line workflows use two independent tools:
 
-## Install and run
+- [`tidas`](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.1) is the
+  released native Rust executable for local TIDAS/eILCD conversion, external LCA
+  import, package validation, database export, and deterministic release packaging.
+- `tiangong-lca` is the npm-distributed TianGong LCA platform client for remote
+  queries, draft writes, review, and other API workflows.
 
-Run the latest published package once:
+The commands are not aliases. Invoke `tidas` directly for local package work; do
+not assume that `tiangong-lca` invokes it internally.
+
+## Install `tidas` 0.1.1
+
+Prebuilt archives are the preferred end-user channel and require no Rust,
+Python, Java, or Node.js runtime. The installers download an immutable archive
+and its `.sha256` file and verify it before installation.
+
+### Linux and macOS
+
+```bash
+curl --proto '=https' --tlsv1.2 -fsSLO \
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.1/install.sh
+sh install.sh --version 0.1.1 --prefix "$HOME/.local"
+"$HOME/.local/bin/tidas" --version
+```
+
+Add `$HOME/.local/bin` to `PATH` if your shell does not already include it.
+
+### Windows PowerShell
+
+```powershell
+Invoke-WebRequest `
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.1/install.ps1 `
+  -OutFile install.ps1
+.\install.ps1 -Version 0.1.1
+& "$env:LOCALAPPDATA\Programs\tidas\bin\tidas.exe" --version
+```
+
+If prompted, add that `bin` directory to `PATH`.
+
+### Prebuilt platforms
+
+| Platform | Release archive |
+| --- | --- |
+| Linux x86_64 | `tidas-v0.1.1-x86_64-unknown-linux-gnu.tar.gz` |
+| Linux ARM64 | `tidas-v0.1.1-aarch64-unknown-linux-gnu.tar.gz` |
+| macOS Intel | `tidas-v0.1.1-x86_64-apple-darwin.tar.gz` |
+| macOS Apple Silicon | `tidas-v0.1.1-aarch64-apple-darwin.tar.gz` |
+| Windows x86_64 | `tidas-v0.1.1-x86_64-pc-windows-msvc.zip` |
+
+Every archive in the
+[v0.1.1 release](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.1)
+has a SHA-256 sidecar and an SPDX SBOM. Windows ARM64 is outside the current
+support matrix. The release also contains Homebrew formula and Winget manifest
+files; their presence does not mean they have been submitted to an external tap
+or the Winget Community repository.
+
+### Install from crates.io
+
+Developers with Rust 1.88+ and the platform libxml2/libxslt development
+dependencies can install from source:
+
+```bash
+cargo install tidas --version 0.1.1 --locked
+tidas --version
+tidas version --format json
+```
+
+The crates.io package and installed executable are both named `tidas`.
+
+## `tidas` package workflows
+
+### Import an external format into TIDAS
+
+`tidas import` supports EcoSpold 1/2, SimaPro CSV, openLCA JSON-LD, openLCA
+process XLSX, and ILCD/eILCD inputs. It normally detects the format:
+
+```bash
+tidas import ./openlca-package.zip \
+  --output ./imported \
+  --target tidas \
+  --format json
+
+tidas validate ./imported/tidas \
+  --input-format tidas-json \
+  --issues ./imported/validation-issues.jsonl \
+  --format json
+```
+
+Default outputs include `import-report.json`, `issues.jsonl`, `tidas/`, and
+`process-bundles/<process_uuid>/`. Add `--write-mapping` to generate
+`mapping.csv.gz` for field-level review, or `--no-process-bundles` when
+per-process dependency packages are unnecessary. `.zolca` is unsupported;
+export a supported exchange format from openLCA first.
+
+### Convert between TIDAS and eILCD
+
+```bash
+tidas convert ./tidas-package \
+  --output ./eilcd-package \
+  --to ilcd \
+  --format json
+
+tidas convert ./eilcd-data \
+  --output ./tidas-package \
+  --to tidas \
+  --format json
+```
+
+Converted data is under the output directory's `data/` subdirectory. Validate
+the target representation before upload or downstream use:
+
+```bash
+tidas validate ./eilcd-package/data --input-format ilcd-xml --format json
+tidas validate ./tidas-package/data --input-format tidas-json --format json
+```
+
+### Reports and exit codes
+
+With `--format json`, stdout contains only the machine-readable report. Persist
+complete issues with command-specific options such as `--issues`; use the
+global `--report <PATH>` to write the operation report atomically.
+
+| Exit | Meaning |
+| ---: | --- |
+| `0` | success |
+| `2` | command completed with data issues |
+| `64` | usage or option error |
+| `69` | known capability is currently unavailable |
+| `70` | internal error |
+| `74` | required I/O failed |
+| `130` | operation was cancelled |
+
+Pipelines must inspect both the exit code and JSON fields such as `status`,
+`exit_class`, `diagnostics`, `artifacts`, and `summary`; do not parse terminal
+text alone.
+
+## Install and run `tiangong-lca`
+
+For remote platform queries, draft writes, and review workflows, run the latest
+published package once:
 
 ```bash
 npm exec --yes --package=@tiangong-lca/cli@latest -- tiangong-lca --help
@@ -42,7 +178,6 @@ tiangong-lca search process --input ./search-process.request.json --json
 tiangong-lca flow get --id <flow-id> --version <version> --json
 tiangong-lca process list --state-code 100 --limit 20 --json
 tiangong-lca dataset validate --input ./rows.jsonl --type auto --out-dir ./dataset-validate --json
-tiangong-lca dataset import-lca convert --input ./openlca-package.zip --output-dir ./import-lca --target both --json
 tiangong-lca dataset evidence-search plan --query "China 2026 electricity mix data" --out-dir ./evidence-search --json
 tiangong-lca dataset evidence-search run --input ./evidence-search.request.json --results ./search-results.json --out-dir ./evidence-search --json
 tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./process-save-draft --dry-run --json
@@ -77,7 +212,7 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 
 These commands write machine-readable reports under `outputs/` or `reports/` in the selected `--out-dir`. For automation, read fields such as `status`, `blockers`, `issues`, `files`, and artifact paths instead of relying on terminal text.
 
-## Validation and failure reports
+## `tiangong-lca` validation and failure reports
 
 `dataset validate`, `process save-draft`, `lifecyclemodel save-draft`, and related repair commands run local TIDAS schema validation before writing data. When fast validation fails, the current CLI uses SDK-backed deep validation to provide more specific issue paths and messages.
 
@@ -87,8 +222,10 @@ That means:
 - invalid data should return more actionable field paths, issue codes, and messages;
 - before any `--commit` write, schema-invalid rows are blocked and recorded in `failures.jsonl` or the validation report under the output directory.
 - For batch draft writes, pass `--target-user-id` with `process save-draft --commit`. The CLI verifies the current auth session and any visible draft owner before writing, while readback verification still proves the final owner and payload.
-- `dataset import-lca convert` follows the tidas-tools default for process dependency bundles. Pass `--no-process-bundles` to disable them, or `--process-bundles-dir` to choose a custom directory. The report fills `mapping_csv`, `process_bundles_dir`, and `process_bundles_index` only when those files exist on disk; `mapping.csv.gz` appears only when the converter is explicitly configured to write it.
 - `dataset classification apply --type location` can create the missing parent object and target field when `target_path` explicitly points at a schema-derived location field. Ambiguous paths or non-location fields still block.
 - `dataset evidence-search run` writes the search plan, normalized results, report, and, when evidence is insufficient or partial, an evidence declaration JSON under `outputs/`.
 
-For pipeline integrations, read JSON fields such as `status`, `counts`, `issues`, `files`, and generated `outputs/**` artifacts instead of relying only on terminal text.
+For `tiangong-lca` pipeline integrations, read JSON fields such as `status`,
+`counts`, `issues`, `files`, and generated `outputs/**` artifacts instead of
+relying only on terminal text. Use the independent `tidas` command described
+above for local package import, conversion, or complete package validation.

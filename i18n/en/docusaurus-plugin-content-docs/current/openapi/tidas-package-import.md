@@ -53,6 +53,28 @@ The full import flow has four steps:
 It is a good idea to send `X-Idempotency-Key` with `prepare_upload` and
 `enqueue` so clients can retry safely.
 
+## Preflight locally with `tidas`
+
+Automation clients can check a package with the released Rust
+[`tidas` 0.1.1 CLI](/en/integration/cli#install-tidas-011) before calling the
+API. Extract the ZIP into a temporary directory, then run:
+
+```bash
+tidas validate ./unpacked-package \
+  --input-format tidas-json \
+  --issues ./validation-issues.jsonl \
+  --format json
+```
+
+Exit code `0` means local validation passed; exit code `2` means validation
+completed with data issues. A pipeline should inspect the exit code, JSON
+report, and `validation-issues.jsonl`, and upload only after local validation
+passes.
+
+Local preflight does not create a TianGong LCA import job and does not replace
+server-side validation, conflict checks, or the final `import_report`. The
+`tidas` executable and the platform API are separate execution boundaries.
+
 ## 1. Prepare Upload
 
 Request:

@@ -21,9 +21,9 @@ checkPaths:
   - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-23
-lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
-lastReviewedNote: "Reviewed for Issue #110: screenshot automation closes the evidence-validation gap without creating a new product/docs drift backlog item."
+lastReviewedAt: 2026-07-27
+lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
+lastReviewedNote: "Reviewed for Issue #112: native tidas package guidance and lockfile-free setup are fully updated, with no remaining product/docs drift backlog item."
 related:
   - AGENTS.md
   - README.md

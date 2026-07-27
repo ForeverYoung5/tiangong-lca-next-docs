@@ -38,9 +38,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-23
-lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
-lastReviewedNote: "Updated for Issue #110: screenshot manifests now preserve the existing bilingual asset layout and composition-specific image ratios."
+lastReviewedAt: 2026-07-27
+lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
+lastReviewedNote: "Reviewed for Issue #112: the bilingual public-doc, validation, publication, and workspace-integration boundaries remain current for native tidas CLI guidance."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
