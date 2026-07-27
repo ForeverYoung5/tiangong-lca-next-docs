@@ -34,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-23
-lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
-lastReviewedNote: "Updated for Issue #110: screenshot validation now codifies mirrored page-local assets and composition-specific proportions."
+lastReviewedAt: 2026-07-27
+lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
+lastReviewedNote: "Reviewed for Issue #112: next-docs still owns bilingual public CLI guidance and generated publication assets, while executable behavior remains external."
 related:
   - AGENTS.md
   - .docpact/config.yaml

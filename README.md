@@ -21,9 +21,9 @@ checkPaths:
   - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-23
-lastReviewedCommit: 471aa2bd61fe7de09b78f60a11305771e265d7d6
-lastReviewedNote: "Updated for Issue #110: added the repo-native screenshot evidence validation command."
+lastReviewedAt: 2026-07-27
+lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
+lastReviewedNote: "Updated for Issue #112: clean-checkout dependency setup now matches the repository's current lockfile-free package policy."
 related:
   - AGENTS.md
   - docs/agents/repo-validation.md
@@ -56,8 +56,12 @@ versions.
 ```bash
 nvm install 24
 nvm use 24
-npm ci
+npm install --no-package-lock
 ```
+
+This repository does not currently commit a package lock, so `npm ci` cannot
+bootstrap a clean checkout. Keep local installation lockfile-free unless a
+separate dependency-governance change intentionally introduces one.
 
 ## Common commands
 

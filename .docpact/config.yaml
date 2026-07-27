@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-07-23"
-lastReviewedCommit: "471aa2bd61fe7de09b78f60a11305771e265d7d6"
-lastReviewedNote: "Updated for Issue #110: repo-native screenshot manifest, bilingual asset, composition, and Markdown relationship validation now owns the screenshot evidence boundary."
+lastReviewedAt: "2026-07-27"
+lastReviewedCommit: "073189be1babc2cf9d75ae35c44a24ef44bf90fa"
+lastReviewedNote: "Reviewed for Issue #112: bilingual public-content and generated-publication rules still cover the TIDAS CLI workflow change without a routing or ownership change."
 
 catalog:
   repos:

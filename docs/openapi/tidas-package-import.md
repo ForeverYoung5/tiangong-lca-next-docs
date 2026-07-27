@@ -50,6 +50,25 @@ https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1
 
 建议为 `prepare_upload` 和 `enqueue` 请求带上 `X-Idempotency-Key`，便于客户端重试。
 
+## 上传前使用 `tidas` 做本地预检
+
+自动化客户端可以在调用 API 前使用已发布的 Rust
+[`tidas` 0.1.1 CLI](/integration/cli#安装-tidas-011) 检查待上传包。先把 ZIP 解压到临时目录，
+再执行：
+
+```bash
+tidas validate ./unpacked-package \
+  --input-format tidas-json \
+  --issues ./validation-issues.jsonl \
+  --format json
+```
+
+退出码 `0` 表示本地校验通过；退出码 `2` 表示校验完成但发现数据问题。流水线应同时检查退出码、
+JSON 报告和 `validation-issues.jsonl`，只在本地校验通过后继续上传。
+
+本地预检不会创建 TianGong LCA 导入任务，也不会替代服务端校验、冲突检查和最终
+`import_report`。`tidas` 与平台 API 是两个独立执行边界。
+
 ## 1. Prepare Upload
 
 请求：

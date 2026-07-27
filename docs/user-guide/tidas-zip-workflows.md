@@ -10,6 +10,10 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 如果您只需要接口方式，请阅读 [TIDAS 数据包导入 API](/docs/openapi/tidas-package-import)。
 本文主要说明网页端的交互流程。
 
+需要在上传前从 EcoSpold、openLCA、SimaPro 或 ILCD/eILCD 准备并校验 TIDAS 包时，请使用已发布
+的 Rust [`tidas` 0.1.1 命令行工具](/integration/cli#安装-tidas-011)。它是独立的本地包工具，
+不是网页端或 `tiangong-lca` 平台客户端的别名。
+
 ## 入口位置
 
 顶部工具条中与数据包相关的三个入口分别是：
@@ -77,14 +81,49 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 - 哪些对象与当前环境冲突
 - 哪些开放数据被系统跳过
 
-### 从 EcoSpold 或 openLCA 生成 ZIP 时
+### 使用 `tidas` 从外部格式准备 ZIP
 
-如果 ZIP 由 `tidas-tools` 从 EcoSpold1、EcoSpold2 或 openLCA JSON-LD 转换生成，导入前建议先检查转换目录中的报告与审查文件：
+`tidas import` 支持 EcoSpold1、EcoSpold2、SimaPro CSV、openLCA JSON-LD、openLCA process
+XLSX 和 ILCD/eILCD 输入。下面的流程会生成 TIDAS 包目录并执行原生校验：
+
+```bash
+tidas import ./source-package.zip \
+  --output ./prepared \
+  --target tidas \
+  --write-mapping \
+  --format json
+
+tidas validate ./prepared/tidas \
+  --input-format tidas-json \
+  --issues ./prepared/validation-issues.jsonl \
+  --format json
+```
+
+导入命令会自动检测受支持的来源格式；输入有歧义时可用 `--from-format` 明确指定。`.zolca`
+文件会被拒绝，请先从 openLCA 导出为支持的交换格式。
+
+准备上传文件时，应让 TIDAS 包内容位于 ZIP 根目录。Linux/macOS 示例：
+
+```bash
+(cd ./prepared/tidas && zip -r ../../prepared-tidas.zip .)
+```
+
+Windows PowerShell 示例：
+
+```powershell
+Compress-Archive -Path .\prepared\tidas\* -DestinationPath .\prepared-tidas.zip
+```
+
+随后在网页端选择 `prepared-tidas.zip`。压缩前请先确认 `tidas validate` 返回退出码 `0`；
+退出码 `2` 表示命令已完成但发现数据问题，不应忽略。
+
+导入前还建议检查 `tidas` 生成的报告与审查文件：
 
 - EcoSpold1 / EcoSpold2 转换会尽量保留来源过程、流、交换编号、分类、地理位置、CAS 号和数值文本；无法安全写入正式字段的来源信息会保存在 TIDAS import trace 中。
 - openLCA JSON-LD 转换会把可解析的 `defaultProvider` 关系生成候选生命周期模型，并把无法直接映射的来源元数据保留为 trace，便于后续人工核对。
-- 转换器默认会写出 `process-bundles/<process_uuid>/` 子目录，便于下游 AI 或导入 worker 按单个过程处理依赖对象；如不需要，可在转换命令中加入 `--no-process-bundles`。
-- 专家审查用 mapping CSV 默认不会生成。需要逐字段复核时，可在转换命令中加入 `--write-mapping-csv`；转换成功并通过校验后会生成 `mapping.csv.gz`，用于检查正式字段、trace-only 字段、占位字段和生成字段。导入前请优先查看该文件以及 `conversion-report.json`。
+- 默认会写出 `process-bundles/<process_uuid>/` 子目录，便于下游按单个过程处理依赖对象；如不需要，可在导入命令中加入 `--no-process-bundles`。
+- 专家审查用 mapping CSV 默认不会生成。需要逐字段复核时，使用 `--write-mapping`；成功后会生成 `mapping.csv.gz`，用于检查正式字段、trace-only 字段、占位字段和生成字段。
+- `import-report.json` 是导入操作报告，`issues.jsonl` 是完整问题流。请把它们和可选的 `mapping.csv.gz` 一起检查，不要只看终端摘要。
 - 若报告中出现 schema、引用、CAS 或分类问题，应先回到来源数据或转换配置中修正，再重新生成 ZIP。
 
 如果您需要做自动化导入、重复执行或更细粒度的错误处理，建议改用
