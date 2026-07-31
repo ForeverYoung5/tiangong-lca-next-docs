@@ -121,6 +121,7 @@ Compress-Archive -Path .\prepared\tidas\* -DestinationPath .\prepared-tidas.zip
 
 - EcoSpold1 / EcoSpold2 转换会尽量保留来源过程、流、交换编号、分类、地理位置、CAS 号和数值文本；无法安全写入正式字段的来源信息会保存在 TIDAS import trace 中。
 - openLCA JSON-LD 转换会把可解析的 `defaultProvider` 关系生成候选生命周期模型，并把无法直接映射的来源元数据保留为 trace，便于后续人工核对。
+- openLCA JSON-LD 交换量会按每个流的参考流属性基准单位进行换算；原始数量和单位会保留在来源信息中。若 `import-report.json` 或 `issues.jsonl` 提示存在无法换算的交换量，请先核对来源单位组、流属性和参考单位，再决定是否导入。
 - 默认会写出 `process-bundles/<process_uuid>/` 子目录，便于下游按单个过程处理依赖对象；如不需要，可在导入命令中加入 `--no-process-bundles`。
 - 专家审查用 mapping CSV 默认不会生成。需要逐字段复核时，使用 `--write-mapping`；成功后会生成 `mapping.csv.gz`，用于检查正式字段、trace-only 字段、占位字段和生成字段。
 - `import-report.json` 是导入操作报告，`issues.jsonl` 是完整问题流。请把它们和可选的 `mapping.csv.gz` 一起检查，不要只看终端摘要。
