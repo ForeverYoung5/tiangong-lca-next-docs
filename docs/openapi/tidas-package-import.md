@@ -53,7 +53,7 @@ https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1
 ## 上传前使用 `tidas` 做本地预检
 
 自动化客户端可以在调用 API 前使用已发布的 Rust
-[`tidas` 0.1.1 CLI](/integration/cli#安装-tidas-011) 检查待上传包。先把 ZIP 解压到临时目录，
+[`tidas` 0.1.3 CLI](/integration/cli#安装-tidas-013) 检查待上传包。先把 ZIP 解压到临时目录，
 再执行：
 
 ```bash

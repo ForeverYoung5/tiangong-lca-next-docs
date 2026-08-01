@@ -2,7 +2,7 @@
 
 命令行工作流涉及两个独立工具：
 
-- [`tidas`](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.1) 是已发布的原生
+- [`tidas`](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.3) 是已发布的原生
   Rust 可执行程序，用于本地 TIDAS/eILCD 转换、外部 LCA 格式导入、包校验、数据库导出和确定性发布打包。
 - `tiangong-lca` 是 npm 发布的 TianGong LCA 平台客户端，用于远程查询、草稿写入、审查和其他
   API 工作流。
@@ -10,7 +10,7 @@
 这两个命令不是别名。需要处理本地数据包时直接调用 `tidas`；不要假定 `tiangong-lca` 会在内部
 调用它。
 
-## 安装 `tidas` 0.1.1
+## 安装 `tidas` 0.1.3
 
 预编译归档是普通用户的首选安装渠道，不需要 Rust、Python、Java 或 Node.js。安装器会下载
 固定版本归档和对应的 `.sha256` 文件，校验后再安装。
@@ -19,8 +19,8 @@
 
 ```bash
 curl --proto '=https' --tlsv1.2 -fsSLO \
-  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.1/install.sh
-sh install.sh --version 0.1.1 --prefix "$HOME/.local"
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.3/install.sh
+sh install.sh --version 0.1.3 --prefix "$HOME/.local"
 "$HOME/.local/bin/tidas" --version
 ```
 
@@ -30,9 +30,9 @@ sh install.sh --version 0.1.1 --prefix "$HOME/.local"
 
 ```powershell
 Invoke-WebRequest `
-  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.1/install.ps1 `
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.3/install.ps1 `
   -OutFile install.ps1
-.\install.ps1 -Version 0.1.1
+.\install.ps1 -Version 0.1.3
 & "$env:LOCALAPPDATA\Programs\tidas\bin\tidas.exe" --version
 ```
 
@@ -42,13 +42,13 @@ Invoke-WebRequest `
 
 | 平台 | 发布归档 |
 | --- | --- |
-| Linux x86_64 | `tidas-v0.1.1-x86_64-unknown-linux-gnu.tar.gz` |
-| Linux ARM64 | `tidas-v0.1.1-aarch64-unknown-linux-gnu.tar.gz` |
-| macOS Intel | `tidas-v0.1.1-x86_64-apple-darwin.tar.gz` |
-| macOS Apple Silicon | `tidas-v0.1.1-aarch64-apple-darwin.tar.gz` |
-| Windows x86_64 | `tidas-v0.1.1-x86_64-pc-windows-msvc.zip` |
+| Linux x86_64 | `tidas-v0.1.3-x86_64-unknown-linux-gnu.tar.gz` |
+| Linux ARM64 | `tidas-v0.1.3-aarch64-unknown-linux-gnu.tar.gz` |
+| macOS Intel | `tidas-v0.1.3-x86_64-apple-darwin.tar.gz` |
+| macOS Apple Silicon | `tidas-v0.1.3-aarch64-apple-darwin.tar.gz` |
+| Windows x86_64 | `tidas-v0.1.3-x86_64-pc-windows-msvc.zip` |
 
-每个归档在 [v0.1.1 Release](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.1)
+每个归档在 [v0.1.3 Release](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.3)
 中都有 SHA-256 sidecar 和 SPDX SBOM。Windows ARM64 不在当前支持矩阵内。Release 也提供
 Homebrew formula 与 Winget manifest 文件，但这些文件的存在不表示它们已经发布到外部 tap
 或 Winget Community 仓库。
@@ -58,7 +58,7 @@ Homebrew formula 与 Winget manifest 文件，但这些文件的存在不表示�
 已经安装 Rust 1.88+ 以及平台 libxml2/libxslt 开发依赖的开发者也可使用：
 
 ```bash
-cargo install tidas --version 0.1.1 --locked
+cargo install tidas --version 0.1.3 --locked
 tidas --version
 tidas version --format json
 ```

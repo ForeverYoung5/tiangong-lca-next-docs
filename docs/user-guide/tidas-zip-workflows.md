@@ -11,7 +11,7 @@ description: 说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及�
 本文主要说明网页端的交互流程。
 
 需要在上传前从 EcoSpold、openLCA、SimaPro 或 ILCD/eILCD 准备并校验 TIDAS 包时，请使用已发布
-的 Rust [`tidas` 0.1.1 命令行工具](/integration/cli#安装-tidas-011)。它是独立的本地包工具，
+的 Rust [`tidas` 0.1.3 命令行工具](/integration/cli#安装-tidas-013)。它是独立的本地包工具，
 不是网页端或 `tiangong-lca` 平台客户端的别名。
 
 ## 入口位置

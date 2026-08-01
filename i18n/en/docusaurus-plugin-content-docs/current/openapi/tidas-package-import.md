@@ -56,7 +56,7 @@ It is a good idea to send `X-Idempotency-Key` with `prepare_upload` and
 ## Preflight locally with `tidas`
 
 Automation clients can check a package with the released Rust
-[`tidas` 0.1.1 CLI](/en/integration/cli#install-tidas-011) before calling the
+[`tidas` 0.1.3 CLI](/en/integration/cli#install-tidas-013) before calling the
 API. Extract the ZIP into a temporary directory, then run:
 
 ```bash
