@@ -38,9 +38,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-27
-lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
-lastReviewedNote: "Reviewed for Issue #112: the bilingual public-doc, validation, publication, and workspace-integration boundaries remain current for native tidas CLI guidance."
+lastReviewedAt: 2026-08-01
+lastReviewedCommit: 48d2591bfe0f323fba873b81a8fcdc84c21b27e6
+lastReviewedNote: "Reviewed for Issue #115: the bilingual public-doc, validation, publication, and workspace-integration boundaries remain current for the tidas v0.1.3 rollout."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

@@ -23,9 +23,9 @@ checkPaths:
   - scripts/check-screenshots.test.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-27
-lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
-lastReviewedNote: "Updated for Issue #112: clean-checkout dependency setup now uses the repository's current lockfile-free installation command."
+lastReviewedAt: 2026-08-01
+lastReviewedCommit: 48d2591bfe0f323fba873b81a8fcdc84c21b27e6
+lastReviewedNote: "Reviewed for Issue #115: the tidas v0.1.3 public-doc update uses the current lockfile-free installation and publication checks."
 related:
   - docs/dev/dev-env.md
   - docs/agents/repo-validation.md

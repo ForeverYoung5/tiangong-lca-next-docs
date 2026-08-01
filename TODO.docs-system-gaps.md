@@ -21,9 +21,9 @@ checkPaths:
   - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-07-27
-lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
-lastReviewedNote: "Reviewed for Issue #112: native tidas package guidance and lockfile-free setup are fully updated, with no remaining product/docs drift backlog item."
+lastReviewedAt: 2026-08-01
+lastReviewedCommit: 48d2591bfe0f323fba873b81a8fcdc84c21b27e6
+lastReviewedNote: "Reviewed for Issue #115: native tidas v0.1.3 guidance is fully updated, with no remaining product/docs drift backlog item."
 related:
   - AGENTS.md
   - README.md

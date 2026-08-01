@@ -2,7 +2,7 @@
 
 Command-line workflows use two independent tools:
 
-- [`tidas`](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.1) is the
+- [`tidas`](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.3) is the
   released native Rust executable for local TIDAS/eILCD conversion, external LCA
   import, package validation, database export, and deterministic release packaging.
 - `tiangong-lca` is the npm-distributed TianGong LCA platform client for remote
@@ -11,7 +11,7 @@ Command-line workflows use two independent tools:
 The commands are not aliases. Invoke `tidas` directly for local package work; do
 not assume that `tiangong-lca` invokes it internally.
 
-## Install `tidas` 0.1.1
+## Install `tidas` 0.1.3
 
 Prebuilt archives are the preferred end-user channel and require no Rust,
 Python, Java, or Node.js runtime. The installers download an immutable archive
@@ -21,8 +21,8 @@ and its `.sha256` file and verify it before installation.
 
 ```bash
 curl --proto '=https' --tlsv1.2 -fsSLO \
-  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.1/install.sh
-sh install.sh --version 0.1.1 --prefix "$HOME/.local"
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.3/install.sh
+sh install.sh --version 0.1.3 --prefix "$HOME/.local"
 "$HOME/.local/bin/tidas" --version
 ```
 
@@ -32,9 +32,9 @@ Add `$HOME/.local/bin` to `PATH` if your shell does not already include it.
 
 ```powershell
 Invoke-WebRequest `
-  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.1/install.ps1 `
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.3/install.ps1 `
   -OutFile install.ps1
-.\install.ps1 -Version 0.1.1
+.\install.ps1 -Version 0.1.3
 & "$env:LOCALAPPDATA\Programs\tidas\bin\tidas.exe" --version
 ```
 
@@ -44,14 +44,14 @@ If prompted, add that `bin` directory to `PATH`.
 
 | Platform | Release archive |
 | --- | --- |
-| Linux x86_64 | `tidas-v0.1.1-x86_64-unknown-linux-gnu.tar.gz` |
-| Linux ARM64 | `tidas-v0.1.1-aarch64-unknown-linux-gnu.tar.gz` |
-| macOS Intel | `tidas-v0.1.1-x86_64-apple-darwin.tar.gz` |
-| macOS Apple Silicon | `tidas-v0.1.1-aarch64-apple-darwin.tar.gz` |
-| Windows x86_64 | `tidas-v0.1.1-x86_64-pc-windows-msvc.zip` |
+| Linux x86_64 | `tidas-v0.1.3-x86_64-unknown-linux-gnu.tar.gz` |
+| Linux ARM64 | `tidas-v0.1.3-aarch64-unknown-linux-gnu.tar.gz` |
+| macOS Intel | `tidas-v0.1.3-x86_64-apple-darwin.tar.gz` |
+| macOS Apple Silicon | `tidas-v0.1.3-aarch64-apple-darwin.tar.gz` |
+| Windows x86_64 | `tidas-v0.1.3-x86_64-pc-windows-msvc.zip` |
 
 Every archive in the
-[v0.1.1 release](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.1)
+[v0.1.3 release](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.3)
 has a SHA-256 sidecar and an SPDX SBOM. Windows ARM64 is outside the current
 support matrix. The release also contains Homebrew formula and Winget manifest
 files; their presence does not mean they have been submitted to an external tap
@@ -63,7 +63,7 @@ Developers with Rust 1.88+ and the platform libxml2/libxslt development
 dependencies can install from source:
 
 ```bash
-cargo install tidas --version 0.1.1 --locked
+cargo install tidas --version 0.1.3 --locked
 tidas --version
 tidas version --format json
 ```

@@ -11,7 +11,7 @@ If you only need the API flow, use [TIDAS Package Import API](/en/docs/openapi/t
 This page focuses on the web UI workflow.
 
 Use the released Rust
-[`tidas` 0.1.1 CLI](/en/integration/cli#install-tidas-011) when you need to
+[`tidas` 0.1.3 CLI](/en/integration/cli#install-tidas-013) when you need to
 prepare and validate a TIDAS package from EcoSpold, openLCA, SimaPro, or
 ILCD/eILCD before upload. It is an independent local package tool, not an alias
 for the web UI or the `tiangong-lca` platform client.

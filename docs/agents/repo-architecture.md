@@ -34,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-07-27
-lastReviewedCommit: 073189be1babc2cf9d75ae35c44a24ef44bf90fa
-lastReviewedNote: "Reviewed for Issue #112: next-docs still owns bilingual public CLI guidance and generated publication assets, while executable behavior remains external."
+lastReviewedAt: 2026-08-01
+lastReviewedCommit: 48d2591bfe0f323fba873b81a8fcdc84c21b27e6
+lastReviewedNote: "Reviewed for Issue #115: next-docs still owns bilingual tidas v0.1.3 CLI guidance and generated publication assets, while executable behavior remains external."
 related:
   - AGENTS.md
   - .docpact/config.yaml
