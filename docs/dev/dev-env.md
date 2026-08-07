@@ -24,8 +24,8 @@ checkPaths:
   - context7.json
   - static/llms.txt
 lastReviewedAt: 2026-08-07
-lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
-lastReviewedNote: "Reviewed for docs-impact Issue #558: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
+lastReviewedCommit: d4cf0dbf8facc9638374c5a2b5023e976541f1eb
+lastReviewedNote: "Reviewed for docs-impact Issue #562: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
 related:
   - i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
   - docs/agents/repo-validation.md
