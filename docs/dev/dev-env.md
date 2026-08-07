@@ -23,9 +23,9 @@ checkPaths:
   - scripts/check-screenshots.test.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-08-01
-lastReviewedCommit: 48d2591bfe0f323fba873b81a8fcdc84c21b27e6
-lastReviewedNote: "Reviewed for Issue #115: the tidas v0.1.3 public-doc update uses the current lockfile-free installation and publication checks."
+lastReviewedAt: 2026-08-07
+lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
+lastReviewedNote: "Reviewed for docs-impact Issue #558: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
 related:
   - i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
   - docs/agents/repo-validation.md

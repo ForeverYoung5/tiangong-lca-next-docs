@@ -34,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-01
-lastReviewedCommit: 48d2591bfe0f323fba873b81a8fcdc84c21b27e6
-lastReviewedNote: "Reviewed for Issue #115: the existing bilingual, llms.txt, publication-scope, build, link, and docpact proof requirements remain current for tidas v0.1.3."
+lastReviewedAt: 2026-08-07
+lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
+lastReviewedNote: "Reviewed for docs-impact Issue #558: bilingual, llms.txt, screenshot, publication-scope, lint, typecheck, build, and docpact proof requirements remain current."
 related:
   - AGENTS.md
   - .docpact/config.yaml
