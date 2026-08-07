@@ -35,7 +35,7 @@ checkPaths:
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-08-07
-lastReviewedCommit: d4cf0dbf8facc9638374c5a2b5023e976541f1eb
+lastReviewedCommit: d0e2112f95a7fc489d51950e1782d2bcbda2eb1b
 lastReviewedNote: "Reviewed for docs-impact Issue #562: next-docs still owns bilingual public docs, page-local screenshots, generated llms.txt, and publication assets while provider-linking behavior remains external."
 related:
   - AGENTS.md

@@ -1,7 +1,7 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-07"
-lastReviewedCommit: "d4cf0dbf8facc9638374c5a2b5023e976541f1eb"
+lastReviewedCommit: "d0e2112f95a7fc489d51950e1782d2bcbda2eb1b"
 reviewNote: "Reviewed for docs-impact Issue #562: public content, llms.txt generation, publication-scope, screenshot validation, and repo routing rules remain current for provider-linking documentation updates."
 lastReviewedNote: "Reviewed for docs-impact Issue #562: bilingual public-content and generated-publication rules cover same-model provider-linking guidance without a routing or ownership change."
 
