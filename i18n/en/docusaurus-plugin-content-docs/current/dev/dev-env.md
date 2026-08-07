@@ -25,7 +25,7 @@ checkPaths:
   - static/llms.txt
 lastReviewedAt: 2026-08-07
 lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
-lastReviewedNote: "Reviewed for docs-impact Issue #558: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
+lastReviewedNote: "Reviewed for docs-impact Issue #561: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
 related:
   - docs/dev/dev-env.md
   - docs/agents/repo-validation.md
