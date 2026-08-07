@@ -307,6 +307,10 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
   `CN`、`CN-BJ`、`RER` 或 `GLO`。为兼容外部历史数据，系统仍接受非空普通字符串。
 - `exchange.location` 不是多语言文本；不要提交 `StringMultiLang` 对象或数组。对于产品输入交换，
   该字段还会作为后续 provider linking 的显式 supply-region anchor。
+- 分类字段允许停在自然分类深度，不需要为了补齐层级而提交空的下级分类。例如只有 level 0 或
+  level 0-1 的合法分类路径可以通过校验。
+- `common:classification` / `common:category` 仍会限制最大层级数、同一层级的唯一性和分类值；超过
+  schema 定义的层级深度、重复层级或无效分类值仍会返回 `schema_error` 或分类层级错误。
 
 如果字段形状或取值不符合当前 schema，导入报告会返回 `schema_error`，并在 `file_path`、
 `location` 和 `message` 中指出对应的流程文件与字段位置。

@@ -21,9 +21,9 @@ checkPaths:
   - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-08-01
-lastReviewedCommit: 48d2591bfe0f323fba873b81a8fcdc84c21b27e6
-lastReviewedNote: "Reviewed for Issue #115: native tidas v0.1.3 guidance is fully updated, with no remaining product/docs drift backlog item."
+lastReviewedAt: 2026-08-07
+lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
+lastReviewedNote: "Reviewed for docs-impact Issue #558: search and TIDAS import updates do not create a new product/docs drift backlog item."
 related:
   - AGENTS.md
   - README.md

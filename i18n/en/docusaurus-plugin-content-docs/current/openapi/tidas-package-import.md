@@ -334,6 +334,13 @@ When preparing process datasets, pay special attention to these fields:
 - `exchange.location` is not multilingual text; do not send a `StringMultiLang`
   object or array. For product input exchanges, this field also acts as the
   explicit supply-region anchor used by downstream provider linking.
+- Classification fields may stop at their natural category depth. Do not add
+  empty lower-level classes just to fill the hierarchy; valid level 0 or level
+  0-1 paths can pass validation.
+- `common:classification` / `common:category` still enforce the maximum depth,
+  one value per level, and valid category values. Over-deep paths, duplicate
+  levels, or invalid category values still return `schema_error` or a
+  classification hierarchy error.
 
 Packages with field shapes or values that do not match the current schema fail
 with `schema_error`; the import report points to the process file and field
