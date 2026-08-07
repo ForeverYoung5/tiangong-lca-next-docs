@@ -23,7 +23,7 @@ checkPaths:
   - static/llms.txt
 lastReviewedAt: 2026-08-07
 lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
-lastReviewedNote: "Reviewed for docs-impact Issue #558: search and TIDAS import updates do not create a new product/docs drift backlog item."
+lastReviewedNote: "Reviewed for docs-impact Issue #561: My Data unit group and flow property read-only guidance was updated directly, so no new product/docs drift backlog item is needed."
 related:
   - AGENTS.md
   - README.md

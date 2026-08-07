@@ -36,7 +36,7 @@ checkPaths:
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-08-07
 lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
-lastReviewedNote: "Reviewed for docs-impact Issue #558: bilingual, llms.txt, screenshot, publication-scope, lint, typecheck, build, and docpact proof requirements remain current."
+lastReviewedNote: "Reviewed for docs-impact Issue #561: bilingual, llms.txt, screenshot, publication-scope, lint, typecheck, build, and docpact proof requirements remain current."
 related:
   - AGENTS.md
   - .docpact/config.yaml

@@ -90,7 +90,7 @@ Once the groundwork is complete, move on to processes and models.
 
 ## Unit groups & flow properties (advanced)
 
-Custom unit groups or flow properties can introduce conversion issues or LCIA failures. Use them only when absolutely necessary. In **My Data**, unit group and flow property creation, import, copy, and similar maintenance entry points are available only to system administrators; if the page says they need to be added or supplemented, contact an administrator.
+Custom unit groups or flow properties can introduce conversion issues or LCIA failures. Use them only when absolutely necessary. In **My Data**, ordinary users can search, view, inspect all versions, and export existing unit groups and flow properties to check the available foundational configuration. Creation, import, copy, create-version, edit, delete, contribution, and similar maintenance entry points are available only to system administrators; if the page says records need to be added or supplemented, contact an administrator.
 
 ### Create a unit group
 

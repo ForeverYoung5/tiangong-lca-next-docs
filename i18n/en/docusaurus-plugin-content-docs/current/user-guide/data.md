@@ -24,7 +24,7 @@ These elements appear in every module, but permissions differ.
 | --- | --- | --- | --- | --- |
 | **Open Data** | All platform users | Browse and reference audited datasets | Read-only | Search, filter, copy, export |
 | **Commercial Data** | Users needing third-party datasets | Discover metadata and contact providers | Read metadata | Browse, copy contact info |
-| **My Data** | Authors and maintainers | Create, edit, import, and version datasets | Full CRUD | Create, import, edit, contribute, submit for review |
+| **My Data** | Authors and maintainers | Create, edit, import, and version datasets | Read/write; unit groups and flow properties are read-only foundational configuration | Create, import, edit, contribute, submit for review; view, search, and export unit groups and flow properties |
 | **Team Data** | Team members | Share and reuse collaborative assets | Read-only | Discover, reference, copy to My Data |
 
 > Open Data and Commercial Data cannot be edited directly. Copy them to [My Data](/en/user-guide/create-my-data) before making changes.
@@ -53,7 +53,7 @@ These elements appear in every module, but permissions differ.
 
 ### My Data
 
-- Your main authoring workspace for models, processes, flows, sources, contacts, and related records. Unit groups and flow properties are foundational configuration; adding or supplementing them is normally handled by system administrators. Contact an administrator when you need those records added.  
+- Your main authoring workspace for models, processes, flows, sources, contacts, and related records. Unit groups and flow properties are foundational configuration: ordinary users can view, search, use Reference Lookup, inspect all versions, and export them in **My Data**. Creation, import, copy, create-version, edit, delete, and contribution actions are normally handled by system administrators. Contact an administrator when you need those records added or supplemented.  
 - Supports drafts, imports/exports, versioning, and team contributions; ordinary lists prefer the latest visible version. When you create a new version from **All Versions**, the platform keeps the same dataset ID and generates the next version number automatically.  
 - See [Create My Data](/en/user-guide/create-my-data) and [Data Use](/en/user-guide/data-use) for detailed workflows.  
 - ⚠️ Prefer the platform’s standard unit groups and flow properties to avoid LCIA compatibility issues.
@@ -73,7 +73,7 @@ These elements appear in every module, but permissions differ.
 | My Data | ✅ | ✅ | ✅* | ✅ | ✅ | ✅* |
 | Team Data | ✅ | | | | | ✅ |
 
-`*` Unit group and flow property creation, import, copy, and similar maintenance entry points are available only to system administrators. If the page says “Need to add or supplement unit groups? Contact an administrator.” or “Need to add or supplement flow properties? Contact an administrator.”, ask an administrator to maintain the foundational configuration first.
+`*` In **My Data**, ordinary users can view, search, use Reference Lookup, inspect all versions, and export unit groups and flow properties. Creation, import, copy, create-version, edit, delete, contribution, and similar maintenance entry points are available only to system administrators. If the page says “Need to add or supplement unit groups? Contact an administrator.” or “Need to add or supplement flow properties? Contact an administrator.”, ask an administrator to maintain the foundational configuration first.
 
 Next steps: proceed to [Create My Data](/en/user-guide/create-my-data) to build content, or jump to [Team Functions](/en/user-guide/team-function) for collaboration guidance.
 

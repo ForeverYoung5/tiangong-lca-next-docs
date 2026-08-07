@@ -17,7 +17,8 @@ sidebar_position: 5
    - [Reference: CIFA Guidelines Chapter 6 Appendix](https://www.carbonfootprint.network/docs/cifa-guidelines/lca-database-guideline/chapter-6-appendix#product-classification)
 4. View Version History: Click "All Versions" in the dataset list to access every historical version for that dataset.
 5. View Historical Data: Click "View" next to specific versions to see detailed historical data. When a page supports version selection, choose the target historical version and submit it.
-6. Continue the same dataset ID: To create a new version from a historical version, select the source version in **All Versions** and click **Create Version**. The form shows “The new version will be generated automatically,” and the system assigns the next version when you save. If you need an independently editable copy instead, use **Copy Data**.
+6. Inspect foundational configuration in **My Data**: Unit groups and flow properties support search, filters, Reference Lookup, All Versions, and export so you can confirm existing records. Ordinary users will not see maintenance actions such as **Create Version** there.
+7. Continue the same dataset ID: To create a new version from a historical version, select the source version in **All Versions** and click **Create Version**. The form shows “The new version will be generated automatically,” and the system assigns the next version when you save. If you need an independently editable copy instead, use **Copy Data**. Contact a system administrator for unit group and flow property new-version, copy, or other maintenance work.
 
 ![](./img/open1.png)
 
@@ -25,7 +26,7 @@ sidebar_position: 5
 
 1. Open Selection Panel: Click the "Select" button next to the content you wish to cite to open the information panel.
 2. Switch Categories: Use the top navigation bar to select different data categories.
-3. Select Data: Check the boxes for target information (selected rows will highlight in purple). To cite a historical version, open "All Versions" first and select the target version.
+3. Select Data: Check the boxes for target information (selected rows will highlight in purple). To cite a historical version, open "All Versions" first and select the target version. Unit groups and flow properties in **My Data** also support Reference Lookup for finding relationships, subject to the same data-space, team, and permission limits.
 4. Save Changes: Click "Save" at the bottom of the edit page to return to the previous panel.
 
 > Important: **Commercial data cannot be cited**
