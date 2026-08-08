@@ -21,9 +21,9 @@ checkPaths:
   - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-08-07
-lastReviewedCommit: d0e2112f95a7fc489d51950e1782d2bcbda2eb1b
-lastReviewedNote: "Reviewed for docs-impact Issue #562: same-model provider-linking guidance is covered in public docs and does not create a new product/docs drift backlog item."
+lastReviewedAt: 2026-08-08
+lastReviewedCommit: 93047add7f5ec521b29697182e5c00e972a70a6c
+lastReviewedNote: "Reviewed for docs-impact Issue #562 after merging current main into PR #120: same-model provider-linking guidance is covered in public docs and does not create a new product/docs drift backlog item."
 related:
   - AGENTS.md
   - README.md

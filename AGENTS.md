@@ -38,9 +38,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-07
-lastReviewedCommit: d0e2112f95a7fc489d51950e1782d2bcbda2eb1b
-lastReviewedNote: "Reviewed for docs-impact Issue #562: bilingual public-doc, validation, publication, screenshot, and workspace-integration boundaries remain current for provider-linking doc updates."
+lastReviewedAt: 2026-08-08
+lastReviewedCommit: 93047add7f5ec521b29697182e5c00e972a70a6c
+lastReviewedNote: "Reviewed for docs-impact Issue #562 after merging current main into PR #120: bilingual public-doc, validation, publication, screenshot, and workspace-integration boundaries remain current for provider-linking doc updates."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
