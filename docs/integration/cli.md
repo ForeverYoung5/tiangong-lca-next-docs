@@ -214,6 +214,7 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 - `--commit` 写入前仍会拦截 schema-invalid 行，并把失败明细写入输出目录中的 `failures.jsonl` 或校验报告。
 - TIDAS schema 中的 `common:classification` / `common:category` 可停在自然分类深度；不要为了补齐层级添加空的下级分类。超过最大层级、重复层级或无效分类值仍会被拦截。
 - 批量写入草稿时，`process save-draft --commit` 建议同时传入 `--target-user-id`。CLI 会校验当前认证会话和可见草稿所有者，写入后仍以回读结果证明最终 owner 与 payload。
+- `dataset save-draft` 默认仍会阻止把单位组、流属性等 reference-only 基础配置写成账号本地草稿。只有在受控迁移或修复场景中，明确传入 `--allow-account-local-support`，或把 `TIANGONG_ALLOW_ACCOUNT_LOCAL_SUPPORT=1` 放入运行环境，才会允许这类支持数据写入 My Data；交互式操作仍应优先选择已有数据库行。
 - `dataset classification apply --type location` 在 `target_path` 明确指向 schema 派生的 location 字段时，可以创建缺失的父对象和目标字段；模糊路径或非 location 字段仍会被阻止。
 - `dataset evidence-search run` 会在 `outputs/` 中写出检索计划、归一化结果、报告，以及在证据不足或只有部分时写出证据声明 JSON。
 
