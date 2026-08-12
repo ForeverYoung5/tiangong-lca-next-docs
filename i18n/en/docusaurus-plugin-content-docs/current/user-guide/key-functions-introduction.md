@@ -11,15 +11,16 @@ package workflow specifically, continue with
 ## National carbon dashboard public view
 
 If you receive or need to present a `/dashboard/national-carbon` link, you can open the national
-carbon dashboard directly. It is not shown in the normal menu and does not require entering the
-signed-in workspace first.
+carbon dashboard directly. It is not shown in the normal menu, but the current route is visible only
+to system administrator accounts; accounts without access see the 403 access-restricted state.
 
 The dashboard presents national carbon data platform progress across five views: **Overview**,
 **Status**, **Outcomes**, **Computable**, and **Process Flow Topology**. The topology view shows
 process and flow connections, lets you switch between sphere 3D, expanded 2D, and geographic map
 layouts, and uses node search, quick selection, and cache job status to show whether the graph is
-ready. Use the dashboard for presentation, public dashboard, or offline demo scenarios, not for
-editing data.
+ready. While graph cache data is loading, the page stays in a waiting state and only shows messages
+such as “No data available” when the cache is unavailable. Use the dashboard for presentation,
+public dashboard, or offline demo scenarios, not for editing data.
 
 ## Global top-bar controls
 
