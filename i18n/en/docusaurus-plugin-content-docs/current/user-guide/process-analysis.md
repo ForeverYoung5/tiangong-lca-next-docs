@@ -191,9 +191,10 @@ Some analyses can trigger background solving work. If processing takes longer, k
 **Task Center** in the top bar:
 
 - Task Center combines **LCA Calculation**, TIDAS import/export, and review-submit background jobs in one panel.
-- You can switch by task type, and the panel uses progress bars, status tags, and stage labels to show current progress.
-- Use **View** or **Details** to inspect result IDs, snapshot IDs, task IDs, failure reasons, and diagnostics.
-- Finished tasks can be cleared; failed tasks should be opened first so you can decide whether to rerun the related analysis.
+- You can switch by task type, and the panel uses progress bars, status tags, and stage labels to show current progress. Review-submit tasks can show queued, gate running, waiting for gate, submitting review, submitted, blocked, stale, cancelled, or error phases.
+- Use **View** or **Details** to inspect result IDs, snapshot IDs, task IDs, failure reasons, and diagnostics. When review submission fails, open the gate reason, `review_submit_job_id`, and worker-job diagnostics before deciding whether to retry.
+- If the same process version already has a review-submit gate running, the page asks you to try again later instead of creating a duplicate background task.
+- Finished tasks can be cleared; failed or cancelled tasks should be opened first so you can decide whether to rerun the related analysis or review submission.
 
 If you are working with TIDAS packages, also see the
 [TIDAS ZIP Import, Export, and Task Center](./tidas-zip-workflows) task-center guidance.

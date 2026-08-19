@@ -47,7 +47,7 @@ From left to right, the current header usually includes:
 | Import TIDAS ZIP Package | Import a ZIP archive that follows the TIDAS package structure | Accepts `.zip` only |
 | Export TIDAS ZIP Package | Export accessible data as a ZIP package | Runs asynchronously and finishes in Task Center |
 | Data Processing | Generate, preview, and publish LCIA result sets | Visible only to accounts with `data_product_manager` access |
-| Task Center | Monitor background work | Combines LCA analysis tasks and TIDAS export tasks |
+| Task Center | Monitor background work | Combines LCA analysis, TIDAS import/export, and review-submit background jobs |
 | Notifications | Review collaboration and review updates | Includes Team, Data, and Issue tabs; see [Notification Center](./notifications) |
 | Light / Dark mode | Switch theme | Useful for different work environments |
 | Language switcher | Switch UI locale | Also affects which docs locale opens |
