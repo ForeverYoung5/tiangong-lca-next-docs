@@ -24,7 +24,7 @@ checkPaths:
   - context7.json
   - static/llms.txt
 lastReviewedAt: 2026-08-19
-lastReviewedCommit: 037c7ca80875ef13caa03e062dac02525e50d5b6
+lastReviewedCommit: 9c7904bcbd47fd3c927c80df6e4411a06136ba6a
 lastReviewedNote: "Reviewed for docs-impact Issue #615: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
 related:
   - docs/dev/dev-env.md
