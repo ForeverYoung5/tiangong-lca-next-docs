@@ -22,12 +22,9 @@ first, then submit again.
 
 ![Submission validation prompt](img/data-problem.png)
 
-For process datasets, **Submit for review** first enters the **Numerical stability gate**. Common
-states include “Review submission is queued,” “Numerical stability gate is running,” “Review
-submission is waiting for the numerical stability gate to finish,” and “Numerical stability gate
-passed. Submitting for review now.” If the page says submission is still processing in the
-background, click **Submit for review** again later to refresh the latest status. If the gate blocks
-submission, fix the reported data issues, save again, and resubmit.
+For process datasets, **Submit for review** now calls the review submission directly. If the system
+rejects the submission, fix the issues shown on the page, save again, and resubmit. You no longer
+need to wait for a separate numerical-stability-gate task in Task Center.
 
 ## Who does what
 
@@ -144,8 +141,6 @@ Even if an author does not have a review role, they should still understand the 
 
 1. Finish modelling and self-check in **My Data**
 2. Click **Submit for review**
-   - If submission creates a background task, track it in the top-right **Task Center** before
-     waiting for assignment or feedback.
 3. Wait for a review admin to assign reviewers
 4. Revise according to review feedback
 5. Resubmit if necessary
