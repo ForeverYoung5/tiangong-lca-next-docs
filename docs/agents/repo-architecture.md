@@ -34,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-07
+lastReviewedAt: 2026-08-19
 lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
-lastReviewedNote: "Reviewed for docs-impact Issue #561: next-docs still owns bilingual public docs, generated llms.txt, and publication assets while My Data unit group and flow property behavior remains in tiangong-lca-next."
+lastReviewedNote: "Reviewed for docs-impact Issue #603: next-docs still owns bilingual public docs, generated llms.txt, and publication assets while Data Processing and published LCIA behavior remain in product/service repos."
 related:
   - AGENTS.md
   - .docpact/config.yaml

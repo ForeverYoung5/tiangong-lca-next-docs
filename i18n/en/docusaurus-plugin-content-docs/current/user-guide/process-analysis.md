@@ -39,7 +39,12 @@ The current options are:
 Choose them according to your goal:
 
 - Use **Current user data** when checking your own drafts
-- Use **Open data** when comparing published datasets
+- Use **Open data** when comparing published datasets. Process profiles and LCIA detail rows in
+  Open Data prefer published LCIA result sets. Those result sets are generated and published from
+  the **Data Processing** workspace by accounts with `data_product_manager` access, and include only
+  inputs that satisfy the published-state eligibility rules. If no published result set is
+  available, the page shows an empty or unavailable state instead of temporarily recalculating and
+  publishing results.
 - Use **All data** when you need the broadest available candidate set
 
 ### Process search

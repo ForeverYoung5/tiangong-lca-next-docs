@@ -13,9 +13,12 @@ TianGong LCA 的权限边界分布在多个页面中。为了避免在“数据�
 
 - **数据空间权限**：Open Data、Commercial Data、My Data、Team Data
 - **团队协作角色**：团队 owner / admin / member
-- **专门工作区角色**：`review-admin` / `review-member`，以及系统 `owner` / `admin` / `member`
+- **专门工作区角色**：`review-admin` / `review-member`、`data_product_manager`，以及系统
+  `owner` / `admin` / `member`
 
 不要把它们当成一套线性层级。一个人可能在不同维度上同时拥有不同角色。
+其中 `data_product_manager` 用于访问**数据处理**工作区，生成、预览和发布面向开放数据的 LCIA
+结果集；它不等同于系统 `admin`，也不会自动授予审核角色。
 
 ## 数据空间矩阵
 
