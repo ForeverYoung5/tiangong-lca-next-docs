@@ -35,7 +35,7 @@ checkPaths:
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-08-19
-lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
+lastReviewedCommit: df90f04ec0069bee5f09fb988747bdb3a3cf9f2d
 lastReviewedNote: "Reviewed for docs-impact Issue #603: next-docs still owns bilingual public docs, generated llms.txt, and publication assets while Data Processing and published LCIA behavior remain in product/service repos."
 related:
   - AGENTS.md
