@@ -13,11 +13,14 @@ At least three permission layers can overlap in the platform:
 
 - **Data-space permissions**: Open Data, Commercial Data, My Data, Team Data
 - **Team collaboration roles**: team owner / admin / member
-- **Special workspace roles**: `review-admin` / `review-member`, plus system `owner` / `admin` /
-  `member`
+- **Special workspace roles**: `review-admin` / `review-member`, `data_product_manager`, plus
+  system `owner` / `admin` / `member`
 
 Do not treat them as one linear hierarchy. A person may hold different roles across different
 domains.
+The `data_product_manager` role opens the **Data Processing** workspace for generating, previewing,
+and publishing LCIA result sets for Open Data. It is not the same as system `admin`, and it does not
+automatically grant review roles.
 
 ## Data-space matrix
 

@@ -33,11 +33,12 @@ From left to right, the current header usually includes:
 
 1. **Import TIDAS ZIP Package**
 2. **Export TIDAS ZIP Package**
-3. **Task Center**
-4. **Notifications**
-5. **Light / Dark mode**
-6. **Language switcher**
-7. **Documentation link**
+3. **Data Processing** (visible only to `data_product_manager` users)
+4. **Task Center**
+5. **Notifications**
+6. **Light / Dark mode**
+7. **Language switcher**
+8. **Documentation link**
 
 ### What each control does
 
@@ -45,6 +46,7 @@ From left to right, the current header usually includes:
 | --- | --- | --- |
 | Import TIDAS ZIP Package | Import a ZIP archive that follows the TIDAS package structure | Accepts `.zip` only |
 | Export TIDAS ZIP Package | Export accessible data as a ZIP package | Runs asynchronously and finishes in Task Center |
+| Data Processing | Generate, preview, and publish LCIA result sets | Visible only to accounts with `data_product_manager` access |
 | Task Center | Monitor background work | Combines LCA analysis tasks and TIDAS export tasks |
 | Notifications | Review collaboration and review updates | Includes Team, Data, and Issue tabs; see [Notification Center](./notifications) |
 | Light / Dark mode | Switch theme | Useful for different work environments |
@@ -56,6 +58,8 @@ From left to right, the current header usually includes:
 The numbered markers follow the current left-to-right order: `1` Import TIDAS ZIP Package,
 `2` Export TIDAS ZIP Package, `3` Task Center, `4` Notifications, `5` Light / Dark mode,
 `6` Language switcher, `7` Documentation link.
+Accounts with `data_product_manager` access also see **Data Processing** before Task Center; accounts
+without that role do not see the control.
 
 ### Notification centre
 

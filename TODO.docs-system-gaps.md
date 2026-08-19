@@ -21,9 +21,9 @@ checkPaths:
   - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-08-07
+lastReviewedAt: 2026-08-19
 lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
-lastReviewedNote: "Reviewed for docs-impact Issue #561: My Data unit group and flow property read-only guidance was updated directly, so no new product/docs drift backlog item is needed."
+lastReviewedNote: "Reviewed for docs-impact Issue #603: Data Processing and published LCIA result-set guidance was updated directly, so no new product/docs drift backlog item is needed."
 related:
   - AGENTS.md
   - README.md

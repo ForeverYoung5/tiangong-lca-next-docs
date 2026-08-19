@@ -38,9 +38,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-07
+lastReviewedAt: 2026-08-19
 lastReviewedCommit: a6239fa4fc9d8a2abd3e346c9e746daead500bf0
-lastReviewedNote: "Reviewed for docs-impact Issue #561: bilingual public-doc, validation, publication, screenshot, and workspace-integration boundaries remain current for My Data unit group and flow property read-only guidance."
+lastReviewedNote: "Reviewed for docs-impact Issue #603: bilingual public-doc, validation, publication, screenshot, and workspace-integration boundaries remain current for Data Processing and published LCIA result-set guidance."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

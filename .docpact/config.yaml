@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-07"
+lastReviewedAt: "2026-08-19"
 lastReviewedCommit: "a6239fa4fc9d8a2abd3e346c9e746daead500bf0"
-reviewNote: "Reviewed for docs-impact Issue #561: public content, llms.txt generation, publication-scope, screenshot validation, and repo routing rules remain current for My Data unit group and flow property read-only guidance."
+reviewNote: "Reviewed for docs-impact Issue #603: public content, llms.txt generation, publication-scope, screenshot validation, and repo routing rules remain current for Data Processing and published LCIA result-set guidance."
 lastReviewedNote: "Reviewed for Issue #115: bilingual public-content and generated-publication rules cover the tidas v0.1.3 rollout without a routing or ownership change."
 
 catalog:
