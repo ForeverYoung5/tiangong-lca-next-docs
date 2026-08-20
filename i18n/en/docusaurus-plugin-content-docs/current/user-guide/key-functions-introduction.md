@@ -11,15 +11,16 @@ package workflow specifically, continue with
 ## National carbon dashboard public view
 
 If you receive or need to present a `/dashboard/national-carbon` link, you can open the national
-carbon dashboard directly. It is not shown in the normal menu and does not require entering the
-signed-in workspace first.
+carbon dashboard directly. It is not shown in the normal menu, but the current route is visible only
+to system administrator accounts; accounts without access see the 403 access-restricted state.
 
 The dashboard presents national carbon data platform progress across five views: **Overview**,
 **Status**, **Outcomes**, **Computable**, and **Process Flow Topology**. The topology view shows
 process and flow connections, lets you switch between sphere 3D, expanded 2D, and geographic map
 layouts, and uses node search, quick selection, and cache job status to show whether the graph is
-ready. Use the dashboard for presentation, public dashboard, or offline demo scenarios, not for
-editing data.
+ready. While graph cache data is loading, the page stays in a waiting state and only shows messages
+such as “No data available” when the cache is unavailable. Use the dashboard for presentation,
+public dashboard, or offline demo scenarios, not for editing data.
 
 ## Global top-bar controls
 
@@ -32,11 +33,12 @@ From left to right, the current header usually includes:
 
 1. **Import TIDAS ZIP Package**
 2. **Export TIDAS ZIP Package**
-3. **Task Center**
-4. **Notifications**
-5. **Light / Dark mode**
-6. **Language switcher**
-7. **Documentation link**
+3. **Data Processing** (visible only to `data_product_manager` users)
+4. **Task Center**
+5. **Notifications**
+6. **Light / Dark mode**
+7. **Language switcher**
+8. **Documentation link**
 
 ### What each control does
 
@@ -44,7 +46,8 @@ From left to right, the current header usually includes:
 | --- | --- | --- |
 | Import TIDAS ZIP Package | Import a ZIP archive that follows the TIDAS package structure | Accepts `.zip` only |
 | Export TIDAS ZIP Package | Export accessible data as a ZIP package | Runs asynchronously and finishes in Task Center |
-| Task Center | Monitor background work | Combines LCA analysis tasks and TIDAS export tasks |
+| Data Processing | Generate, preview, and publish LCIA result sets | Visible only to accounts with `data_product_manager` access |
+| Task Center | Monitor background work | Combines LCA analysis, TIDAS import/export, and review-submit background jobs |
 | Notifications | Review collaboration and review updates | Includes Team, Data, and Issue tabs; see [Notification Center](./notifications) |
 | Light / Dark mode | Switch theme | Useful for different work environments |
 | Language switcher | Switch UI locale | Also affects which docs locale opens |
@@ -55,6 +58,8 @@ From left to right, the current header usually includes:
 The numbered markers follow the current left-to-right order: `1` Import TIDAS ZIP Package,
 `2` Export TIDAS ZIP Package, `3` Task Center, `4` Notifications, `5` Light / Dark mode,
 `6` Language switcher, `7` Documentation link.
+Accounts with `data_product_manager` access also see **Data Processing** before Task Center; accounts
+without that role do not see the control.
 
 ### Notification centre
 

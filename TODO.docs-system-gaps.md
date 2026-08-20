@@ -21,9 +21,9 @@ checkPaths:
   - scripts/check-screenshots.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-08-08
-lastReviewedCommit: 93047add7f5ec521b29697182e5c00e972a70a6c
-lastReviewedNote: "Reviewed for docs-impact Issue #562 after merging current main into PR #120: same-model provider-linking guidance is covered in public docs and does not create a new product/docs drift backlog item."
+lastReviewedAt: 2026-08-19
+lastReviewedCommit: 9c7904bcbd47fd3c927c80df6e4411a06136ba6a
+lastReviewedNote: "Reviewed for docs-impact Issue #615: Task Center, review-submit, and Team profile guidance was updated directly, so no new product/docs drift backlog item is needed."
 related:
   - AGENTS.md
   - README.md

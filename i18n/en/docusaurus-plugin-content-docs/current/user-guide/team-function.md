@@ -21,7 +21,8 @@ Open **My Team** in the sidebar to view your workspace. If you are not yet part 
 
 1. Click **Create Team**.  
 2. Provide a name and description. **Publicize team information** is off by default; enable it only when others should be able to contact the team owner by email.  
-3. Confirm to become the team owner.
+3. To apply for homepage display, enable **Apply to display on the homepage** and upload both light and dark team logos. Transparent PNG or SVG files are recommended so the logo stays clear in different themes.  
+4. Confirm to become the team owner.
 
 ![Create team flow](img/create-team.png)
 

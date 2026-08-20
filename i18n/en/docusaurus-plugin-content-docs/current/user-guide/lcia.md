@@ -60,6 +60,11 @@ That means:
 - It is useful for **one process at a time**
 - It is not the same as a full product-system total
 - It should not replace multi-process comparison or contribution-path analysis
+- When you view process LCIA in the **Open Data** scope, the page prefers published LCIA result
+  sets. These result sets are generated, previewed, and published from the **Data Processing**
+  workspace by `data_product_manager` users, and include only inputs that satisfy published-state
+  eligibility rules. If the related result set has not been published, is empty, or is temporarily
+  unavailable, the page shows the corresponding empty or unavailable state.
 
 ## Model-level LCIA
 
