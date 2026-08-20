@@ -112,6 +112,9 @@ LCIA 会把 LCI（生命周期清单）结果转换为环境影响类别结果�
 - 参考流或功能单位设置不合理
 - 产品输入交换的 `exchange.location` 指向了不同供应区域，或过程的年供应量 / 年产量导致多个
   provider 的分配份额发生变化
+- 如果消费过程和某个可供应该产品流的 reference-output provider 处在同一 `model_id` 中，系统会先使用
+  这个同模型 provider 子集，再进行地理层级选择和年供应量 / 年产量加权；不同模型的 provider 不会仅因
+  地理更近或年量更大而进入该输入的供应组合
 - 年供应量 / 年产量缺失、非法或非正时，系统会使用默认正权重；如需排查，应结合快照覆盖率与
   provider linking 诊断查看 fallback 数量和供应区域来源
 - 自动 provider linking 只把 quantitative reference output 视为可供应该产品流的 provider；

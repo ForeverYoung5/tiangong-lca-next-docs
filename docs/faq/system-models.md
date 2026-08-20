@@ -19,7 +19,9 @@ description: 回答在 TianGong LCA 中构建模型时与其他 LCA 软件的差
 
 当产品输入交换没有显式连接到唯一 provider 时，TianGong LCA 会在求解快照中使用隐式区域供应组合。
 产品输入的 `exchange.location` 会优先作为供应区域；如果没有可用位置，则使用消费过程的位置作为默认供应区域。
-系统先选择最合适的地理层级，再在该层级内按 provider 过程的年供应量或年产量分配份额。自动链接
+如果消费过程具有 `model_id`，并且同一模型内存在可供应该产品流的 reference-output provider，
+系统会先使用这个同模型 provider 子集；如果没有同模型 provider，才回到更宽的区域供应组合。
+随后系统选择最合适的地理层级，再在该层级内按 provider 过程的年供应量或年产量分配份额。自动链接
 只把 quantitative reference output 视为可供应该产品流的 provider；同 `flow_id` 的非 reference
 output 不会因为存在数量或 allocation fraction 就自动进入 provider set。
 

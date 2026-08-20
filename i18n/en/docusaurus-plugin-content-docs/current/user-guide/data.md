@@ -53,7 +53,7 @@ These elements appear in every module, but permissions differ.
 
 ### My Data
 
-- Your main authoring workspace for models, processes, flows, sources, contacts, and related records. Unit groups and flow properties are foundational configuration: ordinary users can view, search, use Reference Lookup, inspect all versions, and export them in **My Data**. Creation, import, copy, create-version, edit, delete, and contribution actions are normally handled by system administrators. Contact an administrator when you need those records added or supplemented.  
+- Your main authoring workspace for models, processes, flows, sources, contacts, and related records. Unit groups and flow properties are foundational configuration: ordinary users can view, search, use Reference Lookup, inspect all versions, and export them in **My Data**. Creation, import, copy, create-version, edit, delete, and contribution actions are normally handled by system administrators. Contact an administrator when you need those records added or supplemented.
 - Supports drafts, imports/exports, versioning, and team contributions; ordinary lists prefer the latest visible version. When you create a new version from **All Versions**, the platform keeps the same dataset ID and generates the next version number automatically.  
 - See [Create My Data](/en/user-guide/create-my-data) and [Data Use](/en/user-guide/data-use) for detailed workflows.  
 - ⚠️ Prefer the platform’s standard unit groups and flow properties to avoid LCIA compatibility issues.

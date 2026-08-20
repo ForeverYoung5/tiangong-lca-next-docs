@@ -170,7 +170,9 @@ TianGong LCA 现在提供了一个独立的**过程分析工作区**，用于在
 
 贡献路径基于当前求解快照中的 provider linking 结果展开。对于产品输入交换，`exchange.location`
 可指定供应区域；如果没有显式位置，系统会使用消费过程的位置作为默认供应区域。存在多个可用
-provider 时，系统会在选定地理层级内按过程的年供应量或年产量分配份额，缺失或无效年量会使用默认
+provider 时，如果消费过程和可供应同一产品流的 reference-output provider 处在同一 `model_id`，
+系统会先把候选范围收窄到这个同模型子集；如果没有同模型 provider，才回到更宽的区域供应组合。
+随后系统会在选定地理层级内按过程的年供应量或年产量分配份额，缺失或无效年量会使用默认
 正权重。只有 quantitative reference output 会被视为可供应该产品流的 provider；同 `flow_id` 的
 非 reference output 只作为诊断候选项记录。这个分配只改变上游供应者结构，不改变该输入交换的总
 需求量。

@@ -118,6 +118,11 @@ Common causes include:
 - A product input exchange `exchange.location` points to a different supply
   region, or process annual supply / production volume changes the provider
   shares across multiple providers
+- If the consumer process and an eligible reference-output provider for the
+  product flow share the same `model_id`, the system first uses that same-model
+  provider subset before geography-tier selection and annual-volume weighting.
+  Providers from another model do not enter that input's supply mix only because
+  they are geographically closer or have a larger annual volume
 - Missing, invalid, or non-positive annual volume uses a default positive
   weight. When investigating, check snapshot coverage and provider-linking
   diagnostics for fallback counts and supply-region sources
