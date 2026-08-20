@@ -22,8 +22,8 @@ checkPaths:
   - context7.json
   - static/llms.txt
 lastReviewedAt: 2026-08-20
-lastReviewedCommit: 3a5fa20b4396ca68034d704bc1592d884888e7e0
-lastReviewedNote: "Reviewed for docs-impact Issue #562 after merging current main into PR #120: same-model provider-linking guidance is covered in public docs and does not create a new product/docs drift backlog item."
+lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
+lastReviewedNote: "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: TIDAS import validation guidance was updated directly, so no new product/docs drift backlog item is needed."
 related:
   - AGENTS.md
   - README.md

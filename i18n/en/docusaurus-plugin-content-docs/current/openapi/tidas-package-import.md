@@ -316,6 +316,12 @@ Client recommendations:
 - Also display raw `message`, `file_path`, and `location` for debugging
 - Use `summary.error_count`, `summary.warning_count`, and
   `summary.validation_issue_count` for top-level summaries
+- For Product flow classifications, validation checks `@classId`, `@level`,
+  `#text`, and the parent chain together. CPC / ILCD Product classifications
+  can return more specific issue codes such as
+  `product_category_unknown_class_id`, `product_category_level_mismatch`,
+  `product_category_text_mismatch`, or `product_category_parent_mismatch`;
+  externally named classification systems still receive structural validation.
 
 ### Process Dataset Field Compatibility
 
@@ -341,6 +347,10 @@ When preparing process datasets, pay special attention to these fields:
   one value per level, and valid category values. Over-deep paths, duplicate
   levels, or invalid category values still return `schema_error` or a
   classification hierarchy error.
+- The published Product flow classification schema still keeps the full
+  controlled classification contract. The platform validator uses an internal
+  index to speed up class value, level, text, and parent-chain checks; this does
+  not widen the Product classifications accepted by API import.
 
 Packages with field shapes or values that do not match the current schema fail
 with `schema_error`; the import report points to the process file and field
