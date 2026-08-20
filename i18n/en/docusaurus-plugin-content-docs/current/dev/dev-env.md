@@ -23,9 +23,9 @@ checkPaths:
   - scripts/check-screenshots.test.mjs
   - context7.json
   - static/llms.txt
-lastReviewedAt: 2026-08-19
-lastReviewedCommit: 9c7904bcbd47fd3c927c80df6e4411a06136ba6a
-lastReviewedNote: "Reviewed for docs-impact Issue #615: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
+lastReviewedAt: 2026-08-20
+lastReviewedCommit: c43c25bf0e00c91f1b5c5a6cbaa881fa919456be
+lastReviewedNote: "Reviewed for docs-impact Issue #562 after merging current main into PR #120: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current."
 related:
   - docs/dev/dev-env.md
   - docs/agents/repo-validation.md
