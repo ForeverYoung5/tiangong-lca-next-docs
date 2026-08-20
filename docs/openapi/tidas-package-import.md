@@ -294,6 +294,10 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 - 同时展示 `message`、`file_path`、`location` 等原始字段，便于排查
 - 使用 `summary.error_count`、`summary.warning_count`、`summary.validation_issue_count`
   做顶部汇总
+- 当流程数据集使用 Product flow 分类时，校验会同时检查 `@classId`、`@level`、`#text` 和父级链路。
+  对 CPC / ILCD Product 分类，报告可能返回 `product_category_unknown_class_id`、
+  `product_category_level_mismatch`、`product_category_text_mismatch` 或
+  `product_category_parent_mismatch` 等更具体的问题码；外部命名分类系统仍按结构校验处理。
 
 ### 流程数据集字段兼容性
 
@@ -311,6 +315,8 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
   level 0-1 的合法分类路径可以通过校验。
 - `common:classification` / `common:category` 仍会限制最大层级数、同一层级的唯一性和分类值；超过
   schema 定义的层级深度、重复层级或无效分类值仍会返回 `schema_error` 或分类层级错误。
+- 已发布的 Product flow 分类 schema 仍保留完整受控分类契约；平台校验器会使用内部索引加速分类值、
+  层级、文本和父级链路检查。这不会放宽 API 导入接受的 Product 分类范围。
 
 如果字段形状或取值不符合当前 schema，导入报告会返回 `schema_error`，并在 `file_path`、
 `location` 和 `message` 中指出对应的流程文件与字段位置。
