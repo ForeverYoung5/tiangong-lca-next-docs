@@ -202,12 +202,16 @@ tiangong-lca process identity-preflight --input ./process-preflight.json --out-d
 tiangong-lca flow identity-preflight --input ./flow-preflight.json --out-dir ./flow-preflight --json
 tiangong-lca process build-plan validate --input ./process-build-plan.json --out-dir ./process-build-plan --json
 tiangong-lca flow build-plan validate --input ./flow-build-plan.json --out-dir ./flow-build-plan --json
+tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation merge-support-aliases --out-dir ./dataset-maintenance --json
+tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --json
+tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --json
 tiangong-lca publish run --input ./publish-request.json --dry-run --json
 ```
 
 - `identity-preflight` compares a target process or flow with candidate data and reports whether automation can reuse it, should route it to manual review, or should block new creation.
 - `build-plan validate` checks whether a process or flow build plan includes identity decisions, evidence bindings, naming plans, `unit_of_analysis` decisions, and the required reference-flow or flow-property fields.
 - `dataset evidence-search plan/run` plans field-level public evidence retrieval and records external search results; the CLI owns the query matrix, budget, result normalization, and evidence declaration artifacts, while human or agent workflows still own source judgement.
+- `dataset maintenance plan/apply/verify` supports controlled data cleanup and private draft alias repair. `plan` freezes the exact current-user-visible rows, versions, hashes, and maintenance intent; `apply` writes only when `--commit`, `--approve-plan <sha256>`, and `--confirm <current-account-email>` are all present; and `verify` performs a fresh remote readback. `merge-support-aliases` is limited to fixed `time` and `length_time` batches under `target_mode: "owner_draft"`: every source/target unit group, flow property, flow, and process must belong to the current account and remain draft `state_code=0`; public, shared, foreign-owner, non-draft, or mixed-visibility rows stay protected.
 - `publish run --dry-run` reports publish ruleset results before a real write or publish step.
 
 These commands write machine-readable reports under `outputs/` or `reports/` in the selected `--out-dir`. For automation, read fields such as `status`, `blockers`, `issues`, `files`, and artifact paths instead of relying on terminal text.

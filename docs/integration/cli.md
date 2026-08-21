@@ -192,12 +192,16 @@ tiangong-lca process identity-preflight --input ./process-preflight.json --out-d
 tiangong-lca flow identity-preflight --input ./flow-preflight.json --out-dir ./flow-preflight --json
 tiangong-lca process build-plan validate --input ./process-build-plan.json --out-dir ./process-build-plan --json
 tiangong-lca flow build-plan validate --input ./flow-build-plan.json --out-dir ./flow-build-plan --json
+tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation merge-support-aliases --out-dir ./dataset-maintenance --json
+tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --json
+tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --json
 tiangong-lca publish run --input ./publish-request.json --dry-run --json
 ```
 
 - `identity-preflight` 会把目标过程或流与候选数据对比，输出是否可自动复用、需要人工复核或应阻止新建的判定。
 - `build-plan validate` 用于检查过程或流构建计划是否包含身份判定、证据绑定、名称计划、`unit_of_analysis` 决策和必要的参考流 / 流属性信息。
 - `dataset evidence-search plan/run` 用于规划字段级公开证据检索并记录外部搜索结果；CLI 负责查询矩阵、预算、结果归一化和证据声明制品，来源判断仍需由人工或 agent 工作流完成。
+- `dataset maintenance plan/apply/verify` 用于受控数据清理和私有草稿别名修复。`plan` 会冻结当前用户可见的精确行、版本、哈希和维护意图，`apply` 只有同时带有 `--commit`、`--approve-plan <sha256>` 和 `--confirm <current-account-email>` 才会写入，`verify` 会重新回读远端结果。`merge-support-aliases` 仅支持 `target_mode: "owner_draft"` 下固定的 `time` 与 `length_time` 批次；所有源/目标单位组、流属性、流和过程都必须属于当前账号且保持草稿 `state_code=0`，公共、共享、非本人、非草稿或混合可见性行会被保护。
 - `publish run --dry-run` 会输出发布规则集的校验结果，适合在真正写入或发布前做流水线拦截。
 
 这些命令会把机器可读报告写入 `--out-dir` 下的 `outputs/` 或 `reports/` 目录。接入自动化时，应优先读取报告中的

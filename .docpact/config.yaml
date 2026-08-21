@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-20"
-lastReviewedCommit: "e76d5571a6fa495e103576e2a69a9c2407522458"
-reviewNote: "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: TIDAS import validation guidance remains within existing public content, llms.txt generation, publication-scope, screenshot validation, and repo routing rules."
-lastReviewedNote: "Reviewed for docs-impact Issue #619 after conflict resolution: bilingual TIDAS import API guidance and generated llms.txt update do not change routing, ownership, publication, or screenshot evidence contracts."
+lastReviewedAt: "2026-08-21"
+lastReviewedCommit: "e44e9b4d12197665265a88713f9ca7a5d52264f5"
+reviewNote: "Reviewed for docs-impact Issue #651: CLI dataset maintenance public-doc update remains within existing publication, screenshot, and repo routing rules."
+lastReviewedNote: "Reviewed for docs-impact Issue #651: bilingual CLI maintenance guidance and generated llms.txt update do not change routing, ownership, publication, or screenshot evidence contracts."
 
 catalog:
   repos:

@@ -34,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-20
-lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: next-docs still owns bilingual public docs, generated llms.txt, and publication assets while TIDAS validation behavior remains sourced from product/tooling repos."
+lastReviewedAt: 2026-08-21
+lastReviewedCommit: e44e9b4d12197665265a88713f9ca7a5d52264f5
+lastReviewedNote: "Reviewed for docs-impact Issue #651: next-docs still owns bilingual public docs, generated llms.txt, and publication assets while CLI behavior remains sourced from tiangong-lca/tiangong-cli."
 related:
   - AGENTS.md
   - .docpact/config.yaml
