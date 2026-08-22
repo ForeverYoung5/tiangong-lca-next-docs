@@ -26,8 +26,6 @@ related:
   - manifests/p0b/DECISIONS.md
 ---
 
-# Fumadocs 迁移切换 Runbook（P4/P5）
-
 > 方案：`spike/PLAN-v4.md`（spike 分支）§6/§10/§12 · 追踪 Issue #131
 > 本文件沉淀 P0A–P3 实测验证过的运维事实；timeout/RTO 数值在 P4 演练后回填。
 
@@ -61,6 +59,7 @@ related:
 ### Search Key 生成（P4 前置）
 
 Algolia 控制台 → Settings → API Keys → Create API key：
+
 - ACL：仅 `search`
 - Indices：`tiangong-lca-docs`
 - （可选）Referers/IPv4 限制：`docs.tiangong.earth/*`
