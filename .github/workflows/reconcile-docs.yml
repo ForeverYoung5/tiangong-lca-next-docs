@@ -148,6 +148,12 @@ jobs:
             cat /tmp/context7-response.json || true
             exit 0
           fi
+          # too-early：Context7 强制最小 10 天刷新间隔，项目已在新鲜期内——软跳过
+          if grep -q '"too-early"' /tmp/context7-response.json 2>/dev/null; then
+            echo "status=too-early" >> "$GITHUB_OUTPUT"
+            echo "::warning::Context7 refresh skipped: within the 10-day minimum interval (project already fresh)"
+            exit 0
+          fi
           echo "::error::Context7 refresh failed (HTTP $status_code)"
           cat /tmp/context7-response.json || true
           exit 1
