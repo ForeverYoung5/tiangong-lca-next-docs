@@ -50,7 +50,7 @@ checkPaths:
   - scripts/install-git-hooks.sh
 lastReviewedAt: "2026-08-22"
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for P4 preparation (issue #131): orphan media deletion decision recorded (15 files user-confirmed, never published on either site); migration cutover runbook added (docs/agents/migration-cutover-runbook.md) consolidating verified operational facts from P0A-P3 and the EdgeOne/GitHub environment matrix; P3 reconciliation chain fully green."
+lastReviewedNote: "Reviewed for UI polish batch (issue #131): language switcher displayName fix (was all-English), light/dark brand logos from product assets with explicit dimensions, Algolia attribution moved inside the search dialog (prebuilt component rendered it page-resident), search client memoization (infinite re-render fix)."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
