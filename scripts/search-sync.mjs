@@ -87,7 +87,8 @@ console.log(`[search-sync] replaceAllObjects done: ${sr.count} records -> ${INDE
 // 作为可回读的索引 sentinel（服务端拒绝 customSettings 设置，记录级 sentinel 更可靠）
 const probe = await client.searchSingleIndex({
   indexName: INDEX_NAME,
-  searchParams: { query: '', hitsPerPage: 1 },
+  // 请求级覆写：fumadocs 的 attributesToRetrieve 白名单不含 sourceCommit
+  searchParams: { query: '', hitsPerPage: 1, attributesToRetrieve: ['sourceCommit'] },
 });
 const probeHit = probe.hits?.[0] ?? probe.results?.[0]?.hits?.[0];
 if (!probeHit || probeHit.sourceCommit !== sr.sourceCommit) {
