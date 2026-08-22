@@ -1,0 +1,69 @@
+---
+title: "Datenbewertung"
+---
+
+Für die Hinweise zur Datensammlung siehe [Hinweise zur Datensammlung](/de/docs/data-collection/data-collection-instructions/)
+
+Diese Fallstudie basiert auf der Literatur [Comparative environmental assessment of methanol production technologies](https://doi.org/10.1016/j.enconman.2024.118128) und zeigt, wie man Daten aus der Literatur extrahiert, vorverarbeitet und ein Lebenszyklusmodell für die Biomasse-zu-Methanol-Produktion in der TianGong-LCA-Datenplattform aufbaut.
+
+> Hinweise:
+Rote Rahmen kennzeichnen Punkte, die besondere Aufmerksamkeit und Anforderungen erfordern; blaue Rahmen zeigen Referenzbeispiele.
+---
+
+## Bewertung der Datenverfügbarkeit
+
+Bewerten Sie vor der Modellierung die Verfügbarkeit der gewählten Daten mit Fokus auf die
+Stoffbilanz von Eingaben und Ausgaben. Bestehen Ungleichgewichte, analysieren Sie die Ursachen anhand
+der Literaturbeschreibungen oder Prozesskenntnissen und entscheiden Sie, ob sinnvolle Anpassungen
+(Ergänzung, Normalisierung, Schätzung) die Modellierungsanforderungen erfüllen können. Andernfalls
+verwerfen Sie die Daten.
+
+- **Bewertung der Datenverfügbarkeit der Methanol-Produktionspfade**
+
+| ID | Pfadname | Verfügbarkeit | Grund der Nichtverfügbarkeit |
+| --- | --- | --- | --- |
+| 1 | Kohlevergasung zu Methanol | ✅ verfügbar | — |
+| 2 | Kokerei zu Methanol | ⚠ teilweise verfügbar | Ausgaben übersteigen Eingaben bei Kohleabbau/-verarbeitung; Daten zu Kohleproduktion und Methanolprozess verfügbar |
+| 3 | Erdgas zu Methanol | ❌ nicht verfügbar | Große Eingabe-Ausgabe-Abweichung, Stoffungleichgewicht, nicht korrigierbar — ausgeschlossen |
+| 4 | Biomasse zu Methanol (BOTM) | ✅ verfügbar | — |
+| 5 | CO₂-Abscheidung zu Methanol | ✅ verfügbar | — |
+
+Gewählt wurde **Biomasse zu Methanol (BOTM)** als Beispielfall.
+
+## Prozessflussdiagramm
+
+Die Literatur liefert ein vollständiges Prozessflussdiagramm mit klaren Systemgrenzen, das sich als
+direkte Modellierungsvorlage eignet.
+
+Siehe Literatur Abb. 6. Systemgrenze der Methanolproduktion aus Biomasse.
+
+![Alt text](/assets/docs/e76c1998/system-boundary-diagram.png)
+
+## Datenverarbeitung
+
+Aus der Literatur extrahierte Stoff-/Energieflüsse:
+
+![Alt text](/assets/docs/802f0f08/data-list.png)
+
+**In Kombination von Flussdiagramm und Dateninhalt umfasst die Fallmodellierung zwei Ebenen:
+[Unit-Prozess-Konstruktion](/de/docs/data-collection/case-introduction/unit-process-construction/)
+(drei Einzelprozesse) und [Modellaufbau](/de/docs/data-collection/case-introduction/model-building/)**
+
+Jeder Teilprozess erfordert die Angabe:
+
+- **Referenzfluss**:
+  - Biomasseaufbereitung: 1 kg behandelte Biomasse
+  - Biomassevergasung: 1 kg CO
+  - Methanolsynthese: 1 kg Methanol
+- Gewährleisten Sie konsistente Referenzmengen über alle Prozesse hinweg für korrekte Systemberechnungen
+
+Das Gesamtmodell ist ein teilweise terminiertes System, mit dem dritten Unit-Prozess
+[Methanolproduktion] als Baseline. Die funktionale Einheit wurde auf 1 kg Methanolprodukt festgelegt
+(oder 1 Tonne — Wahl des Modellierers, aber konsistent über alle Unit-Prozesse hinweg).
+
+**Verarbeitungshinweise:**
+
+- **Fehlende Daten**: Abwassermenge nicht angegeben — auf Basis der Stoffbilanz geschätzt (Details unter [Unit-Prozess-Konstruktion](/de/docs/data-collection/case-introduction/unit-process-construction/)).
+
+> Wichtiger Hinweis:
+Weichen benötigte Einheiten von Flusseinheiten ab, führen Sie eine **Einheitenumrechnung** durch, statt neue Flusselemente anzulegen.

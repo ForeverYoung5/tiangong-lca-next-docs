@@ -1,0 +1,60 @@
+---
+title: "Systemmodellierung"
+description: "Antworten zum Modellbau in TianGong LCA und zum Vergleich mit anderen LCA-Tools."
+---
+
+## Wie baue ich ein Modell in TianGong LCA?
+
+1. Erstellen oder wählen Sie die benötigten Unit-Prozesse unter **Meine Daten → Prozesse** und stellen Sie vollständige Ein- und Ausgaben sicher.
+2. Öffnen Sie **Meine Daten → Modelle**, klicken Sie auf `+` und fügen Sie die Prozesse zur Arbeitsfläche hinzu.
+3. Verbinden Sie Ein- und Ausgaben, legen Sie den Referenzprozess fest und definieren Sie die Referenzflussmenge.
+4. Speichern Sie das Modell — den vollständigen Workflow finden Sie unter [Meine Daten erstellen](/de/docs/user-guide/create-my-data/#create-a-model).
+
+## Was tun, wenn das Speichern eines Modells einen fehlenden Referenzprozess meldet?
+
+Zeigt das Speichern „The model is missing reference process information. Complete or rebind the
+reference process, then try again.", verfügt das aktuelle Modell über kein nutzbares
+`referenceToReferenceProcess`. Kehren Sie zur Modellarbeitsfläche zurück, vergewissern Sie sich,
+dass der als Referenzprozess genutzte Knoten noch existiert, und setzen Sie Referenzprozess und
+Referenzflussmenge erneut, bevor Sie speichern.
+
+## Wie wählt die Plattform Anbieter für Produkteingaben?
+
+Wenn ein Produkteingabe-Austausch nicht ausdrücklich mit einem Anbieter verknüpft ist, nutzt
+TianGong LCA im Solver-Snapshot einen impliziten regionalen Versorgungsmix. Zuerst dient
+`exchange.location` der Produkteingabe als Versorgungsregion. Liegt kein nutzbarer Austausch-Standort
+vor, dient der Standort des Verbraucherprozesses als Standardversorgungsanker. Hat der
+Verbraucherprozess eine `model_id` und enthält dasselbe Modell einen zulässigen
+Referenzausgangs-Anbieter für den Produktfluss, nutzt das System zuerst diese Anbieter-Teilmenge
+gleichen Modells. Existiert kein Anbieter mit gleichem Modell, greift der breitere regionale
+Versorgungsmix. Das System wählt anschließend die beste Geografie-Ebene und gewichtet die Anbieter
+innerhalb dieser Ebene nach ihrem jährlichen Versorgungs- oder Produktionsvolumen. Die automatische
+Verknüpfung behandelt nur einen quantitativen Referenzausgang als zulässigen Anbieter für diesen
+Produktfluss; ein Nicht-Referenzausgang mit gleichem `flow_id` gelangt nicht allein deshalb in die
+Anbietermenge, weil er über einen Betrag oder Allokationsanteil verfügt.
+
+Diese Zuteilung bestimmt, welche Anbieter eine Eingabenachfrage tragen; sie erhöht oder vermindert
+nicht die Gesamtmenge dieser Eingabe. Verfügt ein Anbieter über kein gültiges Jahresvolumen, behält
+das System ihn mit einem positiven Standardgewicht und legt den Fallback in der Snapshot-Abdeckung
+oder den Anbieter-Verknüpfungsdiagnosen offen. Ist jeder Kandidat mit gleichem Fluss ein
+Nicht-Referenzausgang, weisen die Diagnosen die Eingabe als `rejected_non_reference_only` aus;
+reparieren Sie den Referenzausgang, ergänzen Sie Anbieterdaten oder modellieren Sie den Markt-/Koproduktprozess
+explizit.
+
+## Wie unterscheidet sich TianGong LCA von anderen LCA-Plattformen?
+
+| Aspekt | TianGong LCA | Klassische Desktop-Tools (SimaPro, GaBi, Umberto, openLCA usw.) |
+| --- | --- | --- |
+| Datenverwaltung | Cloud-nativ mit Teamzusammenarbeit und Prüf-Workflows | Vorwiegend lokale Projekte; Zusammenarbeit oft manuell |
+| Modellaufbau | Prozesse aus geteilten Repositories zusammensetzen; an Teams veröffentlichen | Üblicherweise Import oder Pflege privater Datenbanken |
+| Datenformat | Nutzt das offene TIDAS-JSON-Schema für Transparenz und Integration | Proprietäre Datenbankformate |
+| Versionsverwaltung | Eingebaute Entwürfe, Historie und Statusverfolgung | Abhängig von externer Dateiverwaltung |
+
+## Kann ich mit anderer Software zusammenarbeiten?
+
+- **JSON-Export**: Datensätze als TIDAS-JSON herunterladen und Felder für den Import in andere Tools abbilden.
+- **MCP-Integration**: Über die [TianGong-MCP-Dienste](/de/docs/integration/mcp-lca-remote/) Datensätze aus externen Anwendungen aufrufen.
+- **Hinweise**: Einheiten und Eigenschaftsdefinitionen können zwischen Systemen abweichen; planen Sie einen Abbildungs- oder Konvertierungsschritt ein.
+
+Für maßgeschneiderte Integrationen oder Unternehmensanforderungen kontaktieren Sie das
+TianGong-Team zu Partnerschaftsoptionen.

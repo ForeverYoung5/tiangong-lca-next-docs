@@ -1,0 +1,185 @@
+---
+title: "Entwicklerumgebung"
+---
+
+Diese Seite erläutert das lokale Setup für `tiangong-lca-next-docs` und wie sich die Node-Baseline
+zum Produkt-Repository unter `../tiangong-lca-next` verhält.
+
+Wenn Ihre Arbeit auch die Abstimmung der Dokumentation mit dem Produktverhalten umfasst, fahren Sie
+fort mit dem [Docs-/Produkt-Synchronisationsleitfaden](./docs-product-sync/).
+
+## Node-Baseline
+
+Derzeit sind zwei Baselines zu beachten:
+
+- **Docs-Seiten-Repository**: `package.json` deklariert derzeit `node >=18.0`
+- **Produkt-Repository `../tiangong-lca-next`**: die aktuelle Engineering-Baseline ist **Node 24**
+
+### Empfohlenes Vorgehen
+
+Für leichte Wartungsarbeiten im Docs-Repository genügt Node 18+ technisch.
+
+Wenn Sie zusätzlich:
+
+- die tatsächliche Implementierung in `../tiangong-lca-next` einsehen
+- zwischen den beiden Repositories wechseln
+- Drift zwischen Dokumentation und ausgeliefertem Verhalten untersuchen
+
+möchten, nutzen Sie **Node 24** in beiden Repositories, um Versionswechsel zu vermeiden.
+
+## Abhängigkeiten installieren
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+nvm install 24
+nvm alias default 24
+nvm use 24
+
+npm install --no-package-lock
+```
+
+Das Repository committet derzeit keinen Package-Lock, daher kann `npm ci` ein sauberes Checkout
+nicht bootstrappen. Halten Sie die lokale Installation lockfile-frei, sofern nicht eine separate
+Abhängigkeits-Governance-Änderung bewusst einen Lock einführt.
+
+## Häufige Befehle
+
+### Lokale Entwicklung
+
+```bash
+npm run start
+```
+
+Die lokale Seite läuft üblicherweise unter `http://localhost:3000/`.
+
+### Markdown-Lint
+
+```bash
+npm run lint
+```
+
+### AI-Dokumentationsindex generieren und prüfen
+
+```bash
+npm run docs:llms
+npm run docs:llms:check
+```
+
+`docs:llms` erzeugt `static/llms.txt` aus den öffentlichen Docusaurus-Dokumenten. `docs:llms:check`
+bestätigt, dass der committete Index weiterhin zur aktuellen öffentlichen Dokumentquelle passt.
+
+### Veröffentlichungsbereich prüfen
+
+```bash
+npm run docs:publication-scope:check
+```
+
+Dieser Befehl prüft `static/llms.txt`, `sidebars.ts`, `context7.json` und `build/llms.txt`, sofern
+ein Build existiert. Er verhindert, dass interne Agent-Dokumente, TODOs, Pläne, Vorfälle oder
+Governance-Ausführungsmaterial in den öffentlichen AI-Konsumbereich gelangen.
+
+### Docs-Impact-Screenshot-Beweise prüfen
+
+```bash
+npm run docs:screenshots:test
+npm run docs:screenshots:check
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
+```
+
+`docs:screenshots:test` führt die Regressions-Suite des Screenshot-Vertrags aus. Ohne Manifest
+bestätigt `docs:screenshots:check`, dass der gewählte Diff keine Änderungen an
+Dokumentations-Screenshots enthält. Für Hinzufügen-, Ersetzen- oder Wiederverwendungsnachweise
+übergeben Sie das lokale visuelle Ergebnis und den vollständigen name-status-Diff. Der Validator
+prüft seitelokale zweisprachige Assets, Referenzen und Alt-Texte, nahe Erläuterungen auf jeder
+Sprachseite, 144-DPI-Metadaten, Hashes, Verhältnisse und diffspezifische Zustände. Der Workspace-
+`validate-visual-evidence.rb` bleibt verantwortlich für die Validierung des lokalen 0600-
+Zugriffsberichts, den die access-denied-Draft-Ausnahme verwendet.
+
+### Lintbare Markdown-Probleme automatisch beheben
+
+```bash
+npm run lint:fix
+```
+
+### TypeScript-Prüfung
+
+```bash
+npm run typecheck
+```
+
+### Produktions-Build
+
+```bash
+npm run build
+```
+
+`npm run build` führt zunächst `npm run docs:llms` über `prebuild` aus, sodass gehostete Plattformen,
+die nur den Standard-Build-Befehl aufrufen, weiterhin eine `llms.txt` mit dem aktuellen Build-Commit
+veröffentlichen.
+
+### Die gebaute Seite lokal ausliefern
+
+```bash
+npm run serve
+```
+
+### Übersetzungsgerüst generieren
+
+```bash
+npm run write-translations -- --locale en
+```
+
+## Mindestverifikation für Dokumentänderungen
+
+Für Änderungen an öffentlichen Dokumenten führen Sie mindestens aus:
+
+```bash
+npm run lint
+npm run docs:screenshots:check
+npm run docs:llms:check
+npm run docs:publication-scope:check
+npm run build
+```
+
+Berührt Ihre Änderung Navigation, Seitenleistenstruktur, Links oder zweisprachige Spiegel, prüfen
+Sie zusätzlich erneut:
+
+- `docs/intro.md`
+- `docs/user-guide/overview.md`
+- `sidebars.ts`
+
+## Versionshinweise
+
+Das `.github/workflows/publish-docs.yml` des Repositories durchläuft bei jedem Push auf `main` die
+Publish-Schleife nach dem Merge:
+
+1. `static/llms.txt` generieren und prüfen
+2. Veröffentlichungsbereichs-Prüfung ausführen
+3. Lint, Typecheck und den Docusaurus-Build ausführen
+4. Cloudflare Pages bereitstellen
+5. Die öffentliche `/llms.txt` verifizieren
+6. Context7 aktualisieren — oder einen sichtbaren Follow-up-Eintrag hinterlassen, wenn der Secret
+   fehlt oder die Aktualisierung fehlschlägt
+
+Das Repository behält zudem `.github/workflows/build.yml` für tag-gesteuertes Release-Publishing.
+Erstellen und pushen Sie einen Tag nach dem Muster `v*`, um diesen Ablauf auszulösen.
+
+```bash
+git tag
+git tag v0.0.1
+git push origin v0.0.1
+```
+
+Die Cloudflare-Pages-Bereitstellung hängt weiterhin von repositoryweiten Umgebungsvariablen ab:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CONTEXT7_API_KEY` für die automatische Context7-Aktualisierung. Fehlt sie, hinterlässt der
+  Workflow einen ausstehenden Follow-up-Eintrag.
+
+Optionale Repository-Variable:
+
+- `CONTEXT7_LIBRARY_NAME`, standardmäßig in der Context7-Bibliotheks-ID-Form `/${{ github.repository }}`

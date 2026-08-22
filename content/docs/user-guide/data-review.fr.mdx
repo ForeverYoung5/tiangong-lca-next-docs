@@ -1,0 +1,184 @@
+---
+title: "Revue de données"
+---
+
+La revue de données n'est plus simplement « soumettre et attendre ». Elle implique des espaces de
+travail et des responsabilités distincts pour les auteurs, les membres relecteurs et les
+administrateurs de revue. Cette page est organisée en **étapes avant soumission → rôles → espace de
+revue → FAQ**.
+
+## Avant la soumission
+
+Avant d'envoyer des données en revue depuis **Mes données**, terminez d'abord deux étapes :
+
+1. Exécutez le **Contrôle des données**
+2. Cliquez sur **Soumettre pour revue**
+
+![Bouton de contrôle des données](/assets/docs/0a311ce8/data-check.png)
+
+Si la plateforme détecte des problèmes bloquants lors de la soumission, elle ouvre une liste de
+problèmes. Corrigez-les d'abord, puis soumettez à nouveau.
+
+![Invite de validation de la soumission](/assets/docs/956dc785/data-problem.png)
+
+Pour les jeux de données de processus, **Soumettre pour revue** appelle désormais directement la
+soumission de revue. Si le système rejette la soumission, corrigez les problèmes affichés sur la
+page, enregistrez à nouveau et soumettez de nouveau. Il n'est plus nécessaire d'attendre une tâche
+séparée de contrôle de stabilité numérique dans le centre de tâches.
+
+## Qui fait quoi
+
+| Rôle | Responsabilité principale | Entrée principale |
+| --- | --- | --- |
+| Auteur | Modéliser les données, auto-contrôle, soumettre pour revue, réviser après retour | Mes données |
+| Membre relecteur (`review-member`) | Relire les tâches assignées et soumettre les commentaires | Menu du profil → Gestion des revues |
+| Administrateur de revue (`review-admin`) | Attribuer le travail, suivre l'avancement, gérer les relecteurs, approuver ou rejeter la revue | Menu du profil → Gestion des revues |
+| Admin d'équipe | Coordonner avec les auteurs et aider à suivre l'avancement du projet | Mon équipe, [centre de notifications](./notifications/) |
+
+> Les rôles de revue et les rôles d'équipe sont des systèmes d'autorisation distincts. Une personne
+> peut cumuler les deux, n'en avoir qu'un, ou aucun.
+
+## Comment ouvrir l'espace de revue
+
+Les utilisateurs dotés d'un rôle de revue peuvent ouvrir la **Gestion des revues** depuis le menu du
+profil en haut à droite.
+
+Cet espace est conditionné au rôle et ne reste pas visible dans la navigation gauche pour tous.
+
+![Onglets de l'espace du relecteur](/assets/docs/8e9c116a/review-workspace-member-tabs.png)
+
+La zone marquée `1` montre les onglets visibles pour le compte courant. Cette capture est un exemple
+`review-member` ; un `review-admin` voit un jeu d'onglets différent, orienté gestion.
+
+## Espace de l'administrateur de revue
+
+Quand un `review-admin` ouvre la Gestion des revues, les onglets actuels sont :
+
+- **Tâche non assignée**
+- **Tâche assignée**
+- **Tâche rejetée**
+- **Gestion des membres**
+
+### Tâche non assignée
+
+C'est ici que les revues nouvellement soumises sont attribuées aux membres relecteurs.
+
+Actions typiques :
+
+- Sélectionner plusieurs tâches en bloc
+- Ouvrir **Sélectionner un relecteur**
+- Définir un délai de revue
+- Rejeter la revue au niveau de la tâche entière
+
+Utilisez d'abord cet onglet chaque fois qu'une nouvelle soumission attend encore l'attribution d'un
+relecteur.
+
+### Tâche assignée
+
+Cet onglet sert à suivre le travail déjà attribué.
+
+Les administrateurs de revue peuvent généralement :
+
+- Vérifier l'avancement de la revue
+- Ouvrir **Avancement de la revue**
+- Ajouter des relecteurs au travail inachevé
+- Retirer des relecteurs encore en attente
+- Approuver ou rejeter la revue entière
+
+### Tâche rejetée
+
+Cet onglet regroupe les tâches rejetées au niveau de l'administrateur de revue, facilitant le suivi
+de ce qui doit être révisé ou réattribué.
+
+### Gestion des membres
+
+La **Gestion des membres** est l'endroit où l'équipe de revue elle-même est maintenue. Actions
+typiques :
+
+- Ajouter des membres relecteurs
+- Retirer des membres relecteurs
+- Promouvoir un `review-member` en `review-admin`
+- Rétrograder un `review-admin` en `review-member`
+- Inspecter les compteurs de revues en attente et effectuées de chaque membre
+
+## Espace du membre relecteur
+
+Quand un `review-member` ouvre la Gestion des revues, les onglets actuels sont :
+
+- **Relu**
+- **Revue en attente**
+- **Rejeté**
+
+### Revue en attente
+
+C'est la zone de travail principale des relecteurs. Elle liste les tâches actuellement attribuées
+au relecteur connecté.
+
+Actions courantes :
+
+- Ouvrir les détails de la tâche
+- Renseigner le retour de revue
+- Utiliser **Sauvegarde temporaire** pour conserver le travail en cours
+- Utiliser **Enregistrer** pour soumettre le résultat de la revue
+
+L'expérience d'édition varie selon le type d'objet :
+
+- La revue de processus est plus orientée formulaire
+- La revue de modèle combine généralement des vues graphe avec un panneau d'information latéral
+
+### Relu
+
+Cet onglet montre les tâches déjà traitées par le relecteur courant.
+
+### Rejeté
+
+Cet onglet concerne principalement les tâches rejetées au niveau de l'administrateur de revue.
+
+Si une tâche apparaît ici, cela signifie généralement que tout le flux de revue a été rejeté, et pas
+seulement qu'un relecteur a émis un commentaire négatif.
+
+## Ce que les auteurs doivent savoir
+
+Même sans rôle de revue, les auteurs doivent comprendre le rythme de la revue :
+
+1. Terminer la modélisation et l'auto-contrôle dans **Mes données**
+2. Cliquer sur **Soumettre pour revue**
+3. Attendre qu'un administrateur de revue attribue des relecteurs
+4. Réviser selon le retour de revue
+5. Soumettre à nouveau si nécessaire
+
+Surveillez aussi l'onglet **Notifications de données** du [centre de notifications](./notifications/)
+en haut à droite afin de ne manquer aucun retour de revue.
+
+## Filtres d'état
+
+Les listes liées à la revue comportent couramment des filtres d'état pour repérer les éléments aux
+différentes étapes.
+
+![Filtres d'état de revue](/assets/docs/9fa6d4a0/review-status.png)
+
+En pratique, interprétez ces états selon votre rôle :
+
+- Les auteurs veulent savoir s'ils doivent réviser quelque chose
+- Les relecteurs veulent savoir quelles tâches restent en attente
+- Les administrateurs de revue veulent savoir quelles tâches sont non assignées ou bloquées
+
+## FAQ
+
+### Pourquoi ne vois-je pas la Gestion des revues ?
+
+L'entrée n'est affichée qu'aux `review-admin` et `review-member`. Les auteurs ordinaires peuvent
+soumettre pour revue sans avoir accès à l'espace de revue lui-même.
+
+### Pourquoi la soumission n'est-elle pas devenue immédiatement une revue active ?
+
+La soumission entre simplement dans le workflow. Un administrateur de revue doit généralement encore
+attribuer des relecteurs avant que le véritable travail de revue commence.
+
+### Je suis admin d'équipe. Pourquoi ne vois-je toujours pas la Gestion des revues ?
+
+Parce que l'administration d'équipe et les rôles de revue sont des domaines d'autorisation distincts.
+
+### Où comparer rapidement toutes ces autorisations ?
+
+Poursuivez avec [Autorisations et espaces de données](./permissions-and-data-scopes/).

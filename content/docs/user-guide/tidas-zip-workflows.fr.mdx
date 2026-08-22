@@ -1,0 +1,229 @@
+---
+title: "Import/export TIDAS ZIP et centre de tâches"
+description: "Explique les workflows TIDAS ZIP de la barre supérieure et l'affichage des tâches asynchrones dans le centre de tâches partagé."
+---
+
+Le produit inclut désormais un workflow utilisateur de packages TIDAS ZIP. Ces entrées se trouvent
+dans la barre supérieure globale plutôt que dans une page de données particulière.
+
+Si vous n'avez besoin que du flux API, utilisez l'[API d'import de packages TIDAS](/fr/docs/openapi/tidas-package-import/).
+Cette page se concentre sur le workflow de l'interface web.
+
+Utilisez l'outil CLI Rust publié
+[`tidas` 0.1.3](/fr/docs/integration/cli/#install-tidas-013) lorsque vous devez préparer et valider
+un package TIDAS à partir d'EcoSpold, openLCA, SimaPro ou ILCD/eILCD avant le téléversement. C'est
+un outil de package local indépendant, pas un alias de l'interface web ni du client de plateforme
+`tiangong-lca`.
+
+## Où trouver les entrées
+
+Les contrôles pertinents de la barre supérieure sont :
+
+- **Importer un package TIDAS ZIP**
+- **Exporter un package TIDAS ZIP**
+- **Centre de tâches**
+
+Pour la carte complète des contrôles, commencez par la
+[Vue d'ensemble des fonctions clés](./key-functions-introduction/).
+
+## Importer un package TIDAS ZIP
+
+### Cas d'usage typiques
+
+- Importer un package TIDAS préparé dans l'environnement courant
+- Migrer en masse processus, modèles, flux et dépendances
+- Échanger des données avec d'autres outils compatibles TIDAS
+
+### Règles
+
+- L'interface accepte **un seul fichier `.zip`**
+- Les fichiers non-ZIP sont rejetés immédiatement
+- Le système valide la structure, les références et les conflits avant l'import
+- La validation couvre le TIDAS JSON ; si le package contient du XML eILCD/ILCD, celui-ci est vérifié
+  par rapport aux schémas empaquetés
+- Les enregistrements de flux avec numéros CAS valident aussi le chiffre de contrôle CAS : un
+  numéro CAS structurellement valide mais au chiffre de contrôle erroné reste signalé comme problème
+  de validation
+
+### Étapes d'import
+
+1. Cliquez sur **Importer un package TIDAS ZIP** dans la barre supérieure.
+2. Glissez ou sélectionnez un fichier `.zip` unique.
+3. Cliquez sur **Importer**.
+4. Examinez le résultat renvoyé par la fenêtre modale.
+
+![Fenêtre d'import TIDAS ZIP](/assets/docs/7a1e01b2/tidas-zip-import-modal.png)
+
+Sur la capture, `1` marque la zone de téléversement ZIP, `2` le lien vers la documentation d'import
+API et `3` le bouton de soumission de l'import.
+
+### Résultats possibles
+
+#### Import réussi
+
+La plateforme confirme que le package a été importé avec succès.
+
+#### Succès avec données ouvertes ignorées
+
+Si le ZIP contient des jeux de données ouverts qui ne doivent pas être dupliqués, le système
+signale que certains jeux ouverts ont été ignorés.
+
+#### Validation bloquée
+
+Si des champs obligatoires, des références ou la structure du package échouent à la validation,
+l'import est bloqué et la fenêtre explique les problèmes.
+Causes fréquentes : écarts de schéma, références manquantes, XML eILCD/ILCD non conforme aux
+schémas empaquetés, ou chiffre de contrôle CAS invalide.
+
+#### Rejet pour conflit
+
+Si le package entre en conflit avec des objets déjà présents dans l'environnement, l'import est
+rejeté jusqu'à la résolution de ces conflits.
+
+## Dépannage
+
+La fenêtre d'import peut fournir un rapport JSON téléchargeable. Considérez ce fichier comme
+l'artefact principal de dépannage. Il aide à déterminer :
+
+- Quels objets ont échoué à la validation
+- Quelles références n'ont pas pu être résolues
+- Si des numéros CAS ont des chiffres de contrôle invalides
+- Quels objets entrent en conflit avec des enregistrements existants
+- Quels jeux ouverts ont été ignorés
+
+### Préparer un ZIP depuis un format externe avec `tidas`
+
+`tidas import` prend en charge EcoSpold1, EcoSpold2, SimaPro CSV, openLCA JSON-LD, XLSX de processus
+openLCA et les entrées ILCD/eILCD. Cette séquence crée un répertoire de package TIDAS et le valide
+nativement :
+
+```bash
+tidas import ./source-package.zip \
+  --output ./prepared \
+  --target tidas \
+  --write-mapping \
+  --format json
+
+tidas validate ./prepared/tidas \
+  --input-format tidas-json \
+  --issues ./prepared/validation-issues.jsonl \
+  --format json
+```
+
+La commande d'import détecte les formats sources pris en charge. Utilisez `--from-format` si
+l'entrée est ambiguë. Les fichiers `.zolca` sont rejetés ; exportez d'abord un format d'échange
+pris en charge depuis openLCA.
+
+Placez le contenu du package TIDAS à la racine du ZIP pour le téléversement web. Linux/macOS :
+
+```bash
+(cd ./prepared/tidas && zip -r ../../prepared-tidas.zip .)
+```
+
+Windows PowerShell :
+
+```powershell
+Compress-Archive -Path .\prepared\tidas\* -DestinationPath .\prepared-tidas.zip
+```
+
+Sélectionnez ensuite `prepared-tidas.zip` dans l'interface web. Avant l'archivage, confirmez que
+`tidas validate` renvoie le code de sortie `0`. Le code `2` signifie que la commande s'est terminée
+avec des problèmes de données et ne doit pas être ignoré.
+
+Examinez les rapports et artefacts d'audit avant d'importer :
+
+- La conversion EcoSpold1 / EcoSpold2 préserve autant que possible les processus, flux, identifiants d'échange, classifications, localisations, numéros CAS et textes numériques sources. Les détails sources ne pouvant pas figurer dans les champs formels sont conservés dans la trace d'import TIDAS.
+- La conversion openLCA JSON-LD transforme les relations `defaultProvider` résolubles en modèles de cycle de vie candidats et conserve les métadonnées sources non mappées comme trace pour revue manuelle.
+- Pour les flux d'usage des terres openLCA / USLCI nommés `Occupation, ...` ou `Transformation, from|to ...`, `tidas import` écrit des flux élémentaires sous `Land use` au lieu de catégories de substitution de flux de produit ; le type et la catégorie d'origine restent dans la trace pour revue.
+- Les montants d'échange openLCA JSON-LD sont convertis vers l'unité de propriété de flux de référence de chaque flux. Le montant et l'unité d'origine restent dans les métadonnées sources. Si `import-report.json` ou `issues.jsonl` signale une normalisation d'échange non résolue, examinez les groupes d'unités, propriétés de flux et unités de référence avant l'import.
+- L'importateur crée par défaut des dossiers `process-bundles/<process_uuid>/` afin que les outils en aval traitent les dépendances processus par processus. Ajoutez `--no-process-bundles` si ces bundles ne sont pas nécessaires.
+- Le CSV de mapping expert n'est pas généré par défaut. Ajoutez `--write-mapping` pour une revue au niveau des champs ; `mapping.csv.gz` liste les champs formels, les champs de trace seule, les substitutions et les champs générés.
+- `import-report.json` est le rapport d'opération et `issues.jsonl` le flux complet des problèmes. Inspectez-les avec la `mapping.csv.gz` optionnelle plutôt que de vous fier au seul résumé du terminal.
+- Si le rapport signale des problèmes de schéma, référence, CAS ou classification, corrigez les données sources ou la configuration de conversion et régénérez le ZIP avant de réessayer.
+
+Pour une automatisation répétable ou un contrôle plus fin des erreurs, utilisez l'
+[API d'import de packages TIDAS](/fr/docs/openapi/tidas-package-import/).
+
+## Exporter un package TIDAS ZIP
+
+### Comportement principal
+
+L'export est asynchrone. Le système crée d'abord une tâche d'export ; vous revenez ensuite au
+**Centre de tâches** pour télécharger le fichier ZIP final.
+
+### Périmètres disponibles
+
+Le périmètre d'export visible dépend de votre rôle :
+
+| Périmètre de rôle | Options disponibles |
+| --- | --- |
+| Utilisateur standard | Données de l'utilisateur courant |
+| Admin / propriétaire système | Données de l'utilisateur courant, Données ouvertes, Données de l'utilisateur courant + données ouvertes |
+
+### Étapes d'export
+
+1. Cliquez sur **Exporter un package TIDAS ZIP** dans la barre supérieure.
+2. Choisissez le périmètre d'export.
+3. Cliquez sur **Exporter**.
+4. Ouvrez le **Centre de tâches** et attendez la fin de la tâche.
+
+![Fenêtre d'export TIDAS ZIP](/assets/docs/37198c14/tidas-zip-export-modal.png)
+
+Sur la capture, `1` marque le sélecteur de périmètre et `2` le bouton de soumission de la tâche
+d'export. Les options exactes dépendent de votre rôle.
+
+### N'attendez pas dans la fenêtre
+
+Après soumission, la fenêtre confirme seulement la création de la tâche. Le fichier téléchargeable
+est géré par le centre de tâches, pas par la fenêtre d'export elle-même.
+
+## Centre de tâches
+
+### Ce qu'il affiche
+
+Le centre de tâches est le panneau partagé des tâches en arrière-plan dans la barre supérieure. Il
+regroupe désormais plusieurs types de tâches :
+
+- Tâches **LCA**
+- Tâches **TIDAS Export**
+- Tâches **TIDAS Import**
+- Tâches **Review Submit** (envoi en revue)
+
+La fenêtre d'import renvoie toujours le résultat de l'opération courante. Lorsque le travail d'import
+entre dans le flux de tâches en arrière-plan, le centre affiche les étapes de validation, d'import
+et de rapport.
+
+### Actions courantes
+
+Dans le centre de tâches, vous pouvez généralement :
+
+- **Effacer les terminées**
+- **Télécharger** : disponible uniquement pour les tâches d'export TIDAS terminées
+- **Détails** : inspecter identifiants, horodatages, noms de fichiers et autres métadonnées
+- **Diagnostics** : inspecter les causes d'échec, identifiants de tâches backend ou contexte de requête
+- **Voir** : ouvrir les détails et confirmer la progression, les étapes et les actions disponibles
+
+### Un échec d'export courant
+
+Un échec fréquent est un package d'export dépassant la limite de téléversement de gros fichiers de
+l'environnement.
+
+Essayez d'abord :
+
+- D'exporter un périmètre plus restreint
+- De scinder l'export en plusieurs exécutions
+- De demander à un administrateur système si les téléversements de gros fichiers peuvent être activés
+
+## Quand utiliser l'interface ou l'API
+
+Utilisez l'interface web lorsque :
+
+- Vous effectuez un import/export manuel ponctuel
+- Vous souhaitez inspecter les résultats de validation de façon interactive
+- Le workflow est mené par un utilisateur ordinaire de la plateforme
+
+Utilisez l'API lorsque :
+
+- Vous avez besoin d'automatisation
+- Vous avez besoin d'imports répétés dans des scripts ou pipelines
+- Vous voulez que des systèmes externes traitent directement la validation et les rapports d'erreurs

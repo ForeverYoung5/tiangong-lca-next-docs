@@ -1,0 +1,194 @@
+---
+title: "Docs-/Produkt-Synchronisationsleitfaden"
+description: "Erklärt, wie Betreuer die Dokumentationsseite mit dem Produkt-Repository tiangong-lca-next abstimmen — Quellengrenzen, Verifikations-Workflow und Screenshot-Regeln."
+---
+
+Diese Seite richtet sich an Betreuer und Beitragende, die an `tiangong-lca-next-docs` neben dem
+angrenzenden Produkt-Repository `../tiangong-lca-next` arbeiten.
+
+## Zentrale Quellengrenzen
+
+Halten Sie diese drei Inhaltsquellen klar getrennt:
+
+### 1. Chinesische öffentliche Dokumentationsquelle
+
+- `docs/**`
+
+Dies ist die primäre Quelle der veröffentlichten chinesischen Dokumentation.
+
+### 2. Englischer Spiegel
+
+- `i18n/en/docusaurus-plugin-content-docs/current/**`
+
+Dies ist kein automatisch korrektes Übersetzungsergebnis, sondern ein manuell gepflegter englischer
+Spiegel. Ändert sich die chinesische Quelle, sollte der englische Spiegel in derselben Änderung
+mitgezogen werden.
+
+### 3. Tatsächliches Produktverhalten
+
+- `../tiangong-lca-next`
+
+Geht es um Einstiegspunkte, Schaltflächenbeschriftungen, rollenabhängige Sichtbarkeit,
+Datenbereiche, versteckte Routen oder Import-/Export-Abläufe, behandeln Sie das Produkt-Repository
+als wahre Quelle — nicht die alte Dokumentation.
+
+## Standard-Verifikationsziel
+
+Standardziel der Online-Verifikation:
+
+- `https://lca.tiangong.earth/`
+
+`../tiangong-lca-next` wird derzeit direkt aus Commits auf `main` veröffentlicht, daher benötigt
+Dokumentationsarbeit normalerweise keinen separaten Schritt „entspricht die Produktion `main`?".
+Das Standardvorgehen ist:
+
+- die `main`-Zweig-Implementierung in `../tiangong-lca-next` als wahre Produktquelle behandeln
+- das Livesystem nur öffnen, wenn Sie Screenshots benötigen, rollengesteuerte oder versteckte UI
+  bestätigen müssen oder Grund zu der Annahme haben, dass ein Deployment-Drift, ein Caching-Problem
+  oder ein Online-Vorfall vorliegt
+
+## Secrets und Verifikationsvariablen
+
+Die `.env`-Datei im Wurzelverzeichnis des Docs-Repository kann enthalten:
+
+- `TIANGONG_LCA_USERNAME`
+- `TIANGONG_LCA_PASSWORD`
+- `TIANGONG_LCA_API_KEY`
+
+Nur zwei Regeln zählen:
+
+- Nur Variablennamen notieren, niemals Werte
+- Niemals tatsächliche Werte in Dokumentation, Screenshot-Notizen, Commit-Messages oder Zusammenfassungen ablegen
+
+Der Docs-Impact-Screenshot-Account nutzt nicht die `.env` dieses Repositorys. Die `.env.local`
+des Root-Workspaces auf der festen Maschine speichert nur den `DOCS_SCREENSHOT_ENV_FILE`-Zeiger.
+Die echten Account-Variablen bleiben in einer Datei außerhalb des Repositorys mit Rechten nicht
+breiter als `0600`, und nur der Screenshot-Kindprozess liest sie. Kopieren Sie diese Datei niemals
+in einen Docs-, Quell- oder Produkt-Worktree.
+
+## Empfohlener Pflege-Workflow
+
+### 1. Vom Backlog ausgehen
+
+Prüfen Sie die Wurzeldatei:
+
+- `TODO.docs-system-gaps.md`
+
+Entdecken Sie neue Drift, halten Sie sie dort vor oder während derselben Bearbeitungssitzung fest.
+
+### 2. Produkt prüfen, bevor die Dokumentation bearbeitet wird
+
+Typische Produkt-Hotspots:
+
+- `config/routes.ts`
+- `src/app.tsx`
+- `src/components/RightContent/**`
+- `src/components/ImportTidasPackage/**`
+- `src/components/ExportTidasPackage/**`
+- `src/components/LcaTaskCenter/**`
+- `src/pages/Account/**`
+- `src/pages/Processes/Analysis/**`
+- `src/pages/Review/**`
+- `src/pages/ManageSystem/**`
+
+Hier zeigt sich Dok-Drift üblicherweise zuerst.
+
+### 3. Chinesisch und Englisch gemeinsam aktualisieren
+
+Für öffentliche Inhalte gilt die Standard-Erwartung, beide Seiten in einem Durchgang zu pflegen:
+
+- Chinesisch `docs/**`
+- Englisch `i18n/en/**`
+
+Aktualisieren Sie nie nur eine Seite und lassen Sie die andere für später.
+
+### 4. Entdeckungspfade bei Navigationsänderungen aktualisieren
+
+Fügen Sie Seiten hinzu, benennen Sie sie um oder reorganisieren Sie sie, prüfen Sie zusätzlich:
+
+- `sidebars.ts`
+- `docs/intro.md`
+- `docs/user-guide/overview.md`
+- die passenden englischen Spiegelseiten
+
+### 5. TODO nach jeder geschlossenen Lücke aktualisieren
+
+`TODO.docs-system-gaps.md` ist eine langfristige Pflegeaufzeichnung, keine einmalige Checkliste.
+
+Wird eine Lücke geschlossen, neu umrissen oder geklärt, aktualisieren Sie die Datei in derselben
+Arbeitssitzung.
+
+## Screenshot- und Playwright-Richtlinie
+
+Wenn Screenshots hinzugefügt oder erneuert werden:
+
+- Bevorzugen Sie Playwright für Anmeldung und Aufnahme statt beschreibungsbasierter Erinnerung
+- Halten Sie den Screenshot-Stil mit dem Rest des Projekts konsistent
+- Sofern der Screenshot nicht ausdrücklich Sprachunterschiede erklären soll, nutzen Sie die **englische UI** für Screenshots, auch wenn die umgebende Dokumentationsseite chinesisch ist
+- Ist nur ein lokaler Ausschnitt nötig, erzwingen Sie keine vollständige `1920x1080`-Komposition. Bevorzugen Sie einen engeren Ausschnitt mit höherer Aufnahmedichte und Ausgabequalität passend zu den bestehenden Screenshots des Repositorys
+- Fügen Sie **rote Rahmen oder Hinweise** hinzu, wenn ein Einstiegspunkt oder Feld hervorgehoben werden soll
+
+Annotationsregeln:
+
+- Bevorzugen Sie **nummerierte Hinweise**, statt ganze Beschriftungssätze direkt in den Screenshot zu zeichnen.
+- Erklären Sie die Nummern im umgebenden Markdown-Text, anstatt lange chinesische oder englische Phrasen im Bild zu platzieren.
+- Halten Sie die tatsächliche UI lesbar. Beschriftungen, Badges und Rahmen dürfen Icon, Feld, Schaltfläche oder Text, die der Leser prüfen muss, nicht verdecken.
+- Platzieren Sie Nummern-Badges nach Möglichkeit außerhalb des Zielbereichs. Nutzen Sie Hinweislinien, zusätzliches Padding oder einen weiteren Ausschnitt, statt Beschriftungen direkt auf die UI zu stapeln.
+- Ist ein Bereich zu dicht, weiten Sie den Ausschnitt, erhöhen Sie die Skalierung oder teilen Sie die Erklärung in mehrere fokussierte Screenshots auf, statt überlappende Annotationen zu erzwingen.
+- Muss Text im Bild erscheinen, halten Sie ihn kurz, sauber und visuell der echten UI untergeordnet.
+- Bevorzugen Sie bei lokalen Screenshots höhere Abtastdichte wie `deviceScaleFactor >= 2` und halten Sie die PNG-Dichte-Metadaten im Einklang mit den bestehenden Assets des Repositorys (viele aktuelle Screenshots liegen um 144 DPI).
+
+Regeln zur Asset-Ablage und Komposition:
+
+- Bewahren Sie Bilder neben ihrem Seiten-Teilbaum auf. Ein Bild für `docs/user-guide/example.md` gehört unter `docs/user-guide/img/`, mit seinem englischen Spiegel unter `i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/`.
+- Gewöhnliche Englisch-UI-Screenshots nutzen denselben Dateinamen und identische Bytes in beiden Bäumen. Unterschiedliche Binärdaten sind nur für einen ausdrücklich dokumentierten Sprachvergleich zulässig.
+- Ein Ersatz behält standardmäßig die bisherigen Pixelmaße, das Verhältnis, den Ausschnitt und den visuellen Fokus. Ein neuer Screenshot benennt eine bestehende Kompositionsreferenz derselben Klasse.
+- Ordnen Sie Verhältnisse nach Kompositionszweck zu, statt jeden Screenshot auf 16:9 zu zwingen. Vollbilder, hohe oder kompakte Modalfenster, Steuerleisten, Tabs und ultrabreite Arbeitsbereiche behalten ihre etablierten Proportionen.
+- Platzieren Sie das Bild nahe dem zugehörigen Absatz, der Liste oder dem Schritt. Gültiger Text auf einer der beiden Seiten genügt, wenn er die unterstützte Funktion, den Schritt, Zustand oder das Ergebnis erklärt; feste „wie unten gezeigt"-Formulierungen, zweiseitige Bildunterschriften und nummerierte Listen sind nicht zwingend.
+
+Dokumentationsziel und Screenshot-Abwägung:
+
+- Diese Seite dient in erster Linie **menschlichen Lesern**; Screenshots sollten hinzugefügt werden, wenn sie das Verständnis von Einstiegspunkten, der Platzierung von Steuerelementen oder mehrstufigen UI-Abläufen wesentlich verbessern.
+- Erzwingen Sie keine Screenshots auf jeder Seite. Bevorzugen Sie weniger, hochwertige Bilder gegenüber bildschwerer, repetitiver Dokumentation.
+- Wenn Text plus genaue UI-Beschriftungen bereits klar genug sind, ist reine Textdokumentation akzeptabel.
+- Priorisieren Sie Screenshots für:
+  - globale Kopfleisten-Steuerelemente oder versteckte Einstiegspunkte
+  - mehrstufige modale Workflows
+  - rollenabhängige Arbeitsbereiche
+  - Seiten, deren bestehende Screenshots erkennbar veraltet sind
+
+Screenshots sind besonders nützlich, wenn:
+
+- Kopfleisten-Steuerelemente sich deutlich verschieben oder ändern
+- versteckte Einstiegspunkte wie Prüfung oder Systemverwaltung schwer allein mit Text zu erklären sind
+- bestehende Screenshots erkennbar veraltet sind
+
+Lautet die visuelle Entscheidung `optional` und genügt akkurater Text, darf ein Werkzeugproblem
+mit `visual action: none` erfasst werden. Ist das Visuelle `required`, stufen Sie es nicht zu einem
+gewöhnlichen Follow-up herab. Ein screenshot-freier Draft-PR ist nur nach erfolgreicher
+Authentifizierung, einer belegten Autorisierungsverweigerung und einer bestandenen Root-Docs-Impact-
+Zugriffsvalidierung zulässig; derselbe PR muss den Screenshot erhalten, bevor er bereit wird.
+
+## Mindestverifikation
+
+Nach Änderungen an öffentlichen Dokumenten führen Sie mindestens aus:
+
+```bash
+npm run lint
+npm run build
+```
+
+Werden Screenshots hinzugefügt, ersetzt oder wiederverwendet, zusätzlich:
+
+```bash
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
+```
+
+Ändert die Synchronisation auch die Informationsarchitektur, inspizieren Sie die lokale Seite
+manuell und verifizieren Sie:
+
+- neue Seiten erscheinen in der Seitenleiste
+- chinesische und englische Links entsprechen einander weiterhin
+- Intro- und Benutzerhandbuch-Navigationsseiten legen die neuen Inhalte offen

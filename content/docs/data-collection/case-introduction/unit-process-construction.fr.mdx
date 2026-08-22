@@ -1,0 +1,186 @@
+---
+title: "Construction du processus unitaire"
+---
+
+Référence des opérations sur la plateforme : [Créer de nouvelles données – Créer un processus](/fr/docs/user-guide/create-my-data/#create-a-process)
+
+## Informations de processus
+
+### Nom de base/traitement, normes, voie/mix et type de localisation/attributs quantitatifs du produit ou du processus
+
+**[Prétraitement de la biomasse]** Biomass processing; Pretreatment, granulation, drying; Production mixing, at plant
+
+Voir la littérature : « First, biomass is subjected to necessary pretreatment, which includes granulation and drying. »
+
+**[Gazéification de la biomasse]** Biomass gasification; Feedstock gas condensation; Production mixing, at plant
+
+Voir la littérature : « Subsequently, biomass gasification produces feedstock gas consisting mainly of CO, H₂, CO₂, and CH₄. Condensation is then employed to extract the fuel gas from the reactor. »
+
+**[Production de méthanol]** Methanol production; Biomass-to-methanol; Production mixing, at plant; Methanol mass fraction > 99%
+
+Voir la littérature : « The purified syngas is compressed and added to the methanol synthesizer in the last step, where a catalyst helps to produce crude methanol. »
+
+Bien que la littérature ne précise pas directement la concentration du produit dans la description
+actuelle du processus unitaire, elle indique clairement ailleurs que le produit final doit respecter
+la norme « fraction massique de méthanol > 99 % ». Cette information peut donc figurer comme norme
+produit complémentaire dans la désignation du processus de production de méthanol.
+
+**La désignation doit combiner les descriptions de processus ou les schémas techniques de la
+littérature pour en extraire méthodes de traitement, normes produit et voies techniques, afin
+d'assurer une dénomination exacte et représentative.**
+
+**Si la littérature ne fournit pas la concentration du méthanol produit par ce processus, envisagez
+de la compléter à partir d'autres publications ou rapports sectoriels. Pour les produits finis,
+complétez autant que possible les attributs quantitatifs clés comme la concentration et la
+température ; pour les intermédiaires, ce n'est pas obligatoire en l'absence de mention.**
+
+Exemples d'attributs quantitatifs clairement donnés :
+
+**[Cokerie vers méthanol]** : Coal production; Hard coal pyrolysis in coke oven; Production mixing, at plant; ~1100°C
+
+**[Capture de CO₂ vers méthanol]** : CO₂ capture; Direct air capture (DAC) technology; Production mixing, at plant; CO₂ concentration 99.5%~99.7%
+
+> Remarque :
+Tous les champs exigent un nom chinois et un nom anglais afin d'assurer la compatibilité multilingue du modèle.
+
+### Description générale du jeu de données
+
+Avec [Prétraitement de la biomasse] comme exemple :
+
+La description générale doit combiner les caractéristiques du processus, les descriptions précises
+de la littérature et les propriétés des données, afin de refléter pleinement le positionnement du
+processus unitaire, son rôle fonctionnel, les détails techniques, les sources de données,
+l'explication des émissions et l'applicabilité.
+
+![Alt text](/assets/docs/199ca293/dataset-description.png)
+
+**Représentativité temporelle**
+Année de référence : 2020–2023
+
+Remarque : la littérature ne précise pas les dates/périodes exactes de collecte ou de simulation.
+Compte tenu de l'année de publication (2024) et de l'absence de scénarios prospectifs, les données
+sont présumées représenter les moyennes sectorielles 2020–2023, adaptées à l'ACV des processus
+actuels.
+
+### Représentativité géographique
+
+CN (Chine)
+
+Explicitement indiqué dans la littérature.
+
+### Diagramme de flux ou schéma de procédé
+
+Bien que la littérature fournisse un diagramme complet de limite de système, la modélisation
+actuelle se concentre sur des processus isolés : extrayez donc les parties pertinentes du diagramme
+d'origine ou créez des schémas simplifiés à partir des descriptions de la littérature pour
+représenter fidèlement les limites et les relations entrées-sorties.
+
+![Alt text](/assets/docs/27e0503e/process-chart.png)
+
+### Informations de modélisation
+
+### Méthode ICV et allocation
+
+Type de jeu de données : Unit process, single operation
+
+Car ce processus ne peut pas être subdivisé en opérations plus fines au stade de la collecte.
+
+Sources de données utilisées : sélectionnez le fichier de littérature dans [Sources].
+
+![Alt text](/assets/docs/030e7011/reference-citation.png)
+
+### Informations de gestion
+
+Selon le contenu du module d'interface, sélectionnez des sources de données existantes ; si aucune
+ne correspond, le champ peut rester vide.
+
+Suitent les champs de collecteur/enregistreur du jeu de données et de numéro de version.
+
+![Alt text](/assets/docs/0ea57770/data-set-generator.png)
+
+![Alt text](/assets/docs/21dd8e32/data-entry-personnel.png)
+
+![Alt text](/assets/docs/7ae801bd/data-set-version.png)
+
+### Entrées/Sorties
+
+Calculez les valeurs relatives de chaque poste d'entrée/sortie à partir des flux et quantités de
+référence déterminés, en garantissant la correspondance des données et la cohérence des unités.
+
+**[Prétraitement de la biomasse]**
+
+Remarque : le flux de référence exige la sélection de la quantité de référence.
+
+![Alt text](/assets/docs/bd904a1f/input-output-1.png)
+
+**[Gazéification de la biomasse]**
+
+Le processus présente un déséquilibre entrées-sorties principalement parce que l'eau de chaudière
+est recyclée en interne et non comptée comme émission finale dans le flux de sortie. Expliquez-le
+dans les remarques pour clarifier la logique du bilan matière.
+
+![Alt text](/assets/docs/a1f405d4/input-2.png)
+
+![Alt text](/assets/docs/22ef0873/output-2.png)
+
+Exemple : <u>L'eau de chaudière est réutilisée en circuit fermé (p. ex. gazéification, synthèse, réutilisation du condensat). L'essentiel de l'eau d'entrée participe aux réactions chimiques internes et aux transferts d'énergie, puis est purifié et réintroduit dans le procédé ; la « consommation » d'eau n'est donc pas listée séparément dans les sorties.</u>
+
+![Alt text](/assets/docs/11a83b19/water-usage-note.png)
+
+---
+
+**[Production de méthanol]**
+
+Le processus présente un déséquilibre entrées-sorties. Pour satisfaire le bilan matière, un poste
+d'eaux usées est ajouté à partir du volume d'eau d'entrée comme flux de sortie correspondant afin
+d'équilibrer le flux massique global. Expliquez-le dans les remarques.
+
+![Alt text](/assets/docs/7cba249a/input-3.png)
+
+![Alt text](/assets/docs/1781bb8c/output-3.png)
+
+Exemple : <u>Compte tenu du bilan matière, le volume d'eaux usées est ajouté sur la base du volume d'eau d'entrée afin de corriger le tableau de données.</u>
+
+![Alt text](/assets/docs/eeb55e62/wastewater-note.png)
+
+### Créer de nouveaux flux
+
+Pour le processus [Production de méthanol], un nouveau flux est requis : **Methanol; Biomass-to-methanol; Production mixing, at plant; Methanol mass fraction > 99%**
+
+Le nom du nouveau flux de méthanol est déterminé d'après les descriptions de la littérature citée.
+
+Référence pour créer des flux : [Créer de nouvelles données – Créer un flux](/fr/docs/user-guide/create-my-data/#create-a-flow)
+
+![Alt text](/assets/docs/b26cecf7/flow-name.png)
+
+![Alt text](/assets/docs/7eeaec53/flow-information.png)
+
+![Alt text](/assets/docs/96d03427/flow-modelling.png)
+
+![Alt text](/assets/docs/70fe3d52/flow-administration.png)
+
+Pour renforcer l'applicabilité et l'exhaustivité des données de flux, il est recommandé de
+compléter plusieurs formes d'unités dans les propriétés de flux. Pour les produits chimiques
+standard comme le méthanol, ajoutez à partir de sources faisant autorité ou de la littérature des
+paramètres clés tels que densité et pouvoir calorifique, afin de couvrir différents besoins de
+modélisation (masse, volume, énergie). **Sélectionnez une unité comme quantité de référence.**
+
+![Alt text](/assets/docs/d1b09081/flow-property.png)
+
+---
+
+## Considérations complémentaires sur les processus unitaires
+
+**Les flux d'entrée ou de sortie ne peuvent pas contenir de flux dupliqués (jugé par UUID). Le cas
+échéant, fusionnez et ajoutez des notes explicatives.**
+
+**[Capture de CO₂]**
+
+Les données du gaz naturel pour la turbine à gaz et du gaz naturel pour le calcinateur doivent être
+fusionnées.
+
+Exemple : <u>33,33 % pour la turbine à gaz, 66,67 % pour le calcinateur.</u>
+
+![Alt text](/assets/docs/26082934/co2-natural-gas.png)
+
+![Alt text](/assets/docs/ef5f8641/natural-gas-note.png)

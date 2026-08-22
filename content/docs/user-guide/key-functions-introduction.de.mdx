@@ -1,0 +1,150 @@
+---
+title: "Übersicht der Kernfunktionen"
+---
+
+Dieser Leitfaden gruppiert die wichtigsten Oberflächensteuerungen nach Szenario. Wenn Sie speziell den
+ZIP-Paket-Workflow suchen, fahren Sie mit
+[TIDAS-ZIP-Import, -Export und Aufgabenzentrum](./tidas-zip-workflows/) fort.
+
+## Öffentliche Ansicht des nationalen Kohlenstoff-Dashboards
+
+Wenn Sie einen Link `/dashboard/national-carbon` erhalten oder präsentieren müssen, können Sie das
+nationale Kohlenstoff-Dashboard direkt öffnen. Es erscheint nicht im normalen Menü, und die aktuelle
+Route ist nur für Systemadministratorkonten sichtbar; Konten ohne Zugriff sehen den 403-Zugriffsbeschränkungszustand.
+
+Das Dashboard präsentiert den Fortschritt der nationalen Kohlenstoffdatenplattform in fünf Ansichten: **Überblick**,
+**Status**, **Ergebnisse**, **Berechenbar** und **Prozessfluss-Topologie**. Die Topologieansicht zeigt
+Prozess- und Flussverbindungen, ermöglicht das Umschalten zwischen Kugel-3D-, erweiterter 2D- und
+geografischer Karten-Darstellung und nutzt Knotensuche, Schnellauswahl und Cache-Auftragsstatus, um
+anzuzeigen, ob der Graph bereit ist. Während die Graph-Cache-Daten geladen werden, bleibt die Seite im
+Wartezustand und zeigt nur Meldungen wie „Keine Daten verfügbar", wenn der Cache nicht erreichbar ist.
+Nutzen Sie das Dashboard für Präsentations-, öffentliche Dashboard- oder Offline-Demo-Szenarien,
+nicht zur Datenbearbeitung.
+
+## Globale Kopfleisten-Steuerelemente
+
+Nach der Anmeldung zeigt der obere rechte Bereich des Hauptlayouts eine Reihe globaler Steuerelemente.
+Es handelt sich um Aktionen auf Arbeitsbereichsebene, nicht um seiten spezifische Schaltflächen.
+
+### Typische Reihenfolge
+
+Von links nach rechts umfasst die Kopfleiste üblicherweise:
+
+1. **TIDAS-ZIP-Paket importieren**
+2. **TIDAS-ZIP-Paket exportieren**
+3. **Datenverarbeitung** (nur sichtbar für `data_product_manager`-Nutzer)
+4. **Aufgabenzentrum**
+5. **Benachrichtigungen**
+6. **Hell-/Dunkelmodus**
+7. **Sprachumschalter**
+8. **Dokumentationslink**
+
+### Funktion der einzelnen Steuerelemente
+
+| Steuerelement | Zweck | Hinweise |
+| --- | --- | --- |
+| TIDAS-ZIP-Paket importieren | ZIP-Archiv gemäß TIDAS-Paketstruktur importieren | Akzeptiert nur `.zip` |
+| TIDAS-ZIP-Paket exportieren | Zugreifbare Daten als ZIP-Paket exportieren | Läuft asynchron und endet im Aufgabenzentrum |
+| Datenverarbeitung | LCIA-Ergebnismengen generieren, in der Vorschau ansehen und veröffentlichen | Nur sichtbar für Konten mit `data_product_manager`-Zugriff |
+| Aufgabenzentrum | Hintergrundarbeit überwachen | Vereint LCA-Analyse, TIDAS-Import/-export und Hintergrundaufgaben der Prüf-Einreichung |
+| Benachrichtigungen | Zusammenarbeits- und Prüf-Updates verfolgen | Enthält Team-, Daten- und Issue-Reiter; siehe [Benachrichtigungszentrum](./notifications/) |
+| Hell-/Dunkelmodus | Design wechseln | Hilfreich für unterschiedliche Arbeitsumgebungen |
+| Sprachumschalter | UI-Sprache wechseln | Beeinflusst auch, welche Doku-Sprache sich öffnet |
+| Dokumentationslink | TianGong-Dokumentationsseite öffnen | Chinesische UI öffnet die chinesische Doku; englische UI die englische |
+
+![Karte der globalen Kopfleisten-Steuerelemente](/assets/docs/5cda6150/top-bar-controls-current.png)
+
+Die nummerierten Markierungen folgen der aktuellen Reihenfolge von links nach rechts: `1` TIDAS-ZIP-Paket
+importieren, `2` TIDAS-ZIP-Paket exportieren, `3` Aufgabenzentrum, `4` Benachrichtigungen, `5` Hell-/Dunkelmodus,
+`6` Sprachumschalter, `7` Dokumentationslink.
+Konten mit `data_product_manager`-Zugriff sehen zusätzlich **Datenverarbeitung** vor dem Aufgabenzentrum;
+Konten ohne diese Rolle sehen das Steuerelement nicht.
+
+### Benachrichtigungszentrum
+
+Das Benachrichtigungszentrum enthält derzeit drei Reiter:
+
+- **Team-Benachrichtigungen**
+- **Daten-Benachrichtigungen**
+- **Issue-Benachrichtigungen**
+
+Zudem lässt sich der Feed nach den letzten 3 Tagen, 7 Tagen, 30 Tagen oder aller Zeit filtern. Das Öffnen
+eines Reiterns aktualisiert dessen Zeitstempel der Ansicht — ein regelmäßiger Blick lohnt sich. Den
+detaillierten Workflow finden Sie im [Benachrichtigungszentrum](./notifications/).
+
+## Einträge des Profilmenüs
+
+Die Auswahl des Avatars oder Kontonamens öffnet ein rollenabhängiges Menü. Häufige Einträge sind:
+
+- **Kontoprofil**
+- **Mein Team**
+- **Prüfverwaltung**: nur sichtbar für Prüfrollen
+- **Systemverwaltung**: nur sichtbar für Systemrollen
+- **Abmelden**
+
+Verwandte Leitfäden:
+
+- [Kontoverwaltung und API-Key](./account-profile/)
+- [Datenprüfung](./data-review/)
+- [Systemverwaltung](./system-management/)
+
+## Steuerelemente der Datentabellen
+
+Die meisten Listenseiten stellen zusätzlich eine Standardgruppe von Tabellensteuerelementen bereit:
+
+- **Aktualisieren**: den neuesten Stand laden
+- **Anzeigedichte**: umschalten zwischen Komfortabel / Mittel / Kompakt
+- **Spalteneinstellungen**: Spalten anzeigen, ausblenden oder zurücksetzen
+- **Vollbild**: umgebende UI ausblenden und auf die Tabelle fokussieren
+
+![Tabellensteuerelemente](/assets/docs/83e564da/page-button-1.png)
+
+Vollbild lässt sich mit den Spalteneinstellungen kombinieren, um die Ansicht an eine konkrete Aufgabe anzupassen:
+
+![Beispiel der Spaltenkonfiguration](/assets/docs/a635edd1/filter-column-data.png)
+
+## Datenoperationen
+
+### Zeilenaktionen
+
+Häufige Aktionen in Datensatztabellen sind:
+
+- **Versionen ansehen**: Revisionshistorie und Veröffentlichungsänderungen einsehen
+- **Details ansehen**: den vollständigen Datensatz im Nur-Lese-Modus öffnen
+- **Kopieren**: den Datensatz nach **Meine Daten** duplizieren
+- **JSON exportieren**: eine TIDAS-kompatible `.json`-Datei herunterladen
+
+> Vergewissern Sie sich vor dem Import exportierter JSON-Dateien, dass das empfangende System das TIDAS-Schema versteht.
+
+![Zeilenaktionen](/assets/docs/a7e4adc1/page-button-2.png)
+
+### Aktionen in „Meine Daten"
+
+Der Arbeitsbereich **Meine Daten** bietet üblicherweise zusätzlich:
+
+- **Neues Element hinzufügen**
+- **Importieren**
+- **Bearbeiten**
+- **Zum Team beitragen**
+
+Den vollständigen Autoren-Workflow finden Sie unter [Meine Daten erstellen](/de/docs/user-guide/create-my-data/).
+
+![Aktionen in Meine Daten](/assets/docs/67b11bbe/page-button-3.png)
+
+![Import-Dialog](/assets/docs/f5f03c1c/import.png)
+
+## Zusammenarbeitsaktionen
+
+### Teamverwaltungsaktionen
+
+Innerhalb von **Mein Team** können autorisierte Nutzer:
+
+- **Mitglied einladen / Einladung erneut senden**
+- **Als Administrator festlegen / Als Mitglied festlegen**
+- **Mitglied entfernen**
+
+![Aktionen für Teammitglieder](/assets/docs/b0e86d8b/members-message-actions.png)
+
+Zu Rollengrenzen und den zugehörigen Datenzugriffsregeln siehe
+[Teamfunktionen](/de/docs/user-guide/team-function/#permission-matrix-and-common-actions) und
+[Berechtigungen und Datenräume](/de/docs/user-guide/permissions-and-data-scopes/).

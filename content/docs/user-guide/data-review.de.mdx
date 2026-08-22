@@ -1,0 +1,180 @@
+---
+title: "Datenprüfung"
+---
+
+Die Datenprüfung ist heute nicht mehr bloßes „Einreichen und Warten". Sie umfasst getrennte
+Arbeitsbereiche und Verantwortlichkeiten für Autoren, Prüfer und Prüfadministratoren. Diese Seite ist
+gliededert in **Schritte vor der Einreichung → Rollen → Prüf-Arbeitsbereich → FAQ**.
+
+## Vor der Einreichung
+
+Bevor Sie Daten aus **Meine Daten** in die Prüfung geben, schließen Sie zuerst zwei Schritte ab:
+
+1. Führen Sie die **Datenprüfung** aus
+2. Klicken Sie auf **Zur Prüfung einreichen**
+
+![Schaltfläche Datenprüfung](/assets/docs/0a311ce8/data-check.png)
+
+Findet die Plattform bei der Einreichung blockierende Probleme, öffnet sie eine Problemliste.
+Beheben Sie diese Probleme zuerst und reichen Sie erneut ein.
+
+![Validierungshinweis bei der Einreichung](/assets/docs/956dc785/data-problem.png)
+
+Bei Prozessdatensätzen ruft **Zur Prüfung einreichen** die Prüfeinreichung inzwischen direkt auf.
+Lehnt das System die Einreichung ab, beheben Sie die auf der Seite angezeigten Probleme, speichern
+Sie erneut und reichen Sie wieder ein. Ein gesonderter Aufgabe zur numerischen Stabilitätsprüfung im
+Aufgabenzentrum ist nicht mehr abzuwarten.
+
+## Wer macht was
+
+| Rolle | Hauptverantwortung | Haupteinstieg |
+| --- | --- | --- |
+| Autor | Modelldaten pflegen, Selbstprüfung, Prüfeinreichung, Überarbeitung nach Feedback | Meine Daten |
+| Prüfer (`review-member`) | Zugewiesene Aufgaben prüfen und Prüfkommmentare einreichen | Profilmenü → Prüfverwaltung |
+| Prüfadministrator (`review-admin`) | Arbeit zuweisen, Fortschritt verfolgen, Prüfer verwalten, die gesamte Prüfung genehmigen oder ablehnen | Profilmenü → Prüfverwaltung |
+| Team-Administrator | Mit Autoren koordinieren und den Projektfortschritt begleiten | Mein Team, [Benachrichtigungszentrum](./notifications/) |
+
+> Prüfrollen und Teamrollen sind unterschiedliche Berechtigungssysteme. Eine Person kann beide,
+> nur eine oder keine davon haben.
+
+## So öffnen Sie den Prüf-Arbeitsbereich
+
+Nutzer mit Prüfrolle können die **Prüfverwaltung** über das Profilmenü oben rechts öffnen.
+
+Dieser Arbeitsbereich ist rollengesteuert und bleibt nicht für alle in der linken Navigation sichtbar.
+
+![Reiter des Prüfer-Arbeitsbereichs](/assets/docs/8e9c116a/review-workspace-member-tabs.png)
+
+Der markierte Bereich `1` zeigt die Reiter, die dem aktuellen Konto sichtbar sind. Der Screenshot ist
+ein `review-member`-Beispiel; ein `review-admin` sieht ein anderes, verwaltungsorientiertes Reiterset.
+
+## Arbeitsbereich des Prüfadministrators
+
+Öffnet ein `review-admin` die Prüfverwaltung, lauten die aktuellen Reiter:
+
+- **Nicht zugewiesene Aufgabe**
+- **Zugewiesene Aufgabe**
+- **Abgelehnte Aufgabe**
+- **Mitgliederverwaltung**
+
+### Nicht zugewiesene Aufgabe
+
+Hier werden neu eingereichte Prüfungen den Prüfern zugewiesen.
+
+Typische Aktionen:
+
+- Mehrere Aufgaben gesammelt auswählen
+- **Prüfer auswählen** öffnen
+- Eine Prüffrist festlegen
+- Die Prüfung auf Aufgabenebene ablehnen
+
+Nutzen Sie diesen Reiter zuerst, wann immer eine neue Einreichung noch der Prüferzuweisung bedarf.
+
+### Zugewiesene Aufgabe
+
+Dieser Reiter dient der Überwachung bereits zugewiesener Arbeit.
+
+Prüfadministratoren können hier üblicherweise:
+
+- Den Prüfstatus prüfen
+- **Prüffortschritt** öffnen
+- Für unbearbeitete Aufgaben weitere Prüfer hinzuzufügen
+- Noch ausstehende Prüfer abberufen
+- Die gesamte Prüfung genehmigen oder ablehnen
+
+### Abgelehnte Aufgabe
+
+Dieser Reiter verwaltet Aufgaben, die auf Ebene des Prüfadministrators abgelehnt wurden, damit
+leichter nachvollziehbar bleibt, was zu überarbeiten oder neu zuzuweisen ist.
+
+### Mitgliederverwaltung
+
+In der **Mitgliederverwaltung** wird das Prüfungsteam selbst gepflegt. Typische Aktionen:
+
+- Prüfer hinzufügen
+- Prüfer entfernen
+- `review-member` zum `review-admin` befördern
+- `review-admin` zurück zum `review-member` herabstufen
+- Offene und abgeschlossene Prüfungen je Mitglied einsehen
+
+## Arbeitsbereich des Prüfers
+
+Öffnet ein `review-member` die Prüfverwaltung, lauten die aktuellen Reiter:
+
+- **Geprüft**
+- **Ausstehende Prüfung**
+- **Abgelehnt**
+
+### Ausstehende Prüfung
+
+Dies ist der zentrale Arbeitsbereich der Prüfer. Er listet die Aufgaben, die dem angemeldeten Prüfer
+derzeit zugewiesen sind.
+
+Häufige Aktionen:
+
+- Aufgabendetails öffnen
+- Prüffeedback eintragen
+- Mit **Zwischenspeichern** Arbeit sichern
+- Mit **Speichern** das Prüfergebnis einreichen
+
+Die Bearbeitungserfahrung unterscheidet sich nach Objekttyp:
+
+- Die Prozessprüfung ist formularlastiger
+- Die Modellprüfung kombiniert üblicherweise Graphansichten mit einem rechten Informationsfeld
+
+### Geprüft
+
+Dieser Reiter zeigt Aufgaben, die der aktuelle Prüfer bereits bearbeitet hat.
+
+### Abgelehnt
+
+Dieser Reiter betrifft vor allem Aufgaben, die auf Ebene des Prüfadministrators abgelehnt wurden.
+
+Erscheint eine Aufgabe hier, bedeutet das üblicherweise, dass der gesamte Prüffluss abgelehnt wurde —
+nicht nur, dass ein einzelner Prüfer ein negatives Kommentar geschrieben hat.
+
+## Was Autoren wissen sollten
+
+Auch ohne Prüfrolle sollten Autoren den Prüfrhythmus kennen:
+
+1. Modellierung und Selbstprüfung in **Meine Daten** abschließen
+2. **Zur Prüfung einreichen** klicken
+3. Auf die Prüferzuweisung durch einen Prüfadministrator warten
+4. Gemäß Prüffeedback überarbeiten
+5. Bei Bedarf erneut einreichen
+
+Beobachten Sie außerdem den Reiter **Daten-Benachrichtigungen** im [Benachrichtigungszentrum](./notifications/)
+oben rechts, damit Prüffeedback nicht übersehen wird.
+
+## Statusfilter
+
+Prüfbezogene Listen enthalten üblicherweise Statusfilter, die das Auffinden von Elementen in
+unterschiedlichen Phasen erleichtern.
+
+![Prüfstatusfilter](/assets/docs/9fa6d4a0/review-status.png)
+
+Interpretieren Sie diese Status in der Praxis über Ihre Rolle:
+
+- Autoren interessiert, ob sie etwas überarbeiten müssen
+- Prüfer interessiert, welche Aufgaben noch ausstehen
+- Prüfadministratoren interessiert, welche Aufgaben unzugewiesen oder blockiert sind
+
+## FAQ
+
+### Warum sehe ich die Prüfverwaltung nicht?
+
+Der Einstieg wird nur `review-admin` und `review-member` angezeigt. Normale Autoren können Daten zur
+Prüfung einreichen, ohne Zugang zum Prüf-Arbeitsbereich selbst zu haben.
+
+### Warum wurde die Einreichung nicht sofort zu einer aktiven Prüfung?
+
+Die Einreichung tritt lediglich in den Workflow ein. Meist muss ein Prüfadministrator noch Prüfer
+zuweisen, bevor die eigentliche Prüfarbeit beginnt.
+
+### Ich bin Team-Administrator. Warum sehe ich die Prüfverwaltung trotzdem nicht?
+
+Weil Teamverwaltung und Prüfrollen getrennte Berechtigungsbereiche sind.
+
+### Wo kann ich all diese Berechtigungen schnell vergleichen?
+
+Fahren Sie fort mit [Berechtigungen und Datenräume](./permissions-and-data-scopes/).

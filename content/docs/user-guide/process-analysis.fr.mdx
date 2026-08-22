@@ -1,0 +1,210 @@
+---
+title: "Espace d'analyse de processus"
+description: "Explique l'espace d'analyse LCA dans Mes données → Processus : profil, comparaison, résultats groupés et analyse des chemins de contribution."
+---
+
+TianGong LCA inclut désormais un **Espace d'analyse de processus** dédié aux analyses avancées de
+type LCIA sur plusieurs processus.
+
+Il se distingue de la page habituelle [Calcul LCIA et résultats](./lcia/) :
+
+- La page `LCIA` sert à lire les résultats d'un processus ou d'un modèle
+- Cet espace sert à la comparaison, au groupement et à l'exploration des chemins de contribution entre processus
+
+## Comment y accéder
+
+Le point d'entrée actuel est :
+
+1. Ouvrez **Mes données → Processus**
+2. Cliquez sur **Analyse LCA** dans la barre d'outils de la liste des processus
+
+C'est une entrée d'espace avancé qui peut ne pas apparaître directement dans le menu de navigation gauche.
+
+## Entrées partagées
+
+En haut de la page, tous les onglets partagent les mêmes entrées d'analyse :
+
+- **Périmètre de données**
+- **Recherche de processus**
+
+### Périmètre de données
+
+Les options actuelles sont :
+
+- **Données de l'utilisateur courant**
+- **Données ouvertes**
+- **Toutes les données**
+
+Choisissez selon votre objectif :
+
+- Utilisez **Données de l'utilisateur courant** pour vérifier vos propres brouillons
+- Utilisez **Données ouvertes** pour comparer des jeux de données publiés. Les profils de processus et les lignes de détail LCIA des Données ouvertes privilégient les ensembles de résultats LCIA publiés. Ces ensembles sont générés et publiés depuis l'espace **Traitement des données** par des comptes disposant de l'accès `data_product_manager`, et n'incluent que les entrées satisfaisant les règles d'éligibilité à l'état publié. En l'absence d'ensemble de résultats publié, la page affiche un état vide ou indisponible au lieu de recalculer et publier temporairement des résultats.
+- Utilisez **Toutes les données** lorsque vous avez besoin du plus large ensemble de candidats disponible
+
+### Recherche de processus
+
+La recherche de processus restreint la liste des candidats disponibles pour tous les onglets ci-dessous.
+
+![Espace d'analyse de processus](/assets/docs/6d05761e/process-analysis-workspace.png)
+
+Sur la capture, `1` marque la zone d'entrée partagée par chaque onglet d'analyse et `2` les quatre
+onglets. Réglez d'abord le périmètre et les processus candidats, puis passez au mode d'analyse
+souhaité.
+
+## Onglet 1 : Profil de processus
+
+Le **Profil de processus** sert à inspecter le profil LCIA d'un processus.
+
+### Étapes du profil
+
+1. Sélectionnez un processus
+2. Cliquez sur **Charger le profil**
+
+### Contenu du résultat du profil
+
+La zone de résultat comprend typiquement :
+
+- Des métadonnées de requête telles que `snapshot_id`, `result_id`, source et heure de calcul
+- Un résumé du processus sélectionné
+- Un compteur de **Catégories non nulles**
+- Un **Graphique de profil normalisé**
+- Un tableau détaillé des catégories d'impact
+
+À utiliser pour une vue rapide du profil d'impact relatif d'un processus isolé.
+
+## Onglet 2 : Comparaison d'impacts
+
+La **Comparaison d'impacts** compare plusieurs processus pour une catégorie d'impact.
+
+### Étapes de la comparaison
+
+1. Sélectionnez une **Catégorie d'impact**
+2. Choisissez plusieurs processus dans le tableau de sélection
+3. Cliquez sur **Lancer l'analyse**
+
+Utilisez **Effacer la sélection** pour réinitialiser l'ensemble de comparaison.
+
+### Contenu du résultat de la comparaison
+
+L'onglet renvoie généralement :
+
+- Le nombre de processus comparés
+- Le principal contributeur
+- Le total absolu
+- Un graphique de comparaison
+- Un tableau comparatif détaillé
+
+À utiliser pour savoir quel processus candidat contribue le plus pour une même catégorie d'impact.
+
+## Onglet 3 : Résultats groupés
+
+Les **Résultats groupés** agrègent plusieurs processus selon une dimension choisie avant comparaison.
+
+### Dimensions de groupement disponibles
+
+L'interface actuelle prend en charge :
+
+- **Localisation**
+- **Classification**
+- **Type de jeu de données**
+- **Équipe**
+
+### Étapes de l'analyse groupée
+
+1. Sélectionnez une **Catégorie d'impact**
+2. Sélectionnez une règle **Grouper par**
+3. Choisissez plusieurs processus
+4. Cliquez sur **Lancer l'analyse groupée**
+
+### Contenu du résultat de l'analyse groupée
+
+La zone de résultat inclut habituellement :
+
+- Le nombre de groupes
+- Le nombre de processus sélectionnés
+- Le groupe de tête
+- Le total absolu
+- Un **Graphique de classement groupé**
+- Un tableau de détail groupé
+
+À utiliser lorsque la vraie question est « quelle catégorie ou quel ensemble contribue le plus au
+global ? ».
+
+## Onglet 4 : Chemin de contribution
+
+Le **Chemin de contribution** part d'un processus racine et explore comment l'impact se propage à
+travers le réseau de processus.
+
+### Entrées
+
+Outre la catégorie d'impact et le processus racine, la page permet de régler :
+
+- **Quantité**
+- **Profondeur maximale**
+- **Enfants Top-k**
+- **Part de seuil**
+- **Nœuds maximaux**
+
+### Étapes du chemin de contribution
+
+1. Sélectionnez une **Catégorie d'impact**
+2. Choisissez un **processus racine**
+3. Ajustez les paramètres numériques si besoin
+4. Cliquez sur **Lancer le chemin de contribution**
+
+### Contenu du résultat du chemin de contribution
+
+La zone de résultat comprend typiquement :
+
+- L'impact total
+- La couverture
+- Les nœuds développés
+- Les nœuds tronqués
+- Le rappel du processus racine et des paramètres
+- Un graphique des contributeurs directs
+- Un **Sankey du chemin de contribution**
+- Des tableaux de branches, nœuds ou liens supplémentaires
+
+À utiliser pour comprendre quels chemins amont dominent l'impact.
+
+Les chemins de contribution développent les résultats de liaison des fournisseurs dans l'instantané
+courant du solveur. Pour les échanges d'entrée de produits, `exchange.location` peut définir la
+région d'approvisionnement. En l'absence de localisation explicite, la localisation du processus
+consommateur sert d'ancre par défaut. Lorsque plusieurs fournisseurs sont disponibles, le système
+restreint d'abord les candidats aux fournisseurs de sortie de référence de même `model_id` si le
+processus consommateur en dispose pour le même flux de produit. Sans fournisseur de même modèle, le
+système revient au mix régional d'approvisionnement plus large. Le système choisit ensuite le
+niveau géographique et pondère les fournisseurs de ce niveau par le volume annuel d'approvisionnement
+ou de production. Un volume annuel manquant ou invalide reçoit une pondération positive par défaut.
+Seule une sortie de référence quantitative est traitée comme fournisseur éligible pour ce flux de
+produit ; les sorties non-référence de même `flow_id` ne sont enregistrées qu'à titre de candidats
+de diagnostic. Cette répartition modifie le mix de fournisseurs amont ; elle ne modifie pas la
+demande totale de l'échange d'entrée.
+
+## Lien avec le centre de tâches
+
+Certaines analyses peuvent déclencher du travail de résolution en arrière-plan. Si le traitement
+prend du temps, surveillez le **Centre de tâches** dans la barre supérieure :
+
+- Le centre de tâches réunit **Calcul LCA**, import/export TIDAS et tâches d'envoi en revue dans un panneau unique.
+- Vous pouvez basculer par type de tâche ; le panneau affiche la progression au moyen de barres, d'étiquettes d'état et de libellés d'étape. Les tâches d'envoi en revue peuvent traverser les phases « en file », « contrôle en cours », « en attente de contrôle », « soumission en cours », « soumis », « bloqué », « périmé », « annulé » ou « erreur ».
+- Utilisez **Voir** ou **Détails** pour inspecter les identifiants de résultat, d'instantané, de tâche, les causes d'échec et les diagnostics. En cas d'échec d'envoi en revue, ouvrez le motif du contrôle, le `review_submit_job_id` et les diagnostics de la tâche worker avant de décider d'une nouvelle tentative.
+- Si un contrôle d'envoi en revue est déjà en cours pour la même version de processus, la page invite à réessayer plus tard plutôt que de créer une tâche en double.
+- Les tâches terminées peuvent être effacées ; les tâches échouées ou annulées devraient d'abord être ouvertes pour décider de relancer l'analyse ou la soumission concernée.
+
+Si vous travaillez avec des packages TIDAS, consultez aussi les indications du centre de tâches
+dans [Import/export TIDAS ZIP et centre de tâches](./tidas-zip-workflows/).
+
+## Quand ne pas utiliser cet espace
+
+Vous n'avez généralement pas besoin de cet espace lorsque :
+
+- Vous voulez seulement les résultats LCIA d'un processus ou d'un modèle
+- Vous voulez seulement l'export JSON standard
+- Vous voulez seulement la gestion de revue ou des autorisations
+
+Ces cas conviennent mieux à :
+
+- [Calcul LCIA et résultats](./lcia/)
+- [Revue de données](./data-review/)
+- [Autorisations et espaces de données](./permissions-and-data-scopes/)

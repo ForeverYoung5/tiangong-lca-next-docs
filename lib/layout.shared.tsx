@@ -5,14 +5,21 @@ import { i18n } from '@/lib/i18n';
 
 /**
  * v4 §5.1：zh 使用官方语言包；de/fr 无官方包（@fumadocs/language 仅 zh-cn/zh-tw），
- * 先自补核心 UI 词条，P1 扩全并考虑上游 PR。
+ * 自补核心 UI 词条。displayName 为语言切换器显示名（缺省会全部显示 English）。
  */
 export const translations = i18n
   .translations()
   .extend(uiTranslations())
   .preset('zh', zhCN())
   .add({
+    zh: {
+      displayName: '中文',
+    },
+    en: {
+      displayName: 'English',
+    },
     de: {
+      displayName: 'Deutsch',
       'On this page(table of contents)': 'Auf dieser Seite',
       'Next Page(pagination)': 'Nächste Seite',
       'Previous Page(pagination)': 'Vorherige Seite',
@@ -22,6 +29,7 @@ export const translations = i18n
       'Page Not Found(404 page)': 'Seite nicht gefunden',
     },
     fr: {
+      displayName: 'Français',
       'On this page(table of contents)': 'Sur cette page',
       'Next Page(pagination)': 'Page suivante',
       'Previous Page(pagination)': 'Page précédente',
@@ -32,10 +40,22 @@ export const translations = i18n
     },
   });
 
+/** 品牌区：浅色主题用紫色 logo，深色主题用白色 logo（沿用产品站资产） */
+function brandTitle() {
+  return (
+    <span className="flex items-center gap-2">
+      {/* eslint-disable-next-line @next/next/no-img-element -- 静态导出无图片优化，logo 走 public 原生 img */}
+      <img src="/logo-light.svg" alt="TianGong LCA" width={28} height={28} className="dark:hidden" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/logo-dark.svg" alt="TianGong LCA" width={28} height={28} className="hidden dark:block" />
+    </span>
+  );
+}
+
 export function baseOptions(locale: string): BaseLayoutProps {
   return {
     nav: {
-      title: 'TianGong LCA',
+      title: brandTitle(),
       url: `/${locale}`,
     },
     githubUrl: 'https://github.com/linancn/tiangong-lca-next',

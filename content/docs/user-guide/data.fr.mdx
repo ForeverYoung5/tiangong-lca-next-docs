@@ -1,0 +1,92 @@
+---
+title: "Vue d'ensemble de la plateforme de données"
+---
+
+Utilisez cette page pour comprendre le périmètre, les autorisations et l'usage typique de chaque
+module de données avant de vous lancer dans la création ou la revue.
+
+> Nouveau sur la plateforme ? Terminez d'abord la [Première connexion](/fr/docs/quick-start/first-login/)
+> et visionnez les [Démonstrations](/fr/docs/quick-start/demonstrations/).
+
+## Terminologie clé
+
+- **Modèle** : un réseau de processus décrivant un système de produits ; peut être référencé comme un processus.
+- **Processus** : un enregistrement de processus unitaire contenant entrées, sortites, informations de modélisation et de gestion.
+- **Flux** : flux de matière, d'énergie ou économique, lié aux groupes d'unités et aux propriétés de flux.
+- **Groupe d'unités** : un ensemble d'unités liées avec des facteurs de conversion définis.
+- **Sources / Contacts** : documents de référence et personnes responsables associés aux jeux de données.
+
+Ces éléments apparaissent dans chaque module, mais les autorisations diffèrent.
+
+## Vue d'ensemble des modules
+
+| Module | Public principal | Objectif principal | Autorisations | Actions typiques |
+| --- | --- | --- | --- | --- |
+| **Données ouvertes** | Tous les utilisateurs | Parcourir et référencer des jeux de données audités | Lecture seule | Rechercher, filtrer, copier, exporter |
+| **Données commerciales** | Utilisateurs nécessitant des jeux de tiers | Découvrir les métadonnées et contacter les fournisseurs | Lire les métadonnées | Parcourir, copier les coordonnées |
+| **Mes données** | Auteurs et mainteneurs | Créer, modifier, importer et versionner des jeux de données | Lecture/écriture ; groupes d'unités et propriétés de flux en configuration de base en lecture seule | Créer, importer, modifier, contribuer, soumettre en revue ; consulter, rechercher et exporter groupes d'unités et propriétés de flux |
+| **Données d'équipe** | Membres d'équipe | Partager et réutiliser des actifs collaboratifs | Lecture seule | Découvrir, référencer, copier vers Mes données |
+
+> Les Données ouvertes et commerciales ne peuvent pas être modifiées directement. Copiez-les vers
+> [Mes données](/fr/docs/user-guide/create-my-data/) avant tout changement.
+>
+> Les listes et résultats de recherche affichent par défaut la **dernière version visible** pour
+> chaque identifiant de jeu de données. Utilisez **Voir les versions** sur une ligne pour inspecter
+> l'historique.
+>
+> Si vous avez copié un identifiant de jeu de données, activez la **Recherche de références** dans
+> les listes Contacts, Sources, Groupes d'unités, Propriétés de flux, Flux, Processus ou Modèles,
+> puis recherchez avec l'UUID complet du jeu de données. Cela affiche les enregistrements de l'espace
+> de données courant référençant cet identifiant — dans les mêmes limites de source, d'équipe et
+> d'autorisation — avec jusqu'aux 50 premiers résultats.
+
+## Détails des modules
+
+### Données ouvertes
+
+- Jeux de données de cycle de vie audités et standardisés, sélectionnés par l'équipe TianGong.
+- Idéal pour la recherche, le référencement et la comparaison.
+- Prend en charge recherche, filtrage, copie et export ; les listes affichent la dernière version publiée de chaque jeu de données.
+
+### Données commerciales
+
+- Présente les métadonnées descriptives de jeux de données commerciaux.
+- Utilisez les contacts indiqués pour obtenir les jeux complets auprès des fournisseurs.
+- Convient aux organisations nécessitant du contenu sous licence ou premium.
+
+### Mes données
+
+- Votre principal espace de création pour modèles, processus, flux, sources, contacts et enregistrements associés. Groupes d'unités et propriétés de flux sont une configuration de base : les utilisateurs ordinaires peuvent les consulter, rechercher, utiliser la Recherche de références, inspecter toutes les versions et les exporter dans **Mes données**. La création, l'import, la copie, la création de version, la modification, la suppression et la contribution sont normalement gérées par les administrateurs système. Contactez un administrateur lorsque ces enregistrements doivent être ajoutés ou complétés.
+- Prend en charge brouillons, import/export, versionnage et contributions d'équipe ; les listes ordinaires privilégient la dernière version visible. Lorsque vous créez une nouvelle version depuis **Toutes les versions**, la plateforme conserve l'identifiant du jeu de données et génère automatiquement le numéro de version suivant.
+- Workflows détaillés : [Créer mes données](/fr/docs/user-guide/create-my-data/) et [Utilisation des données](/fr/docs/user-guide/data-use/).
+- ⚠️ Privilégiez les groupes d'unités et propriétés de flux standard de la plateforme afin d'éviter les problèmes de compatibilité LCIA.
+
+### Données d'équipe
+
+- Affiche les jeux de données partagés au sein de vos équipes.
+- Copiez les éléments vers « Mes données » pour les modifier, puis partagez les mises à jour avec l'équipe.
+- Fonctionne de pair avec la gestion des rôles décrite dans [Fonctions d'équipe](/fr/docs/user-guide/team-function/).
+
+## Matrice d'autorisations
+
+| Module | Voir toutes les données | Voir les métadonnées | Créer | Modifier | Supprimer | Copier |
+| --- | --- | --- | --- | --- | --- | --- |
+| Données ouvertes | ✅ | | | | | ✅ |
+| Données commerciales | | ✅ | | | | ✅ |
+| Mes données | ✅ | ✅ | ✅* | ✅ | ✅ | ✅* |
+| Données d'équipe | ✅ | | | | | ✅ |
+
+`*` Dans **Mes données**, les utilisateurs ordinaires peuvent consulter, rechercher, utiliser la
+Recherche de références, inspecter toutes les versions et exporter les groupes d'unités et propriétés
+de flux. La création, l'import, la copie, la création de version, la modification, la suppression, la
+contribution et les points d'entrée de maintenance similaires sont réservés aux administrateurs
+système. Si la page indique « Besoin d'ajouter ou de compléter des groupes d'unités ? Contactez un
+administrateur. » ou « Besoin d'ajouter ou de compléter des propriétés de flux ? Contactez un
+administrateur. », demandez d'abord à un administrateur de maintenir la configuration de base.
+
+Prochaines étapes : passez à [Créer mes données](/fr/docs/user-guide/create-my-data/) pour construire
+du contenu, ou rendez-vous à [Fonctions d'équipe](/fr/docs/user-guide/team-function/) pour les
+conseils de collaboration.
+
+Pour une vue consolidée des espaces de données, rôles d'équipe, rôles de revue et rôles système,
+poursuivez avec [Autorisations et espaces de données](./permissions-and-data-scopes/).

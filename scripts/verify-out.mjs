@@ -87,7 +87,7 @@ if (sr.sourceCommit !== (commit ?? null)) {
 }
 const recomputed = createHash('sha256').update(JSON.stringify(sr.records)).digest('hex');
 if (sr.digest !== `sha256:${recomputed}`) errors.push('search-records digest mismatch');
-const expectedCounts = { zh: 38, en: 38, de: 1, fr: 1 };
+const expectedCounts = { zh: 38, en: 38, de: 38, fr: 38 };
 for (const [lang, count] of Object.entries(expectedCounts)) {
   if (sr.countsByLocale?.[lang] !== count) {
     errors.push(`countsByLocale.${lang} = ${sr.countsByLocale?.[lang]}, expected ${count}`);
@@ -105,8 +105,8 @@ passed.push(`search-records count=${sr.count} counts=${JSON.stringify(sr.countsB
 const llms = read('llms.txt');
 if (commit && !llms.includes(commit)) errors.push('llms.txt does not expose SOURCE_COMMIT');
 const llmsEntries = (llms.match(/^- \[/gm) ?? []).length;
-if (llmsEntries !== 78) errors.push(`llms entries = ${llmsEntries}, expected 78`);
-else passed.push(`llms entries 78 + commit`);
+if (llmsEntries !== 152) errors.push(`llms entries = ${llmsEntries}, expected 152`);
+else passed.push(`llms entries 152 + commit`);
 // 分类页不得出现在 llms（抽样：quick-start 分类首页的 URL 形态）
 if (/\/zh\/docs\/quick-start\/\)/.test(llms)) errors.push('category page leaked into llms.txt');
 
@@ -126,11 +126,8 @@ if (deployEnv !== 'production') {
 // 7. sitemap：locale 隔离（de/fr 深层路由不出现）+ 全量收录
 const sitemap = read('sitemap.xml');
 const sitemapCount = (sitemap.match(/<loc>/g) ?? []).length;
-if (sitemapCount !== 103) errors.push(`sitemap entries = ${sitemapCount}, expected 103`);
-else passed.push('sitemap 103 entries');
-if (/\/de\/docs\/(quick-start|user-guide|faq|overview)/.test(sitemap)) {
-  errors.push('sitemap contains unpublished de deep routes');
-}
+if (sitemapCount !== 197) errors.push(`sitemap entries = ${sitemapCount}, expected 197`);
+else passed.push('sitemap 197 entries');
 
 // 8. OG 图（98 页 → ≥98 产物）
 let ogCount = 0;
@@ -141,8 +138,8 @@ let ogCount = 0;
     else if (e.isFile() && !e.name.endsWith('.html')) ogCount += 1;
   }
 })(path.join(outRoot, 'og'));
-if (ogCount >= 98) passed.push(`og images (${ogCount})`);
-else errors.push(`expected >=98 OG images, found ${ogCount}`);
+if (ogCount >= 192) passed.push(`og images (${ogCount})`);
+else errors.push(`expected >=192 OG images, found ${ogCount}`);
 
 // 9. 内部路径零泄漏
 let leaked = null;

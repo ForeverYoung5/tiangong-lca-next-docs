@@ -1,0 +1,175 @@
+---
+title: "TianGong LCA MCP (lokal)"
+---
+
+Besuchen Sie den [TianGong MCP Hub](https://hub.ceeai.net/) für die neuesten Plug-in-Beispiele,
+Konfigurationsskripte und FAQs. Diese Seite fasst die wichtigsten Schritte der lokalen Bereitstellung
+zusammen.
+
+## openLCA-Konfiguration
+
+### openLCA-Installation
+
+Laden Sie auf der [openLCA-Official-Website](https://www.openlca.org/download) gemäß den
+Seitenhinweisen die openLCA-Software auf Ihren lokalen Rechner herunter.
+
+### Dateiimport
+
+Klicken Sie auf das Software-Symbol, um in die heruntergeladene openLCA-Oberfläche zu gelangen, und
+beginnen Sie mit dem Dateiimport.
+
+1. Menü öffnen: Klicken Sie oben links auf das Menü „File", um die Liste aufzuklappen.
+2. Import wählen: Klicken Sie im Menü auf „Import", um den Import von Datendateien vorzubereiten.
+3. Datei importieren: Wählen Sie im Untermenü „Import" je nach tatsächlichem Datenformat „File" oder „Other".
+
+    | Importoption | Zweck | Häufig unterstützte Formate/Typen |
+    | --- | --- | --- |
+    | **File** | Vollständige Datenbanken oder Standard-Datensatzdateien importieren. | `.zolca`, `EcoSpold`, `ILCD`, `SimaPro CSV`, `Excel` |
+    | **Other** | Bestimmte Komponenten importieren oder erweiterte Importkonfiguration durchführen. | Gesamte Datenbanken, einzelne Komponenten (Prozesse, Flüsse, Methoden usw.), `GeoJSON`, Mapping-Dateien |
+
+4. Daten durchsehen: Entpacken und betrachten Sie nach Abschluss des Imports die Daten in der Navigation der Hauptoberfläche.
+
+    ![Dateiimport](/assets/docs/6f8253df/1.png)
+
+### IPC-Server
+
+1. Menü öffnen: Klicken Sie oben links auf das Menü „Tools", um die Liste aufzuklappen.
+2. Werkzeug wählen: Klicken Sie im Menü auf „Developer tools".
+3. Konfigurationsfeld öffnen: Wählen Sie im Untermenü „Developer tools" den Punkt „IPC Server".
+4. Port konfigurieren: Wechseln Sie zur Ansicht „Start an IPC Server" und tragen Sie im Feld Port den Startport des IPC-Servers ein (empfohlen: 8080).
+5. Dienst starten: Klicken Sie auf die grüne Schaltfläche, um den IPC-Server zu starten.
+
+    ![IPC-Server](/assets/docs/767973c3/2.png)
+
+## MCP-Server
+
+### NVM-Installation
+
+Laden Sie je nach Systemtyp von der entsprechenden offiziellen Website ([Windows](https://github.com/coreybutler/nvm-windows/releases), [Linux, macOS](https://github.com/nvm-sh/nvm)) gemäß der Dokumentation nvm auf Ihren lokalen Rechner herunter.
+
+### Node.js-Paket
+
+#### Öffnen Sie je nach Betriebssystem (Windows/Linux/Mac) das entsprechende Terminal und geben Sie gemäß der folgenden Anleitung die Befehle ein
+
+1. Node.js herunterladen/aktivieren
+
+    ```bash
+    # Install Node.js version 22
+    nvm install 22
+    # Configure the Node.js version to use
+    nvm use 22
+    ```
+
+2. MCP-Server-Paket installieren
+
+    ```bash
+    # Install package
+    npm install -g @tiangong-lca/mcp-server@0.0.14
+    ```
+
+3. MCP-Server starten
+
+    ```bash
+    # Start MCP-Server
+    npx -p @tiangong-lca/mcp-server tiangong-lca-mcp-http-local
+    ```
+
+4. Optionale Konfiguration der GLAD-Datensatzsuche
+
+    Um GLAD-Datensätze (Global LCA Data Access) aus MCP-Tools abzufragen, konfigurieren Sie diese Server-Umgebungsvariablen vor dem Start des MCP-Servers:
+
+    ```bash
+    GLAD_API_KEY=your-glad-api-key
+    GLAD_API_BASE_URL=https://www.globallcadataaccess.org/api/v1
+    ```
+
+    `GLAD_API_BASE_URL` bleibt üblicherweise beim Standardwert. Überschreiben Sie ihn nur, wenn Ihre Laufzeitumgebung einen kompatiblen Proxy oder ein privates Gateway nutzen muss. Die GLAD-Tools hängen von einem serverseitigen API-Key ab; hinterlegen Sie den Key nicht in öffentlichen Dokumenten, Chat-Protokollen oder geteilten Konfigurationen.
+
+    Nach der Konfiguration enthält die Werkzeugliste `Search_GLAD_Datasets_Tool` und `Get_GLAD_Dataset_Tool`. Nutzen Sie das Suchwerkzeug, um Datensatz-Deskriptoren nach Schlüsselwort, Sektor, Format, Geografie oder öffentlicher Zugänglichkeit zu filtern. Nutzen Sie das Abrufwerkzeug mit `refId` und `dataProvider`, um einen GLAD-Datensatz-Deskriptor zu laden. Diese Werkzeuge geben GLAD-Metadaten und Zugangsbeschreibungen zurück. Sie importieren den Datensatz nicht in TianGong LCA. Nutzen Sie den TIDAS-ZIP-Workflow oder die passende Konvertierungskette, wenn Sie Daten importieren oder konvertieren müssen.
+
+## MCP-Server-Aufruf
+
+### Inspector
+
+### MCP-Inspector starten: Geben Sie folgenden Befehl im Terminal ein; es leitet automatisch zur Inspector-Seite weiter
+
+```bash
+npx @modelcontextprotocol/inspector
+```
+
+1. Transporttyp konfigurieren: Wählen Sie auf der Inspector-Seite in der Dropdown-Box „Streamable HTTP".
+2. URL konfigurieren: Tragen Sie den Port des MCP-Servers ein: [http://localhost:9278/mcp](http://localhost:9278/mcp).
+3. Verbindung herstellen: Klicken Sie auf „Connect".
+
+    **Nach erfolgreicher Verbindung** zeigt das Folgende die Anwendung am Beispiel der Wirkungsabschätzung.
+4. Operation wählen: Klicken Sie auf der oberen Symbolleiste auf „Tools".
+5. Liste aufklappen: Klicken Sie auf „List Tools", um die Liste anzuzeigen.
+6. Werkzeug wählen: Klicken Sie in der Liste auf „OpenLCA_Impact_Assessment_Tool".
+7. UUID konfigurieren: Suchen Sie die UUIDs von productSystem und impactMethod in openLCA und tragen Sie sie in die entsprechenden Felder ein.
+8. Werkzeug ausführen: Klicken Sie auf „Run Tool", um das Werkzeug auszuführen und die Ausgabe anzuzeigen.
+
+    ![](/assets/docs/cb27d698/4.png)
+
+### Cherry Studio
+
+Laden Sie auf der [Cherry-Studio-Website](https://www.cherry-ai.com/download) gemäß der [offiziellen Dokumentation](https://docs.cherry-ai.com/pre-basic/installation) die Software auf Ihren lokalen Rechner herunter und öffnen Sie sie.
+
+1. Einstellungen öffnen: Klicken Sie in der Seitenleiste auf die Einstellungen-Schaltfläche.
+2. MCP-Einstellungen öffnen: Wählen Sie „MCP Settings", um zur MCP-Konfiguration zu gelangen.
+3. MCP-Server hinzufügen: Klicken Sie oben rechts auf „Add Server", um zur MCP-Server-Konfiguration zu gelangen.
+
+    ![](/assets/docs/b4702b56/6.png)
+
+4. Informationen eintragen: Konfigurieren Sie die Grunddaten des lokalen MCP-Servers.
+
+    >Type: Streamable HTTP
+    >URL: [http://localhost:9278/mcp](http://localhost:9278/mcp)
+
+5. Informationen speichern: Klicken Sie auf „Save".
+6. MCP-Verbindung starten: Klicken Sie, um den MCP-Server zu aktivieren.
+
+    ![](/assets/docs/6aff5542/7.png)
+7. Chat öffnen: Klicken Sie oben in der Seitenleiste, um zur Hauptseite zurückzukehren. Konfigurieren Sie das Modell (siehe [offizielle Dokumentation](https://docs.cherry-ai.com/pre-basic/providers)) und erstellen Sie einen Chat.
+8. Server verbinden: Klicken Sie unterhalb der Konversation auf die MCP-Einstellungen.
+9. MCP auswählen: Wählen Sie das benötigte MCP.
+
+    ![](/assets/docs/71d2da51/9.png)
+
+### Dify
+
+Installieren Sie Dify gemäß der [offiziellen Dify-Dokumentation](https://docs.dify.ai/zh-hans/getting-started/install-self-hosted/readme) lokal. Führen Sie nach abgeschlossener Installation und laufendem Projekt die folgenden Schritte aus.
+
+1. Werkzeugseite öffnen: Klicken Sie in der oberen Symbolleiste auf „Tools", um die Werkzeugverwaltung zu öffnen.
+1. MCP-Werkzeug suchen: Geben Sie in der Suchleiste das Schlüsselwort „MCP" ein.
+1. Aus dem Markt herunterladen: Finden und laden Sie das MCP-Werkzeug im Marketplace (das hervorgehobene Werkzeug ist das empfohlene).
+1. Installation ausführen: Klicken Sie auf „Install", um die Installation abzuschließen.
+
+    ![](/assets/docs/3b6ff4be/16.png)
+
+1. Konfigurationsfeld öffnen: Klicken Sie nach Abschluss der Installation auf das erscheinende Konfigurationsfeld.
+1. Autorisierung öffnen: Klicken Sie auf „Authorization", um die MCP-Autorisierung zu konfigurieren.
+1. Konfigurationsfenster öffnen: Klicken Sie, um das MCP-Detailkonfigurationsfenster zu öffnen.
+1. Grunddaten eintragen: Füllen Sie im Konfigurationsfenster die nötigen Verbindungsinformationen aus.
+
+    ```json
+    {
+      "tiangong_lca_local": {
+        "transport": "streamable_http",
+        "url": "http://host.docker.internal:9278/mcp",
+        "headers": {
+          "Accept": "application/json,text/event-stream",
+        },
+        "timeout": 50,
+        "sse_read_timeout": 50
+      }
+    }
+    ```
+
+1. Konfiguration speichern: Klicken Sie nach dem Ausfüllen auf „Save".
+
+    ![](/assets/docs/9cf0f2ae/25.png)
+
+1. Workflow aufbauen: Erstellen Sie in Dify Workflows oder Agenten, die das MCP aufrufen.
+    >
+    >1. Zum Erstellen von Agenten und Workflows siehe [offizielle Dokumentation](https://docs.dify.ai/zh-hans/guides/application-orchestrate/creating-an-application).
+    >2. Zu MCP-Anwendungen siehe [offizielle Dokumentation](https://docs.dify.ai/zh-hans/guides/tools/mcp)

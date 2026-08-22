@@ -1,0 +1,140 @@
+---
+title: "Calcul LCIA et résultats"
+---
+
+Cette page couvre les deux modèles d'usage LCIA courants dans TianGong LCA :
+
+- Consulter les résultats LCIA directement dans un **processus** ou un **modèle**
+- Passer à l'[Espace d'analyse de processus](./process-analysis/) dédié lorsqu'il faut comparer,
+  grouper ou analyser les chemins de contribution
+
+## Ce que signifie LCIA ici
+
+La LCIA convertit les résultats d'inventaire de cycle de vie en résultats par catégorie d'impact,
+comme le changement climatique, l'acidification ou l'appauvrissement de l'ozone.
+
+La plateforme prend actuellement en charge :
+
+- Les résultats LCIA **au niveau processus**
+- Les résultats LCIA **au niveau modèle**
+
+Les deux servent à l'inspection directe. Pour la comparaison entre processus ou le suivi de chemins,
+utilisez l'espace d'analyse séparé.
+
+## Avant de lancer la LCIA
+
+Vérifiez d'abord :
+
+- Le processus ou le modèle dispose d'une modélisation entrées/sorties complète
+- Un flux de référence ou une unité fonctionnelle est correctement défini
+- Vous réutilisez autant que possible les propriétés de flux, groupes d'unités et flux élémentaires
+  standard de la plateforme
+- La méthode d'impact choisie contient effectivement des facteurs de caractérisation correspondants
+
+Un usage intensif d'unités personnalisées, de propriétés de flux personnalisées ou de flux
+élémentaires non standard peut entraîner des résultats manquants ou des ordres de grandeur erronés.
+
+## LCIA au niveau processus
+
+### Point d'entrée (niveau processus)
+
+Ouvrez un processus dans **Mes données → Processus** et utilisez la zone de résultats LCIA de
+l'éditeur ou de la visionneuse de processus.
+
+![Panneau de résultats LCIA](/assets/docs/3ef80253/lcia-calculation.png)
+
+### Cas d'usage idéaux (niveau processus)
+
+- Vérifier rapidement le profil d'impact d'un processus
+- Repérer des catégories d'impact anormales pendant la saisie
+- Effectuer un contrôle de vraisemblance sur un seul processus
+
+### Limitation importante
+
+La LCIA au niveau processus reflète principalement les impacts de flux élémentaires associés à ce
+processus.
+
+Cela signifie :
+
+- Elle est utile **pour un processus à la fois**
+- Elle ne correspond pas au total d'un système de produits complet
+- Elle ne remplace ni la comparaison multi-processus ni l'analyse des chemins de contribution
+- Lorsque vous consultez la LCIA de processus dans le périmètre **Données ouvertes**, la page
+  privilégie les ensembles de résultats LCIA publiés. Ces ensembles sont générés, prévisualisés et
+  publiés depuis l'espace **Traitement des données** par les utilisateurs `data_product_manager`,
+  et n'incluent que les entrées satisfaisant les règles d'éligibilité à l'état publié. Si l'ensemble
+  de résultats associé n'est pas publié, est vide ou temporairement indisponible, la page affiche
+  l'état vide ou indisponible correspondant.
+
+## LCIA au niveau modèle
+
+### Point d'entrée (niveau modèle)
+
+Ouvrez un modèle dans **Mes données → Modèles** et utilisez la zone de résultats LCIA de l'espace
+de résultats du modèle.
+
+### Cas d'usage idéaux (niveau modèle)
+
+- Examiner les impacts d'un système de produits complet
+- Comparer des configurations de modèles alternatives
+- Vérifier qu'un modèle résolu se comporte comme prévu
+
+### Comparaison avec la LCIA processus
+
+| Scénario | Meilleur point d'entrée |
+| --- | --- |
+| Inspecter un processus | LCIA niveau processus |
+| Inspecter le système complet | LCIA niveau modèle |
+| Comparer plusieurs processus | [Espace d'analyse de processus](./process-analysis/) |
+| Tracer les chemins de contribution | [Espace d'analyse de processus](./process-analysis/) |
+
+## Quand passer à l'analyse de processus
+
+Si votre tâche correspond à l'un des cas suivants, le panneau de résultats LCIA ne suffit plus :
+
+- **Comparaison d'impacts** entre plusieurs processus
+- Analyse **groupée** par localisation, classification, type de jeu de données ou équipe
+- Exploration des **chemins de contribution** depuis un processus racine
+- Bascule entre **Données de l'utilisateur courant**, **Données ouvertes** et **Toutes les données**
+
+Dans ces cas, rendez-vous directement à l'[Espace d'analyse de processus](./process-analysis/).
+
+## Dépannage
+
+### Pourquoi certaines catégories d'impact manquent-elles ?
+
+Vérifiez :
+
+- Si les flux sont liés aux propriétés de flux standard correctes
+- Si les conversions d'unités sont valides
+- Si la méthode d'impact choisie contient des facteurs correspondants
+
+### Pourquoi les ordres de grandeur semblent-ils erronés ?
+
+Causes fréquentes :
+
+- Conversion d'unités incorrecte
+- Groupes d'unités ou propriétés de flux personnalisés non alignés sur les valeurs par défaut de la plateforme
+- Flux de référence ou unité fonctionnelle incorrects
+- Un échange d'entrée de produit dont `exchange.location` pointe vers une autre région
+  d'approvisionnement, ou un volume annuel d'approvisionnement / production qui modifie les parts
+  de fournisseurs
+- Si le processus consommateur et un fournisseur éligible de sortie de référence pour le flux de
+  produit partagent le même `model_id`, le système utilise d'abord ce sous-ensemble de fournisseurs
+  du même modèle avant la sélection du niveau géographique et la pondération par volume annuel. Des
+  fournisseurs d'un autre modèle n'entrent pas dans le mix d'approvisionnement de cette entrée au
+  seul motif qu'ils sont géographiquement plus proches ou d'un volume annuel supérieur
+- Un volume annuel manquant, invalide ou non positif reçoit une pondération positive par défaut.
+  Lors de l'analyse, consultez la couverture de l'instantané et les diagnostics de liaison des
+  fournisseurs pour les compteurs de repli et les sources des régions d'approvisionnement
+- La liaison automatique des fournisseurs ne traite comme fournisseur éligible pour ce flux de
+  produit qu'une sortie de référence quantitative. Les sorties non-référence de même `flow_id` ne
+  sont enregistrées qu'à titre de candidats de diagnostic et n'entrent pas automatiquement dans le
+  mix. Si les diagnostics signalent `rejected_non_reference_only`, réparez la sortie de référence,
+  ajoutez des données de fournisseur ou modélisez explicitement le processus de marché /
+  coproduit avant de recalculer.
+
+### Pourquoi utiliser plutôt l'analyse de processus ?
+
+Si vous avez dépassé la lecture d'un résultat unique et avez besoin de comparaison, de groupement
+ou de suivi, poursuivez avec l'[Espace d'analyse de processus](./process-analysis/).

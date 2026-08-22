@@ -1,0 +1,86 @@
+---
+title: "Hinweise zur Datensammlung"
+---
+
+Dieses Dokument umreißt allgemeine Prinzipien, Quellen, Verfahren und Qualitätskontrollanforderungen
+für die Datensammlung.
+
+## Datensammlungsprozess
+
+### Datenquellen
+
+Daten können aus folgenden Arten öffentlicher Literatur und Materialien erhoben werden:
+
+- **Wissenschaftliche Arbeiten**: Zeitschriftenartikel, Konferenzbeiträge (empfohlene Plattformen: Elsevier, Springer, ACS, CNKI, Google Scholar)
+- **Ingenieurhandbücher**: Etwa „Chemical Engineering Design Manual", „Chemical Process Manuals"
+- **Unternehmensberichte zu Umweltauswirkungen**: Einschließlich UVP-Berichte, Machbarkeitsstudien, Gutachten zur sauberen Produktion
+- **Regierungs- und Branchenpublikationen**: Statistische Jahrbücher, Branchenstandards, Energiestatistiken, Branchen-Blaubücher
+- **Patente und Normen**: Nationale/Branchennormen, Patentdatenbanken (z. B. CNIPA, WIPO)
+- **Felddaten**: Messdaten aus Fabriken, Unternehmen oder Forschungseinrichtungen
+
+Die Datensammlung muss zwei Grundprinzipien folgen:
+
+- Jeder Datenpunkt muss **vollständig rückverfolgbar** sein, mit klar dokumentierter Quelle (Literatur/Bericht/Datenbank)
+- Alle erfassten Informationen sollen **vollständig und detailliert** sein, um Datenqualität und Reproduzierbarkeit zu sichern
+
+### Prozessflussanalyse
+
+Vor Beginn der Datensammlung ist das Industrie-Flussdiagramm auf Unit-Prozess-Ebene zu ermitteln.
+
+### Literatursuche und -auswahl
+
+Nutzen Sie Schlüsselwörter zur Datensuche auf Plattformen wie CNKI, WoS, Scopus und Google Scholar.
+Empfohlene Schlüsselwortkombinationen:
+
+- „Methanol life cycle assessment"
+- „Inventory analysis"
+- „Environmental impact" usw.
+
+Priorisieren Sie originäre oder hochwertige Studien mit klaren Eingabe-Ausgabe-Daten und
+Systemgrenzen.
+
+### Erfassungsinhalte
+
+Hauptdatenkategorien:
+
+- Materialeingaben (Rohstoffe, Wasser, Zusatzstoffe)
+- Energieverbrauch (Strom, Brennstoffe)
+- Produkt- und Nebenprodukt-Ausgaben (Methanol, Nebengase, Abwärme)
+- Emissionsdaten (CO₂, NOₓ, Abwasser, feste Abfälle)
+
+## Datenverarbeitung
+
+### Einheitennormalisierung und Umrechnung
+
+Wandeln Sie Einheiten aus verschiedenen Quellen in Standardeinheiten um, um Konsistenz und
+Wiederverwendbarkeit in der Datenbank zu gewährleisten. Beispiele:
+
+- Energieumrechnung: kcal → MJ
+- Volumen-Masse-Umrechnung: Nm³ → kg (auf Basis von Dichte oder Normbedingungen)
+
+> Wichtiger Hinweis:
+Weichen benötigte Einheiten von bestehenden Flusseinheiten ab, führen Sie eine **Einheitenumrechnung**
+durch, statt neue Flusselemente anzulegen.
+
+### Umgang mit fehlenden Werten
+
+Verfügbare Strategien:
+
+- Durchschnittswerte ähnlicher Prozesse
+- Typische Werte aus LCA-Datenbanken
+- Ingenieurmäßige Schätzungen (z. B. Wärmebilanz, Stoffbilanz)
+- Annahmen oder Unsicherheitsbereiche klar dokumentieren
+
+### Besondere Hinweise und Anmerkungen
+
+Dokumentieren Sie für die Lebenszyklusmodellierung Folgendes in Anmerkungsfeldern, um eine
+standardisierte Datensatzstruktur, klare Systemgrenzen und transparente Datenverarbeitung zu
+sichern:
+
+- **UUID-Konflikthinweise**: Eingaben/Ausgaben dürfen keine doppelten Flusselemente enthalten (die Plattform unterscheidet nach UUID). Zeigt die Literatur dieselbe Substanz in verschiedenen Formen/Phasen, führen Sie sie zu einem Flusselement zusammen und dokumentieren Sie die Begründung.
+
+- **Interne Recyclinghinweise**: Für Flüsse wie Dampf, die intern recycelt werden, ohne zusätzliche Umweltbelastung zu erzeugen, vermerken Sie: „Interner Plattform-Recyclingfluss, nicht als Ausgabemission gezählt".
+
+- **Ausgeschlossene Emissionen**: Für Posten wie Katalysatorverlust, die Materialfluss betreffen, aber im System verbleiben, vermerken Sie: „Katalysator läuft im geschlossenen Kreislauf, nicht in der Stoffbilanz-Ausgabe enthalten".
+
+- **Schätzungs-/Ergänzungshinweise**: Für Posten, die auf Stoffbilanz oder Ingenieurserfahrung basieren (z. B. Abwasser, Abluft), vermerken Sie: „Auf Basis der Stoffbilanz geschätzt, Originaldaten in der Literatur nicht angegeben".

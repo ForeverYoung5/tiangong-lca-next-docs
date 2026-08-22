@@ -1,0 +1,187 @@
+---
+title: "Environnement de développement"
+---
+
+Cette page explique la configuration locale de `tiangong-lca-next-docs` et la relation entre sa
+baseline Node et le dépôt produit `../tiangong-lca-next`.
+
+Si votre travail implique aussi d'aligner la documentation sur le comportement du produit,
+poursuivez avec le [Guide de synchronisation docs/produit](./docs-product-sync/).
+
+## Baseline Node
+
+Deux baselines sont actuellement à garder en tête :
+
+- **Dépôt du site de documentation** : `package.json` déclare actuellement `node >=18.0`
+- **Dépôt produit `../tiangong-lca-next`** : la baseline d'ingénierie actuelle est **Node 24**
+
+### Approche recommandée
+
+Pour une maintenance légère du dépôt de documentation, Node 18+ suffit techniquement.
+
+Si vous devez également :
+
+- inspecter l'implémentation réelle dans `../tiangong-lca-next`
+- basculer entre les deux dépôts
+- enquêter sur la dérive entre la documentation et le comportement livré
+
+utilisez **Node 24** dans les deux dépôts pour éviter les changements de version.
+
+## Installer les dépendances
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+nvm install 24
+nvm alias default 24
+nvm use 24
+
+npm install --no-package-lock
+```
+
+Le dépôt ne committe actuellement aucun lock de paquet, donc `npm ci` ne peut pas amorcer un
+checkout propre. Gardez l'installation locale sans lockfile, sauf si un changement distinct de
+gouvernance des dépendances en introduit un délibérément.
+
+## Commandes courantes
+
+### Développement local
+
+```bash
+npm run start
+```
+
+Le site local tourne normalement sur `http://localhost:3000/`.
+
+### Lint Markdown
+
+```bash
+npm run lint
+```
+
+### Générer et vérifier l'index de documentation IA
+
+```bash
+npm run docs:llms
+npm run docs:llms:check
+```
+
+`docs:llms` génère `static/llms.txt` à partir de la documentation Docusaurus publique.
+`docs:llms:check` confirme que l'index commité correspond toujours à la source documentaire
+publique actuelle.
+
+### Vérifier le périmètre de publication
+
+```bash
+npm run docs:publication-scope:check
+```
+
+Cette commande vérifie `static/llms.txt`, `sidebars.ts`, `context7.json` et `build/llms.txt` quand
+un build existe. Elle empêche que la documentation interne d'agents, les TODO, plans, registres
+d'incidents ou le matériel d'exécution de gouvernance n'entrent dans le périmètre public de
+consommation IA.
+
+### Vérifier les preuves de captures d'écran docs-impact
+
+```bash
+npm run docs:screenshots:test
+npm run docs:screenshots:check
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
+```
+
+`docs:screenshots:test` exécute la suite de régression du contrat de captures. Sans manifest,
+`docs:screenshots:check` confirme que le diff sélectionné ne contient aucun changement de captures
+de documentation. Pour des preuves d'ajout, remplacement ou réutilisation, transmettez le résultat
+visuel local et le diff name-status complet. Le validateur contrôle les actifs bilingues locaux à
+la page, les références et textes alternatifs, l'explication proche dans chaque page linguistique,
+les métadonnées 144 DPI, les hachages, les ratios et l'état du diff propre à l'action. Le
+`validate-visual-evidence.rb` du workspace reste responsable de la validation du rapport d'accès
+local 0600 utilisé par l'exception Draft access-denied.
+
+### Corriger automatiquement les problèmes Markdown lintables
+
+```bash
+npm run lint:fix
+```
+
+### Vérification TypeScript
+
+```bash
+npm run typecheck
+```
+
+### Build de production
+
+```bash
+npm run build
+```
+
+`npm run build` exécute d'abord `npm run docs:llms` via `prebuild`, de sorte que les plateformes
+hébergées qui n'invoquent que la commande de build standard publient toujours un fichier
+`llms.txt` portant le commit du build courant.
+
+### Servir le site construit localement
+
+```bash
+npm run serve
+```
+
+### Générer l'échafaudage de traduction
+
+```bash
+npm run write-translations -- --locale en
+```
+
+## Vérification minimale pour les changements de documentation
+
+Pour les changements de contenu public, exécutez au minimum :
+
+```bash
+npm run lint
+npm run docs:screenshots:check
+npm run docs:llms:check
+npm run docs:publication-scope:check
+npm run build
+```
+
+Si votre changement touche la navigation, la structure de la barre latérale, les liens ou les
+miroirs bilingues, revérifiez aussi :
+
+- `docs/intro.md`
+- `docs/user-guide/overview.md`
+- `sidebars.ts`
+
+## Notes de version
+
+Le `.github/workflows/publish-docs.yml` du dépôt exécute la boucle de publication après fusion à
+chaque push sur `main` :
+
+1. Générer et vérifier `static/llms.txt`
+2. Exécuter la vérification du périmètre de publication
+3. Exécuter lint, typecheck et le build Docusaurus
+4. Déployer sur Cloudflare Pages
+5. Vérifier le `/llms.txt` public
+6. Rafraîchir Context7 — ou laisser un suivi visible quand le secret manque ou que le rafraîchissement échoue
+
+Le dépôt conserve aussi `.github/workflows/build.yml` pour la publication de versions déclenchée
+par tag. Créez et poussez un tag correspondant à `v*` pour déclencher ce flux.
+
+```bash
+git tag
+git tag v0.0.1
+git push origin v0.0.1
+```
+
+Le déploiement Cloudflare Pages dépend toujours de variables d'environnement au niveau du dépôt :
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CONTEXT7_API_KEY` pour le rafraîchissement automatique de Context7. S'il manque, le workflow
+  laisse un suivi en attente.
+
+Variable de dépôt optionnelle :
+
+- `CONTEXT7_LIBRARY_NAME`, par défaut sous la forme d'identifiant de bibliothèque Context7
+  `/${{ github.repository }}`

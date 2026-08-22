@@ -1,0 +1,137 @@
+---
+title: "LCIA-Berechnung und Ergebnisse"
+---
+
+Diese Seite behandelt die beiden üblichen LCIA-Nutzungsmuster in TianGong LCA:
+
+- LCIA-Ergebnisse direkt innerhalb eines **Prozesses** oder **Modells** ansehen
+- Wechsel zum eigenen [Prozessanalyse-Arbeitsbereich](./process-analysis/), wenn Sie Vergleich,
+  Gruppierung oder Beitragspfad-Analyse benötigen
+
+## Was LCIA hier bedeutet
+
+LCIA wandelt Sachbilanzergebnisse in Wirkungskategorien-Ergebnisse um, etwa Klimawandel,
+Versauerung oder Ozonabbau.
+
+Die Plattform unterstützt derzeit beides:
+
+- **Prozessbezogene** LCIA-Ergebnisse
+- **Modellbezogene** LCIA-Ergebnisse
+
+Beide eignen sich zur direkten Betrachtung. Für prozessübergreifende Vergleiche oder Pfadverfolgung
+nutzen Sie den separaten Analyse-Arbeitsbereich.
+
+## Vor dem LCIA-Lauf
+
+Bestätigen Sie zuerst:
+
+- Der Prozess oder das Modell verfügt über vollständige Eingabe-/Ausgabe-Modellierung
+- Ein Referenzfluss oder eine funktionale Einheit ist korrekt definiert
+- Sie verwenden möglichst die Standard-Flusseigenschaften, Einheitengruppen und Elementarflüsse der Plattform
+- Die gewählte Wirkungsmethode enthält tatsächlich passende Charakterisierungsfaktoren
+
+Starke Nutzung eigener Einheiten, eigener Flusseigenschaften oder nicht standardisierter
+Elementarflüsse kann zu fehlenden Ergebnissen oder falschen Größenordnungen führen.
+
+## Prozessbezogene LCIA
+
+### Einstieg auf Prozessebene
+
+Öffnen Sie einen Prozess unter **Meine Daten → Prozesse** und nutzen Sie den LCIA-Ergebnisbereich
+im Prozess-Editor oder -Betrachter.
+
+![LCIA-Ergebnisfeld](/assets/docs/3ef80253/lcia-calculation.png)
+
+### Beste Anwendungsfälle auf Prozessebene
+
+- Schnelle Prüfung des Wirkungsprofils eines Prozesses
+- Erkennen auffälliger Wirkungskategorien während der Erstellung
+- Plausibilitätsprüfung eines einzelnen Prozesses
+
+### Wichtige Einschränkung
+
+Die prozessbezogene LCIA spiegelt hauptsächlich die Elementarfluss-Wirkungen dieses Prozesses wider.
+
+Das bedeutet:
+
+- Sie ist nützlich für **je einen Prozess**
+- Sie ist kein vollständiges Produktsystem-Gesamtergebnis
+- Sie ersetzt weder Prozessvergleiche noch Beitragspfad-Analysen
+- Beim Betrachten der Prozess-LCIA im Bereich **Offene Daten** bevorzugt die Seite veröffentlichte
+  LCIA-Ergebnismengen. Diese werden im Arbeitsbereich **Datenverarbeitung** von
+  `data_product_manager`-Nutzern erzeugt, in der Vorschau angesehen und veröffentlicht und enthalten
+  nur Eingaben, die die Veröffentlichungs-Zulassungsregeln erfüllen. Ist die zugehörige Ergebnismenge
+  nicht veröffentlicht, leer oder vorübergehend nicht verfügbar, zeigt die Seite den entsprechenden
+  leeren bzw. nicht verfügbaren Zustand.
+
+## Modellbezogene LCIA
+
+### Einstieg auf Modellebene
+
+Öffnen Sie ein Modell unter **Meine Daten → Modelle** und nutzen Sie den LCIA-Ergebnisbereich im
+Modellergebnis-Arbeitsbereich.
+
+### Beste Anwendungsfälle auf Modellebene
+
+- Begutachtung der Wirkungen des gesamten Produktsystems
+- Vergleich alternativer Modellaufbauten
+- Prüfung, ob ein gelöstes Modell sich erwartungsgemäß verhält
+
+### Vergleich mit der prozessbezogenen LCIA
+
+| Szenario | Besserer Einstieg |
+| --- | --- |
+| Einen Prozess betrachten | Prozessbezogene LCIA |
+| Das Gesamtsystem betrachten | Modellbezogene LCIA |
+| Mehrere Prozesse vergleichen | [Prozessanalyse-Arbeitsbereich](./process-analysis/) |
+| Beitragspfade verfolgen | [Prozessanalyse-Arbeitsbereich](./process-analysis/) |
+
+## Wann der Wechsel zur Prozessanalyse sinnvoll ist
+
+Reicht das LCIA-Ergebnisfeld nicht mehr aus, wenn Ihre Aufgabe eine der folgenden ist:
+
+- **Wirkungsvergleich** über mehrere Prozesse
+- **Gruppierte** Analyse nach Standort, Klassifikation, Datensatztyp oder Team
+- **Beitragspfad**-Exploration ab einem Wurzelprozess
+- Wechsel zwischen **Daten des aktuellen Nutzers**, **Offenen Daten** und **Allen Daten**
+
+Gehen Sie in diesen Fällen direkt zum [Prozessanalyse-Arbeitsbereich](./process-analysis/).
+
+## Fehlerbehebung
+
+### Warum fehlen manche Wirkungskategorien?
+
+Prüfen Sie:
+
+- Ob Flüsse mit den korrekten Standard-Flusseigenschaften verknüpft sind
+- Ob Einheitenumrechnungen gültig sind
+- Ob die gewählte Wirkungsmethode passende Faktoren enthält
+
+### Warum wirken die Größenordnungen falsch?
+
+Häufige Ursachen:
+
+- Falsche Einheitenumrechnung
+- Eigene Einheitengruppen oder Flusseigenschaften, die nicht zu den Plattformdefaults passen
+- Falscher Referenzfluss oder funktionale Einheit
+- Ein Produkteingabe-Austausch verweist mit `exchange.location` auf eine andere Versorgungsregion,
+  oder das jährliche Versorgungs-/Produktionsvolumen verändert die Anbieteranteile bei mehreren
+  Anbietern
+- Teilen der Verbraucherprozess und ein zulässiger Referenzausgangs-Anbieter für den Produktfluss
+  dasselbe `model_id`, nutzt das System zuerst diese Anbieter-Teilmenge gleichen Modells, bevor es
+  die Geografie-Ebene wählt und nach Jahresvolumen gewichtet. Anbieter aus einem anderen Modell
+  gelangen nicht allein deshalb in den Versorgungsmix dieses Austauschs, weil sie geografisch näher
+  liegen oder ein größeres Jahresvolumen haben
+- Fehlende, ungültige oder nicht-positive Jahresvolumen nutzen ein positives Standardgewicht.
+  Prüfen Sie bei der Untersuchung die Snapshot-Abdeckung und die Anbieter-Verknüpfungsdiagnosen auf
+  Fallback-Zähler und Quellen der Versorgungsregionen
+- Die automatische Anbieter-Verknüpfung behandelt nur einen quantitativen Referenzausgang als
+  zulässigen Anbieter für diesen Produktfluss. Nicht-Referenzausgänge mit gleichem `flow_id` werden
+  nur als Diagnosekandidaten erfasst und gelangen nicht automatisch in den Versorgungsmix. Melden
+  die Diagnosen `rejected_non_reference_only`, reparieren Sie den Referenzausgang, ergänzen Sie
+  Anbieterdaten oder modellieren Sie den Markt-/Koprodukt-Prozess explizit, bevor Sie neu rechnen.
+
+### Warum sollte ich stattdessen die Prozessanalyse nutzen?
+
+Sind Sie über das Auslesen eines einzelnen Ergebnisses hinaus und brauchen Vergleich, Gruppierung
+oder Verfolgung, fahren Sie fort mit dem [Prozessanalyse-Arbeitsbereich](./process-analysis/).

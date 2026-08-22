@@ -1,0 +1,375 @@
+---
+title: "TIDAS-Paketimport-API"
+description: "TIDAS-ZIP-Pakete über die TianGong-LCA-API mit API-Key-Authentifizierung importieren."
+---
+
+Dieser Leitfaden erklärt, wie Sie ein TIDAS-ZIP-Paket über die TianGong-LCA-
+Edge-Function-API importieren. Die empfohlene API-Basis ist Ihre bereitgestellte Edge-Function-URL
+mit angehängtem `/functions/v1`.
+
+## Typische Anwendungsfälle
+
+- TIDAS-ZIP-Pakete gesammelt aus einem externen System importieren
+- Denselben asynchronen Import-Ablauf wie die Produkt-UI wiederverwenden
+- Strukturierte Validierungsfehler, Open-Data-Filterergebnisse und Nutzer-
+  Konfliktdetails auswerten
+
+## Authentifizierung und Basis-URL
+
+Der empfohlene Auth-Header ist:
+
+```http
+Authorization: Bearer <USER_API_KEY>
+```
+
+- `USER_API_KEY` lässt sich auf der TianGong-LCA-Kontoprofilseite generieren
+- Behandeln Sie den API-Key mit derselben Sorgfalt wie Kontozugangsdaten als Secret
+- First-Party-Browsersitzungen können weiterhin `USER_JWT` nutzen; externe API-
+  Integrationen sollten `USER_API_KEY` bevorzugen
+
+Beispiel-Basis-URL:
+
+```text
+https://<your-project-ref>.supabase.co/functions/v1
+```
+
+Nutzen Sie den aktuellen TianGong-LCA-Clouddienst, verwenden Sie:
+
+```text
+https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1
+```
+
+## Ablaufübersicht
+
+Der vollständige Import-Ablauf umfasst vier Schritte:
+
+1. `POST /import_tidas_package` mit `action=prepare_upload` aufrufen
+2. Die ZIP-Bytes an das zurückgegebene signierte Upload-Ziel hochladen
+3. `POST /import_tidas_package` mit `action=enqueue` aufrufen
+4. `GET /tidas_package_jobs/{job_id}` abfragen und den Importbericht auswerten
+
+Es empfiehlt sich, `X-Idempotency-Key` bei `prepare_upload` und
+`enqueue` mitzusenden, damit Clients sicher wiederholen können.
+
+## Lokaler Preflight mit `tidas`
+
+Automation clients can check a package with the released Rust
+[`tidas` 0.1.3 CLI](/en/docs/integration/cli/#install-tidas-013) before calling the
+API. Extract the ZIP into a temporary directory, then run:
+
+```bash
+tidas validate ./unpacked-package \
+  --input-format tidas-json \
+  --issues ./validation-issues.jsonl \
+  --format json
+```
+
+Exit-Code `0` bedeutet, dass die lokale Validierung bestanden ist; Exit-Code `2` bedeutet, dass die
+Validierung mit Datenproblemen abgeschlossen wurde. Eine Pipeline sollte Exit-Code, JSON-Bericht
+und `validation-issues.jsonl` prüfen und erst nach bestandener lokaler Validierung hochladen.
+
+Ein lokaler Preflight erzeugt keinen TianGong-LCA-Importauftrag und ersetzt weder
+serverseitige Validierung, Konfliktprüfungen noch den endgültigen `import_report`. Die
+`tidas`-Executable und die Plattform-API sind getrennte Ausführungsgrenzen.
+
+## 1. Upload vorbereiten
+
+Anfrage:
+
+```bash
+curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer ${USER_API_KEY}" \
+  --header 'X-Idempotency-Key: tidas-import-prepare-001' \
+  --data '{
+    "action": "prepare_upload",
+    "filename": "example-package.zip",
+    "byte_size": 123456,
+    "content_type": "application/zip"
+  }'
+```
+
+Beispielantwort:
+
+```json
+{
+  "ok": true,
+  "action": "prepare_upload",
+  "job_id": "4a56e7b2-8f18-4f0f-a6b4-cf40f343d8b8",
+  "source_artifact_id": "9ad0da68-3933-4f7b-a3cb-a494b70ec0a2",
+  "artifact_url": "https://example.supabase.co/storage/v1/object/sign/tidas/import/example-package.zip",
+  "upload": {
+    "bucket": "tidas",
+    "object_path": "imports/example-package.zip",
+    "path": "imports/example-package.zip",
+    "token": "signed-upload-token",
+    "signed_url": "https://example.supabase.co/storage/v1/upload/resumable",
+    "expires_in_seconds": 300,
+    "filename": "example-package.zip",
+    "byte_size": 123456,
+    "content_type": "application/zip"
+  }
+}
+```
+
+Wichtige Felder:
+
+- `job_id`: wird beim Abfragen des asynchronen Auftrags verwendet
+- `source_artifact_id`: im späteren `enqueue`-Aufruf erforderlich
+- `upload.signed_url`: die direkte Upload-URL, die CLI- oder generische HTTP-Clients
+  nutzen können
+- `upload.bucket` + `upload.path` + `upload.token`: nützlich, wenn Ihr Client
+  bereits an das Supabase-Storage-SDK angebunden ist
+
+## 2. Die ZIP-Datei hochladen
+
+Liegt `upload.signed_url` vor, ist der empfohlene CLI-freundliche Weg, das
+ZIP direkt hochzuladen:
+
+```bash
+curl -i --request PUT "${SIGNED_URL}" \
+  --header 'Content-Type: application/zip' \
+  --data-binary @./example-package.zip
+```
+
+Hier ist `SIGNED_URL` der von `prepare_upload` zurückgegebene Wert
+`upload.signed_url`.
+
+Nutzt Ihr Client bereits das Supabase-Storage-SDK, können Sie alternativ
+`upload.bucket`, `upload.path` und `upload.token` mit
+`uploadToSignedUrl(...)` verwenden:
+
+```ts
+const { error } = await supabase.storage
+  .from(upload.bucket)
+  .uploadToSignedUrl(upload.path, upload.token, file, {
+    contentType: upload.content_type,
+    upsert: true,
+  });
+```
+
+## 3. In Warteschlange stellen
+
+Nach erfolgreichem Upload markieren Sie das Quellartefakt als bereit und stellen den asynchronen
+Import-Worker in die Warteschlange:
+
+```bash
+curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer ${USER_API_KEY}" \
+  --header 'X-Idempotency-Key: tidas-import-enqueue-001' \
+  --data '{
+    "action": "enqueue",
+    "job_id": "4a56e7b2-8f18-4f0f-a6b4-cf40f343d8b8",
+    "source_artifact_id": "9ad0da68-3933-4f7b-a3cb-a494b70ec0a2",
+    "artifact_sha256": "<optional-sha256>",
+    "artifact_byte_size": 123456,
+    "filename": "example-package.zip",
+    "content_type": "application/zip"
+  }'
+```
+
+Beispielantwort:
+
+```json
+{
+  "ok": true,
+  "mode": "queued",
+  "job_id": "4a56e7b2-8f18-4f0f-a6b4-cf40f343d8b8",
+  "source_artifact_id": "9ad0da68-3933-4f7b-a3cb-a494b70ec0a2"
+}
+```
+
+Mögliche `mode`-Werte:
+
+- `queued`: der Auftrag wurde eingereiht
+- `in_progress`: derselbe Auftrag läuft bereits
+- `completed`: derselbe Auftrag wurde zuvor bereits abgeschlossen
+
+## 4. Auftragsstatus abfragen
+
+Empfohlene Abfrage:
+
+```bash
+curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
+  --header "Authorization: Bearer ${USER_API_KEY}"
+```
+
+Die API unterstützt außerdem `GET /tidas_package_jobs?job_id=<job-id>` und
+`POST /tidas_package_jobs` mit `job_id` im Anfragekörper.
+
+Wichtige Antwortfelder:
+
+- `status`: `queued`, `running`, `completed`, `failed` und verwandte Zustände
+- `artifacts`: die Liste der Auftragsartefakte
+- `artifacts_by_kind.import_report`: das Importbericht-Artefakt
+- `artifacts_by_kind.import_report.signed_download_url`: eine temporäre URL zum
+  Herunterladen des Importbericht-JSON
+- `artifacts_by_kind.import_report.download_status`: Download-Zustand des Berichtartefakts, etwa
+  `available`, `not_ready`, `expired`, `deleted`, `object_missing`,
+  `storage_path_invalid` oder `signed_url_failed`
+- `artifacts_by_kind.import_report.download_error_code` /
+  `download_error_message`: Grund und empfohlene Aktion, wenn
+  `signed_download_url` leer oder nicht verfügbar ist
+
+Bei `status=completed` müssen Clients in der Regel noch das
+`import_report`-Artefakt herunterladen und diese Nutzlast als endgültiges Geschäftsergebnis
+auswerten.
+Ist `download_status` nicht `available`, entscheiden Sie anhand `download_error_code`, ob ein
+neuer Auftrag angelegt, auf das Artefakt gewartet oder der Speicherpfad / die signierte URL
+untersucht werden soll. Betrachten Sie `status=completed` allein nicht als Beweis,
+dass der Bericht herunterladbar ist.
+
+## Semantik des Importberichts
+
+Nach Abschluss des Importauftrags gehört die `import_report`-Nutzlast in der Regel zu
+einer dieser Ergebnisklassen:
+
+- `IMPORTED`: Import erfolgreich
+- `USER_DATA_CONFLICT`: Import wurde abgelehnt, weil er mit bestehenden
+  nutzereigenen Datensätzen kollidiert
+- `VALIDATION_FAILED`: Import wurde durch Paket-Validierungsfehler blockiert
+
+Das bedeutet:
+
+- `tidas_package_jobs.status=completed` bedeutet nicht automatisch, dass Daten
+  importiert wurden
+- Das endgültige Geschäftsergebnis sollte aus `import_report.ok` und
+  `import_report.code` bestimmt werden
+
+Erfolgsbeispiel:
+
+```json
+{
+  "ok": true,
+  "code": "IMPORTED",
+  "message": "TIDAS package imported successfully",
+  "summary": {
+    "total_entries": 42,
+    "filtered_open_data_count": 3,
+    "user_conflict_count": 0,
+    "importable_count": 39,
+    "imported_count": 39,
+    "validation_issue_count": 0,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "filtered_open_data": [],
+  "user_conflicts": [],
+  "validation_issues": []
+}
+```
+
+## Beispiel eines Validierungsfehlers
+
+Die Validierung läuft nach `enqueue` asynchron im Worker. Schlägt sie
+fehl, enthält der `import_report` eine maschinenlesbare Issueliste.
+
+```json
+{
+  "ok": false,
+  "code": "VALIDATION_FAILED",
+  "message": "TIDAS package validation failed",
+  "summary": {
+    "total_entries": 7,
+    "filtered_open_data_count": 0,
+    "user_conflict_count": 0,
+    "importable_count": 0,
+    "imported_count": 0,
+    "validation_issue_count": 2,
+    "error_count": 1,
+    "warning_count": 1
+  },
+  "filtered_open_data": [],
+  "user_conflicts": [],
+  "validation_issues": [
+    {
+      "issue_code": "schema_error",
+      "severity": "error",
+      "category": "sources",
+      "file_path": "sources/a.json",
+      "location": "<root>",
+      "message": "Schema Error at <root>: missing required field",
+      "context": {
+        "validator": "required"
+      }
+    },
+    {
+      "issue_code": "localized_text_language_error",
+      "severity": "warning",
+      "category": "processes",
+      "file_path": "processes/b.json",
+      "location": "processDataSet/name/baseName/0",
+      "message": "Localized text error at processDataSet/name/baseName/0: invalid lang",
+      "context": {}
+    }
+  ]
+}
+```
+
+Client-Empfehlungen:
+
+- Lokalisieren Sie nach Möglichkeit über `issue_code`
+- Zeigen Sie zur Fehlersuche zusätzlich rohe `message`, `file_path` und `location` an
+- Nutzen Sie `summary.error_count`, `summary.warning_count` und
+  `summary.validation_issue_count` für übergeordnete Zusammenfassungen
+- Für Produktfluss-Klassifikationen prüft die Validierung `@classId`, `@level`,
+  `#text` und die Elternkette gemeinsam. CPC-/ILCD-Produktklassifikationen
+  können spezifischere Issue-Codes zurückgeben wie
+  `product_category_unknown_class_id`, `product_category_level_mismatch`,
+  `product_category_text_mismatch` oder `product_category_parent_mismatch`;
+  extern benannte Klassifikationssysteme erhalten weiterhin strukturelle Validierung.
+
+### Feldkompatibilität von Prozessdatensätzen
+
+Der Import-Worker validiert `processes/*.json` gegen das aktuelle TIDAS-Schema.
+Beachten Sie bei der Vorbereitung von Prozessdatensätzen diese Felder besonders:
+
+- `processDataSet.modellingAndValidation.dataSourcesTreatmentAndRepresentativeness.annualSupplyOrProductionVolume`
+  ist nun erforderlich und nutzt eine feldspezifische mehrsprachige Textform. Jeder
+  `#text`-Wert sollte mit einer parsbaren Zahl beginnen und einen Einheiten- oder Kontext-
+  Suffix behalten, etwa `"123.45 kg/year"` oder `"1.2E3 kg/year"`.
+- Senden Sie `annualSupplyOrProductionVolume` nicht als alten schlichten numerischen String
+  und lassen Sie den Einheiten- oder Kontext-Suffix nicht weg.
+- `processDataSet.exchanges.exchange[].location` sollte nach Möglichkeit einen TIDAS-/ILCD-
+  Standortkategoriecode verwenden, etwa `CN`, `CN-BJ`, `RER` oder `GLO`.
+  Nicht-leere Alt-Strings werden aus Kompatibilität mit externen Daten weiterhin akzeptiert.
+- `exchange.location` ist kein mehrsprachiger Text; senden Sie kein `StringMultiLang`-
+  Objekt oder Array. Bei Produkteingabe-Austauschvorgängen dient dieses Feld zusätzlich als
+  expliziter Versorgungsregions-Anker der nachgelagerten Anbieter-Verknüpfung.
+- Klassifikationsfelder dürfen an ihrer natürlichen Kategorietiefe enden. Fügen Sie keine
+  leeren unteren Ebenen hinzu, nur um die Hierarchie zu füllen; gültige Ebene-0- oder
+  Ebene-0-1-Pfade können die Validierung bestehen.
+- `common:classification` / `common:category` erzwingen weiterhin maximale Tiefe,
+  einen Wert je Ebene und gültige Kategoriewerte. Zu tiefe Pfade, doppelte
+  Ebenen oder ungültige Kategoriewerte liefern weiterhin `schema_error` oder
+  einen Klassifikationshierarchie-Fehler.
+- Das veröffentlichte Produktfluss-Klassifikationsschema behält weiterhin den vollständigen
+  kontrollierten Klassifikationsvertrag. Der Plattform-Validator nutzt einen internen
+  Index zur Beschleunigung der Prüfungen von Klassenwert, Ebene, Text und Elternkette; dies
+  erweitert nicht die beim API-Import akzeptierten Produktklassifikationen.
+
+Pakete mit Feldformen oder -werten, die nicht zum aktuellen Schema passen, scheitern
+mit `schema_error`; der Importbericht verweist über `file_path`, `location` und
+`message` auf die Prozessdatei und das Feld.
+
+### CAS-Nummern-Validierung
+
+Das aktuelle TIDAS-Schema kennzeichnet CAS-Nummern mit dem Format `cas-number`. Der Import-Worker prüft
+die Form im Stil `64-17-5` und validiert anschließend die finale CAS-Prüfziffer.
+
+- TIDAS-JSON-CAS-Nummern mit falscher Prüfziffer werden als Formatprobleme zurückgegeben.
+- `CASNumber`-Werte in eILCD/ILCD-Fluss-XML erhalten dieselbe ergänzende Prüfziffer-Validierung.
+- Enthält der Bericht `issue_code: "cas_number_checksum_error"`, sieht der Wert wie eine CAS-
+  Nummer aus, aber die Prüfziffer stimmt nicht; korrigieren Sie die Quell-CAS-Nummer vor dem erneuten Versuch.
+
+## Implementierungshinweise
+
+- Die Paketvalidierung wird nicht synchron im Browser abgeschlossen; sie läuft
+  im asynchronen Worker
+- `prepare_upload` allein genügt nicht; Upload, Enqueue und Abfragen sind
+  alle erforderlich
+- API-Key-Authentifizierung und Browser-JWT teilen denselben Endpunkt-Vertrag; externe
+  Integrationen sollten API-Keys bevorzugen
+- Halten Sie die Edge-Function-Basis-URL mit der bereitgestellten Umgebung konsistent, die
+  Ihre Produkt-UI bedient
