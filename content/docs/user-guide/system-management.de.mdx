@@ -1,0 +1,88 @@
+---
+title: "Systemverwaltung"
+description: "Erklärt den Arbeitsbereich für Systemrollen zur Verwaltung der Startseiten-Teamanzeige und der Systemmitglieder."
+---
+
+Der Arbeitsbereich Systemverwaltung richtet sich an Rollen auf Plattformebene. Er dient der Pflege
+der Startseiten-Teamanzeige und der Systemmitglied-Berechtigungen. Normale Endnutzer brauchen diese
+Seite in der Regel nicht.
+
+## Zielgruppe
+
+Dieser Arbeitsbereich ist in erster Linie für folgende Systemrollen gedacht:
+
+- **owner**
+- **admin**
+- **member**
+
+Es handelt sich um Systemrollen auf Plattformebene — nicht dasselbe wie Teamrollen oder Prüfrollen.
+
+## So öffnen Sie ihn
+
+Hat Ihr Konto eine Systemrolle, zeigt das Profilmenü oben rechts den Eintrag **Systemverwaltung**.
+
+Dies ist ein verborgener Arbeitsbereich, der nicht für alle in der linken Navigation sichtbar bleibt.
+
+![Reiter der Systemverwaltung](/assets/docs/7764be16/system-management-tabs.png)
+
+Der markierte Bereich `1` zeigt die Haupt-Reiterzone des Arbeitsbereichs mit derzeit **Show-Verwaltung**
+und **Mitgliederverwaltung**.
+
+## Reiter 1: Show-Verwaltung
+
+Der erste Reiter verwaltet derzeit, welche Teams auf der Startseite erscheinen — daher lautet das
+UI-Label derzeit **Show-Verwaltung**.
+
+Er dient hauptsächlich zum:
+
+- Durchsehen der Teams im Startseiten-Anzeigeset
+- Ändern der Anzeigereihenfolge
+- Bearbeiten der Anzeigeinformationen
+- Entfernen eines Teams aus der Startseitenanzeige
+- Auswählen der anzuzeigenden Teams
+
+Wenn Ihre Verantwortung lautet „Welche Teams erscheinen in welcher Reihenfolge auf der Startseite",
+ist dies der richtige Einstiegspunkt.
+
+## Reiter 2: Mitgliederverwaltung
+
+In der **Mitgliederverwaltung** werden die Konto-Rollen auf Systemebene gepflegt.
+
+Die Tabelle listet üblicherweise:
+
+- E-Mail
+- Mitgliedsname
+- Aktuelle Rolle
+
+### Häufige Aktionen
+
+Verfügbare Aktionen hängen von der aktuellen Systemrolle ab:
+
+- **owner** kann `member` zum `admin` befördern
+- **owner** kann `admin` zurück zum `member` herabstufen
+- **owner / admin** können Nicht-`owner`-Mitglieder entfernen
+- **owner / admin** können Systemmitglieder hinzufügen
+- **member** hat hier in der Regel nur Leserechte
+
+## Nutzungshinweise
+
+### Bestätigen Sie, welchen Berechtigungsbereich Sie ändern
+
+Diese Seite verwaltet **Systemrollen auf Plattformebene**. Verwechseln Sie sie nicht mit:
+
+- Team-Eigentümer- / Administrator- / Mitgliederrollen
+- review-admin- / review-member-Rollen
+
+### Prüfen Sie die Auswirkungen, bevor Sie Zugang auf hoher Ebene ändern
+
+Bestätigen Sie vor dem Hinzufügen, Entfernen oder Ändern einer Systemrolle:
+
+- Ob die Person weiterhin Aufgaben der Wartung auf Plattformebene verantwortet
+- Ob die Änderung sichtbare Einstiegspunkte für andere betrifft
+- Ob betroffene Nutzer informiert werden sollten
+
+## Verwandte Seiten
+
+- Für gewöhnliche Teamzusammenarbeit siehe [Teamfunktionen](./team-function/)
+- Für prüfspezifische Rollen siehe [Datenprüfung](./data-review/)
+- Für eine gebündelte Zugriffsübersicht siehe [Berechtigungen und Datenräume](./permissions-and-data-scopes/)

@@ -1,0 +1,89 @@
+---
+title: "Espace d'administration système"
+description: "Explique l'espace des rôles système pour la gestion de l'affichage des équipes sur la page d'accueil et la gestion des membres système."
+---
+
+L'espace d'administration système est destiné aux rôles de niveau plateforme. Il sert à maintenir
+les paramètres d'affichage des équipes sur la page d'accueil et les autorisations des membres
+système. Les utilisateurs finaux ordinaires n'ont généralement pas besoin de cette page.
+
+## Public visé
+
+Cet espace est principalement destiné aux rôles système suivants :
+
+- **owner**
+- **admin**
+- **member**
+
+Ce sont des rôles système de niveau plateforme, à ne pas confondre avec les rôles d'équipe ou de revue.
+
+## Comment l'ouvrir
+
+Si votre compte possède un rôle système, le menu du profil en haut à droite affiche une entrée
+**Administration système**.
+
+C'est un espace discret qui ne reste pas visible dans la navigation gauche pour tout le monde.
+
+![Onglets de l'administration système](/assets/docs/7764be16/system-management-tabs.png)
+
+La zone marquée `1` montre la zone d'onglets principale, contenant actuellement **Gestion des
+affichages** et **Gestion des membres**.
+
+## Onglet 1 : Gestion des affichages
+
+Le premier onglet gère actuellement les équipes apparaissant sur la page d'accueil — d'où le libellé
+UI **Gestion des affichages**.
+
+Il sert principalement à :
+
+- Passer en revue les équipes incluses dans l'ensemble d'affichage de la page d'accueil
+- Modifier l'ordre d'affichage
+- Éditer les informations affichées
+- Retirer une équipe de l'affichage
+- Sélectionner les équipes à afficher
+
+Si votre responsabilité est « quelles équipes apparaissent sur la page d'accueil, et dans quel
+ordre », c'est le point d'entrée pertinent.
+
+## Onglet 2 : Gestion des membres
+
+La **Gestion des membres** est l'endroit où les rôles de comptes au niveau système sont maintenus.
+
+Le tableau liste généralement :
+
+- L'e-mail
+- Le nom du membre
+- Le rôle courant
+
+### Actions courantes
+
+Les actions disponibles dépendent du rôle système courant :
+
+- **owner** peut promouvoir un `member` en `admin`
+- **owner** peut rétrograder un `admin` en `member`
+- **owner / admin** peuvent retirer des membres non-`owner`
+- **owner / admin** peuvent ajouter des membres système
+- **member** y est généralement en lecture seule
+
+## Remarques d'usage
+
+### Confirmez le domaine d'autorisation modifié
+
+Cette page gère les **rôles système de niveau plateforme**. Ne les confondez pas avec :
+
+- Les rôles de propriétaire / admin / membre d'équipe
+- Les rôles review-admin / review-member
+
+### Vérifiez l'impact avant de modifier un accès de haut niveau
+
+Avant d'ajouter, retirer ou modifier un rôle système, confirmez :
+
+- Si l'utilisateur possède encore des tâches de maintenance au niveau plateforme
+- Si le changement affecte des points d'entrée visibles pour d'autres
+- Si les utilisateurs concernés doivent être notifiés
+
+## Pages liées
+
+- Pour la collaboration d'équipe ordinaire, voir [Fonctions d'équipe](./team-function/)
+- Pour les rôles propres à la revue, voir [Revue de données](./data-review/)
+- Pour un résumé consolidé des accès, voir [Autorisations et espaces de données](./permissions-and-data-scopes/)
