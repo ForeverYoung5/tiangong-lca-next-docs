@@ -1,0 +1,225 @@
+---
+title: "TIDAS-ZIP-Import, -Export und Aufgabenzentrum"
+description: "Erklärt die TIDAS-ZIP-Workflows der Kopfleiste und wie asynchrone Aufgaben im gemeinsamen Aufgabenzentrum erscheinen."
+---
+
+Das Produkt enthält jetzt einen nutzerseitigen TIDAS-ZIP-Paket-Workflow. Diese Einstiegspunkte
+liegen in der globalen Kopfleiste, nicht in einer einzelnen Datenseite.
+
+Benötigen Sie nur den API-Ablauf, nutzen Sie die [TIDAS-Paketimport-API](/de/docs/openapi/tidas-package-import/).
+Diese Seite konzentriert sich auf den Web-UI-Workflow.
+
+Nutzen Sie das freigegebene Rust-CLI-Tool
+[`tidas` 0.1.3](/de/docs/integration/cli/#install-tidas-013), wenn Sie ein TIDAS-Paket aus
+EcoSpold, openLCA, SimaPro oder ILCD/eILCD vorbereiten und validieren möchten, bevor Sie es
+hochladen. Es ist ein eigenständiges lokales Paketwerkzeug, kein Alias für die Web-UI oder den
+`tiangong-lca`-Plattformclient.
+
+## Wo Sie die Einstiegspunkte finden
+
+Die relevanten Kopfleisten-Steuerelemente sind:
+
+- **TIDAS-ZIP-Paket importieren**
+- **TIDAS-ZIP-Paket exportieren**
+- **Aufgabenzentrum**
+
+Für die umfassende Steuerungskarte beginnen Sie mit der
+[Übersicht der Kernfunktionen](./key-functions-introduction/).
+
+## TIDAS-ZIP-Paket importieren
+
+### Typische Anwendungsfälle
+
+- Ein vorbereitetes TIDAS-Paket in die aktuelle Umgebung importieren
+- Prozesse, Modelle, Flüsse und Abhängigkeiten gesammelt migrieren
+- Daten mit anderen TIDAS-kompatiblen Werkzeugen austauschen
+
+### Regeln
+
+- Die UI akzeptiert **eine `.zip`-Datei**
+- Nicht-ZIP-Dateien werden sofort abgelehnt
+- Das System validiert Struktur, Referenzen und Konflikte vor dem Import
+- Die Validierung deckt TIDAS-JSON ab; enthält das Paket eILCD/ILCD-XML, wird das XML gegen die mitgelieferten Schemas geprüft
+- Flussdatensätze mit CAS-Nummern validieren auch die CAS-Prüfziffer; eine strukturell gültige CAS-Nummer mit falscher Prüfziffer wird weiterhin als Validierungsproblem gemeldet
+
+### Importschritte
+
+1. Klicken Sie in der Kopfleiste auf **TIDAS-ZIP-Paket importieren**.
+2. Ziehen Sie eine einzelne `.zip`-Datei hinein oder wählen Sie sie aus.
+3. Klicken Sie auf **Importieren**.
+4. Prüfen Sie das vom Dialogfeld gemeldete Ergebnis.
+
+![Dialogfeld des TIDAS-ZIP-Imports](/assets/docs/7a1e01b2/tidas-zip-import-modal.png)
+
+Im Screenshot markiert `1` die ZIP-Upload-Zone, `2` den Link zur API-Import-Dokumentation und `3`
+die Schaltfläche, die den Import absendet.
+
+### Mögliche Ergebnisse
+
+#### Erfolgreicher Import
+
+Die Plattform bestätigt, dass das Paket erfolgreich importiert wurde.
+
+#### Erfolg mit übersprungenen offenen Daten
+
+Enthält das ZIP offene Datensätze, die nicht dupliziert werden sollen, meldet das System, dass
+einige offene Datensätze übersprungen wurden.
+
+#### Validierung blockiert
+
+Schlagen Pflichtfelder, Referenzen oder die Paketstruktur bei der Validierung fehl, wird der Import
+blockiert und das Dialogfeld erläutert die Probleme.
+Häufige Ursachen: Schema-Abweichungen, fehlende Referenzen, eILCD/ILCD-XML, das nicht zu den
+mitgelieferten Schemas passt, oder eine ungültige CAS-Prüfziffer.
+
+#### Konfliktablehnung
+
+Steht das Paket in Konflikt mit bereits vorhandenen Objekten der Umgebung, wird der Import
+abgelehnt, bis die Konflikte gelöst sind.
+
+### Fehlerbehebung
+
+Der Import-Dialog kann einen herunterladbaren JSON-Bericht bereitstellen. Betrachten Sie diese
+Datei als primäres Fehlerbehebungsartefakt. Sie beantwortet:
+
+- Welche Objekte die Validierung nicht bestanden haben
+- Welche Referenzen nicht auflösbar waren
+- Ob CAS-Nummern ungültige Prüfziffern haben
+- Welche Objekte mit bestehenden Datensätzen kollidieren
+- Welche offenen Datensätze übersprungen wurden
+
+### ZIP aus einem externen Format mit `tidas` vorbereiten
+
+`tidas import` unterstützt EcoSpold1, EcoSpold2, SimaPro CSV, openLCA JSON-LD, openLCA-Prozess-XLSX
+sowie ILCD/eILCD-Eingaben. Diese Sequenz erzeugt ein TIDAS-Paketverzeichnis und validiert es nativ:
+
+```bash
+tidas import ./source-package.zip \
+  --output ./prepared \
+  --target tidas \
+  --write-mapping \
+  --format json
+
+tidas validate ./prepared/tidas \
+  --input-format tidas-json \
+  --issues ./prepared/validation-issues.jsonl \
+  --format json
+```
+
+Der Importbefehl erkennt unterstützte Quellformate. Nutzen Sie `--from-format`, wenn die Eingabe
+mehrdeutig ist. `.zolca`-Dateien werden abgelehnt; exportieren Sie zuerst ein unterstütztes
+Austauschformat aus openLCA.
+
+Legen Sie die TIDAS-Paketinhalte für den Web-Upload ins ZIP-Wurzelverzeichnis. Linux/macOS:
+
+```bash
+(cd ./prepared/tidas && zip -r ../../prepared-tidas.zip .)
+```
+
+Windows PowerShell:
+
+```powershell
+Compress-Archive -Path .\prepared\tidas\* -DestinationPath .\prepared-tidas.zip
+```
+
+Wählen Sie danach `prepared-tidas.zip` in der Web-UI. Bestätigen Sie vor dem Archivieren, dass
+`tidas validate` den Exit-Code `0` liefert. Exit-Code `2` bedeutet, dass der Befehl mit
+Datenproblemen abgeschlossen wurde und nicht ignoriert werden darf.
+
+Prüfen Sie vor dem Import die Berichte und Audit-Artefakte:
+
+- Die EcoSpold1-/EcoSpold2-Konvertierung bewahrt nach Möglichkeit Quellprozesse, Flüsse, Austausch-IDs, Klassifikationen, Standorte, CAS-Nummern und numerische Texte. Quelldetails, die nicht sicher in formale Felder passen, verbleiben im TIDAS-Import-Trace.
+- Die openLCA-JSON-LD-Konvertierung wandelt auflösbare `defaultProvider`-Beziehungen in Kandidaten-Lebenszyklusmodelle und behält nicht abgebildete Quellmetadaten als Trace zur manuellen Prüfung.
+- Für openLCA-/USLCI-Landnutzungsflüsse namens `Occupation, ...` oder `Transformation, from|to ...` schreibt `tidas import` Elementarflüsse unter `Land use` statt in Platzhalter-Kategorien für Produktflüsse; ursprünglicher Quelltyp und -kategorie verbleiben zur Prüfung im Trace.
+- Austauschmengen aus openLCA JSON-LD werden auf die Referenz-Flusseigenschaftseinheit jedes Flusses umgerechnet. Ursprüngliche Menge und Einheit bleiben in den Quellmetadaten. Melden `import-report.json` oder `issues.jsonl` ungelöste Mengen-Normalisierung, prüfen Sie vor dem Import die Quell-Einheitengruppen, Flusseigenschaften und Referenzeinheiten.
+- Der Importer legt standardmäßig Ordner `process-bundles/<process_uuid>/` an, damit nachgelagerte Werkzeuge Abhängigkeiten Prozess für Prozess behandeln können. Fügen Sie `--no-process-bundles` hinzu, wenn diese Bundles nicht benötigt werden.
+- Die Experten-Mapping-CSV wird nicht standardmäßig erzeugt. Fügen Sie `--write-mapping` hinzu, wenn Sie eine Feldprüfung benötigen; `mapping.csv.gz` listet formale Felder, reine Trace-Felder, Platzhalter und generierte Felder.
+- `import-report.json` ist der Vorgangsbericht, `issues.jsonl` der vollständige Issue-Strom. Insizizieren Sie beide zusammen mit der optionalen `mapping.csv.gz`, statt sich nur auf die Terminal-Zusammenfassung zu verlassen.
+- Meldet der Bericht Schema-, Referenz-, CAS- oder Klassifikationsprobleme, korrigieren Sie die Quelldaten oder die Konvertierungskonfiguration und erzeugen Sie das ZIP neu, bevor Sie es erneut versuchen.
+
+Für wiederholbare Automatisierung oder tiefergehende Fehlerbehandlung nutzen Sie die
+[TIDAS-Paketimport-API](/de/docs/openapi/tidas-package-import/).
+
+## TIDAS-ZIP-Paket exportieren
+
+### Grundverhalten
+
+Der Export läuft asynchron. Das System legt zunächst einen Exportauftrag an; anschließend kehren Sie
+zum **Aufgabenzentrum** zurück, um die fertige ZIP-Datei herunterzuladen.
+
+### Verfügbare Bereiche
+
+Der sichtbare Exportbereich hängt von Ihrer Rolle ab:
+
+| Rollenbereich | Verfügbare Optionen |
+| --- | --- |
+| Standardnutzer | Daten des aktuellen Nutzers |
+| Systemadministrator / -eigentümer | Daten des aktuellen Nutzers, Offene Daten, Daten des aktuellen Nutzers + offene Daten |
+
+### Exportschritte
+
+1. Klicken Sie in der Kopfleiste auf **TIDAS-ZIP-Paket exportieren**.
+2. Wählen Sie den Exportbereich.
+3. Klicken Sie auf **Exportieren**.
+4. Öffnen Sie das **Aufgabenzentrum** und warten Sie auf den Abschluss des Auftrags.
+
+![Dialogfeld des TIDAS-ZIP-Exports](/assets/docs/37198c14/tidas-zip-export-modal.png)
+
+Im Screenshot markiert `1` die Bereichsauswahl und `2` die Schaltfläche, die den Exportauftrag
+absendet. Die genauen Bereichsoptionen hängen von Ihrer Rolle ab.
+
+### Warten Sie nicht im Dialogfeld
+
+Nach dem Absenden bestätigt das Dialogfeld nur die Auftragsanlage. Die tatsächlich herunterladbare
+Datei verwaltet das Aufgabenzentrum, nicht der Exportdialog selbst.
+
+## Aufgabenzentrum
+
+### Was es zeigt
+
+Das Aufgabenzentrum ist das gemeinsame Hintergrund-Aufgabenpanel in der Kopfleiste. Es vereint jetzt
+mehrere Aufgabentypen:
+
+- **LCA**-Aufgaben
+- **TIDAS-Export**-Aufgaben
+- **TIDAS-Import**-Aufgaben
+- **Prüfeinreichungs**-Aufgaben
+
+Der Import-Dialog liefert weiterhin das aktuelle Ergebnis der Operation. Gelangt die Importarbeit
+in den Hintergrund-Aufgabenfluss, zeigt das Aufgabenzentrum die Phasen Validierung, Import und
+Bericht.
+
+### Häufige Aktionen
+
+Im Aufgabenzentrum können Sie üblicherweise:
+
+- **Abgeschlossene entfernen**
+- **Herunterladen**: nur für abgeschlossene TIDAS-Exportaufträge verfügbar
+- **Details**: IDs, Zeitstempel, Dateinamen und weitere Metadaten einsehen
+- **Diagnose**: Fehlerursachen, Backend-Aufgaben-IDs oder Anfragekontext einsehen
+- **Ansehen**: Aufgabendetails öffnen und Fortschritt, Phasen und verfügbare Aktionen bestätigen
+
+### Ein häufiger Exportfehler
+
+Ein häufiger Fehler ist ein Exportpaket, das die Umgebungsgrenze für große Dateiuploads
+überschreitet.
+
+Versuchen Sie zuerst:
+
+- Einen kleineren Bereich exportieren
+- Den Export in mehrere Durchläufe aufteilen
+- Einen Systemadministrator fragen, ob Uploads großer Dateien aktiviert werden können
+
+## Wann UI, wann API
+
+Nutzen Sie die Web-UI, wenn:
+
+- Sie einmalige manuelle Import- oder Exportarbeit erledigen
+- Sie Validierungsergebnisse interaktiv prüfen möchten
+- Der Workflow von einem normalen Plattformnutzer ausgeführt wird
+
+Nutzen Sie die API, wenn:
+
+- Sie Automatisierung benötigen
+- Sie wiederholte Imports in Skripten oder Pipelines benötigen
+- Externe Systeme Validierung und Fehlerberichte direkt verarbeiten sollen
