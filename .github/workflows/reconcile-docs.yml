@@ -95,8 +95,8 @@ jobs:
               exit 1
             fi
           done
-          # 负向：未发布的 de 深层路由必须 404
-          for path in de/docs/quick-start/ fr/docs/user-guide/; do
+          # 负向：旧站路径必须 404（greenfield；de/fr 已全量发布，不再检查未发布路由）
+          for path in intro user-guide/data search agents/repo-validation docs/openapi; do
             code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${origin%/}/${path}")"
             if [ "$code" != "404" ]; then
               echo "::error::${origin%/}/${path} -> HTTP $code (expected 404)" >&2
