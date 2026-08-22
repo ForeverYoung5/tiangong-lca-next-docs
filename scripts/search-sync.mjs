@@ -82,18 +82,21 @@ await sync(client, {
 });
 console.log(`[search-sync] replaceAllObjects done: ${sr.count} records -> ${INDEX_NAME}`);
 
-// --- 3. 元数据 sentinel（可回读的 sourceCommit，v4 §7.1 第 6 条）---
-await client.setSettings({
+// --- 3. sentinel 回读（v4 §7.1 第 6 条）---
+// 每条 section 记录经 fumadocs toIndex 的 ...extra_data 展开携带 sourceCommit，
+// 作为可回读的索引 sentinel（服务端拒绝 customSettings 设置，记录级 sentinel 更可靠）
+const probe = await client.searchSingleIndex({
   indexName: INDEX_NAME,
-  indexSettings: {
-    customSettings: {
-      sourceCommit: sr.sourceCommit,
-      recordDigest: sr.digest,
-      recordCount: String(sr.count),
-    },
-  },
+  searchParams: { query: '', hitsPerPage: 1 },
 });
-console.log(`[search-sync] index metadata set (sourceCommit=${sr.sourceCommit})`);
+const probeHit = probe.hits?.[0] ?? probe.results?.[0]?.hits?.[0];
+if (!probeHit || probeHit.sourceCommit !== sr.sourceCommit) {
+  console.error(
+    `[search-sync] sentinel readback failed: ${JSON.stringify(probeHit?.sourceCommit)} != ${sr.sourceCommit}`,
+  );
+  process.exit(1);
+}
+console.log(`[search-sync] sentinel ok: records carry sourceCommit=${sr.sourceCommit}`);
 
 // --- 4. locale smoke query（隔离断言，v4 §7.2）---
 // 每语言用仅存在于该语言的查询词验证不混搜（tag facet 由 fumadocs setIndexSettings 配置）
