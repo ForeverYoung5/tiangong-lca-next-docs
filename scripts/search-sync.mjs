@@ -83,20 +83,22 @@ await sync(client, {
 console.log(`[search-sync] replaceAllObjects done: ${sr.count} records -> ${INDEX_NAME}`);
 
 // --- 3. 元数据 sentinel（可回读的 sourceCommit，v4 §7.1 第 6 条）---
-const index = client.initIndex(INDEX_NAME);
-await index.setSettings({
-  customSettings: {
-    sourceCommit: sr.sourceCommit,
-    recordDigest: sr.digest,
-    recordCount: String(sr.count),
+await client.setSettings({
+  indexName: INDEX_NAME,
+  indexSettings: {
+    customSettings: {
+      sourceCommit: sr.sourceCommit,
+      recordDigest: sr.digest,
+      recordCount: String(sr.count),
+    },
   },
 });
 console.log(`[search-sync] index metadata set (sourceCommit=${sr.sourceCommit})`);
 
 // --- 4. locale smoke query（隔离断言，v4 §7.2）---
-// 每语言用仅存在于该语言的查询词验证不混搜
+// 每语言用仅存在于该语言的查询词验证不混搜（tag facet 由 fumadocs setIndexSettings 配置）
 const smoke = [
-  { locale: 'zh', term: '生命周期', },
+  { locale: 'zh', term: '生命周期' },
   { locale: 'en', term: 'documentation' },
   { locale: 'de', term: 'Dokumentation' },
   { locale: 'fr', term: 'documentation' },
@@ -104,11 +106,16 @@ const smoke = [
 for (const { locale, term } of smoke) {
   const expected = sr.countsByLocale[locale] ?? 0;
   if (expected === 0) continue;
-  const { results } = await index.search(term, {
-    facetFilters: [`tag:${locale}`],
-    hitsPerPage: 50,
+  const response = await client.searchSingleIndex({
+    indexName: INDEX_NAME,
+    searchParams: {
+      query: term,
+      facetFilters: [`tag:${locale}`],
+      hitsPerPage: 50,
+    },
   });
-  const urls = results.hits.map((h) => h.url);
+  const hits = response.hits ?? response.results?.[0]?.hits ?? [];
+  const urls = hits.map((h) => h.url);
   const leaked = urls.filter((u) => !u.startsWith(`/${locale}/`));
   if (urls.length === 0) {
     console.error(`[search-sync] smoke[${locale}] "${term}" returned 0 hits`);
