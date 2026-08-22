@@ -66,15 +66,6 @@
           ]
         },
         {
-          "target": "/assets/docs/26082934/co2-natural-gas.png",
-          "sources": [
-            "docs/data-collection/case-introduction/img/co2-natural gas.png",
-            "docs/user-guide/img/co2-natural gas.png",
-            "i18n/en/docusaurus-plugin-content-docs/current/data-collection/case-introduction/img/co2-natural gas.png",
-            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/co2-natural gas.png"
-          ]
-        },
-        {
           "target": "/assets/docs/f5787631/email-ch.png",
           "sources": [
             "docs/faq/img/email-ch.png",

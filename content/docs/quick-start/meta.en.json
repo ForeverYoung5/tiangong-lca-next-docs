@@ -1,4 +1,8 @@
 {
   "title": "Quick Start",
-  "pages": ["index", "install"]
+  "pages": [
+    "index",
+    "first-login",
+    "demonstrations"
+  ]
 }

@@ -61,15 +61,6 @@
         ]
       },
       {
-        "target": "/assets/docs/26082934/co2-natural-gas.png",
-        "sources": [
-          "docs/data-collection/case-introduction/img/co2-natural gas.png",
-          "docs/user-guide/img/co2-natural gas.png",
-          "i18n/en/docusaurus-plugin-content-docs/current/data-collection/case-introduction/img/co2-natural gas.png",
-          "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/co2-natural gas.png"
-        ]
-      },
-      {
         "target": "/assets/docs/f5787631/email-ch.png",
         "sources": [
           "docs/faq/img/email-ch.png",
@@ -519,7 +510,10 @@
         "i18n/en/docusaurus-plugin-content-docs/current/data-collection/case-introduction/img/co2-natural gas.png",
         "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/co2-natural gas.png"
       ],
-      "referencedBy": []
+      "referencedBy": [
+        "zh:data-collection/case-introduction/unit-process-construction",
+        "en:data-collection/case-introduction/unit-process-construction"
+      ]
     },
     {
       "sha256": "21dd8e321d225e17f529f31a1d30ecb5fea0fd0a06e38868ccb7fe7809c20b03",

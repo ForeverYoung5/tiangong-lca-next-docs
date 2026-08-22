@@ -36,7 +36,7 @@ checkPaths:
   - scripts/install-git-hooks.sh
 lastReviewedAt: "2026-08-22"
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for P1 skeleton (issue #131): canonical commands are now pnpm lint / pnpm typecheck / pnpm build (env contract + verify-out included); Docusaurus commands retired."
+lastReviewedNote: "Reviewed for P2 content migration (issue #131): all 74 public source pages (37 zh + 37 en) migrated to content/docs with new-IA paths, media moved to /assets/docs hash namespace, legacy syntax eliminated; content-check 5236/5236 prose lines absorbed; verify-out 18/18 green (103 routes, 78 llms/search records, 98 OG, greenfield deny)."
 related:
   - AGENTS.md
   - .docpact/config.yaml

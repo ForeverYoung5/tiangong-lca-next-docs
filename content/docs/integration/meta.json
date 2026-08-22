@@ -1,0 +1,10 @@
+{
+  "title": "集成与扩展",
+  "pages": [
+    "index",
+    "cli",
+    "mcp-lca-local",
+    "mcp-lca-remote",
+    "mcp-kb-remote"
+  ]
+}

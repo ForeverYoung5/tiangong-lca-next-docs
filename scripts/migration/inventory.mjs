@@ -121,7 +121,13 @@ function walkSidebar(items, categoryTrail, categories, orderedIds) {
 // ---------------------------------------------------------------------------
 // 1. 侧边栏 → 分类语义 + 有序页面 id
 // ---------------------------------------------------------------------------
-const sidebars = (await import(pathToFileURL(path.join(ROOT, 'sidebars.ts')).href)).default;
+// sidebars.ts 在 P1 后已从工作树删除：从基线 commit 提取（manifest 可复现性要求固定基线）
+import { execSync } from 'node:child_process';
+const BASELINE = 'e44e9b4d12197665265a88713f9ca7a5d52264f5';
+const sidebarsTmp = path.join(ROOT, '.p0b-sidebars.tmp.ts');
+fs.writeFileSync(sidebarsTmp, execSync(`git show ${BASELINE}:sidebars.ts`).toString());
+const sidebars = (await import(pathToFileURL(sidebarsTmp).href)).default;
+fs.rmSync(sidebarsTmp);
 const categories = [];
 const orderedIds = [];
 walkSidebar(sidebars.tutorialSidebar, [], categories, orderedIds);
@@ -236,7 +242,7 @@ for (const page of pages) {
     const pageDir = path.dirname(p.sourcePath);
     for (const ref of p.mediaRefs) {
       if (/^(https?:)?\/\//.test(ref)) continue; // 外链
-      const clean = ref.split(' ')[0];
+      const clean = decodeURIComponent(ref.split(' ')[0]);
       const resolved = path.posix.normalize(path.posix.join(pageDir, clean));
       const found = [...mediaByHash.values()].find((m) =>
         m.sourcePaths.some((sp) => sp === resolved),

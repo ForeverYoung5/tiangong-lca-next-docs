@@ -3,7 +3,7 @@ layout: repo
 lastReviewedAt: "2026-08-22"
 lastReviewedCommit: "e76d5571a6fa495e103576e2a69a9c2407522458"
 reviewNote: "Reviewed for P0C (issue #131): transition-aware routing — new Fumadocs paths added, legacy paths retained until P1/P2."
-lastReviewedNote: "Reviewed for P1 skeleton (issue #131): new framework paths now live at repo root; legacy doc paths remain matched solely as P2 migration sources."
+lastReviewedNote: "Reviewed for P2 content migration (issue #131): all 74 public source pages (37 zh + 37 en) migrated to content/docs with new-IA paths, media moved to /assets/docs hash namespace, legacy syntax eliminated; content-check 5236/5236 prose lines absorbed; verify-out 18/18 green (103 routes, 78 llms/search records, 98 OG, greenfield deny)."
 
 catalog:
   repos:

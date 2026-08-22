@@ -47,7 +47,7 @@
 
 - HTML 路由 103 条：`/` 语言入口 1 + locale home 4 + docs 首页 4 + 分类页 20（仅 zh/en，`llms:false search:false`）+ 正文页 74（zh/en）
 - 系统端点：`/llms.txt` `/robots.txt` `/sitemap.xml` `/search-records.json` `/api/search` `/og/[...slug]` `/404`
-- llms 目标条目 = 74 基线 + 2（de/fr 首页真实翻译）= **76**
+- llms 目标条目 = 74 基线 + 4 首页（zh/en/de/fr docs index，均为真实内容）= **78**
 
 ## greenfield deny（负向验收）
 
@@ -55,6 +55,7 @@
 - 旧媒体 URL **98 条**（`build/assets/images/*` 96 条 hash 路径 + `static/img/*` 2 条站点图件）
 - anchor alias 5 组（`create-my-data` 页的 5 个显式 ID；新 DOM 不得人为重建旧别名）
 - 旧 `/search` 页与 `/docs/openapi` 旧 slug 均在 deny 中（新站无 `/search` 页面；OpenAPI 分类新路径为 `/openapi`）
+- **重合排除（2 条）**：旧 en slug `/en/docs/openapi` 与 `/en/docs/openapi/tidas-package-import` 与新站 en 路由 `/en/docs/openapi/`、`/en/docs/openapi/tidas-package-import/` 精确重合（旧 slug 的 `/docs` 前缀 + en locale 前缀恰好组合出新路径）。按 v4 §5.3"新站明确重新定义的端点"从 deny 检查排除（verify-out 以 site-routes.json 为准排除）
 
 ## 待用户决策（P0B 退出余项）
 

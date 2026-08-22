@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { source } from '@/lib/source';
 import { i18n } from '@/lib/i18n';
+import { isCategoryIndex } from '@/lib/ia';
 
 export const revalidate = false;
 
@@ -16,7 +17,8 @@ export function GET() {
   const countsByLocale: Record<string, number> = {};
 
   for (const lang of i18n.languages) {
-    const pages = source.getPages(lang);
+    // v4 §2：分类页 search:false，不进入搜索记录
+    const pages = source.getPages(lang).filter((page) => !isCategoryIndex(page.slugs));
     countsByLocale[lang] = pages.length;
 
     for (const page of pages) {
