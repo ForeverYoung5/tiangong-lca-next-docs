@@ -63,12 +63,12 @@ jobs:
           origin="${{ inputs.verify_origin }}"
           sha="${{ steps.sha.outputs.sha }}"
           for attempt in $(seq 1 20); do
-            if curl -fsSL --max-time 30 "${origin%/}/llms.txt" -o /tmp/llms.txt 2>/dev/null \
-              && grep -q "$sha" /tmp/llms.txt; then
+            code="$(curl -s -o /tmp/llms.txt -w '%{http_code}' --max-time 30 "${origin%/}/llms.txt" || true)"
+            if [ "$code" = "200" ] && grep -q "$sha" /tmp/llms.txt; then
               echo "llms.txt exposes $sha (attempt $attempt)"
               exit 0
             fi
-            echo "attempt $attempt: $sha not yet live on $origin; waiting 30s"
+            echo "attempt $attempt: HTTP $code; body head: $(head -c 300 /tmp/llms.txt 2>/dev/null | tr '\n' ' ' | head -c 300)"
             sleep 30
           done
           echo "::error::timeout waiting for ${origin}/llms.txt to expose ${sha}"
@@ -81,8 +81,8 @@ jobs:
           origin="${{ inputs.verify_origin }}"
           sha="${{ steps.sha.outputs.sha }}"
 
-          sr="$(curl -fsSL --max-time 30 "${origin%/}/search-records.json")"
-          actual="$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.sourceCommit ?? '')" "$sr")"
+          curl -fsSL --max-time 30 "${origin%/}/search-records.json" -o /tmp/search-records.json
+          actual="$(jq -r '.sourceCommit // empty' /tmp/search-records.json)"
           if [ "$actual" != "$sha" ]; then
             echo "::error::search-records sourceCommit $actual != $sha" >&2
             exit 1
@@ -118,6 +118,10 @@ jobs:
             echo "::error::Algolia production secrets missing; refusing to mark complete (v4 §7.3)"
             exit 1
           fi
+          # search-sync.mjs 依赖 algoliasearch + fumadocs-core（均为 dependencies）
+          corepack enable
+          corepack prepare pnpm@11.22.0 --activate
+          pnpm install --frozen-lockfile --prod
           node scripts/search-sync.mjs --from "${{ inputs.verify_origin }}"
 
       # --- phase: refreshing-context7 ---
@@ -142,6 +146,12 @@ jobs:
           if [ "$status_code" -ge 200 ] && [ "$status_code" -lt 300 ]; then
             echo "Context7 refresh accepted for ${library}"
             cat /tmp/context7-response.json || true
+            exit 0
+          fi
+          # too-early：Context7 强制最小 10 天刷新间隔，项目已在新鲜期内——软跳过
+          if grep -q '"too-early"' /tmp/context7-response.json 2>/dev/null; then
+            echo "status=too-early" >> "$GITHUB_OUTPUT"
+            echo "::warning::Context7 refresh skipped: within the 10-day minimum interval (project already fresh)"
             exit 0
           fi
           echo "::error::Context7 refresh failed (HTTP $status_code)"

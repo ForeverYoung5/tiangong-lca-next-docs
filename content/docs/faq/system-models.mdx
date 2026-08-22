@@ -1,0 +1,48 @@
+---
+title: "系统建模"
+description: "回答在 TianGong LCA 中构建模型时与其他 LCA 软件的差异及注意事项。"
+---
+
+## 如何在 TianGong LCA 中构建模型？
+
+1. 在“我的数据”中新建或选择现有过程，确保输入输出流配置完整。  
+2. 打开“模型”模块，点击 `+` 创建模型，并通过右侧节点选择器将过程拖入画布。  
+3. 连接输入输出流，设置基准过程与基准流量，完成后保存。详细操作可参考[数据新建](../user-guide/create-my-data/#新建模型model)。  
+
+## 保存模型时提示缺少引用过程怎么办？
+
+如果保存时看到“模型缺少引用过程信息，请补全或重新绑定引用过程后重试。”，说明当前模型没有可用的
+`referenceToReferenceProcess`。请回到模型画布，确认作为基准过程的节点仍然存在，然后重新设置参考过程
+和基准流量后再保存。
+
+## 平台如何为产品输入选择供应者？
+
+当产品输入交换没有显式连接到唯一 provider 时，TianGong LCA 会在求解快照中使用隐式区域供应组合。
+产品输入的 `exchange.location` 会优先作为供应区域；如果没有可用位置，则使用消费过程的位置作为默认供应区域。
+如果消费过程具有 `model_id`，并且同一模型内存在可供应该产品流的 reference-output provider，
+系统会先使用这个同模型 provider 子集；如果没有同模型 provider，才回到更宽的区域供应组合。
+随后系统选择最合适的地理层级，再在该层级内按 provider 过程的年供应量或年产量分配份额。自动链接
+只把 quantitative reference output 视为可供应该产品流的 provider；同 `flow_id` 的非 reference
+output 不会因为存在数量或 allocation fraction 就自动进入 provider set。
+
+这类分配只决定一条输入需求由哪些 provider 承担，不会放大或缩小该输入的总需求量。如果某个 provider
+缺少有效年量，系统会使用默认正权重保留它，并在覆盖率或 provider linking 诊断中暴露 fallback 情况。
+如果所有同流候选项都不是 reference output，诊断会把该输入暴露为 `rejected_non_reference_only`，
+需要通过修复参考输出、补充 provider 数据，或显式 market / co-product 建模解决。
+
+## 与其他 LCA 软件相比有哪些差异？
+
+| 关注点 | TianGong LCA | 传统桌面软件（如 SimaPro、GaBi、openLCA 等） |
+| --- | --- | --- |
+| 数据管理 | 云端协作，支持团队贡献与审核流程 | 以本地项目为主，协作需额外同步 |
+| 模型构建 | 基于过程库组合，可直接引用平台数据 | 多通过导入外部数据库或本地建库 |
+| 数据结构 | 采用 TIDAS JSON 结构，支持开放接口与自动化集成 | 以专有数据库格式为主 |
+| 版本控制 | 支持 Data check、自检与审核状态筛选 | 需依赖外部版本管理或手动记录 |
+
+## 是否可以与其他软件互通？
+
+- **导出 JSON**：用户可将过程或模型导出为标准 JSON，转换后导入其他平台。  
+- **MCP 集成**：结合[天工 MCP](../integration/mcp-lca-remote/) 可在外部工具中调用 TianGong LCA 数据。  
+- **注意事项**：不同平台的单位、流属性命名可能存在差异，导出后建议进行字段映射或脚本清洗。
+
+若需要更复杂的建模或与企业级系统对接，可联系平台支持团队获取集成方案。

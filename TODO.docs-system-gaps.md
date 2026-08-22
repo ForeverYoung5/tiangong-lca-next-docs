@@ -473,3 +473,12 @@ Resolution:
 - P1 Contributor Guide For The Docs/Product Sync Model
 - P1 Dev Environment Baseline Drift
 - P2 English-Orphan Page Cleanup
+
+## Fumadocs 迁移遗留（2026-08-22，Issue #131 / v4 计划 P2 后）
+
+- [x] 15 个 orphan 媒体确认删除（2026-08-23 用户确认；两站均从未发布，证据：Issue #131 + manifests/p0b/media.json orphanMedia）
+- [ ] de/fr docs 首页译文待语言 reviewer 审核（草案已提交于 content/docs/index.de.mdx / index.fr.mdx）
+- [ ] scripts/check-screenshots.mjs 尚未适配新内容路径（/assets/docs 命名空间 + content/docs）——下次触屏截图证据流时改造
+- [ ] Playwright 站点级测试基线（v4 §6.3 PR validate 第 10 步）P1/P2 暂缓，P4 前必须落地
+- [ ] P3：Algolia 同步脚本 + post-deploy reconciliation 状态机 + Context7 刷新接线
+- [ ] P4/P5：EdgeOne 生产候选 F-1/F、DNS 切换 runbook、主站 de/fr documentationUrl 与 workspace gitlink 集成
