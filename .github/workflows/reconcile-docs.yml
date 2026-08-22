@@ -118,6 +118,10 @@ jobs:
             echo "::error::Algolia production secrets missing; refusing to mark complete (v4 §7.3)"
             exit 1
           fi
+          # search-sync.mjs 依赖 algoliasearch + fumadocs-core（均为 dependencies）
+          corepack enable
+          corepack prepare pnpm@11.22.0 --activate
+          pnpm install --frozen-lockfile --prod
           node scripts/search-sync.mjs --from "${{ inputs.verify_origin }}"
 
       # --- phase: refreshing-context7 ---
