@@ -31,6 +31,9 @@ concurrency:
 jobs:
   reconcile:
     runs-on: ubuntu-latest
+    # v4 §7.3：ALGOLIA_WRITE_KEY 只存在于 GitHub production environment，
+    # 永不进入 EdgeOne 构建环境或静态 bundle
+    environment: production
     timeout-minutes: 30
     steps:
       - name: Check out repository
