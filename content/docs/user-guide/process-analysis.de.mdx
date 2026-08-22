@@ -1,0 +1,211 @@
+---
+title: "Prozessanalyse-Arbeitsbereich"
+description: "Erklärt den LCA-Analyse-Arbeitsbereich unter Meine Daten → Prozesse, einschließlich Profil, Vergleich, gruppierten Ergebnissen und Beitragspfad-Analyse."
+---
+
+TianGong LCA enthält jetzt einen eigenen **Prozessanalyse-Arbeitsbereich** für fortgeschrittene,
+LCIA-orientierte Analysen über mehrere Prozesse hinweg.
+
+Er unterscheidet sich von der üblichen [LCIA-Berechnung und Ergebnissen](./lcia/):
+
+- Die Seite `LCIA` dient dem Auslesen von Ergebnissen eines Prozesses oder Modells
+- Dieser Arbeitsbereich dient Vergleich, Gruppierung und Beitragspfad-Exploration über Prozesse hinweg
+
+## Einstieg
+
+Der aktuelle Einstiegspunkt ist:
+
+1. Öffnen Sie **Meine Daten → Prozesse**
+2. Klicken Sie in der Prozesslisten-Symbolleiste auf **LCA-Analyse**
+
+Dies ist ein fortgeschrittener Arbeitsbereich und erscheint möglicherweise nicht direkt im linken Navigationsmenü.
+
+## Gemeinsame Eingaben
+
+Oben auf der Seite nutzen alle Reiter dieselben Analyse-Eingaben:
+
+- **Datenbereich**
+- **Prozesssuche**
+
+### Datenbereich
+
+Die aktuellen Optionen sind:
+
+- **Daten des aktuellen Nutzers**
+- **Offene Daten**
+- **Alle Daten**
+
+Wählen Sie passend zum Ziel:
+
+- Nutzen Sie **Daten des aktuellen Nutzers**, wenn Sie eigene Entwürfe prüfen
+- Nutzen Sie **Offene Daten** für den Vergleich veröffentlichter Datensätze. Prozessprofile und LCIA-Detailzeilen in Offenen Daten bevorzugen veröffentlichte LCIA-Ergebnismengen. Diese Ergebnismengen werden im Arbeitsbereich **Datenverarbeitung** von Konten mit `data_product_manager`-Zugriff erzeugt und veröffentlicht und enthalten nur Eingaben, die die Veröffentlichungs-Zulassungsregeln erfüllen. Ist keine veröffentlichte Ergebnismenge verfügbar, zeigt die Seite einen leeren bzw. nicht verfügbaren Zustand, statt Ergebnisse temporär neu zu berechnen und zu veröffentlichen.
+- Nutzen Sie **Alle Daten**, wenn Sie die breiteste verfügbare Kandidatenmenge benötigen
+
+### Prozesssuche
+
+Die Prozesssuche verengt die Liste verfügbarer Kandidaten für alle folgenden Reiter.
+
+![Prozessanalyse-Arbeitsbereich](/assets/docs/6d05761e/process-analysis-workspace.png)
+
+Im Screenshot markiert `1` den gemeinsamen Eingabebereich aller Analyse-Reiter, `2` die vier
+Analyse-Reiter. Legen Sie zuerst Bereich und Kandidatenprozesse fest und wechseln Sie dann in den
+gewünschten Analysemodus.
+
+## Reiter 1: Prozessprofil
+
+Das **Prozessprofil** dient der Betrachtung des LCIA-Profils eines Prozesses.
+
+### Profilschritte
+
+1. Wählen Sie einen Prozess
+2. Klicken Sie auf **Profil laden**
+
+### Inhalte des Profilergebnisses
+
+Der Ergebnisbereich enthält typischerweise:
+
+- Abfragemetadaten wie `snapshot_id`, `result_id`, Quelle und Berechnungszeitpunkt
+- Eine Zusammenfassung des gewählten Prozesses
+- Eine Anzahl **Nicht-null-Kategorien**
+- Ein **Normalisiertes Profildiagramm**
+- Eine detaillierte Wirkungskategorien-Tabelle
+
+Nutzen Sie dies für einen schnellen Blick auf das relative Wirkungsmuster eines einzelnen Prozesses.
+
+## Reiter 2: Wirkungsvergleich
+
+Der **Wirkungsvergleich** vergleicht mehrere Prozesse unter einer Wirkungskategorie.
+
+### Vergleichsschritte
+
+1. Wählen Sie eine **Wirkungskategorie**
+2. Wählen Sie in der Auswahltabelle mehrere Prozesse
+3. Klicken Sie auf **Analyse ausführen**
+
+Nutzen Sie **Auswahl löschen**, um die Vergleichsmenge zurückzusetzen.
+
+### Inhalte des Vergleichsergebnisses
+
+Der Reiter liefert typischerweise:
+
+- Anzahl der verglichenen Prozesse
+- Größten Beiträger
+- Absolute Summe
+- Ein Vergleichsdiagramm
+- Eine detaillierte Vergleichstabelle
+
+Nutzen Sie ihn, wenn Sie wissen möchten, welcher Kandidatenprozess unter derselben
+Wirkungskategorie mehr beiträgt.
+
+## Reiter 3: Gruppierte Ergebnisse
+
+**Gruppierte Ergebnisse** aggregieren mehrere Prozesse nach einer gewählten Dimension, bevor verglichen wird.
+
+### Verfügbare Gruppierungsdimensionen
+
+Die aktuelle Oberfläche unterstützt:
+
+- **Standort**
+- **Klassifikation**
+- **Datensatztyp**
+- **Team**
+
+### Schritte der Gruppenanalyse
+
+1. Wählen Sie eine **Wirkungskategorie**
+2. Wählen Sie eine **Gruppieren nach**-Regel
+3. Wählen Sie mehrere Prozesse
+4. Klicken Sie auf **Gruppierte Analyse ausführen**
+
+### Inhalte der Gruppenanalyse
+
+Der Ergebnisbereich enthält üblicherweise:
+
+- Anzahl der Gruppen
+- Anzahl der gewählten Prozesse
+- Top-Gruppe
+- Absolute Summe
+- Ein **Gruppiertes Rangdiagramm**
+- Eine gruppierte Detailtabelle
+
+Nutzen Sie diesen Reiter, wenn die eigentliche Frage lautet: „Welche Kategorie oder welches Cluster
+trägt insgesamt am meisten bei?"
+
+## Reiter 4: Beitragspfad
+
+Der **Beitragspfad** startet bei einem Wurzelprozess und untersucht, wie sich Wirkungen durch das
+Prozessnetzwerk bewegen.
+
+### Eingaben
+
+Neben Wirkungskategorie und Wurzelprozess lassen sich einstellen:
+
+- **Menge**
+- **Maximale Tiefe**
+- **Top-k-Kinder**
+- **Abschneideanteil**
+- **Maximale Knotenzahl**
+
+### Beitragspfad-Schritte
+
+1. Wählen Sie eine **Wirkungskategorie**
+2. Wählen Sie einen **Wurzelprozess**
+3. Passen Sie bei Bedarf die numerischen Parameter an
+4. Klicken Sie auf **Beitragspfad ausführen**
+
+### Inhalte des Beitragspfad-Ergebnisses
+
+Der Ergebnisbereich enthält typischerweise:
+
+- Gesamtwirkung
+- Abdeckung
+- Expandierte Knoten
+- Abgeschnittene Knoten
+- Angezeigte Wurzelprozess- und Parametereinstellungen
+- Ein Direkt-Beiträger-Diagramm
+- Ein **Beitragspfad-Sankey**
+- Weitere Verzweigungs-, Knoten- oder Verknüpfungstabellen
+
+Nutzen Sie diesen Reiter, um zu verstehen, welche vorgelagerten Pfade die Wirkung dominieren.
+
+Beitragspfade expandieren die Anbieter-Verknüpfungsergebnisse im aktuellen Solver-Snapshot. Bei
+Produkteingabe-Austauschvorgängen kann `exchange.location` die Versorgungsregion festlegen. Liegt
+kein expliziter Standort vor, dient der Standort des Verbraucherprozesses als
+Standardversorgungsanker. Stehen mehrere Anbieter bereit, grenzt das System die Kandidaten zuerst
+auf Referenzausgangs-Anbieter mit gleichem `model_id` ein, wenn der Verbraucherprozess solche
+Anbieter für denselben Produktfluss besitzt. Existiert kein Anbieter mit gleichem Modell, greift der
+breitere regionale Versorgungsmix. Das System wählt danach die Geografie-Ebene und gewichtet die
+Anbieter innerhalb dieser Ebene nach jährlichem Versorgungs- oder Produktionsvolumen. Fehlende oder
+ungültige Jahresvolumen nutzen ein positives Standardgewicht. Nur ein quantitativer
+Referenzausgangs-Austausch gilt als zulässiger Anbieter für diesen Produktfluss;
+Nicht-Referenzausgänge mit gleichem `flow_id` werden nur als Diagnosekandidaten erfasst. Diese
+Aufteilung verändert den vorgelagerten Anbietermix; sie verändert nicht die Gesamtnachfrage des
+Eingabe-Austauschs.
+
+## Bezug zum Aufgabenzentrum
+
+Manche Analysen können Hintergrund-Berechnungen auslösen. Dauert die Verarbeitung länger, behalten
+Sie das **Aufgabenzentrum** in der Kopfleiste im Blick:
+
+- Das Aufgabenzentrum vereint **LCA-Berechnung**, TIDAS-Import/-export und Prüf-Einreichungsaufgaben in einem Panel.
+- Sie können nach Aufgabentyp wechseln; das Panel zeigt den Fortschritt über Fortschrittsbalken, Status-Tags und Phasen-Labels. Prüfeinreichungs-Aufgaben können die Phasen „in Warteschlange", „Gate läuft", „wartet auf Gate", „Prüfung wird eingereicht", „eingereicht", „blockiert", „veraltet", „abgebrochen" oder „Fehler" durchlaufen.
+- Nutzen Sie **Ansehen** oder **Details**, um Ergebnis-IDs, Snapshot-IDs, Aufgaben-IDs, Fehlerursachen und Diagnosen einzusehen. Scheitert eine Prüfeinreichung, öffnen Sie die Gate-Begründung, die `review_submit_job_id` und die Worker-Job-Diagnosen, bevor Sie einen erneuten Versuch erwägen.
+- Läuft bereits ein Prüfeinreichungs-Gate für dieselbe Prozessversion, fordert die Seite zu einem späteren Versuch auf, statt eine doppelte Hintergrundaufgabe anzulegen.
+- Abgeschlossene Aufgaben lassen sich entfernen; fehlgeschlagene oder abgebrochene Aufgaben sollten Sie zuerst öffnen, um zu entscheiden, ob die zugehörige Analyse oder Prüfeinreichung erneut laufen soll.
+
+Arbeiten Sie mit TIDAS-Paketen, beachten Sie auch die Aufgabenzentrum-Hinweise unter
+[TIDAS-ZIP-Import, -Export und Aufgabenzentrum](./tidas-zip-workflows/).
+
+## Wann dieser Arbeitsbereich nicht nötig ist
+
+Sie brauchen diesen Arbeitsbereich in der Regel nicht, wenn:
+
+- Sie nur LCIA-Ergebnisse für einen Prozess oder ein Modell benötigen
+- Sie nur den Standard-JSON-Export benötigen
+- Sie nur Prüf- oder Berechtigungsverwaltung benötigen
+
+Diese Fälle passen besser zu:
+
+- [LCIA-Berechnung und Ergebnisse](./lcia/)
+- [Datenprüfung](./data-review/)
+- [Berechtigungen und Datenräume](./permissions-and-data-scopes/)
