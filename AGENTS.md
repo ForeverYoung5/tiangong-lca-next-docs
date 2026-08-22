@@ -48,9 +48,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-22
+lastReviewedAt: "2026-08-22"
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for P0C governance rewiring (issue #131): checkPaths, ownership, coverage, routing, and contract rules now cover the Fumadocs path model (app/lib/components/content/public assets/migration) alongside legacy Docusaurus paths until P1/P2 remove them."
+lastReviewedNote: "Reviewed for P1 production skeleton (issue #131): Next.js 16 + Fumadocs 16 + TS7 app landed at repo root (app/lib/components/content); Docusaurus infra (config/sidebars/babel/src) removed; legacy docs/ + i18n/ retained as P2 migration source only; workflows moved to pnpm with EdgeOne-only publishing."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

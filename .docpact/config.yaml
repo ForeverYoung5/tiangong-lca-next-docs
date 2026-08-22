@@ -3,7 +3,7 @@ layout: repo
 lastReviewedAt: "2026-08-22"
 lastReviewedCommit: "e76d5571a6fa495e103576e2a69a9c2407522458"
 reviewNote: "Reviewed for P0C (issue #131): transition-aware routing — new Fumadocs paths added, legacy paths retained until P1/P2."
-lastReviewedNote: "Reviewed for P0C governance rewiring (issue #131): ownership/coverage/routing/rules now cover the Fumadocs path model (app/lib/components/content/public assets/migration scripts/manifests) alongside legacy Docusaurus paths until P1/P2 remove them."
+lastReviewedNote: "Reviewed for P1 skeleton (issue #131): new framework paths now live at repo root; legacy doc paths remain matched solely as P2 migration sources."
 
 catalog:
   repos:

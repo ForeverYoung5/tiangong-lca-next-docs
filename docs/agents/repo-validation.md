@@ -34,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-22
+lastReviewedAt: "2026-08-22"
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for P0C (issue #131): docpact ownership/coverage/routing/rules rewired for the Fumadocs path model (transition-aware with legacy paths); validation command set unchanged until P1 lands the Next.js skeleton."
+lastReviewedNote: "Reviewed for P1 skeleton (issue #131): canonical commands are now pnpm lint / pnpm typecheck / pnpm build (env contract + verify-out included); Docusaurus commands retired."
 related:
   - AGENTS.md
   - .docpact/config.yaml
