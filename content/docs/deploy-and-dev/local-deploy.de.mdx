@@ -1,0 +1,485 @@
+---
+title: "Self-Hosting-Leitfaden"
+---
+
+Dieses Dokument beschreibt die Eigenbereitstellung (Self-Hosting) der Tiangong-LCA-Anwendung mit Docker. Das Setup umfasst sowohl die Tiangong-LCA-Next-Anwendung als auch ein vollständiges Supabase-Backend.
+
+## Voraussetzungen
+
+- [Docker](https://docs.docker.com/get-docker/) und [Docker Compose](https://docs.docker.com/compose/install/)
+- Git
+- Mindestens 4 GB RAM für Docker
+- Mindestens 10 GB freier Festplattenspeicher
+- Grundkenntnisse im Umgang mit Terminal/Kommandozeile
+
+## Installation
+
+### 1. Repository klonen
+
+
+```bash
+TODO: change the repo url to your own
+git clone https://github.com/linancn/tiangong-lca-next.git
+cd tiangong-lca-next
+```
+
+
+### 2. Umgebungsvariablen konfigurieren
+
+
+```bash
+cd docker
+cp .env.example .env
+```
+
+
+Bearbeiten Sie die `.env`-Datei, um Ihre Konfiguration festzulegen:
+
+Wichtige zu konfigurierende Variablen:
+
+- `POSTGRES_PASSWORD`: Legen Sie ein starkes Passwort für Ihre PostgreSQL-Datenbank fest
+- `JWT_SECRET`: Legen Sie ein sicheres JWT-Secret fest (mindestens 32 Zeichen)
+- `ANON_KEY` und `SERVICE_ROLE_KEY`: JWT-Token für die Supabase-Authentifizierung
+- `DASHBOARD_USERNAME` und `DASHBOARD_PASSWORD`: Zugangsdaten für das Supabase-Dashboard
+- `SMTP_*`: Die E-Mail-Konfiguration muss gesetzt werden, um E-Mail-Authentifizierung zu aktivieren (siehe [SMTP-Dienstanweisungen und Empfehlungen](#smtp-service-instructions--recommendations))
+- `POOLER_TENANT_ID`: Die Tenant-ID für den Pooler-Dienst
+
+### 3. Dienste starten
+
+
+```bash
+# Start all services
+docker compose up -d
+```
+
+
+Dadurch werden folgende Dienste gestartet:
+
+- Tiangong-LCA-Next-Anwendung
+- Supabase-Dienste (PostgreSQL, Auth, REST-API, Realtime, Storage usw.)
+- Unterstützungsdienste (Vector, Imgproxy usw.)
+
+### 4. Auf die Anwendung zugreifen
+
+Sobald alle Dienste laufen, können Sie zugreifen auf:
+
+- **Tiangong-LCA-Anwendung**: [http://localhost:8000](http://localhost:8000)
+
+  - To log in to your local Tiangong LCA deployment, you must configure the SMTP service in your `.env` file (see [SMTP Service Instructions & Recommendations](#smtp-service-instructions--recommendations)), and use the SMTP service to send registration and authentication emails.
+
+- **Supabase Studio**: [http://localhost:54321](http://localhost:54321)
+  - Log in using the `DASHBOARD_USERNAME` and `DASHBOARD_PASSWORD` you set in the `.env` file.
+
+    
+```bash
+    DASHBOARD_USERNAME=supabase
+    DASHBOARD_PASSWORD=this_password_is_insecure_and_should_be_updated
+    ```
+
+
+- **Postgres**:
+  - For session-based connections (equivalent to direct Postgres connections):
+
+    
+```bash
+    psql 'postgres://postgres.your-tenant-id:your-super-secret-and-long-postgres-password@localhost:5432/postgres'
+    ```
+
+
+  - For pooled transactional connections:
+
+    
+```bash
+    psql 'postgres://postgres.your-tenant-id:your-super-secret-and-long-postgres-password@localhost:6543/postgres'
+    ```
+
+
+- Weitere Informationen zur Nutzung von Supabase Studio und Postgres finden Sie in der [Supabase-Dokumentation](https://supabase.com/docs/guides/self-hosting/docker#accessing-postgres).
+
+## Docker-Dienstverwaltung
+
+### Starting Services
+
+Es gibt mehrere Möglichkeiten, die Docker-Dienste zu starten:
+
+
+```bash
+# Start all services in detached mode (run in background)
+docker compose up -d
+
+# Start all services and see logs in terminal
+docker compose up
+```
+
+
+### Dienste stoppen
+
+
+```bash
+# Stop all services but keep containers
+docker compose stop
+
+# Stop all services and remove containers
+docker compose down
+
+# Stop all services, remove containers, and delete volumes (WARNING: This will delete all data)
+docker compose down -v
+```
+
+
+### Dienste neu starten
+
+
+```bash
+# Restart all services
+docker compose restart
+```
+
+
+### Dienststatus prüfen
+
+
+```bash
+# List all services and their status
+docker compose ps
+
+# Check detailed status of a specific service
+docker compose ps app
+
+# Check resource usage of all services
+docker stats
+```
+
+
+### Dienste neu aufbauen
+
+Wenn Sie Änderungen am Anwendungscode vorgenommen haben:
+
+
+```bash
+# Rebuild and restart the app service
+docker compose up -d --build app
+
+# Rebuild all services
+docker compose up -d --build
+```
+
+
+## Konfigurationsoptionen
+
+### Frontend-Anpassung (Branding und Layout)
+
+> Konfigurieren Sie helle/dunkle Primärfarben und Logos sowie Layout und mehrsprachige Titel, ohne die Geschäftslogik zu ändern.
+
+#### Teil 1: Branding (Hell/Dunkel-Primärfarbe und Logo)
+
+##### 1. Branding-Umgebungsvariablen konfigurieren
+
+Erstellen Sie `docker/.env` aus `docker/.env.example` und setzen Sie dann:
+
+
+```bash
+APP_LIGHT_PRIMARY='#5C246A'
+APP_DARK_PRIMARY='#9e3ffd'
+APP_LIGHT_LOGO=/logo.svg
+APP_DARK_LOGO=/logo_dark.svg
+```
+
+
+##### 2. Logo-Assets ersetzen (optional)
+
+Behalten Sie die Standardpfade bei, ersetzen Sie diese Dateien direkt:
+
+- `public/logo.svg`
+- `public/logo_dark.svg`
+
+Wünschen Sie andere Pfade oder URLs, setzen Sie `APP_LIGHT_LOGO` und `APP_DARK_LOGO`.
+
+##### Standardwerte und Verhalten
+
+| Modus | navTheme | colorPrimary | logo |
+| --- | --- | --- | --- |
+| Hell | `light` | `#5C246A` | `/logo.svg` |
+| Dunkel | `realDark` | `#9e3ffd` | `/logo_dark.svg` |
+
+---
+
+#### Teil 2: Layout und mehrsprachige Titel (Layout / Titel / Login-Untertitel)
+
+##### 1. Umgebungsvariablen konfigurieren
+
+Setzen Sie in `docker/.env` Folgendes:
+
+
+```bash
+# Layout: side | top | mix
+APP_LAYOUT=mix
+
+# Platform title (header, browser tab, login title)
+APP_TITLE_ZH_CN='天工生命周期数据平台'
+APP_TITLE_EN_US='TianGong LCA Data Platform'
+
+# Login subtitle
+APP_LOGIN_SUBTITLE_ZH_CN='全球最大的开放生命周期数据平台'
+APP_LOGIN_SUBTITLE_EN_US="World's Largest Open LCA Data Platform"
+```
+
+
+##### 2. Standardwerte und Fallback-Regeln
+
+| Konfiguration | Verwendet in | Standard/Fallback |
+| --- | --- | --- |
+| `APP_LAYOUT` | Seitenlayout | `mix` bei fehlendem oder ungültigem Wert |
+| `APP_TITLE_ZH_CN` | Plattformtitel in `zh-CN` | Fallback auf i18n `pages.name` |
+| `APP_TITLE_EN_US` | Plattformtitel in `en-US` | Fallback auf i18n `pages.name` |
+| `APP_LOGIN_SUBTITLE_ZH_CN` | Login-Untertitel in `zh-CN` | Fallback auf i18n `pages.login.subTitle` |
+| `APP_LOGIN_SUBTITLE_EN_US` | Login-Untertitel in `en-US` | Fallback auf i18n `pages.login.subTitle` |
+
+##### 3. Auflösungsreihenfolge
+
+- Plattformtitel: bevorzugt das `APP_TITLE_*` der aktuellen Sprache, sonst `pages.name`.
+- Login-Untertitel: bevorzugt das `APP_LOGIN_SUBTITLE_*` der aktuellen Sprache, sonst `pages.login.subTitle`.
+
+### Edge Functions
+
+Das Setup enthält Unterstützung für Supabase Edge Functions. Funktionen liegen im Verzeichnis `docker/volumes/functions`.
+
+So synchronisieren Sie Edge Functions aus einem externen Repository:
+
+
+```bash
+# Create a temporary directory
+mkdir -p temp_repo
+
+# Clone the edge functions repository
+git clone --depth 1 https://github.com/linancn/tiangong-lca-edge-functions.git temp_repo
+
+# Copy edge functions to the Docker volumes directory
+mkdir -p docker/volumes/functions
+cp -r temp_repo/supabase/functions/* docker/volumes/functions/
+
+# Copy edge functions to the local Supabase directory
+cp -r temp_repo/supabase/functions/* supabase/functions/
+
+# Clean up
+rm -rf temp_repo
+```
+
+
+### SMTP-Dienstanweisungen und Empfehlungen
+
+Die Tiangong-LCA-Anwendung benötigt einen SMTP-Dienst für Registrierungs- und Authentifizierungs-E-Mails. Konfigurieren Sie die SMTP-bezogenen Variablen in Ihrer `.env`-Datei korrekt. Häufige Variablen:
+
+- `SMTP_ADMIN_EMAIL`: E-Mail des SMTP-Administrators
+- `SMTP_HOST`: SMTP-Serveradresse
+- `SMTP_PORT`: SMTP-Port (üblicherweise 465/587/25, je nach Anbieter und Verschlüsselung)
+- `SMTP_USER`: SMTP-Benutzername (üblicherweise die E-Mail-Adresse)
+- `SMTP_PASS`: SMTP-Passwort oder Autorisierungscode
+- `SMTP_SENDER_NAME`: Absendername
+
+#### Empfohlene SMTP-Dienste
+
+Sie können aus folgenden gängigen SMTP-Diensten wählen:
+
+- WeCom-Mail (WeChat Work; empfohlen, unterstützt SSL/TLS, geeignet für Unternehmensnutzer) [WeCom-Mail-SMTP-Konfiguration](https://open.work.weixin.qq.com/help2/pc/19886)
+- QQ-Enterprise-Mail
+- Alibaba-Cloud-Mail
+- 163-Enterprise-Mail
+- SendGrid, Mailgun, Amazon SES (internationale Drittanbieter, geeignet für Massenversand)
+
+#### Beispiel: WeCom-Mail-SMTP-Konfiguration
+
+Für WeCom-Mail sollte Ihre `.env`-Datei so aussehen:
+
+
+```dotenv
+SMTP_ADMIN_EMAIL=your_account@yourcompany.com
+SMTP_HOST=smtp.exmail.qq.com
+SMTP_PORT=465
+SMTP_USER=your_account@yourcompany.com
+SMTP_PASS=your_password_or_auth_code
+SMTP_SENDER_NAME=your_account@yourcompany.com
+```
+
+
+> Hinweis: Einige E-Mail-Dienste (etwa QQ, 163) verlangen die Aktivierung des „SMTP-Dienstes" und einen Autorisierungscode statt des Login-Passworts. Details finden Sie in der offiziellen Dokumentation Ihres E-Mail-Anbieters.
+
+## Wartung
+
+### Aktualisieren
+
+So aktualisieren Sie die Dienste:
+
+
+```bash
+# Pull the latest images
+docker compose pull
+
+# Restart the services
+docker compose up -d
+```
+
+
+### Backup und Wiederherstellung
+
+#### Option A: Volume-Snapshot (empfohlen)
+
+Die folgenden Beispiele setzen die aktuellen Dienstnamen der `docker-compose.yml` voraus (der Datenbank-Container ist `supabase-db`). Führen Sie sie im Verzeichnis `docker/` aus.
+
+Der zuverlässigste Weg ist ein Snapshot des gesamten Verzeichnisses `volumes/` (Postgres-Daten, Supabase-Storage-Dateien, Redis-/sonstige Laufzeitdaten). Migrieren oder zurückrollen Sie durch direktes Ersetzen.
+
+##### 1. Snapshot erstellen
+
+> Stoppen Sie zuerst alle Container, um unreine Daten zu vermeiden.
+
+
+```bash
+cd docker
+docker compose down
+tar -czf tiangong_volumes_snapshot_$(date +%Y-%m-%d_%H-%M-%S).tar.gz volumes
+docker compose up -d
+```
+
+
+##### 2. Snapshot wiederherstellen (gleiche oder neue Maschine)
+
+
+```bash
+cd docker
+docker compose down
+mv volumes volumes.before_restore_$(date +%Y%m%d_%H%M%S)
+tar -xzf tiangong_volumes_snapshot_YYYY-MM-DD_HH-MM-SS.tar.gz
+docker compose up -d
+```
+
+
+> Hinweise:
+>
+> - Stellen Sie sicher, dass die Zielmaschine dieselbe Codeversion und dieselben Secrets in `.env` verwendet (JWT, Supabase-Keys usw.).
+> - Bewahren Sie Snapshots mehrerer Zeitpunkte für sicheres Zurückrollen auf.
+> - Möchten Sie nur Storage wiederherstellen, können Sie `volumes/storage` ersetzen; empfohlen ist jedoch eine vollständige Wiederherstellung, damit Datenbank und Dateien konsistent bleiben.
+
+#### Option B: Logisches PostgreSQL-Backup (pg_dumpall)
+
+##### 1. Backup erstellen
+
+
+```bash
+# Create a backup of the PostgreSQL database
+docker exec -t supabase-db pg_dumpall -c -U postgres > backup_$(date +%Y-%m-%d_%H-%M-%S).sql
+```
+
+
+##### 2. Backup wiederherstellen
+
+
+```bash
+# Stop the services
+docker compose down
+
+# Reset the database volume
+rm -rf ./volumes/db/data
+
+# Start the database service
+docker compose up -d db
+
+# Wait for the database to be ready
+sleep 10
+
+# Restore from backup
+cat your_backup_file.sql | docker exec -i supabase-db psql -U postgres
+
+# Start all services
+docker compose up -d
+```
+
+
+### Umgebung zurücksetzen
+
+Müssen Sie Ihre Umgebung vollständig zurücksetzen:
+
+
+```bash
+# Run the reset script
+./reset.sh
+```
+
+
+Dieses Skript wird:
+
+1. alle Container stoppen und entfernen
+2. alle Datenvolumes löschen
+3. die `.env`-Datei auf Standardwerte zurücksetzen
+
+## Fehlerbehebung
+
+### Häufige Probleme
+
+#### Dienste starten nicht
+
+Prüfen Sie die Protokolle auf Fehler:
+
+
+```bash
+docker compose logs
+```
+
+
+Für protokolle einzelner Dienste:
+
+
+```bash
+docker compose logs app
+docker compose logs db
+```
+
+
+#### Datenbankverbindungsprobleme
+
+Stellen Sie sicher, dass die Datenbank läuft und gesund ist:
+
+
+```bash
+docker compose ps db
+```
+
+
+Prüfen Sie die Datenbankprotokolle:
+
+
+```bash
+docker compose logs db
+```
+
+
+### Protokolle ansehen
+
+
+```bash
+# View all logs
+docker compose logs -f
+
+# View logs for a specific service
+docker compose logs -f app
+docker compose logs -f db
+docker compose logs -f auth
+```
+
+
+## Sicherheitshinweise
+
+Erwägen Sie für Produktivbereitstellungen folgende Sicherheitsmaßnahmen:
+
+1. **Standardzugangsdaten ändern**: Aktualisieren Sie alle Standardpasswörter und -schlüssel in der `.env`-Datei
+2. **HTTPS verwenden**: Konfigurieren Sie einen Reverse-Proxy mit SSL/TLS für sichere Verbindungen
+3. **Zugriff beschränken**: Nutzen Sie Firewall-Regeln, um den Zugriff auf Ihre Dienste zu begrenzen
+4. **Regelmäßige Backups**: Implementieren Sie eine regelmäßige Backup-Strategie
+5. **Updates**: Halten Sie Docker-Images und Hostsystem aktuell
+
+## Weitere Ressourcen
+
+- [TianGong-LCA-Next-Projekt](https://github.com/linancn/tiangong-lca-next)
+- [TianGong-LCA-Plattform-Website](https://lca.tiangong.earth/welcome)
+- [Supabase-Dokumentation](https://supabase.com/docs)
+- [Docker-Dokumentation](https://docs.docker.com/)
+- [PostgreSQL-Dokumentation](https://www.postgresql.org/docs/)
