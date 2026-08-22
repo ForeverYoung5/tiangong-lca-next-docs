@@ -1,0 +1,141 @@
+---
+title: "TianGong LCA MCP (distant)"
+---
+
+Pour les dernières notes de version, exemples d'outils et conseils d'intégration, consultez le
+[TianGong MCP Hub](https://hub.ceeai.net/). Cette page présente l'essentiel de l'utilisation du
+service distant.
+
+## Authentification distante
+
+L'accès distant exige une authentification par jeton Bearer. Il existe actuellement deux méthodes
+principales pour obtenir un jeton Bearer : via le **flux OAuth 2.0** et via la **plateforme de
+données du cycle de vie TianGong**.
+
+### Plateforme Tiangong Life Cycle Data
+
+Connectez-vous à la [plateforme Tiangong Life Cycle Data](https://lca.tiangong.earth). Pour
+l'inscription et la connexion, reportez-vous à la [documentation officielle](https://docs.tiangong.earth/quick-start/first-login).
+Une fois la page ouverte, procédez comme suit.
+
+1. Déployer les informations personnelles : cliquez sur le nom personnel en haut à droite de la barre supérieure pour afficher le menu déroulant.
+2. Sélectionner les informations du compte : choisissez « Account Information » pour accéder à la page du compte.
+3. Générer la clé API : cliquez sur le bouton « Generate API Key » dans la barre latérale droite.
+4. Vérification du mot de passe : saisissez le mot de passe de la plateforme dans la fenêtre pour vérification.
+5. Obtention de la clé : cliquez sur « Generate Key » pour obtenir la clé API.
+
+    ![](/assets/docs/861a547c/11.png)
+
+### Flux OAuth 2.0
+
+1. Accéder à l'interface OAuth : ouvrez l'[interface de démonstration OAuth du serveur MCP TianGong](https://lcamcp.tiangong.earth/oauth/demo).
+2. Lancer l'autorisation : faites défiler la page, trouvez le bouton « Start OAuth Flow » et cliquez pour commencer.
+3. Connexion : connectez-vous avec le nom d'utilisateur et le mot de passe enregistrés sur la plateforme.
+4. Obtenir le code d'autorisation : après connexion réussie, récupérez l'Authorization Code et copiez-le.
+5. Fermer la fenêtre : cliquez sur « close windows » pour revenir à l'interface principale.
+6. Échanger le code : collez le code copié dans « Exchange Authorization Code » en bas de page, cliquez sur « Exchange for tokens » pour obtenir l'Access token et le Refresh token.
+    ![](/assets/docs/47aed1f7/10.png)
+
+## Appel du serveur MCP
+
+### Inspector
+
+Lancement de l'Inspector MCP : saisissez la commande suivante dans le terminal ; elle redirige
+automatiquement vers la page Inspector.
+
+```bash
+npx @modelcontextprotocol/inspector
+```
+
+1. Configurer le transport : sur la page Inspector, déroulez la liste et sélectionnez « Streamable HTTP ».
+2. Configurer l'URL : renseignez l'adresse du serveur MCP dans le champ URL : [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiangong.earth/mcp).
+3. Configurer le token : saisissez l'Access token ou la clé API obtenus ci-dessus dans le champ de token.
+4. Se connecter : cliquez sur « Connect ».
+
+    **Une fois la page connectée**, la démonstration suivante prend la recherche de processus comme exemple.
+
+5. Choisir l'opération : cliquez sur « Tools » dans la barre d'outils supérieure.
+6. Dérouler la liste : cliquez sur « List Tools » pour afficher la liste d'outils.
+7. Choisir l'outil de recherche : cliquez sur « Search_processes_Tool » dans la liste.
+8. Configurer la recherche : saisissez les mots-clés de processus souhaités dans le champ correspondant.
+9. Exécuter l'outil : cliquez sur « Run Tool » pour exécuter l'outil et consulter les résultats.
+
+    ![](/assets/docs/51ae3aa4/12.png)
+
+Si le service MCP distant a activé la recherche de jeux GLAD, la liste d'outils inclut aussi
+`Search_GLAD_Datasets_Tool` et `Get_GLAD_Dataset_Tool`. En usage distant, vous ne configurez que le
+jeton Bearer MCP TianGong décrit sur cette page ; la clé API GLAD est configurée côté serveur
+distant. Si les outils n'apparaissent pas, le service distant n'a généralement pas activé
+l'intégration GLAD.
+
+Les outils de requête GLAD servent à retrouver des métadonnées et descriptions d'accès de jeux ACV
+externes. Ils n'écrivent pas automatiquement de données externes dans TianGong LCA. Pour migrer ou
+importer des données, utilisez le workflow TIDAS ZIP ou la chaîne de conversion appropriée.
+
+### Cherry Studio
+
+Sur le [site officiel de Cherry Studio](https://www.cherry-ai.com/download), suivez la
+[documentation officielle](https://docs.cherry-ai.com/pre-basic/installation) pour télécharger le
+logiciel sur votre machine locale et l'ouvrir.
+
+1. Ouvrir les paramètres : cliquez sur le bouton des paramètres dans la barre latérale.
+2. Ouvrir les paramètres MCP : sélectionnez « MCP Settings » pour accéder à la configuration.
+3. Ajouter un serveur MCP : cliquez sur « Add Server » en haut à droite.
+
+    ![](/assets/docs/b4702b56/6.png)
+
+4. Renseigner les informations : configurez les informations de base du serveur MCP distant (XXX dans Headers est l'Access token ou la clé API obtenue).
+
+    >Type : Streamable HTTP
+    >URL : [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiangong.earth/mcp)
+    >Headers :
+    >Content-Type=application/json
+    >Authorization=Bearer XXX
+
+5. Enregistrer : cliquez sur « Save » pour enregistrer tous les réglages.
+6. Démarrer la connexion MCP : cliquez sur le bouton de démarrage pour ouvrir la connexion au serveur MCP.
+
+    ![](/assets/docs/6aff5542/7.png)
+
+7. Créer un chat : cliquez sur le bouton supérieur de la barre latérale pour revenir à la page principale. Configurez le modèle (voir la [documentation officielle](https://docs.cherry-ai.com/pre-basic/providers)) et créez une conversation.
+8. Configurer la connexion : cliquez sur « MCP Settings » sous la zone de conversation.
+9. Sélectionner le service MCP : choisissez le serveur MCP souhaité dans les options proposées.
+
+    ![](/assets/docs/b56ae1db/15.png)
+
+### Dify
+
+1. Accéder aux outils : cliquez sur « Tools » dans la barre supérieure pour accéder à la gestion des outils.
+1. Rechercher l'outil MCP : saisissez le mot-clé « MCP » dans la barre de recherche.
+1. Télécharger depuis le marché : trouvez et téléchargez l'outil MCP dans le Marketplace (l'outil surligné est celui recommandé).
+1. Exécuter l'installation : cliquez sur « Install » pour terminer l'installation.
+
+    ![](/assets/docs/3b6ff4be/16.png)
+1. Ouvrir le panneau de configuration : une fois l'outil installé, cliquez sur le panneau de configuration qui s'affiche.
+1. Accéder à l'autorisation : cliquez sur « Authorization » pour configurer l'autorisation MCP.
+1. Ouvrir la fenêtre de configuration : cliquez pour ouvrir la fenêtre de configuration détaillée du MCP.
+1. Renseigner les informations de base : remplissez les informations de connexion nécessaires (exemple ci-dessous).
+
+    ```json
+    {
+        "tiangong_lca_remote": {
+        "transport": "streamable_http",
+        "url": "https://lcamcp.tiangong.earth/mcp",
+        "headers": {
+            "Accept": "application/json,text/event-stream",
+            "Authorization": "Bearer XXX"
+        },
+        "timeout": 50,
+        "sse_read_timeout": 50
+        }
+    }
+    ```
+
+1. Enregistrer la configuration : cliquez sur « Save » après avoir rempli le formulaire.
+
+    ![](/assets/docs/ef53e152/17.png)
+
+1. Construire le workflow : créez dans Dify des workflows ou des agents qui appellent le MCP.
+    >
+    >1. Pour créer des agents et workflows, voir la [documentation officielle](https://docs.dify.ai/zh-hans/guides/application-orchestrate/creating-an-application).
+    >2. Pour les applications MCP, voir la [documentation officielle](https://docs.dify.ai/zh-hans/guides/tools/mcp)
