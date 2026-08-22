@@ -1,0 +1,89 @@
+---
+title: "Überblick Datenplattform"
+---
+
+Nutzen Sie diese Seite, um Umfang, Berechtigungen und typische Nutzung jedes Datenmoduls zu verstehen,
+bevor Sie mit Erstellung oder Prüfung beginnen.
+
+> Neu auf der Plattform? Absolvieren Sie zuerst die [Erste Anmeldung](/de/docs/quick-start/first-login/)
+> und sehen Sie sich die [Demonstrationen](/de/docs/quick-start/demonstrations/) an.
+
+## Zentrale Terminologie
+
+- **Modell**: Ein Netzwerk von Prozessen, das ein Produktsystem beschreibt; kann wie ein Prozess referenziert werden.
+- **Prozess**: Ein Unit-Prozess-Datensatz mit Eingaben, Ausgaben, Modellierungs- und Verwaltungsinformationen.
+- **Fluss**: Material-, Energie- oder ökonomischer Fluss, verknüpft mit Einheitengruppen und Flusseigenschaften.
+- **Einheitengruppe**: Eine Menge verwandter Einheiten mit definierten Umrechnungsfaktoren.
+- **Quellen / Kontakte**: Referenzdokumente und verantwortliche Personen, die Datensätzen zugeordnet sind.
+
+Diese Elemente erscheinen in jedem Modul, aber die Berechtigungen unterscheiden sich.
+
+## Modulübersicht
+
+| Modul | Primäre Zielgruppe | Hauptzweck | Berechtigungen | Typische Aktionen |
+| --- | --- | --- | --- | --- |
+| **Offene Daten** | Alle Plattformnutzer | Geprüfte Datensätze durchsuchen und referenzieren | Nur Lesen | Suchen, filtern, kopieren, exportieren |
+| **Kommerzielle Daten** | Nutzer mit Bedarf an Drittanbieter-Datensätzen | Metadaten entdecken und Anbieter kontaktieren | Metadaten lesen | Durchsuchen, Kontaktinformationen kopieren |
+| **Meine Daten** | Autoren und Pflegeverantwortliche | Datensätze erstellen, bearbeiten, importieren und versionieren | Lesen/Schreiben; Einheitengruppen und Flusseigenschaften sind schreibgeschützte Basiskonfiguration | Erstellen, importieren, bearbeiten, beitragen, zur Prüfung einreichen; Einheitengruppen und Flusseigenschaften ansehen, durchsuchen und exportieren |
+| **Teamdaten** | Teammitglieder | Gemeinsame Assets teilen und wiederverwenden | Nur Lesen | Entdecken, referenzieren, nach Meine Daten kopieren |
+
+> Offene Daten und Kommerzielle Daten können nicht direkt bearbeitet werden. Kopieren Sie sie nach
+> [Meine Daten](/de/docs/user-guide/create-my-data/), bevor Sie Änderungen vornehmen.
+>
+> Datenlisten und Suchergebnisse zeigen standardmäßig die **zuletzt sichtbare Version** je Datensatz-ID.
+> Nutzen Sie **Versionen ansehen** in einer Zeile, wenn Sie die Historie einsehen möchten.
+>
+> Haben Sie eine Datensatz-ID kopiert, aktivieren Sie **Referenzsuche** in den Listen für Kontakte,
+> Quellen, Einheitengruppen, Flusseigenschaften, Flüsse, Prozesse oder Modelle und suchen Sie mit der
+> vollständigen Datensatz-UUID. Angezeigt werden Datensätze im aktuellen Datenraum, die diese ID
+> referenzieren – unter denselben Quellen-, Team- und Berechtigungsbeschränkungen, mit bis zu den
+> ersten 50 Referenzsuche-Ergebnissen.
+
+## Moduldetails
+
+### Offene Daten
+
+- Geprüfte, standardisierte Lebenszyklus-Datensätze, kuratiert vom TianGong-Team.
+- Ideal für Forschung, Referenzierung und Vergleich.
+- Unterstützt Suche, Filter, Kopieren und Export; Listenergebnisse zeigen die zuletzt veröffentlichte Version je Datensatz.
+
+### Kommerzielle Daten
+
+- Zeigt beschreibende Metadaten kommerzieller Datensätze.
+> Nutzen Sie die aufgeführten Kontakte, um vollständige Datensätze von Anbietern zu beziehen.
+- Geeignet für Organisationen mit Bedarf an lizenzierten oder Premium-Inhalten.
+
+### Meine Daten
+
+- Ihr zentraler Autoren-Arbeitsbereich für Modelle, Prozesse, Flüsse, Quellen, Kontakte und zugehörige Datensätze. Einheitengruppen und Flusseigenschaften sind Basiskonfiguration: Normale Nutzer können sie in **Meine Daten** ansehen, durchsuchen, per Referenzsuche finden, alle Versionen einsehen und exportieren. Erstellen, Importieren, Kopieren, Version-Anlegen, Bearbeiten, Löschen und Beitragsaktionen werden üblicherweise von Systemadministratoren durchgeführt. Wenden Sie sich an einen Administrator, wenn diese Datensätze ergänzt werden sollen.
+- Unterstützt Entwürfe, Import/Export, Versionierung und Team-Beiträge; normale Listen bevorzugen die zuletzt sichtbare Version. Beim Anlegen einer neuen Version aus **Alle Versionen** behält die Plattform die Datensatz-ID bei und erzeugt automatisch die nächste Versionsnummer.
+- Detaillierte Workflows: [Meine Daten erstellen](/de/docs/user-guide/create-my-data/) und [Datennutzung](/de/docs/user-guide/data-use/).
+- ⚠️ Bevorzugen Sie die Standard-Einheitengruppen und Flusseigenschaften der Plattform, um LCIA-Kompatibilitätsprobleme zu vermeiden.
+
+### Teamdaten
+
+- Zeigt Datensätze, die innerhalb Ihrer Teams geteilt wurden.
+- Kopieren Sie Elemente nach „Meine Daten", wenn Sie sie bearbeiten möchten, und teilen Sie Updates zurück ins Team.
+- Arbeitet Hand in Hand mit dem Rollenmanagement aus [Teamfunktionen](/de/docs/user-guide/team-function/).
+
+## Berechtigungsmatrix
+
+| Modul | Vollständige Daten ansehen | Metadaten ansehen | Erstellen | Bearbeiten | Löschen | Kopieren |
+| --- | --- | --- | --- | --- | --- | --- |
+| Offene Daten | ✅ | | | | | ✅ |
+| Kommerzielle Daten | | ✅ | | | | ✅ |
+| Meine Daten | ✅ | ✅ | ✅* | ✅ | ✅ | ✅* |
+| Teamdaten | ✅ | | | | | ✅ |
+
+`*` In **Meine Daten** können normale Nutzer Einheitengruppen und Flusseigenschaften ansehen, durchsuchen,
+per Referenzsuche finden, in allen Versionen einsehen und exportieren. Erstellen, Importieren, Kopieren,
+Version-Anlegen, Bearbeiten, Löschen, Beitrags- und ähnliche Pflege-Einstiegspunkte stehen ausschließlich
+Systemadministratoren zur Verfügung. Zeigt die Seite „Einheitengruppen ergänzen? Wenden Sie sich an einen
+Administrator." oder „Flusseigenschaften ergänzen? Wenden Sie sich an einen Administrator.", bitten Sie
+zuerst einen Administrator, die Basiskonfiguration zu pflegen.
+
+Nächste Schritte: Fahren Sie mit [Meine Daten erstellen](/de/docs/user-guide/create-my-data/) fort oder
+springen Sie zu [Teamfunktionen](/de/docs/user-guide/team-function/) für Hinweise zur Zusammenarbeit.
+
+Eine konsolidierte Übersicht zu Datenräumen, Teamrollen, Prüfrollen und Systemrollen finden Sie unter
+[Berechtigungen und Datenräume](./permissions-and-data-scopes/).
