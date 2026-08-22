@@ -1,0 +1,122 @@
+[
+  {
+    "oldSlug": "/overview",
+    "newBase": "overview",
+    "labelZh": "概览",
+    "titleZh": "平台概览",
+    "descriptionZh": "了解 TianGong LCA 的定位、核心价值以及相关的资源与支持。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "Overview",
+    "titleEn": "Platform Overview",
+    "descriptionEn": "Learn TianGong LCA's positioning, core values, and available resources and support."
+  },
+  {
+    "oldSlug": "/quick-start",
+    "newBase": "quick-start",
+    "labelZh": "快速开始",
+    "titleZh": "快速开始",
+    "descriptionZh": "完成注册、首次登录与核心操作演示，快速熟悉平台。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "Quick Start",
+    "titleEn": "Quick Start",
+    "descriptionEn": "Complete registration, first login and core operation demos to get started quickly."
+  },
+  {
+    "oldSlug": "/user-guide",
+    "newBase": "user-guide",
+    "labelZh": "用户指南",
+    "titleZh": "用户指南",
+    "descriptionZh": "深入了解平台按键说明、数据管理与协作功能的使用方式。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "User Guide",
+    "titleEn": "User Guide",
+    "descriptionEn": "Deep dive into key functions, data management, and collaboration features."
+  },
+  {
+    "oldSlug": "/data-collection",
+    "newBase": "data-collection",
+    "labelZh": "数据收集",
+    "titleZh": "数据收集",
+    "descriptionZh": "掌握数据收集规范，并通过案例了解建模与质量控制流程。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "Data Collection",
+    "titleEn": "Data Collection",
+    "descriptionEn": "Master data collection standards and learn modelling and quality-control workflows via case studies."
+  },
+  {
+    "oldSlug": "/data-collection/case-introduction",
+    "newBase": "data-collection/case-introduction",
+    "labelZh": "案例介绍",
+    "titleZh": "数据收集案例",
+    "descriptionZh": "基于实际调研与文献的案例解析常见数据处理方法。",
+    "depth": 1,
+    "parent": "/data-collection",
+    "labelEn": "Case Introduction",
+    "titleEn": "Case Introduction",
+    "descriptionEn": "Case-based analyses of data processing and modelling methods."
+  },
+  {
+    "oldSlug": "/integration",
+    "newBase": "integration",
+    "labelZh": "集成与扩展",
+    "titleZh": "集成与扩展",
+    "descriptionZh": "连接 MCP 等外部工具，扩展 TianGong LCA 的工作流能力。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "Integration & Extension",
+    "titleEn": "Integration & Extension",
+    "descriptionEn": "Connect MCP and other external tools to extend TianGong LCA workflows."
+  },
+  {
+    "oldSlug": "/docs/openapi",
+    "newBase": "openapi",
+    "labelZh": "OpenAPI",
+    "titleZh": "OpenAPI",
+    "descriptionZh": "查看 TianGong LCA 对外开放接口的调用约定与示例。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "OpenAPI",
+    "titleEn": "OpenAPI",
+    "descriptionEn": ""
+  },
+  {
+    "oldSlug": "/deploy-and-dev",
+    "newBase": "deploy-and-dev",
+    "labelZh": "部署与开发",
+    "titleZh": "部署与开发",
+    "descriptionZh": "获取私有化部署步骤与开发环境配置指南。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "Deployment & Development",
+    "titleEn": "Deployment & Development",
+    "descriptionEn": "Get private-deployment steps and development environment setup guidance."
+  },
+  {
+    "oldSlug": "/faq",
+    "newBase": "faq",
+    "labelZh": "常见问题",
+    "titleZh": "常见问题",
+    "descriptionZh": "解答模型构建、数据引用、认证等常见疑问。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "FAQ",
+    "titleEn": "FAQ",
+    "descriptionEn": "Answers to common questions about modelling, data usage, and authentication."
+  },
+  {
+    "oldSlug": "/changelog",
+    "newBase": "changelog",
+    "labelZh": "更新日志",
+    "titleZh": "更新日志",
+    "descriptionZh": "追踪 TianGong LCA 新功能与迭代内容。",
+    "depth": 0,
+    "parent": null,
+    "labelEn": "Changelog",
+    "titleEn": "Changelog",
+    "descriptionEn": "Track new features and iterations of TianGong LCA."
+  }
+]

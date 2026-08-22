@@ -1,0 +1,961 @@
+{
+  "htmlRoutes": [
+    {
+      "route": "/",
+      "locale": null,
+      "pageType": "language-entry",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/",
+      "locale": "zh",
+      "pageType": "locale-home",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/",
+      "locale": "en",
+      "pageType": "locale-home",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/de/",
+      "locale": "de",
+      "pageType": "locale-home",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/fr/",
+      "locale": "fr",
+      "pageType": "locale-home",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/",
+      "locale": "zh",
+      "pageType": "docs-index",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/",
+      "locale": "en",
+      "pageType": "docs-index",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/de/docs/",
+      "locale": "de",
+      "pageType": "docs-index",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/fr/docs/",
+      "locale": "fr",
+      "pageType": "docs-index",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/overview/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/quick-start/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/user-guide/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/data-collection/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/data-collection/case-introduction/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/integration/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/openapi/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/deploy-and-dev/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/faq/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/changelog/",
+      "locale": "zh",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/overview/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/quick-start/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/user-guide/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/data-collection/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/data-collection/case-introduction/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/integration/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/openapi/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/deploy-and-dev/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/faq/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/en/docs/changelog/",
+      "locale": "en",
+      "pageType": "category-index",
+      "sitemap": true,
+      "llms": false,
+      "search": false,
+      "context7": false
+    },
+    {
+      "route": "/zh/docs/overview/intro/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/overview/resources-and-support/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/quick-start/first-login/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/quick-start/demonstrations/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/overview/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/key-functions-introduction/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/notifications/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/tidas-zip-workflows/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/data/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/create-my-data/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/data-use/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/search/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/data-review/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/process-analysis/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/lcia/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/permissions-and-data-scopes/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/account-profile/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/team-function/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/user-guide/system-management/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/data-collection/data-collection-instructions/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/data-collection/case-introduction/data-evaluation/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/data-collection/case-introduction/model-building/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/data-collection/case-introduction/unit-process-construction/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/integration/cli/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/integration/mcp-lca-local/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/integration/mcp-lca-remote/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/integration/mcp-kb-remote/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/openapi/tidas-package-import/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/deploy-and-dev/local-deploy/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/deploy-and-dev/dev-env/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/deploy-and-dev/docs-product-sync/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/faq/system-models/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/faq/sources-and-citation/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/faq/commercial-database/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/faq/email-verification/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/faq/explanation/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/zh/docs/changelog/function-update/",
+      "locale": "zh",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/overview/intro/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/overview/resources-and-support/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/quick-start/first-login/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/quick-start/demonstrations/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/overview/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/key-functions-introduction/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/notifications/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/tidas-zip-workflows/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/data/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/create-my-data/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/data-use/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/search/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/data-review/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/process-analysis/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/lcia/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/permissions-and-data-scopes/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/account-profile/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/team-function/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/user-guide/system-management/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/data-collection/data-collection-instructions/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/data-collection/case-introduction/data-evaluation/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/data-collection/case-introduction/model-building/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/data-collection/case-introduction/unit-process-construction/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/integration/cli/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/integration/mcp-lca-local/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/integration/mcp-lca-remote/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/integration/mcp-kb-remote/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/openapi/tidas-package-import/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/deploy-and-dev/local-deploy/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/deploy-and-dev/dev-env/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/deploy-and-dev/docs-product-sync/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/faq/system-models/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/faq/sources-and-citation/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/faq/commercial-database/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/faq/email-verification/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/faq/explanation/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    },
+    {
+      "route": "/en/docs/changelog/function-update/",
+      "locale": "en",
+      "pageType": "doc",
+      "sitemap": true,
+      "llms": true,
+      "search": true,
+      "context7": true
+    }
+  ],
+  "systemRoutes": [
+    {
+      "route": "/llms.txt",
+      "pageType": "system-llms"
+    },
+    {
+      "route": "/robots.txt",
+      "pageType": "system-robots"
+    },
+    {
+      "route": "/sitemap.xml",
+      "pageType": "system-sitemap"
+    },
+    {
+      "route": "/search-records.json",
+      "pageType": "system-search-records"
+    },
+    {
+      "route": "/api/search",
+      "pageType": "system-search-index"
+    },
+    {
+      "route": "/og/[...slug]",
+      "pageType": "system-og"
+    },
+    {
+      "route": "/404",
+      "pageType": "system-404"
+    }
+  ]
+}

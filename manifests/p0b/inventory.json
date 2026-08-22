@@ -1,0 +1,1401 @@
+{
+  "summary": {
+    "generatedFrom": {
+      "commit": null,
+      "baselineRequirement": "e44e9b4d12197665265a88713f9ca7a5d52264f5"
+    },
+    "counts": {
+      "publicZhDocs": 37,
+      "publicEnDocs": 37,
+      "missingEnMirror": [],
+      "orphanZhPagesNotInSidebar": [],
+      "categories": 10,
+      "mediaSourceFiles": 255,
+      "mediaUniqueByHash": 111,
+      "orphanMedia": [
+        {
+          "target": "/assets/docs/5c1b5e81/1.mp4",
+          "sources": [
+            "docs/MCP/img/1.mp4",
+            "i18n/en/docusaurus-plugin-content-docs/current/MCP/img/1.mp4"
+          ]
+        },
+        {
+          "target": "/assets/docs/bb075c0a/13.png",
+          "sources": [
+            "docs/MCP/img/13.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/MCP/img/13.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/8e1dfb77/2.mp4",
+          "sources": [
+            "docs/MCP/img/2.mp4",
+            "i18n/en/docusaurus-plugin-content-docs/current/MCP/img/2.mp4"
+          ]
+        },
+        {
+          "target": "/assets/docs/a1683353/20.png",
+          "sources": [
+            "docs/MCP/img/20.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/MCP/img/20.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/17f61675/3.mp4",
+          "sources": [
+            "docs/MCP/img/3.mp4",
+            "i18n/en/docusaurus-plugin-content-docs/current/MCP/img/3.mp4"
+          ]
+        },
+        {
+          "target": "/assets/docs/33471e9f/5.png",
+          "sources": [
+            "docs/MCP/img/5.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/MCP/img/5.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/76efd996/export.png",
+          "sources": [
+            "docs/changelog/img/export.png",
+            "docs/user-guide/img/export copy.png",
+            "docs/user-guide/img/export.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/export copy.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/export.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/26082934/co2-natural-gas.png",
+          "sources": [
+            "docs/data-collection/case-introduction/img/co2-natural gas.png",
+            "docs/user-guide/img/co2-natural gas.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/data-collection/case-introduction/img/co2-natural gas.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/co2-natural gas.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/f5787631/email-ch.png",
+          "sources": [
+            "docs/faq/img/email-ch.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/faq/img/email-ch.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/0f823be0/add-source.png",
+          "sources": [
+            "docs/user-guide/img/add-source.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/add-source.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/cfeb708f/join-or-create-team.png",
+          "sources": [
+            "docs/user-guide/img/join-or-create-team.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/join-or-create-team.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/e5b5eddc/main-page-buttons.png",
+          "sources": [
+            "docs/user-guide/img/main-page-buttons.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/main-page-buttons.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/1adc1eca/process-chart.png",
+          "sources": [
+            "docs/user-guide/img/process-chart.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/process-chart.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/74f36bf9/search-team.png",
+          "sources": [
+            "docs/user-guide/img/search-team.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/search-team.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/9d425a7a/team-information.png",
+          "sources": [
+            "docs/user-guide/img/team-information.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/team-information.png"
+          ]
+        },
+        {
+          "target": "/assets/docs/6268503b/team-role.png",
+          "sources": [
+            "docs/user-guide/img/team-role.png",
+            "i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/team-role.png"
+          ]
+        }
+      ],
+      "oldPageUrlsInDeny": 98,
+      "oldMediaUrlsInDeny": 98,
+      "anchorAliases": 5,
+      "newHtmlRoutes": 103,
+      "llmsTxtEntries": 74,
+      "llmsTargetEntries": 76
+    }
+  },
+  "pages": [
+    {
+      "id": "intro",
+      "newPath": "overview/intro",
+      "zh": {
+        "sourcePath": "docs/intro.md",
+        "sha256": "90e8bdf81c14cbd114213bc291bcacd387c5c0bf8a5e5ec503ee5cdb2f86f425",
+        "frontmatter": {
+          "id": "intro",
+          "slug": "/",
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/intro.md",
+        "sha256": "c0a4bf602c9d6f0a7cedda447ee86b38df1512090ec055c60ca122c0f6c35471",
+        "frontmatter": {
+          "id": "intro",
+          "slug": "/",
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "resources-and-support",
+      "newPath": "overview/resources-and-support",
+      "zh": {
+        "sourcePath": "docs/resources-and-support.md",
+        "sha256": "48a22446a0801ec6d56ea33d62654e78fad43a6b973b673656f8a6cb4bba88f7",
+        "frontmatter": {
+          "sidebar_position": "8"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/resources-and-support.md",
+        "sha256": "c7f52a7c64685c02a09a52c9e59a6037afe7f2d6db8bcdf2f05d136a6785a0a1",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "quick-start/first-login",
+      "newPath": "quick-start/first-login",
+      "zh": {
+        "sourcePath": "docs/quick-start/first-login.md",
+        "sha256": "5e0fdfc3019f89cbbeb90c6ec31066ebc3b8e67d4b0bd79f2654b243d81f1845",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/signup.png",
+          "./img/login.png",
+          "./img/forgotpwd.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/quick-start/first-login.md",
+        "sha256": "bf38b649df1153669feab68c7be3b974e62315592c9c6e63089f07a02630d536",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/signup.png",
+          "./img/login.png",
+          "./img/forgotpwd.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "quick-start/demonstrations",
+      "newPath": "quick-start/demonstrations",
+      "zh": {
+        "sourcePath": "docs/quick-start/demonstrations.md",
+        "sha256": "293cd4abba424709303f4592ad3df457d7ae8799c6840fe8dcd7c5909a6fa21b",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": true,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/quick-start/demonstrations.md",
+        "sha256": "50c4ffd1a7de60f465fb80923adde3279b6294ed1d1ef19caee11c721c6b7a53",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": true,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/overview",
+      "newPath": "user-guide/overview",
+      "zh": {
+        "sourcePath": "docs/user-guide/overview.md",
+        "sha256": "245827641d688de2197da54d4850120a83088cf6a3f1a0b14b04febfb0fd0fdc",
+        "frontmatter": {
+          "title": "用户指南导航",
+          "description": "帮助不同角色快速定位到 TianGong LCA 用户文档中的操作指南与最佳实践。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/overview.md",
+        "sha256": "4ec70c205afa8cc06aeac3fe58a1ca5da30017ea4f0d084062f3666a74f97a4b",
+        "frontmatter": {
+          "title": "User Guide Map",
+          "description": "Orient different roles to the right TianGong LCA tutorials and best practices."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/key-functions-introduction",
+      "newPath": "user-guide/key-functions-introduction",
+      "zh": {
+        "sourcePath": "docs/user-guide/key-functions-introduction.md",
+        "sha256": "14e331212844920ea56105303a4cb3aa4b7893b2ebbd64e15558e95948b9c05a",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/top-bar-controls-current.png",
+          "img/page-button-1.png",
+          "img/filter-column-data.png",
+          "img/page-button-2.png",
+          "img/page-button-3.png",
+          "img/import.png",
+          "img/members-message-actions.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/key-functions-introduction.md",
+        "sha256": "03f11b865e255961120b02c5baddac2c5f760b7983c120991ced9edef162612c",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/top-bar-controls-current.png",
+          "img/page-button-1.png",
+          "img/filter-column-data.png",
+          "img/page-button-2.png",
+          "img/page-button-3.png",
+          "img/import.png",
+          "img/members-message-actions.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/notifications",
+      "newPath": "user-guide/notifications",
+      "zh": {
+        "sourcePath": "docs/user-guide/notifications.md",
+        "sha256": "1fa46ab625606aa080aa0c82354c3e9fb2c9333384f0cac82ab5f9800e5859a0",
+        "frontmatter": {},
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/notification.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/notifications.md",
+        "sha256": "53a482ee86c9a0382a34250884d6a173c6ab0313a2661e3b6875b3902ca3eff4",
+        "frontmatter": {},
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/notification.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/tidas-zip-workflows",
+      "newPath": "user-guide/tidas-zip-workflows",
+      "zh": {
+        "sourcePath": "docs/user-guide/tidas-zip-workflows.md",
+        "sha256": "edb6e18d84e5f9700a7c168adadad65c82c1e628332f3c341862cfbf96d8a83f",
+        "frontmatter": {
+          "description": "说明顶部全局入口中的 TIDAS ZIP 导入、导出，以及任务中心中的异步任务处理方式。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/tidas-zip-import-modal.png",
+          "img/tidas-zip-export-modal.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/tidas-zip-workflows.md",
+        "sha256": "d037b78acf7c5e3a9de0a93c1328c354f43fa1ed3293c69711cda4efb82abc26",
+        "frontmatter": {
+          "description": "Explain the top-bar TIDAS ZIP workflows and how asynchronous jobs appear in the shared task center."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/tidas-zip-import-modal.png",
+          "img/tidas-zip-export-modal.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/data",
+      "newPath": "user-guide/data",
+      "zh": {
+        "sourcePath": "docs/user-guide/data.md",
+        "sha256": "1106b2cc45ac089bccf1c12723b11d65fdf23d939e3925d854924589bf9abcb6",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/data.md",
+        "sha256": "8846f0a198f518e8c5fc4538f530410f9d524a44ed7e468808d023d63a102106",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/create-my-data",
+      "newPath": "user-guide/create-my-data",
+      "zh": {
+        "sourcePath": "docs/user-guide/create-my-data.md",
+        "sha256": "3b6745e4594c59658773d9aea074a7c511b95b5d81df0a36a8361c01db58dac4",
+        "frontmatter": {
+          "sidebar_position": "4",
+          "title": "数据新建",
+          "description": "按照准备→建模→验证的流程，在“我的数据”模块中创建过程、模型、流及配套信息。"
+        },
+        "explicitHeadingIds": [
+          "create-process",
+          "create-model",
+          "create-flow",
+          "create-contact",
+          "create-source"
+        ],
+        "mediaRefs": [
+          "./img/language.png",
+          "./img/choose.png",
+          "./img/process1.png",
+          "./img/process2.png",
+          "./img/process3.png",
+          "./img/process4.png",
+          "./img/model1.png",
+          "./img/model2.png",
+          "./img/model3.png",
+          "./img/model4.png",
+          "./img/model5.png",
+          "./img/model6.png",
+          "./img/flow1.png",
+          "./img/flow2.png",
+          "./img/flow3.png",
+          "./img/unitgroup.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/create-my-data.md",
+        "sha256": "98b0a2eeedf40f759e897b602b583bd836dbc2e8d13f1dc946352f82c9b647ca",
+        "frontmatter": {
+          "sidebar_position": "4",
+          "title": "Create My Data",
+          "description": "Follow the Prepare → Build → Data validation flow to create processes, models, flows, and supporting references in “My Data”."
+        },
+        "explicitHeadingIds": [
+          "create-process",
+          "create-model",
+          "create-flow",
+          "create-contact",
+          "create-source"
+        ],
+        "mediaRefs": [
+          "./img/language.png",
+          "./img/choose.png",
+          "./img/process1.png",
+          "./img/process2.png",
+          "./img/process3.png",
+          "./img/process4.png",
+          "./img/model1.png",
+          "./img/model2.png",
+          "./img/model3.png",
+          "./img/model4.png",
+          "./img/model5.png",
+          "./img/model6.png",
+          "./img/flow1.png",
+          "./img/flow2.png",
+          "./img/flow3.png",
+          "./img/unitgroup.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/data-use",
+      "newPath": "user-guide/data-use",
+      "zh": {
+        "sourcePath": "docs/user-guide/data-use.md",
+        "sha256": "ee2fea1889f21e36a985f95a6d135934e15a8f17ef6b9a80747b4312150b2ae9",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/open1.png",
+          "./img/choose.png",
+          "./img/open2.png",
+          "./img/open3.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/data-use.md",
+        "sha256": "90a3e5fa682edcff60910f5e552b00bb6a32485ed61e77da31db5d76ef939d8b",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/open1.png",
+          "./img/choose.png",
+          "./img/open2.png",
+          "./img/open3.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/search",
+      "newPath": "user-guide/search",
+      "zh": {
+        "sourcePath": "docs/user-guide/search.md",
+        "sha256": "4e119a0237eafba9dff5f90a6572e7800640e4f6195c67402b5e3bcf71d2a785",
+        "frontmatter": {
+          "sidebar_position": "6"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/search.png",
+          "./img/input-with-coal.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/search.md",
+        "sha256": "e144a9461db7951296076107db951a647fcc0a6def7c61c3615977563f3ec8e3",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/search.png",
+          "./img/input-with-coal.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/data-review",
+      "newPath": "user-guide/data-review",
+      "zh": {
+        "sourcePath": "docs/user-guide/data-review.md",
+        "sha256": "9c607f82d670aeb46678d1092c7398e66f074136bc857541a864017b04c9ce11",
+        "frontmatter": {
+          "sidebar_position": "7"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/data-check.png",
+          "img/data-problem.png",
+          "img/review-workspace-member-tabs.png",
+          "img/review-status.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/data-review.md",
+        "sha256": "3675a8fc05481e9442b47f4f9bd9f21047a1a4ab6e048498adee8b2f21d68985",
+        "frontmatter": {
+          "sidebar_position": "7"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/data-check.png",
+          "img/data-problem.png",
+          "img/review-workspace-member-tabs.png",
+          "img/review-status.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/process-analysis",
+      "newPath": "user-guide/process-analysis",
+      "zh": {
+        "sourcePath": "docs/user-guide/process-analysis.md",
+        "sha256": "59bda915b20ae3c3b0873ceb49be18ddfe04b4de1a109b340b5fa44dd46c41f9",
+        "frontmatter": {
+          "description": "说明“我的数据 → 过程”中的 LCA Analysis 工作区，包括过程画像、影响比较、分组结果和贡献路径分析。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/process-analysis-workspace.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/process-analysis.md",
+        "sha256": "bcc0e0bca47d73c8ff161e333afb0de05ddb5d97fe41c483c17e1d6c258203d1",
+        "frontmatter": {
+          "description": "Explain the LCA Analysis workspace in My Data → Processes, including profile, comparison, grouped results, and contribution-path analysis."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/process-analysis-workspace.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/lcia",
+      "newPath": "user-guide/lcia",
+      "zh": {
+        "sourcePath": "docs/user-guide/lcia.md",
+        "sha256": "8bcdf0904f1890be5743484604138dec6f4434fb3270ea9b7c48dea36a166f22",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/lcia-calculation.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/lcia.md",
+        "sha256": "a477753e2a4386ef8288da7864f556fa35f7f135d4d4b7cf316b2ce63ca30949",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/lcia-calculation.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/permissions-and-data-scopes",
+      "newPath": "user-guide/permissions-and-data-scopes",
+      "zh": {
+        "sourcePath": "docs/user-guide/permissions-and-data-scopes.md",
+        "sha256": "48603dca1434a19188886cfc32e4e24d9d77ac72e99cd5ce9ba8f678d0d25e5e",
+        "frontmatter": {
+          "description": "汇总 Open Data、Commercial Data、My Data、Team Data，以及审核角色和系统角色的主要权限边界。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/permissions-and-data-scopes.md",
+        "sha256": "c59ae6c5dcfd8fc775c7a271a73488066c8b5c78ef514418704424942a1ecaf2",
+        "frontmatter": {
+          "description": "Consolidate the main access boundaries for Open Data, Commercial Data, My Data, Team Data, review roles, and system roles."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/account-profile",
+      "newPath": "user-guide/account-profile",
+      "zh": {
+        "sourcePath": "docs/user-guide/account-profile.md",
+        "sha256": "400523902f503f6dce6ae8bf0e7e0350a2b5e29a8960f10b4ad015fad24f12a2",
+        "frontmatter": {
+          "sidebar_position": "2"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/account-profile-1.png",
+          "./img/basic-information.png",
+          "./img/change-password.png",
+          "./img/change-email.png",
+          "./img/account-api-key-tab.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/account-profile.md",
+        "sha256": "1e75d52a14a281bdc936daf10a30eb23e17e4ac69881b5fd9e58943768a0939e",
+        "frontmatter": {
+          "sidebar_position": "2"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/account-profile-1.png",
+          "./img/basic-information.png",
+          "./img/change-password.png",
+          "./img/change-email.png",
+          "./img/account-api-key-tab.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/team-function",
+      "newPath": "user-guide/team-function",
+      "zh": {
+        "sourcePath": "docs/user-guide/team-function.md",
+        "sha256": "3329add1b1acf3b096b8a50f1d3e2aa751c6edcede71652e3acd615a5c7d0b96",
+        "frontmatter": {
+          "sidebar_position": "7"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/my-team.png",
+          "img/create-team.png",
+          "img/join-team.png",
+          "img/add-member.png",
+          "img/team-member-email.png",
+          "img/team-invitation.png",
+          "img/team-member-data.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/team-function.md",
+        "sha256": "0f38b33c51b8cfc67e92077f6513974e9052794f1d0e617f4be41942ecec3bee",
+        "frontmatter": {
+          "sidebar_position": "7",
+          "title": "Team Functions"
+        },
+        "explicitHeadingIds": [
+          "permission-matrix-and-common-actions"
+        ],
+        "mediaRefs": [
+          "img/my-team.png",
+          "img/create-team.png",
+          "img/join-team.png",
+          "img/add-member.png",
+          "img/team-member-email.png",
+          "img/team-invitation.png",
+          "img/team-member-data.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "user-guide/system-management",
+      "newPath": "user-guide/system-management",
+      "zh": {
+        "sourcePath": "docs/user-guide/system-management.md",
+        "sha256": "052f1539a6dafb92c716fd6dd7a8d3c14538a60b0eb095ff6ea4c5dbe05478e5",
+        "frontmatter": {
+          "description": "说明系统角色可见的系统管理工作区，包括展示管理与成员管理。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/system-management-tabs.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/user-guide/system-management.md",
+        "sha256": "44a66b900acf729d89d9b14c605b44bcd1a5a4c2dfacb86ca80a4058b547ca1a",
+        "frontmatter": {
+          "description": "Explain the system-role workspace for homepage team display management and system member management."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/system-management-tabs.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "data-collection/data-collection-instructions",
+      "newPath": "data-collection/data-collection-instructions",
+      "zh": {
+        "sourcePath": "docs/data-collection/data-collection-instructions.md",
+        "sha256": "6da0e10a34580e00e8d379a6b7d64ec37de6c3dcc8e064549a9d2e90e0a06816",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/data-collection/data-collection-instructions.md",
+        "sha256": "da8f4cc0a2a8bd2dcf00afb9b9b6183685dcd60278c8173e6e239a135ae0537c",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "data-collection/case-introduction/data-evaluation",
+      "newPath": "data-collection/case-introduction/data-evaluation",
+      "zh": {
+        "sourcePath": "docs/data-collection/case-introduction/data-evaluation.md",
+        "sha256": "ea6835e2f73558a90728e221d4e9da79dfa3d3dbcd15c19ef9c9ca95d9d7c2e0",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/system-boundary-diagram.png",
+          "./img/data-list.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/data-collection/case-introduction/data-evaluation.md",
+        "sha256": "167fac4a1f42ab39583d90f2d7c316e36739a515a9f41acfa47106cd00a53e76",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/system-boundary-diagram.png",
+          "./img/data-list.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "data-collection/case-introduction/model-building",
+      "newPath": "data-collection/case-introduction/model-building",
+      "zh": {
+        "sourcePath": "docs/data-collection/case-introduction/model-building.md",
+        "sha256": "996471aac599e8a5816b1bfc6434903513988903640c492b5ab7ebecd9388041",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/view-model.png",
+          "./img/pts-description.png",
+          "./img/carbon-dioxide-capture-model.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/data-collection/case-introduction/model-building.md",
+        "sha256": "7b7ff60149bc50ced59310b99ae9b0f777c09e07a42b4f6229605903700f5595",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/view-model.png",
+          "./img/pts-description.png",
+          "./img/carbon-dioxide-capture-model.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "data-collection/case-introduction/unit-process-construction",
+      "newPath": "data-collection/case-introduction/unit-process-construction",
+      "zh": {
+        "sourcePath": "docs/data-collection/case-introduction/unit-process-construction.md",
+        "sha256": "044cb4d19c03752bbcd822d8cf6c5440eaf793997703a0ffd68940bfc7af403f",
+        "frontmatter": {
+          "sidebar_position": "2"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/dataset-description.png",
+          "./img/process-chart.png",
+          "./img/reference-citation.png",
+          "./img/data-set-generator.png",
+          "./img/data-entry-personnel.png",
+          "./img/data-set-version.png",
+          "./img/input-output-1.png",
+          "./img/input-2.png",
+          "./img/output-2.png",
+          "./img/water-usage-note.png",
+          "./img/input-3.png",
+          "./img/output-3.png",
+          "./img/wastewater-note.png",
+          "./img/flow-name.png",
+          "./img/flow-information.png",
+          "./img/flow-modelling.png",
+          "./img/flow-administration.png",
+          "./img/flow-property.png",
+          "./img/co2-natural%20gas.png",
+          "./img/natural-gas-note.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/data-collection/case-introduction/unit-process-construction.md",
+        "sha256": "fe71273d7a20f72d478107db6350352aeb347bff8c5492a373c60ae835a75dd1",
+        "frontmatter": {
+          "sidebar_position": "2"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/dataset-description.png",
+          "./img/process-chart.png",
+          "./img/reference-citation.png",
+          "./img/data-set-generator.png",
+          "./img/data-entry-personnel.png",
+          "./img/data-set-version.png",
+          "./img/input-output-1.png",
+          "./img/input-2.png",
+          "./img/output-2.png",
+          "./img/water-usage-note.png",
+          "./img/input-3.png",
+          "./img/output-3.png",
+          "./img/wastewater-note.png",
+          "./img/flow-name.png",
+          "./img/flow-information.png",
+          "./img/flow-modelling.png",
+          "./img/flow-administration.png",
+          "./img/flow-property.png",
+          "./img/co2-natural%20gas.png",
+          "./img/natural-gas-note.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "integration/cli",
+      "newPath": "integration/cli",
+      "zh": {
+        "sourcePath": "docs/integration/cli.md",
+        "sha256": "90d586b382f9eb7702946d935d0c28d6f0eec1529b6f8784ba75a894379bfc59",
+        "frontmatter": {},
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": true
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/integration/cli.md",
+        "sha256": "b7bac64b364905c415ac4885dc5ce1506ae1a1e166c758ffb041623a4bb7c9f1",
+        "frontmatter": {},
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": true
+      }
+    },
+    {
+      "id": "MCP/lca_local",
+      "newPath": "integration/mcp-lca-local",
+      "zh": {
+        "sourcePath": "docs/MCP/lca_local.md",
+        "sha256": "0d4d3da77406a7b8801cd1b6f66d6da9f3e37fd365d9892525099a76822b7712",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/1.png",
+          "img/2.png",
+          "img/4.png",
+          "img/6.png",
+          "img/7.png",
+          "img/9.png",
+          "img/16.png",
+          "img/25.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/MCP/lca_local.md",
+        "sha256": "d5a158c8633f7c80d7500ca6fee20a174e18db6b4531ad773271af4fb572b9b0",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/1.png",
+          "img/2.png",
+          "img/4.png",
+          "img/6.png",
+          "img/7.png",
+          "img/9.png",
+          "img/16.png",
+          "img/25.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "MCP/lca_remote",
+      "newPath": "integration/mcp-lca-remote",
+      "zh": {
+        "sourcePath": "docs/MCP/lca_remote.md",
+        "sha256": "ce389d7b3bef8f956da6f376614b036ce4e36f686697ea1974c139e4070983de",
+        "frontmatter": {
+          "sidebar_position": "4"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/11.png",
+          "img/10.png",
+          "img/12.png",
+          "img/6.png",
+          "img/7.png",
+          "img/15.png",
+          "img/16.png",
+          "img/17.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/MCP/lca_remote.md",
+        "sha256": "f9bce21184bc041a0685b7181109f00f66cb44253172997c72cfb4b5a2beca18",
+        "frontmatter": {
+          "sidebar_position": "4"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/11.png",
+          "img/10.png",
+          "img/12.png",
+          "img/6.png",
+          "img/7.png",
+          "img/15.png",
+          "img/16.png",
+          "img/17.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "MCP/KB_remote",
+      "newPath": "integration/mcp-kb-remote",
+      "zh": {
+        "sourcePath": "docs/MCP/KB_remote.md",
+        "sha256": "1dedcfebc2117e23184d89e0cfda971003aea868db7c65ce2fe5789fcddf66db",
+        "frontmatter": {
+          "sidebar_position": "2"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/19.png",
+          "img/6.png",
+          "img/22.png",
+          "img/23.png",
+          "img/16.png",
+          "img/24.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/MCP/KB_remote.md",
+        "sha256": "1b3ece315374fad3b0145d185e6ec7495a555b5feb78f840ecfcf2585f746722",
+        "frontmatter": {
+          "sidebar_position": "2"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "img/19.png",
+          "img/6.png",
+          "img/22.png",
+          "img/23.png",
+          "img/16.png",
+          "img/24.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "openapi/tidas-package-import",
+      "newPath": "openapi/tidas-package-import",
+      "zh": {
+        "sourcePath": "docs/openapi/tidas-package-import.md",
+        "sha256": "33b066d4741c40e2a473c9a80883c7ff271a3cedf9967ba7ed86ae328849ebaa",
+        "frontmatter": {
+          "id": "tidas-package-import",
+          "title": "TIDAS 数据包导入 API",
+          "slug": "/docs/openapi/tidas-package-import",
+          "description": "使用 API Key 调用 TianGong LCA 的 TIDAS 数据包导入流程。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/openapi/tidas-package-import.md",
+        "sha256": "55047776727f9372f0451d56bbd03619401b6bc937ec9e2d37ae83962ce00672",
+        "frontmatter": {
+          "id": "tidas-package-import",
+          "title": "TIDAS Package Import API",
+          "slug": "/docs/openapi/tidas-package-import",
+          "description": "Import TIDAS ZIP packages through the TianGong LCA API with API key authentication."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "deploy/local-deploy",
+      "newPath": "deploy-and-dev/local-deploy",
+      "zh": {
+        "sourcePath": "docs/deploy/local-deploy.md",
+        "sha256": "ae3a1d6fb9027db7fcead0dd0ff28ac9120d54ad4d65b1b2015e0884bb387a15",
+        "frontmatter": {},
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/deploy/local-deploy.md",
+        "sha256": "21269c0d56d0bfb5727f1a37b074e7a4408bcf4104c5dc03588b2c54dbd83e85",
+        "frontmatter": {},
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "dev/dev-env",
+      "newPath": "deploy-and-dev/dev-env",
+      "zh": {
+        "sourcePath": "docs/dev/dev-env.md",
+        "sha256": "2db83c6a014bb0034bb15b26afe9ca7d934775bcac3ab17240f3601c5c3d19c8",
+        "frontmatter": {
+          "sidebar_position": "1",
+          "title": "开发环境配置",
+          "docType": "guide",
+          "scope": "repo",
+          "status": "active",
+          "authoritative": "true",
+          "owner": "next-docs",
+          "language": "zh-CN",
+          "whenToUse": "",
+          "whenToUpdate": "",
+          "checkPaths": "",
+          "lastReviewedAt": "2026-08-20",
+          "lastReviewedCommit": "e76d5571a6fa495e103576e2a69a9c2407522458",
+          "lastReviewedNote": "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current for TIDAS import API docs.",
+          "related": ""
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md",
+        "sha256": "61d74d374c9f6c56c6543e51c0c826fcc3d62a6b00708ef8b0f1bc7a09553f7b",
+        "frontmatter": {
+          "sidebar_position": "1",
+          "title": "Developer Environment",
+          "docType": "guide",
+          "scope": "repo",
+          "status": "active",
+          "authoritative": "true",
+          "owner": "next-docs",
+          "language": "en",
+          "whenToUse": "",
+          "whenToUpdate": "",
+          "checkPaths": "",
+          "lastReviewedAt": "2026-08-20",
+          "lastReviewedCommit": "e76d5571a6fa495e103576e2a69a9c2407522458",
+          "lastReviewedNote": "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: lockfile-free installation, docs:llms, publication-scope, screenshot, lint, typecheck, and build commands remain current for TIDAS import API docs.",
+          "related": ""
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "dev/docs-product-sync",
+      "newPath": "deploy-and-dev/docs-product-sync",
+      "zh": {
+        "sourcePath": "docs/dev/docs-product-sync.md",
+        "sha256": "66c3699cd94ee36b8ff7b594cc05d7934cf6246ed3844a77c351fdfcab866bb0",
+        "frontmatter": {
+          "description": "为维护者说明 docs 站点如何与 tiangong-lca-next 产品仓保持同步，包括来源边界、验证方式和截图规范。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/dev/docs-product-sync.md",
+        "sha256": "b2c62c62718e74a911e35fd9f76a4410b434068ac9e4401a8a68ccf44b792b10",
+        "frontmatter": {
+          "description": "Explain how maintainers should keep the docs site aligned with the tiangong-lca-next product repo, including source boundaries, verification workflow, and screenshot rules."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "faq/system-models",
+      "newPath": "faq/system-models",
+      "zh": {
+        "sourcePath": "docs/faq/system-models.md",
+        "sha256": "6414bf138c45ed89d85151aca61b2cbcc97836fc90bf3e21f9c65af0a262bee9",
+        "frontmatter": {
+          "title": "系统建模",
+          "description": "回答在 TianGong LCA 中构建模型时与其他 LCA 软件的差异及注意事项。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/faq/system-models.md",
+        "sha256": "07a9322615a3346430b07997fe8669706a78aec89396020afd5efb93c0b391ab",
+        "frontmatter": {
+          "title": "System Modelling",
+          "description": "Answers about building models in TianGong LCA and how it compares with other LCA tools."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "faq/sources-and-citation",
+      "newPath": "faq/sources-and-citation",
+      "zh": {
+        "sourcePath": "docs/faq/sources-and-citation.md",
+        "sha256": "4bf84b44cc3c37bb208257c50aa33decc621d369ad05997e1470477e1687a283",
+        "frontmatter": {
+          "title": "数据来源与引用",
+          "description": "规范 TianGong LCA 数据的引用方式，提升溯源透明度。"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/faq/sources-and-citation.md",
+        "sha256": "3ae66d1029a62b8c8baab52115797ea13a9d89ccb1491464fd4cfaa3f1616a0b",
+        "frontmatter": {
+          "title": "Sources & Citation",
+          "description": "Ensure TianGong LCA datasets remain traceable and properly referenced."
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "faq/commercial-database",
+      "newPath": "faq/commercial-database",
+      "zh": {
+        "sourcePath": "docs/faq/commercial-database.md",
+        "sha256": "5363ef251fcffea7300aeb61342ec64a62fbfec4a90e8f5eb3dbe6012e90d047",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/faq/commercial-database.md",
+        "sha256": "2d51a9978a4dabc9b5a4a5068dafee568a28af8d8be15a3a2862f8f5ae060aec",
+        "frontmatter": {
+          "sidebar_position": "5"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "faq/email-verification",
+      "newPath": "faq/email-verification",
+      "zh": {
+        "sourcePath": "docs/faq/email-verification.md",
+        "sha256": "0fa6396d5f678424ba374ffb6f733b6d8f76a3d20d10f6e225457c5741d26a8e",
+        "frontmatter": {
+          "sidebar_position": "4"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/email-en.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/faq/email-verification.md",
+        "sha256": "a749915cc5b8788e13b90c558637d280e5c663e7d435236aaf251e174e7fa8d1",
+        "frontmatter": {
+          "sidebar_position": "4"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [
+          "./img/email-en.png"
+        ],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "faq/explanation",
+      "newPath": "faq/explanation",
+      "zh": {
+        "sourcePath": "docs/faq/explanation.md",
+        "sha256": "4ea3ae87811c774c23dffdb6cea5504b6a459b1f5d15881cc71015d98787124d",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/faq/explanation.md",
+        "sha256": "a11fc243da768e4d7ec89ea5d1b78bc206a3c3e83f55c728e18bcc0a0e4836ed",
+        "frontmatter": {
+          "sidebar_position": "3"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    },
+    {
+      "id": "changelog/function-update",
+      "newPath": "changelog/function-update",
+      "zh": {
+        "sourcePath": "docs/changelog/function-update.md",
+        "sha256": "1469d346e9aa356fa647e2404a94a4f867bd55fef4121adf5bc5360d58809a0e",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      },
+      "en": {
+        "sourcePath": "i18n/en/docusaurus-plugin-content-docs/current/changelog/function-update.md",
+        "sha256": "b3deda3ccc836ae76cb315e2df84fa5b817c90e1bc317f35be36e0295f2f6798",
+        "frontmatter": {
+          "sidebar_position": "1"
+        },
+        "explicitHeadingIds": [],
+        "mediaRefs": [],
+        "hasIframe": false,
+        "hasJsx": false
+      }
+    }
+  ]
+}
