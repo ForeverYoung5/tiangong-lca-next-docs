@@ -1,0 +1,192 @@
+---
+title: "Guide de synchronisation docs/produit"
+description: "Explique comment les mainteneurs gardent le site de documentation aligné avec le dépôt produit tiangong-lca-next — frontières des sources, workflow de vérification et règles de captures."
+---
+
+Cette page s'adresse aux mainteneurs et contributeurs travaillant sur `tiangong-lca-next-docs` en
+parallèle du dépôt produit voisin `../tiangong-lca-next`.
+
+## Frontières des sources
+
+Maintenez ces trois sources de contenu clairement séparées :
+
+### 1. Source chinoise publique
+
+- `docs/**`
+
+C'est la source primaire de la documentation chinoise publiée.
+
+### 2. Miroir anglais
+
+- `i18n/en/docusaurus-plugin-content-docs/current/**`
+
+Ce n'est pas une sortie de traduction automatiquement correcte, mais un miroir anglais maintenu à
+la main. Quand la source chinoise change, le miroir anglais devrait être mis à jour dans le même
+changement.
+
+### 3. Comportement réel du produit
+
+- `../tiangong-lca-next`
+
+Dès qu'il s'agit de points d'entrée, libellés de boutons, visibilité selon le rôle, périmètres de
+données, routes cachées ou flux d'import/export, traitez le dépôt produit comme la source de
+vérité — pas l'ancienne documentation.
+
+## Cible de vérification par défaut
+
+Cible de vérification en ligne par défaut :
+
+- `https://lca.tiangong.earth/`
+
+`../tiangong-lca-next` est actuellement publié directement depuis les commits de `main` ; le travail
+documentaire ne nécessite donc normalement pas d'étape séparée « la production est-elle cohérente
+avec `main` ? ». L'approche par défaut :
+
+- traiter l'implémentation de la branche `main` dans `../tiangong-lca-next` comme source de vérité
+- ouvrir le système en ligne uniquement pour des captures, pour confirmer une UI selon le rôle ou
+  cachée, ou en cas de soupçon de dérive de déploiement, de problème de cache ou d'incident en ligne
+
+## Secrets et variables de vérification
+
+Le fichier `.env` à la racine du dépôt de documentation peut contenir :
+
+- `TIANGONG_LCA_USERNAME`
+- `TIANGONG_LCA_PASSWORD`
+- `TIANGONG_LCA_API_KEY`
+
+Deux règles seulement comptent :
+
+- Ne noter que les noms de variables, jamais les valeurs
+- Ne jamais placer de valeurs réelles dans la documentation, les notes de capture, les messages de commit ou les résumés
+
+Le compte de capture docs-impact n'utilise pas le `.env` de ce dépôt. Le `.env.local` du
+root-workspace sur la machine fixe ne stocke que le pointeur `DOCS_SCREENSHOT_ENV_FILE`. Les
+véritables variables du compte restent dans un fichier de secret hors dépôt avec des permissions
+d'au plus `0600`, et seul le processus enfant de capture le lit. Ne copiez jamais ce fichier dans
+un worktree de docs, de source ou de produit.
+
+## Workflow de maintenance recommandé
+
+### 1. Partir du backlog
+
+Consultez le fichier racine :
+
+- `TODO.docs-system-gaps.md`
+
+Si vous découvrez une nouvelle dérive, enregistrez-la là avant ou pendant la même session d'édition.
+
+### 2. Vérifier le produit avant d'éditer la documentation
+
+Points chauds habituels du produit :
+
+- `config/routes.ts`
+- `src/app.tsx`
+- `src/components/RightContent/**`
+- `src/components/ImportTidasPackage/**`
+- `src/components/ExportTidasPackage/**`
+- `src/components/LcaTaskCenter/**`
+- `src/pages/Account/**`
+- `src/pages/Processes/Analysis/**`
+- `src/pages/Review/**`
+- `src/pages/ManageSystem/**`
+
+Ce sont les endroits où la dérive documentaire apparaît en premier.
+
+### 3. Mettre à jour chinois et anglais ensemble
+
+Pour le contenu public, l'attente par défaut est de mettre à jour les deux en une passe :
+
+- Chinois `docs/**`
+- Anglais `i18n/en/**`
+
+Ne mettez jamais à jour un seul côté en laissant l'autre pour plus tard.
+
+### 4. Mettre à jour les chemins de découverte quand la navigation change
+
+Si vous ajoutez, renommez ou réorganisez des pages, vérifiez aussi :
+
+- `sidebars.ts`
+- `docs/intro.md`
+- `docs/user-guide/overview.md`
+- les pages miroirs anglaises correspondantes
+
+### 5. Mettre à jour le TODO après chaque écart résolu
+
+`TODO.docs-system-gaps.md` est un registre de maintenance à long terme, pas une liste ponctuelle.
+
+Quand un écart est résolu, rescopé ou clarifié, mettez à jour le fichier dans la même session.
+
+## Politique de captures et Playwright
+
+Quand des captures doivent être ajoutées ou rafraîchies :
+
+- Préférez Playwright pour la connexion et la capture plutôt qu'une description de mémoire
+- Gardez le style de capture aligné sur le reste du projet
+- Sauf si la capture vise précisément à expliquer des différences de langue, utilisez l'**UI anglaise** pour les captures, même si la page documentaire environnante est chinoise
+- Si seule une zone locale est nécessaire, n'imposez pas une composition complète en `1920x1080`. Préférez un cadrage plus serré avec une densité de capture et une qualité de sortie supérieures, cohérentes avec les captures existantes du dépôt
+- Ajoutez des **cadres rouges ou des annotations** quand un point d'entrée ou un champ doit être souligné
+
+Règles d'annotation :
+
+- Préférez des **annotations numérotées** plutôt que d'écrire des phrases entières directement sur la capture.
+- Expliquez les numéros dans le texte Markdown environnant plutôt que de placer de longues phrases chinoises ou anglaises dans l'image.
+- Gardez l'UI réelle lisible. Libellés, badges et cadres ne doivent pas couvrir l'icône, le champ, le bouton ou le texte que le lecteur doit inspecter.
+- Placez les badges numérotés hors de la zone cible autant que possible. Utilisez des lignes de rappel, un padding supplémentaire ou un cadrage plus large plutôt que d'empiler des libellés sur l'UI.
+- Si une zone est trop dense, élargissez le cadrage, augmentez l'échelle ou scindez l'explication en plusieurs captures ciblées plutôt que de forcer des annotations qui se chevauchent.
+- Si du texte doit apparaître dans l'image, gardez-le court, propre et visuellement secondaire par rapport à l'UI réelle.
+- Pour les captures locales, préférez une densité d'échantillonnage supérieure comme `deviceScaleFactor >= 2`, et gardez les métadonnées de densité PNG alignées avec les actifs existants du dépôt (beaucoup de captures actuelles sont autour de 144 DPI).
+
+Règles de placement et de composition des actifs :
+
+- Gardez les images près de leur sous-arborescence de page. Une image pour `docs/user-guide/example.md` va sous `docs/user-guide/img/`, avec son miroir anglais sous `i18n/en/docusaurus-plugin-content-docs/current/user-guide/img/`.
+- Les captures ordinaires d'UI anglaise utilisent le même nom de fichier et des octets identiques dans les deux arborescences. Des binaires différents ne sont autorisés que pour une comparaison de langue explicitement documentée.
+- Un remplacement conserve par défaut les dimensions en pixels, le ratio, le cadrage et le focus visuel précédents. Une nouvelle capture nomme une référence de composition existante de même classe.
+- Associez les ratios selon l'objet de la composition plutôt que de forcer chaque capture en 16:9. Plein écran, fenêtres modales hautes ou compactes, bandeaux de contrôle, onglets et espaces ultralarges conservent leurs proportions établies.
+- Placez l'image près du paragraphe, de la liste ou de l'étape concerné. Une prose valide d'un côté suffit quand elle explique la fonction, l'étape, l'état ou le résultat ; des formules fixes « voir ci-dessous », des légendes bilatérales et des listes numérotées ne sont pas obligatoires.
+
+Objectif documentaire et arbitrage des captures :
+
+- Ce site s'adresse avant tout à des **lecteurs humains** ; les captures devraient être ajoutées quand elles améliorent matériellement la compréhension des points d'entrée, de la disposition des contrôles ou des flux UI multi-étapes.
+- N'imposez pas de captures sur chaque page. Préférez un plus petit nombre d'images à forte valeur à une documentation répétitive saturée d'images.
+- Si le texte accompagné de libellés d'UI exacts est déjà assez clair, une documentation textuelle seule est acceptable.
+- Priorisez les captures pour :
+  - les contrôles globaux de la barre supérieure ou les points d'entrée cachés
+  - les workflows modaux multi-étapes
+  - les espaces de travail dépendant du rôle
+  - les pages dont les captures existantes sont clairement périmées
+
+Les captures sont particulièrement utiles quand :
+
+- les contrôles de la barre supérieure se déplacent ou changent significativement
+- des points d'entrée cachés comme la revue ou l'administration système sont difficiles à expliquer par le seul texte
+- les captures existantes sont clairement obsolètes
+
+Quand la décision visuelle est `optional` et qu'un texte exact suffit, un problème d'outillage peut
+être enregistré avec `visual action: none`. Quand le visuel est `required`, ne le rétrogradez pas
+en simple suivi. Un PR Draft sans capture n'est autorisé qu'après une authentification réussie, un
+refus d'autorisation prouvé et une validation d'accès docs-impact racine réussie ; le même PR doit
+obtenir la capture avant de passer en prêt.
+
+## Vérification minimale
+
+Après des changements de documentation publique, exécutez au minimum :
+
+```bash
+npm run lint
+npm run build
+```
+
+Quand des captures sont ajoutées, remplacées ou réutilisées, exécutez aussi :
+
+```bash
+npm run docs:screenshots:check -- \
+  --manifest /tmp/docs-impact-visual-result.json \
+  --diff-file /tmp/docs-impact-visual.name-status
+```
+
+Si la synchronisation modifie aussi l'architecture d'information, inspectez manuellement le site
+local et vérifiez :
+
+- les nouvelles pages apparaissent dans la barre latérale
+- les liens chinois et anglais correspondent toujours
+- les pages de navigation d'intro et du guide utilisateur exposent le nouveau contenu
