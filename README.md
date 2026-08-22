@@ -37,8 +37,6 @@ related:
   - docs/agents/repo-validation.md
 ---
 
-# TianGong LCA Documentation
-
 Public documentation for the [TianGong LCA](https://lca.tiangong.earth) platform, built with
 [Next.js 16](https://nextjs.org) + [Fumadocs 16](https://fumadocs.dev) + TypeScript 7 (native),
 exported as a fully static site and published by [EdgeOne Makers](https://pages.edgeone.ai)
@@ -97,7 +95,7 @@ for the migration program and the publication state machine.
 
 ## Repository layout
 
-```
+```text
 app/            Next.js App Router（[lang] 四语言路由 + 系统端点）
 components/     UI components（search dialog、VideoEmbed、MDX components）
 content/docs/   文档源（dot-locale 契约）
