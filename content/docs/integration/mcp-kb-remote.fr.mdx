@@ -1,0 +1,106 @@
+---
+title: "MCP de la base de connaissances TianGong"
+---
+
+Consultez le [TianGong MCP Hub](https://hub.ceeai.net/) pour les guides, scripts et FAQ à jour sur
+les outils de la base de connaissances. L'essentiel est résumé ci-dessous.
+
+## Authentification distante
+
+### Clé API
+
+Pour obtenir une clé API, veuillez contacter l'équipe Environmental Data Science and Systems
+Engineering de l'Université Tsinghua.
+
+## Appel du serveur MCP
+
+### Inspector
+
+Lancement de l'Inspector MCP : saisissez la commande suivante dans le terminal ; elle redirige
+automatiquement vers la page Inspector.
+
+```bash
+npx @modelcontextprotocol/inspector
+```
+
+1. Configurer le transport : sur la page Inspector, déroulez la liste et sélectionnez Streamable HTTP.
+2. Configurer l'URL : renseignez le port du serveur MCP [https://mcp.tiangong.earth/mcp](https://mcp.tiangong.earth/mcp).
+3. Configurer le token : saisissez la clé API obtenue ci-dessus dans le champ de token correspondant.
+4. Se connecter : cliquez sur « Connect » pour établir la connexion.
+
+    **Une fois la page connectée**, la démonstration suivante prend la recherche comme exemple.
+5. Choisir l'opération : cliquez sur « Tools » dans la barre d'outils supérieure.
+6. Dérouler la liste : cliquez sur « List Tools » pour afficher la liste.
+7. Choisir l'outil : cliquez sur « Search_Sci_Tool » dans la liste.
+8. Configurer la recherche : saisissez les informations de recherche dans le champ correspondant et configurez le contenu à récupérer.
+9. Exécuter l'outil : cliquez sur « Run Tool » pour exécuter l'outil et afficher le résultat.
+
+    ![](/assets/docs/3740cf2c/19.png)
+
+### Cherry Studio
+
+Sur le [site officiel de Cherry Studio](https://www.cherry-ai.com/download), suivez la
+[documentation officielle](https://docs.cherry-ai.com/pre-basic/installation) pour télécharger le
+logiciel sur votre machine locale et l'ouvrir.
+
+1. Ouvrir les paramètres : cliquez sur le bouton des paramètres dans la barre latérale.
+2. Ouvrir les paramètres MCP : sélectionnez « MCP Settings » pour accéder à la configuration MCP.
+3. Ajouter un serveur MCP : cliquez sur « Add Server » en haut à droite pour accéder à l'écran de configuration.
+
+    ![](/assets/docs/b4702b56/6.png)
+
+4. Renseigner les informations : configurez les informations de base du serveur MCP local (XXX dans Headers est la clé API obtenue).
+
+    >Type : Streamable HTTP
+    >URL : [https://mcp.tiangong.earth/mcp](https://mcp.tiangong.earth/mcp)
+    >Headers :
+    >Content-Type=application/json
+    >Authorization=Bearer XXX
+
+5. Enregistrer : cliquez sur « Save ».
+6. Démarrer la connexion MCP : cliquez pour activer le serveur MCP.
+
+    ![](/assets/docs/a1eeb268/22.png)
+
+7. Ouvrir le chat : cliquez sur le bouton supérieur de la barre latérale pour revenir à la page principale. Configurez le modèle (voir la [documentation officielle](https://docs.cherry-ai.com/pre-basic/providers)) et créez une conversation.
+8. Connecter le serveur : cliquez sur les paramètres MCP sous la conversation.
+9. Sélectionner le MCP : choisissez le MCP souhaité.
+
+    ![](/assets/docs/a64a0c3e/23.png)
+
+### Dify
+
+1. Accéder aux outils : cliquez sur « Tools » dans la barre supérieure pour accéder à la gestion des outils.
+1. Rechercher l'outil MCP : saisissez le mot-clé « MCP » dans la barre de recherche.
+1. Télécharger depuis le marché : trouvez et téléchargez l'outil MCP dans le Marketplace (l'outil surligné est celui recommandé).
+1. Exécuter l'installation : cliquez sur « Install » pour terminer l'installation de l'outil MCP.
+
+    ![](/assets/docs/3b6ff4be/16.png)
+1. Ouvrir le panneau de configuration : une fois l'outil installé, cliquez sur le panneau de configuration qui s'affiche.
+1. Accéder à l'autorisation : cliquez sur « Authorization » pour configurer l'autorisation MCP.
+1. Ouvrir la fenêtre de configuration : cliquez pour ouvrir la fenêtre de configuration détaillée du MCP.
+1. Renseigner les informations de base : remplissez les informations de connexion nécessaires (exemple ci-dessous).
+
+    ```json
+    {
+        "tiangong_kb_remote": {
+        "transport": "streamable_http",
+        "url": "https://mcp.tiangong.earth/mcp  ",
+        "headers": {
+            "Accept": "application/json,text/event-stream",
+            "Authorization": "Bearer XXX"
+        },
+        "timeout": 50,
+        "sse_read_timeout": 50
+        }
+    }
+    ```
+
+1. Enregistrer la configuration : cliquez sur « Save » après avoir rempli le formulaire.
+
+    ![](/assets/docs/1dc3da1f/24.png)
+
+1. Construire le workflow : créez dans Dify des workflows ou des agents qui appellent le MCP.
+    >
+    >1. Pour créer des agents et workflows, voir la [documentation officielle](https://docs.dify.ai/zh-hans/guides/application-orchestrate/creating-an-application).
+    >2. Pour les applications MCP, voir la [documentation officielle](https://docs.dify.ai/zh-hans/guides/tools/mcp)
