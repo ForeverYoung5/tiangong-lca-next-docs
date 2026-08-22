@@ -1,0 +1,38 @@
+---
+title: "Recherche de données"
+---
+
+La plateforme TianGong LCA offre de puissantes capacités de recherche plein texte, avec une recherche multi-champs sur tous les modules de données. Cette fonctionnalité confère à la plateforme TianGong LCA un avantage significatif en matière de récupération de données par rapport aux autres plateformes d'ACV.
+
+## Fonctions de recherche
+
+- **Recherche plein texte** : parcourt les noms, catégories, propriétés de flux, noms de flux d'entrée/sortie et champs textuels extraits par le système
+- **Correspondance intelligente** : prend en charge la recherche floue, la correspondance exacte et les recommandations par IA ; la recherche hybride conserve dans le rappel les mots-clés chinois et anglais, les numéros CAS et les alias, et bascule vers un rappel textuel lorsque les correspondances sémantiques sont insuffisantes. Lorsqu'une requête contient une expression `OR`, le système sépare les alternatives de premier niveau tout en préservant le terme de recherche brut
+- **Périmètre et filtres** : les résultats suivent le périmètre de source de données courant — données publiques TianGong, données commerciales, mes données ou données d'équipe — ainsi que les filtres actifs
+- **Recherche par identifiant et références** : lorsque vous saisissez un identifiant/UUID complet, le système privilégie la correspondance exacte. Dans les listes Contacts, Flux, Propriétés de flux, Groupes d'unités, Sources, Processus et Modèles, vous pouvez aussi activer la **Recherche de références** et chercher avec un UUID complet pour voir quels enregistrements référencent cet identifiant
+- **Résultats en temps réel** : résultats instantanés avec filtrage multidimensionnel et tri flexible
+
+## Exemples de recherche
+
+### Scénario 1 : recherche de données de processus
+
+1. Accédez au module « Données ouvertes »
+2. Sélectionnez la catégorie « Processus »
+3. Saisissez « coal » dans la zone de recherche
+4. Le système renvoie tous les résultats contenant « coal » dans les champs nom, catégorie, noms de flux d'entrée/sortie, etc.
+
+Résultats de recherche pour « coal » :
+
+![Recherche de données de processus](/assets/docs/978c10ee/search.png)
+
+> Le jeu de données de processus « crude steel production; Hotrolling; Production mix, in the factory » apparaît car il utilise « coal » comme flux d'entrée.
+
+![Terme recherché dans les entrées/sorties](/assets/docs/0dbf9894/input-with-coal.png)
+
+## Remarques importantes
+
+- Les résultats dépendent des autorisations de l'utilisateur ; les recherches dans « mes données » et « données d'équipe » ne renvoient que les enregistrements accessibles à l'utilisateur connecté
+- Le module de données commerciales n'affiche que des résultats de recherche sur les métadonnées
+- Les termes chinois et anglais, abréviations courantes et numéros CAS peuvent utiliser des alias standardisés pour améliorer la stabilité du rappel. Les termes de recherche contenant parenthèses, guillemets, barres obliques inversées ou autres caractères spéciaux sont normalisés et échappés en toute sécurité avant le rappel textuel
+- Pour retracer où un identifiant est référencé : copiez l'UUID complet, activez la **Recherche de références** dans la liste de données concernée, puis recherchez. Si la saisie n'est pas un UUID complet, le système demande de la compléter. La Recherche de références affiche jusqu'aux 50 premiers résultats ; si aucune ligne n'apparaît, aucun enregistrement référençant n'a été trouvé dans le périmètre et les limites d'autorisation actuels
+- L'utilisation de systèmes de classification standard améliore l'efficacité de la recherche

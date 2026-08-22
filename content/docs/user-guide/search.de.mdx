@@ -1,0 +1,38 @@
+---
+title: "Datensuche"
+---
+
+Die TianGong-LCA-Plattform bietet leistungsfähige Volltextsuche mit feldübergreifender Suche in allen Datenmodulen. Diese Funktion verschafft der TianGong-LCA-Plattform erhebliche Vorteile beim Datenabruf gegenüber anderen LCA-Plattformen.
+
+## Suchfunktionen
+
+- **Volltextsuche**: durchsucht Namen, Kategorien, Flusseigenschaften, Eingabe-/Ausgabe-Flussnamen und vom System extrahierte Textfelder
+- **Intelligente Suche**: unterstützt unscharfe Suche, exakte Treffer und KI-gestützte Empfehlungen; die hybride Suche hält chinesische und englische Schlüsselwörter, CAS-Nummern und Aliasnamen im Recall und greift auf Text-Recall zurück, wenn semantische Treffer nicht ausreichen. Enthält eine Anfrage einen `OR`-Ausdruck, trennt das System die Alternativen oberster Ebene und bewahrt zugleich den ursprünglichen Suchbegriff
+- **Bereich und Filter**: Ergebnisse folgen dem aktuellen Datenquellen-Bereich — etwa TianGong-öffentliche Daten, kommerzielle Daten, meine Daten oder Teamdaten — sowie den aktiven Filtern
+- **ID- und Referenzsuche**: Geben Sie eine vollständige Datensatz-ID/UUID ein, priorisiert das System exakte Treffer. In den Listen für Kontakte, Flüsse, Flusseigenschaften, Einheitengruppen, Quellen, Prozesse und Modelle können Sie zudem die **Referenzsuche** aktivieren und mit einer vollständigen Datensatz-UUID suchen, um zu sehen, welche Datensätze diese ID referenzieren
+- **Echtzeitergebnisse**: sofortige Suchergebnisse mit mehrdimensionaler Filterung und flexibler Sortierung
+
+## Suchbeispiele
+
+### Szenario 1: Prozessdatensuche
+
+1. Wechseln Sie zum Modul „Offene Daten"
+2. Wählen Sie die Kategorie „Prozess"
+3. Geben Sie im Suchfeld „coal" ein (englisch für Kohle)
+4. Das System liefert alle Treffer mit „coal" in Feldern wie Name, Kategorie, Eingabe-/Ausgabe-Flussnamen usw.
+
+Suchergebnisse für „coal":
+
+![Prozessdatensuche](/assets/docs/978c10ee/search.png)
+
+> Der Prozessdatensatz „crude steel production; Hotrolling; Production mix, in the factory" erscheint, weil er „coal" als Eingabefluss verwendet.
+
+![Suchbegriff in Ein-/Ausgaben](/assets/docs/0dbf9894/input-with-coal.png)
+
+## Wichtige Hinweise
+
+- Suchergebnisse unterliegen den Nutzerberechtigungen; Suchen in „meine Daten" und „Teamdaten" liefern nur Datensätze, auf die der angemeldete Nutzer zugreifen darf
+- Das Modul „Kommerzielle Daten" zeigt ausschließlich Metadaten-Suchergebnisse
+- Chinesische und englische Begriffe, gängige Abkürzungen und CAS-Nummern können standardisierte Aliasnamen nutzen, um die Stabilität des Recall zu verbessern. Suchbegriffe mit Klammern, Anführungszeichen, Backslashes oder anderen Sonderzeichen werden normalisiert und vor dem Text-Recall sicher maskiert
+- Um nachzuvollziehen, wo eine ID referenziert wird: Kopieren Sie die vollständige UUID, aktivieren Sie die **Referenzsuche** in der zugehörigen Datenliste und suchen Sie. Ist die Eingabe keine vollständige UUID, fordert das System zur Vervollständigung auf. Die Referenzsuche zeigt bis zu die ersten 50 Ergebnisse; gibt es keine Zeilen, wurden im aktuellen Datenbereich und Berechtigungsrand keine referenzierenden Datensätze gefunden
+- Die Verwendung standardisierter Klassifikationssysteme verbessert die Sucheffizienz
