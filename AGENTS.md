@@ -50,7 +50,7 @@ checkPaths:
   - scripts/install-git-hooks.sh
 lastReviewedAt: "2026-08-22"
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for P2 cleanup (issue #131): legacy Docusaurus trees removed (docs/ public pages, i18n/, static/), scripts superseded by manifest-driven verify-out; context7/crowdin/README/gitignore/docpact config aligned to the Fumadocs path model; docs/agents/** governance area retained."
+lastReviewedNote: "Reviewed for P4 preparation (issue #131): orphan media deletion decision recorded (15 files user-confirmed, never published on either site); migration cutover runbook added (docs/agents/migration-cutover-runbook.md) consolidating verified operational facts from P0A-P3 and the EdgeOne/GitHub environment matrix; P3 reconciliation chain fully green."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

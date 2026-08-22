@@ -30,7 +30,7 @@ checkPaths:
   - components/**
 lastReviewedAt: 2026-08-22
 lastReviewedCommit: ab5e3f495827ce0ef2ea86ecc852c00d389fcf5b
-lastReviewedNote: "Reviewed for P2 cleanup (issue #131): README rewritten for the Fumadocs static stack; build contract, publishing model, and repo layout documented."
+lastReviewedNote: "Reviewed for P4 preparation (issue #131): orphan media deletion decision recorded (15 files user-confirmed, never published on either site); migration cutover runbook added (docs/agents/migration-cutover-runbook.md) consolidating verified operational facts from P0A-P3 and the EdgeOne/GitHub environment matrix; P3 reconciliation chain fully green."
 related:
   - AGENTS.md
   - .docpact/config.yaml

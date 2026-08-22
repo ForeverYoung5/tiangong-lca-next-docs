@@ -476,7 +476,7 @@ Resolution:
 
 ## Fumadocs 迁移遗留（2026-08-22，Issue #131 / v4 计划 P2 后）
 
-- [ ] 15 个 orphan 媒体（3 MP4 + 12 PNG，见 manifests/p0b/media.json）待 PR 审核确认后归档删除动作
+- [x] 15 个 orphan 媒体确认删除（2026-08-23 用户确认；两站均从未发布，证据：Issue #131 + manifests/p0b/media.json orphanMedia）
 - [ ] de/fr docs 首页译文待语言 reviewer 审核（草案已提交于 content/docs/index.de.mdx / index.fr.mdx）
 - [ ] scripts/check-screenshots.mjs 尚未适配新内容路径（/assets/docs 命名空间 + content/docs）——下次触屏截图证据流时改造
 - [ ] Playwright 站点级测试基线（v4 §6.3 PR validate 第 10 步）P1/P2 暂缓，P4 前必须落地
