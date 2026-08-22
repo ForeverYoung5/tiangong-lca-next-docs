@@ -18,11 +18,9 @@ avec `/functions/v1` ajouté.
 
 L'en-tête d'authentification recommandé est :
 
-
 ```http
 Authorization: Bearer <USER_API_KEY>
 ```
-
 
 - `USER_API_KEY` peut être généré depuis la page de profil du compte TianGong LCA
 - Traitez la clé API comme un secret avec le même soin que les identifiants de compte
@@ -31,19 +29,15 @@ Authorization: Bearer <USER_API_KEY>
 
 Exemple d'URL de base :
 
-
 ```text
 https://<your-project-ref>.supabase.co/functions/v1
 ```
 
-
 Si vous utilisez le service cloud TianGong LCA actuel, utilisez :
-
 
 ```text
 https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1
 ```
-
 
 ## Vue d'ensemble du flux
 
@@ -63,14 +57,12 @@ Automation clients can check a package with the released Rust
 [`tidas` 0.1.3 CLI](/en/docs/integration/cli/#install-tidas-013) before calling the
 API. Extract the ZIP into a temporary directory, then run:
 
-
 ```bash
 tidas validate ./unpacked-package \
   --input-format tidas-json \
   --issues ./validation-issues.jsonl \
   --format json
 ```
-
 
 Le code de sortie `0` signifie que la validation locale a réussi ; le code `2` signifie que la
 validation s'est terminée avec des problèmes de données. Un pipeline devrait inspecter le code de sortie, le rapport
@@ -83,7 +75,6 @@ validation côté serveur, les vérifications de conflits, ni l'`import_report` 
 ## 1. Préparer le téléversement
 
 Requête :
-
 
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
@@ -98,9 +89,7 @@ curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   }'
 ```
 
-
 Exemple de réponse :
-
 
 ```json
 {
@@ -123,7 +112,6 @@ Exemple de réponse :
 }
 ```
 
-
 Champs importants :
 
 - `job_id` : utilisé pour interroger la tâche asynchrone
@@ -138,13 +126,11 @@ Champs importants :
 Lorsque `upload.signed_url` est présent, l'approche recommandée, adaptée au CLI, consiste à
 téléverser le ZIP directement :
 
-
 ```bash
 curl -i --request PUT "${SIGNED_URL}" \
   --header 'Content-Type: application/zip' \
   --data-binary @./example-package.zip
 ```
-
 
 Ici, `SIGNED_URL` est la valeur `upload.signed_url` renvoyée par
 `prepare_upload`.
@@ -152,7 +138,6 @@ Ici, `SIGNED_URL` est la valeur `upload.signed_url` renvoyée par
 Si votre client utilise déjà le SDK Supabase Storage, vous pouvez sinon employer
 `upload.bucket`, `upload.path` et `upload.token` avec
 `uploadToSignedUrl(...)` :
-
 
 ```ts
 const { error } = await supabase.storage
@@ -163,12 +148,10 @@ const { error } = await supabase.storage
   });
 ```
 
-
 ## 3. Mise en file d'attente
 
 Après un téléversement réussi, marquez l'artefact source comme prêt et mettez le worker d'import
 asynchrone en file d'attente :
-
 
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
@@ -186,9 +169,7 @@ curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   }'
 ```
 
-
 Exemple de réponse :
-
 
 ```json
 {
@@ -198,7 +179,6 @@ Exemple de réponse :
   "source_artifact_id": "9ad0da68-3933-4f7b-a3cb-a494b70ec0a2"
 }
 ```
-
 
 Valeurs `mode` possibles :
 
@@ -210,12 +190,10 @@ Valeurs `mode` possibles :
 
 Requête d'interrogation recommandée :
 
-
 ```bash
 curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
   --header "Authorization: Bearer ${USER_API_KEY}"
 ```
-
 
 L'API prend aussi en charge `GET /tidas_package_jobs?job_id=<job-id>` et
 `POST /tidas_package_jobs` avec `job_id` dans le corps de la requête.
@@ -259,7 +237,6 @@ Cela signifie :
 
 Exemple de succès :
 
-
 ```json
 {
   "ok": true,
@@ -281,12 +258,10 @@ Exemple de succès :
 }
 ```
 
-
 ## Exemple d'échec de validation
 
 La validation s'exécute de façon asynchrone dans le worker après `enqueue`. En cas
 d'échec, l'`import_report` contient une liste de problèmes lisible par machine.
-
 
 ```json
 {
@@ -329,7 +304,6 @@ d'échec, l'`import_report` contient une liste de problèmes lisible par machine
   ]
 }
 ```
-
 
 Recommandations pour les clients :
 

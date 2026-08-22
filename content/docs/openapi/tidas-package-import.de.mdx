@@ -18,11 +18,9 @@ mit angehängtem `/functions/v1`.
 
 Der empfohlene Auth-Header ist:
 
-
 ```http
 Authorization: Bearer <USER_API_KEY>
 ```
-
 
 - `USER_API_KEY` lässt sich auf der TianGong-LCA-Kontoprofilseite generieren
 - Behandeln Sie den API-Key mit derselben Sorgfalt wie Kontozugangsdaten als Secret
@@ -31,19 +29,15 @@ Authorization: Bearer <USER_API_KEY>
 
 Beispiel-Basis-URL:
 
-
 ```text
 https://<your-project-ref>.supabase.co/functions/v1
 ```
 
-
 Nutzen Sie den aktuellen TianGong-LCA-Clouddienst, verwenden Sie:
-
 
 ```text
 https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1
 ```
-
 
 ## Ablaufübersicht
 
@@ -63,14 +57,12 @@ Automation clients can check a package with the released Rust
 [`tidas` 0.1.3 CLI](/en/docs/integration/cli/#install-tidas-013) before calling the
 API. Extract the ZIP into a temporary directory, then run:
 
-
 ```bash
 tidas validate ./unpacked-package \
   --input-format tidas-json \
   --issues ./validation-issues.jsonl \
   --format json
 ```
-
 
 Exit-Code `0` bedeutet, dass die lokale Validierung bestanden ist; Exit-Code `2` bedeutet, dass die
 Validierung mit Datenproblemen abgeschlossen wurde. Eine Pipeline sollte Exit-Code, JSON-Bericht
@@ -83,7 +75,6 @@ serverseitige Validierung, Konfliktprüfungen noch den endgültigen `import_repo
 ## 1. Upload vorbereiten
 
 Anfrage:
-
 
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
@@ -98,9 +89,7 @@ curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   }'
 ```
 
-
 Beispielantwort:
-
 
 ```json
 {
@@ -123,7 +112,6 @@ Beispielantwort:
 }
 ```
 
-
 Wichtige Felder:
 
 - `job_id`: wird beim Abfragen des asynchronen Auftrags verwendet
@@ -138,13 +126,11 @@ Wichtige Felder:
 Liegt `upload.signed_url` vor, ist der empfohlene CLI-freundliche Weg, das
 ZIP direkt hochzuladen:
 
-
 ```bash
 curl -i --request PUT "${SIGNED_URL}" \
   --header 'Content-Type: application/zip' \
   --data-binary @./example-package.zip
 ```
-
 
 Hier ist `SIGNED_URL` der von `prepare_upload` zurückgegebene Wert
 `upload.signed_url`.
@@ -152,7 +138,6 @@ Hier ist `SIGNED_URL` der von `prepare_upload` zurückgegebene Wert
 Nutzt Ihr Client bereits das Supabase-Storage-SDK, können Sie alternativ
 `upload.bucket`, `upload.path` und `upload.token` mit
 `uploadToSignedUrl(...)` verwenden:
-
 
 ```ts
 const { error } = await supabase.storage
@@ -163,12 +148,10 @@ const { error } = await supabase.storage
   });
 ```
 
-
 ## 3. In Warteschlange stellen
 
 Nach erfolgreichem Upload markieren Sie das Quellartefakt als bereit und stellen den asynchronen
 Import-Worker in die Warteschlange:
-
 
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
@@ -186,9 +169,7 @@ curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   }'
 ```
 
-
 Beispielantwort:
-
 
 ```json
 {
@@ -198,7 +179,6 @@ Beispielantwort:
   "source_artifact_id": "9ad0da68-3933-4f7b-a3cb-a494b70ec0a2"
 }
 ```
-
 
 Mögliche `mode`-Werte:
 
@@ -210,12 +190,10 @@ Mögliche `mode`-Werte:
 
 Empfohlene Abfrage:
 
-
 ```bash
 curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
   --header "Authorization: Bearer ${USER_API_KEY}"
 ```
-
 
 Die API unterstützt außerdem `GET /tidas_package_jobs?job_id=<job-id>` und
 `POST /tidas_package_jobs` mit `job_id` im Anfragekörper.
@@ -261,7 +239,6 @@ Das bedeutet:
 
 Erfolgsbeispiel:
 
-
 ```json
 {
   "ok": true,
@@ -283,12 +260,10 @@ Erfolgsbeispiel:
 }
 ```
 
-
 ## Beispiel eines Validierungsfehlers
 
 Die Validierung läuft nach `enqueue` asynchron im Worker. Schlägt sie
 fehl, enthält der `import_report` eine maschinenlesbare Issueliste.
-
 
 ```json
 {
@@ -331,7 +306,6 @@ fehl, enthält der `import_report` eine maschinenlesbare Issueliste.
   ]
 }
 ```
-
 
 Client-Empfehlungen:
 
