@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-20"
+lastReviewedAt: "2026-08-22"
 lastReviewedCommit: "e76d5571a6fa495e103576e2a69a9c2407522458"
-reviewNote: "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: TIDAS import validation guidance remains within existing public content, llms.txt generation, publication-scope, screenshot validation, and repo routing rules."
-lastReviewedNote: "Reviewed for docs-impact Issue #619 after conflict resolution: bilingual TIDAS import API guidance and generated llms.txt update do not change routing, ownership, publication, or screenshot evidence contracts."
+reviewNote: "Reviewed for P0C (issue #131): transition-aware routing — new Fumadocs paths added, legacy paths retained until P1/P2."
+lastReviewedNote: "Reviewed for P0C governance rewiring (issue #131): ownership/coverage/routing/rules now cover the Fumadocs path model (app/lib/components/content/public assets/migration scripts/manifests) alongside legacy Docusaurus paths until P1/P2 remove them."
 
 catalog:
   repos:
@@ -35,6 +35,8 @@ ownership:
           - docs/**
           - i18n/en/docusaurus-plugin-content-docs/current/**
           - static/**
+          - content/docs/**
+          - public/assets/docs/**
       ownerRepo: next-docs
     - id: docs-site-structure
       paths:
@@ -44,6 +46,16 @@ ownership:
           - src/**
           - package.json
           - tsconfig.json
+          - next.config.ts
+          - edgeone.json
+          - postcss.config.mjs
+          - pnpm-lock.yaml
+          - pnpm-workspace.yaml
+          - app/**
+          - lib/**
+          - components/**
+          - crowdin.yml
+          - scripts/migration/**
           - context7.json
           - scripts/generate-llms-txt.mjs
           - scripts/check-publication-scope.mjs
@@ -88,6 +100,19 @@ coverage:
     - tsconfig.json
     - .github/workflows/ai-doc-lint.yml
     - .github/workflows/publish-docs.yml
+    - content/docs/**
+    - public/assets/docs/**
+    - next.config.ts
+    - edgeone.json
+    - postcss.config.mjs
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - app/**
+    - lib/**
+    - components/**
+    - crowdin.yml
+    - scripts/migration/**
+    - manifests/**
   exclude:
     - .git/**
     - .github/scripts/**
@@ -95,6 +120,9 @@ coverage:
     - node_modules/**
     - build/**
     - .docusaurus/**
+    - .next/**
+    - out/**
+    - .source/**
 
 freshness:
   warn_after_commits: 40
@@ -114,6 +142,8 @@ routing:
         - docs/**
         - i18n/en/docusaurus-plugin-content-docs/current/**
         - static/**
+        - content/docs/**
+        - public/assets/docs/**
     site-structure:
       paths:
         - sidebars.ts
@@ -121,6 +151,16 @@ routing:
         - src/**
         - package.json
         - tsconfig.json
+        - next.config.ts
+        - edgeone.json
+        - postcss.config.mjs
+        - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - app/**
+        - lib/**
+        - components/**
+        - crowdin.yml
+        - scripts/migration/**
         - context7.json
         - scripts/generate-llms-txt.mjs
         - scripts/check-publication-scope.mjs
@@ -219,6 +259,10 @@ rules:
         kind: public-doc-mirror
       - path: static/**
         kind: public-asset
+      - path: content/docs/**
+        kind: public-doc-source-next
+      - path: public/assets/docs/**
+        kind: public-asset-next
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -243,6 +287,28 @@ rules:
         kind: site-runtime-config
       - path: tsconfig.json
         kind: site-runtime-config
+      - path: next.config.ts
+        kind: site-config
+      - path: edgeone.json
+        kind: site-deploy-config
+      - path: postcss.config.mjs
+        kind: site-runtime-config
+      - path: pnpm-lock.yaml
+        kind: site-runtime-config
+      - path: pnpm-workspace.yaml
+        kind: site-runtime-config
+      - path: app/**
+        kind: site-runtime
+      - path: lib/**
+        kind: site-runtime
+      - path: components/**
+        kind: site-runtime
+      - path: crowdin.yml
+        kind: translation-config
+      - path: scripts/migration/**
+        kind: migration-automation
+      - path: manifests/**
+        kind: migration-manifest
       - path: scripts/check-screenshots.mjs
         kind: docs-screenshot-validation
       - path: scripts/check-screenshots.test.mjs

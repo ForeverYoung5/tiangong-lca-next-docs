@@ -34,9 +34,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-20
+lastReviewedAt: 2026-08-22
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: bilingual, llms.txt, screenshot, publication-scope, lint, typecheck, build, and docpact proof requirements remain current for TIDAS import API docs."
+lastReviewedNote: "Reviewed for P0C (issue #131): docpact ownership/coverage/routing/rules rewired for the Fumadocs path model (transition-aware with legacy paths); validation command set unchanged until P1 lands the Next.js skeleton."
 related:
   - AGENTS.md
   - .docpact/config.yaml

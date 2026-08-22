@@ -26,6 +26,16 @@ checkPaths:
   - docusaurus.config.ts
   - src/**
   - static/**
+  - app/**
+  - lib/**
+  - components/**
+  - content/docs/**
+  - public/assets/docs/**
+  - next.config.ts
+  - edgeone.json
+  - crowdin.yml
+  - scripts/migration/**
+  - manifests/**
   - context7.json
   - .github/workflows/publish-docs.yml
   - scripts/generate-llms-txt.mjs
@@ -38,9 +48,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-20
+lastReviewedAt: 2026-08-22
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: bilingual public-doc, validation, publication, screenshot, and workspace-integration boundaries remain current for TIDAS import API validation guidance."
+lastReviewedNote: "Reviewed for P0C governance rewiring (issue #131): checkPaths, ownership, coverage, routing, and contract rules now cover the Fumadocs path model (app/lib/components/content/public assets/migration) alongside legacy Docusaurus paths until P1/P2 remove them."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
