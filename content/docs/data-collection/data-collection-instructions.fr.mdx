@@ -1,0 +1,87 @@
+---
+title: "Instructions de collecte de données"
+---
+
+Ce document présente les principes généraux, les sources, les procédures et les exigences de
+contrôle qualité pour la collecte de données.
+
+## Processus de collecte de données
+
+### Sources de données
+
+Les données peuvent être collectées à partir des types suivants de littérature et de documents
+publics :
+
+- **Articles scientifiques** : articles de revues, communications de conférences (plateformes recommandées : Elsevier, Springer, ACS, CNKI, Google Scholar)
+- **Manuels d'ingénierie** : tels que « Chemical Engineering Design Manual », « Chemical Process Manuals »
+- **Rapports d'impact environnemental d'entreprises** : y compris études d'impact, études de faisabilité, rapports d'audit de production propre
+- **Publications gouvernementales et sectorielles** : annuaires statistiques, normes sectorielles, statistiques énergétiques, livres bleus de développement sectoriel
+- **Brevets et normes** : normes nationales/sectorielles, bases de brevets (p. ex. CNIPA, WIPO)
+- **Données d'enquête de terrain** : données mesurées d'usines, d'entreprises ou d'instituts de recherche
+
+La collecte doit suivre deux principes fondamentaux :
+
+- Chaque point de données doit être **entièrement traçable**, avec une source clairement documentée (littérature/rapport/base de données)
+- Toutes les informations saisies doivent être **complètes et détaillées** afin d'assurer la qualité et la reproductibilité des données
+
+### Analyse du flux de processus
+
+Avant la collecte, identifiez le diagramme de flux industriel au niveau du processus unitaire.
+
+### Recherche et sélection documentaires
+
+Utilisez des mots-clés pour chercher des données sur des plateformes comme CNKI, WoS, Scopus et
+Google Scholar. Combinaisons de mots-clés recommandées :
+
+- « Methanol life cycle assessment »
+- « Inventory analysis »
+- « Environmental impact », etc.
+
+Priorisez les études originales ou de haute qualité avec des données d'entrées-sorties et des
+limites de système claires.
+
+### Contenus à collecter
+
+Principales catégories de données :
+
+- Entrées de matières (matières premières, eau, additifs)
+- Consommation d'énergie (électricité, combustibles)
+- Sorties de produits et coproduits (méthanol, gaz coproduits, chaleur fatale)
+- Données d'émissions (CO₂, NOₓ, eaux usées, déchets solides)
+
+## Traitement des données
+
+### Normalisation et conversion des unités
+
+Convertissez les unités de sources diverses en unités standard afin d'assurer la cohérence et la
+réutilisabilité dans la base de données. Exemples :
+
+- Conversion d'énergie : kcal → MJ
+- Conversion volume-masse : Nm³ → kg (selon la densité ou les conditions normales)
+
+> Remarque importante :
+Lorsque les unités requises diffèrent des unités de flux existantes, effectuez une **conversion
+d'unités** plutôt que de créer de nouveaux éléments de flux.
+
+### Traitement des valeurs manquantes
+
+Stratégies disponibles :
+
+- Valeurs moyennes de processus similaires
+- Valeurs typiques de bases de données ACV
+- Estimations d'ingénierie (p. ex. bilan thermique, bilan matière)
+- Documenter clairement les hypothèses ou plages d'incertitude
+
+### Notes et remarques particulières
+
+Pour la modélisation du cycle de vie, documentez ce qui suit dans les champs de remarque afin de
+garantir une structure de jeu de données standardisée, des limites de système claires et un
+traitement des données transparent :
+
+- **Notes sur les conflits d'UUID** : les entrées/sorties ne doivent pas contenir d'éléments de flux dupliqués (la plateforme distingue par UUID). Si la littérature présente la même substance sous différentes formes/phases, fusionnez-la en un seul élément de flux et documentez la justification.
+
+- **Notes sur le recyclage interne** : pour des flux comme la vapeur recyclée en interne sans charge environnementale supplémentaire, notez : « Flux de recyclage interne de la plateforme, non compté dans les émissions de sortie ».
+
+- **Notes sur les émissions exclues** : pour des postes comme la perte de catalyseur, qui impliquent un flux de matière mais restent contenus dans le système, notez : « Le catalyseur fonctionne en boucle fermée, non inclus dans la sortie du bilan matière ».
+
+- **Notes d'estimation/complément** : pour des postes complétés à partir du bilan matière ou de l'expérience d'ingénierie (p. ex. eaux usées, effluents gazeux), notez : « Estimé à partir du bilan matière, données originales non fournies dans la littérature ».
