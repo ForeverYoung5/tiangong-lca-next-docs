@@ -1,0 +1,106 @@
+---
+title: "Gestion du compte et clé API"
+---
+
+Ouvrez le menu du profil en haut à droite et sélectionnez **Profil du compte** pour accéder à la
+page du compte.
+
+![Profil du compte](/assets/docs/78a6dc92/account-profile-1.png)
+
+La page contient actuellement quatre onglets :
+
+- **Informations de base**
+- **Changer le mot de passe**
+- **Changer l'e-mail**
+- **Générer une clé API**
+
+Si vous devez vous connecter à des services MCP distants ou à des API authentifiées, générez d'abord
+la clé ici, puis poursuivez avec [TianGong LCA MCP – distant](/fr/docs/integration/mcp-lca-remote/)
+ou l'[API d'import de packages TIDAS](/fr/docs/openapi/tidas-package-import/).
+
+## Informations de base
+
+L'onglet **Informations de base** affiche votre e-mail, votre rôle et votre pseudonyme actuels.
+
+- L'e-mail et le rôle sont des champs d'identité en lecture seule.
+- Le pseudonyme est modifiable.
+- Après enregistrement, le nom affiché dans l'en-tête se met à jour immédiatement.
+
+![Informations de base](/assets/docs/603f6b1d/basic-information.png)
+
+## Changer le mot de passe
+
+Pour changer votre mot de passe, renseignez :
+
+- Mot de passe actuel
+- Nouveau mot de passe
+- Confirmation du nouveau mot de passe
+
+À garder à l'esprit :
+
+- Le nouveau mot de passe doit différer de l'actuel.
+- Il doit respecter les règles de complexité de la plateforme.
+- Si vous utilisez des scripts ou des outils externes, mettez aussi à jour le mot de passe qui y est
+  stocké.
+
+![Changer le mot de passe](/assets/docs/3cbfb9d8/change-password.png)
+
+## Changer l'e-mail
+
+L'onglet **Changer l'e-mail** affiche votre adresse actuelle et demande :
+
+- Le nouvel e-mail
+- La confirmation du nouvel e-mail
+
+Après soumission, la plateforme envoie un e-mail de vérification à la nouvelle adresse. Vérifiez à
+la fois votre boîte de réception et le [centre de notifications](./notifications/) jusqu'à
+confirmation du changement.
+
+![Changer l'e-mail](/assets/docs/c122399f/change-email.png)
+
+## Générer une clé API
+
+**Générer une clé API** est désormais une fonction de compte à part entière, et plus une simple
+note d'intégration.
+
+### Cas d'usage typiques
+
+- Connexion au MCP distant TianGong LCA
+- Exécution de scripts d'automatisation authentifiés
+- Configuration de services externes appelant la plateforme
+
+### Étapes
+
+1. Ouvrez l'onglet **Générer une clé API**.
+2. Saisissez le mot de passe actuel du compte pour vérifier votre identité.
+3. Cliquez sur **Générer une clé API**.
+4. Copiez immédiatement la clé générée.
+
+![Onglet de génération de clé API](/assets/docs/916b64ab/account-api-key-tab.png)
+
+Sur la capture, `1` marque l'onglet **Générer une clé API**, `2` le champ de vérification du mot de
+passe courant et `3` le bouton de génération. La clé réelle est masquée ici pour des raisons de
+sécurité.
+
+### Remarque de sécurité importante
+
+> La clé API complète n'est affichée qu'une seule fois. Conservez-la immédiatement dans un endroit
+> sûr, tel qu'un gestionnaire de mots de passe ou un système de secrets géré.
+
+- Si la vérification du mot de passe échoue, la page invite à revérifier le mot de passe courant.
+- Si vous quittez la page sans enregistrer la clé, vous devrez en générer une nouvelle.
+- Ne placez jamais la clé dans des dépôts publics, des captures d'écran, des tickets ou des
+  historiques de conversation partagés.
+
+## FAQ
+
+### Pourquoi la génération de clé API est-elle documentée sur la page du compte ?
+
+Parce que la page du compte est le véritable point d'entrée produit. Les pages MCP et OpenAPI
+expliquent comment utiliser la clé une fois créée.
+
+### Que faire si je ne vois pas l'onglet `Générer une clé API` ?
+
+Rechargez la page et confirmez que vous utilisez le compte attendu. Si l'onglet manque toujours,
+vérifiez auprès du mainteneur de l'environnement si cette capacité est activée dans le déploiement
+courant.
