@@ -1,0 +1,69 @@
+---
+title: "Évaluation des données"
+---
+
+Pour les instructions de collecte, voir [Instructions de collecte de données](/fr/docs/data-collection/data-collection-instructions/)
+
+Cette étude de cas s'appuie sur la littérature [Comparative environmental assessment of methanol production technologies](https://doi.org/10.1016/j.enconman.2024.118128) et montre comment extraire des données de la littérature, les prétraiter et établir un modèle de cycle de vie pour la production de méthanol à partir de biomasse sur la plateforme de données TianGong LCA.
+
+> Remarques :
+Les cadres rouges signalent les points nécessitant une attention et des exigences particulières ; les cadres bleus montrent des exemples de référence.
+---
+
+## Évaluation de la disponibilité des données
+
+Avant la modélisation, évaluez la disponibilité des données retenues, en vous concentrant sur le
+bilan matière entrées-sorties. En cas de déséquilibre, analysez les causes à partir des descriptions
+de la littérature ou des connaissances de procédé, et déterminez si des ajustements raisonnables
+(complément, normalisation, estimation) peuvent satisfaire les exigences de modélisation. Sinon,
+écartez les données.
+
+- **Évaluation de la disponibilité des données des voies de production de méthanol**
+
+| ID | Nom de la voie | Disponibilité | Motif d'indisponibilité |
+| --- | --- | --- | --- |
+| 1 | Gazéification du charbon vers méthanol | ✅ disponible | — |
+| 2 | Cokerie vers méthanol | ⚠ partiellement disponible | Sorties supérieures aux entrées pour l'extraction/traitement du charbon ; données de production de charbon et de procédé méthanol disponibles |
+| 3 | Gaz naturel vers méthanol | ❌ indisponible | Écart entrées-sorties important, déséquilibre matière, non corrigeable — exclue |
+| 4 | Biomasse vers méthanol (BOTM) | ✅ disponible | — |
+| 5 | Capture de CO₂ vers méthanol | ✅ disponible | — |
+
+La voie **Biomasse vers méthanol (BOTM)** a été retenue comme cas d'exemple.
+
+## Diagramme de flux de processus
+
+La littérature fournit un diagramme de flux complet aux limites de système claires, directement
+utilisable comme référence de modélisation.
+
+Voir la figure 6 de la littérature. Limite du système de production de méthanol à partir de biomasse.
+
+![Alt text](/assets/docs/e76c1998/system-boundary-diagram.png)
+
+## Traitement des données
+
+Flux de matière/énergie extraits de la littérature :
+
+![Alt text](/assets/docs/802f0f08/data-list.png)
+
+**En combinant le diagramme de flux et le contenu des données, la modélisation du cas comprend deux
+niveaux : [Construction du processus unitaire](/fr/docs/data-collection/case-introduction/unit-process-construction/)
+(trois processus simples) et [Construction du modèle](/fr/docs/data-collection/case-introduction/model-building/)**
+
+Chaque sous-processus exige de préciser :
+
+- **Flux de référence** :
+  - Prétraitement de la biomasse : 1 kg de biomasse traitée
+  - Gazéification de la biomasse : 1 kg de CO
+  - Synthèse du méthanol : 1 kg de méthanol
+- Veillez à des quantités de référence cohérentes entre tous les processus pour des calculs de système corrects
+
+Le modèle global est un système partiellement terminé, avec le troisième processus unitaire
+[Production de méthanol] comme référence. L'unité fonctionnelle est fixée à 1 kg de méthanol produit
+(ou 1 tonne — au choix du modélisateur, mais avec cohérence entre processus unitaires).
+
+**Notes de traitement :**
+
+- **Données manquantes** : le volume d'eaux usées n'est pas fourni — estimé à partir du bilan matière (détails dans [Construction du processus unitaire](/fr/docs/data-collection/case-introduction/unit-process-construction/)).
+
+> Remarque importante :
+Lorsque les unités requises diffèrent des unités de flux, effectuez une **conversion d'unités** plutôt que de créer de nouveaux éléments de flux.
