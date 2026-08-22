@@ -1,0 +1,162 @@
+name: Reconcile docs deployment
+
+# v4 §6.3 P3 初版：post-deploy reconciliation 状态机（workflow_dispatch 演练形态）。
+# 首次 DNS 切换（P5）完成后才将 main push observer 接入同一控制器。
+# 状态推进：waiting-edgeone → validating-live → syncing-search → refreshing-context7 → complete
+# 任一阶段失败 exit 1（调用方/观察者标记 blocked）；release generation/lease 的 CAS 互斥
+# 与 durable Issue 标签迁移在 P4 演练后接线（TODO.docs-system-gaps.md 已登记）。
+
+on:
+  workflow_dispatch:
+    inputs:
+      verify_origin:
+        description: 'Verified deploy origin (allowlist)'
+        required: true
+        type: choice
+        options:
+          - https://preview.docs.tiangong.earth
+          - https://docs.tiangong.earth
+      expected_sha:
+        description: 'Expected commit SHA (default: origin/main HEAD)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-reconcile
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    # v4 §7.3：ALGOLIA_WRITE_KEY 只存在于 GitHub production environment，
+    # 永不进入 EdgeOne 构建环境或静态 bundle
+    environment: production
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Resolve expected SHA
+        id: sha
+        run: |
+          set -euo pipefail
+          sha="${{ inputs.expected_sha }}"
+          if [ -z "$sha" ]; then
+            sha="$(git rev-parse origin/main)"
+          fi
+          if ! echo "$sha" | grep -qE '^[0-9a-f]{40}$'; then
+            echo "expected_sha is not a 40-hex SHA: $sha" >&2
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "Reconciling ${{ inputs.verify_origin }} -> $sha"
+
+      # --- phase: waiting-edgeone ---
+      - name: 'Phase: waiting-edgeone (llms.txt exposes SHA)'
+        run: |
+          set -euo pipefail
+          origin="${{ inputs.verify_origin }}"
+          sha="${{ steps.sha.outputs.sha }}"
+          for attempt in $(seq 1 20); do
+            if curl -fsSL --max-time 30 "${origin%/}/llms.txt" -o /tmp/llms.txt 2>/dev/null \
+              && grep -q "$sha" /tmp/llms.txt; then
+              echo "llms.txt exposes $sha (attempt $attempt)"
+              exit 0
+            fi
+            echo "attempt $attempt: $sha not yet live on $origin; waiting 30s"
+            sleep 30
+          done
+          echo "::error::timeout waiting for ${origin}/llms.txt to expose ${sha}"
+          exit 1
+
+      # --- phase: validating-live ---
+      - name: 'Phase: validating-live (contract endpoints same SHA)'
+        run: |
+          set -euo pipefail
+          origin="${{ inputs.verify_origin }}"
+          sha="${{ steps.sha.outputs.sha }}"
+
+          sr="$(curl -fsSL --max-time 30 "${origin%/}/search-records.json")"
+          actual="$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.sourceCommit ?? '')" "$sr")"
+          if [ "$actual" != "$sha" ]; then
+            echo "::error::search-records sourceCommit $actual != $sha" >&2
+            exit 1
+          fi
+
+          for path in robots.txt sitemap.xml zh/docs/ en/docs/ de/docs/ fr/docs/; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${origin%/}/${path}")"
+            if [ "$code" != "200" ]; then
+              echo "::error::${origin%/}/${path} -> HTTP $code" >&2
+              exit 1
+            fi
+          done
+          # 负向：未发布的 de 深层路由必须 404
+          for path in de/docs/quick-start/ fr/docs/user-guide/; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${origin%/}/${path}")"
+            if [ "$code" != "404" ]; then
+              echo "::error::${origin%/}/${path} -> HTTP $code (expected 404)" >&2
+              exit 1
+            fi
+          done
+          echo "live contract validated for $sha"
+
+      # --- phase: syncing-search ---
+      - name: 'Phase: syncing-search (Algolia replaceAllObjects + locale smoke)'
+        env:
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
+          ALGOLIA_INDEX_NAME: tiangong-lca-docs
+          EXPECTED_SHA: ${{ steps.sha.outputs.sha }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ALGOLIA_APP_ID:-}" ] || [ -z "${ALGOLIA_WRITE_KEY:-}" ]; then
+            echo "::error::Algolia production secrets missing; refusing to mark complete (v4 §7.3)"
+            exit 1
+          fi
+          node scripts/search-sync.mjs --from "${{ inputs.verify_origin }}"
+
+      # --- phase: refreshing-context7 ---
+      - name: 'Phase: refreshing-context7'
+        id: context7
+        env:
+          CONTEXT7_API_KEY: ${{ secrets.CONTEXT7_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CONTEXT7_API_KEY:-}" ]; then
+            echo "status=pending_missing_secret" >> "$GITHUB_OUTPUT"
+            echo "::warning::Context7 refresh pending: CONTEXT7_API_KEY not configured"
+            exit 0
+          fi
+          library="${CONTEXT7_LIBRARY_NAME:-/${GITHUB_REPOSITORY}}"
+          status_code="$(curl -sS -o /tmp/context7-response.json -w '%{http_code}' \
+            -X POST 'https://context7.com/api/v1/refresh' \
+            -H "Authorization: Bearer ${CONTEXT7_API_KEY}" \
+            -H 'Content-Type: application/json' \
+            --data "{\"libraryName\":\"${library}\"}")"
+          echo "status=http_${status_code}" >> "$GITHUB_OUTPUT"
+          if [ "$status_code" -ge 200 ] && [ "$status_code" -lt 300 ]; then
+            echo "Context7 refresh accepted for ${library}"
+            cat /tmp/context7-response.json || true
+            exit 0
+          fi
+          echo "::error::Context7 refresh failed (HTTP $status_code)"
+          cat /tmp/context7-response.json || true
+          exit 1
+
+      # --- phase: complete ---
+      - name: 'Phase: complete (summary)'
+        if: always()
+        run: |
+          {
+            echo "## Docs reconcile"
+            echo
+            echo "- Origin: ${{ inputs.verify_origin }}"
+            echo "- SHA: ${{ steps.sha.outputs.sha }}"
+            echo "- Context7: ${{ steps.context7.outputs.status || 'not-run' }}"
+            echo "- Outcome: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
