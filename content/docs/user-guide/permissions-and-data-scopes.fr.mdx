@@ -1,0 +1,109 @@
+---
+title: "Autorisations et espaces de données"
+description: "Consolide les principales limites d'accès pour Données ouvertes, Données commerciales, Mes données, Données d'équipe, rôles de revue et rôles système."
+---
+
+TianGong LCA répartit les limites d'autorisation sur plusieurs pages. Plutôt que de les reconstituer
+à partir des documents Données, Équipe, Revue et Administration système, utilisez cette page comme
+référence rapide.
+
+## D'abord : ce sont des systèmes d'autorisation distincts
+
+Au moins trois couches d'autorisation peuvent se superposer sur la plateforme :
+
+- **Autorisations d'espace de données** : Données ouvertes, Données commerciales, Mes données, Données d'équipe
+- **Rôles de collaboration d'équipe** : propriétaire / admin / membre
+- **Rôles d'espaces spécialisés** : `review-admin` / `review-member`, `data_product_manager`, plus
+  les rôles système `owner` / `admin` / `member`
+
+Ne les traitez pas comme une hiérarchie linéaire unique. Une personne peut détenir des rôles
+différents dans des domaines différents.
+Le rôle `data_product_manager` ouvre l'espace **Traitement des données** pour générer, prévisualiser
+et publier des ensembles de résultats LCIA pour les Données ouvertes. Il n'est pas équivalent à
+l'`admin` système et n'accorde pas automatiquement de rôles de revue.
+
+## Matrice des espaces de données
+
+| Espace de données | Voir toutes les données | Voir les métadonnées | Copier vers Mes données | Modifier directement | Importer | Exporter JSON | Soumettre pour revue | Contribuer à l'équipe |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Données ouvertes | Oui | Oui | Oui | Non | Non | Oui | Non | Non |
+| Données commerciales | Surtout métadonnées | Oui | Selon la disponibilité de l'UI | Non | Non | Généralement pas un chemin d'export complet | Non | Non |
+| Mes données | Oui | Oui | Oui | Oui | Oui | Oui | Oui | Oui |
+| Données d'équipe | Oui | Oui | Oui | Non | Non | Généralement pas le principal chemin d'export | Non | Non |
+
+### Comment lire cette matrice
+
+- Les **Données ouvertes** servent à découvrir, référencer, copier et analyser, pas à l'édition directe
+- Les **Données commerciales** concernent surtout les métadonnées et les contacts fournisseurs, à la différence de données de modélisation complètes librement téléchargeables
+- **Mes données** est l'espace principal de création, d'import, d'export et de soumission en revue
+- Les **Données d'équipe** servent au partage et à la réutilisation, pas à l'édition simultanée par plusieurs utilisateurs
+
+## Matrice des rôles d'équipe
+
+| Action d'équipe | Propriétaire | Admin | Membre |
+| --- | --- | --- | --- |
+| Modifier le profil d'équipe | Oui | Non | Non |
+| Inviter / renvoyer des invitations | Oui | Oui | Non |
+| Changer les rôles d'équipe | Oui | Non | Non |
+| Retirer des membres | Oui | Oui | Non |
+| Voir les données d'équipe | Oui | Oui | Oui |
+| Contribuer des données personnelles à l'équipe | Oui | Oui | Oui |
+
+Pour les détails du workflow de collaboration, lisez aussi [Fonctions d'équipe](./team-function/).
+
+## Matrice des rôles de revue
+
+| Action de revue | Auteur | review-member | review-admin |
+| --- | --- | --- | --- |
+| Soumettre des données pour revue depuis Mes données | Oui | Peut aussi détenir cette capacité | Peut aussi détenir cette capacité |
+| Ouvrir la Gestion des revues | Non, en général | Oui | Oui |
+| Voir les tâches de revue en attente | Non | Oui, seulement les tâches assignées | Oui, pour le vivier de revue élargi |
+| Attribuer des relecteurs | Non | Non | Oui |
+| Soumettre des commentaires de revue | Non | Oui | Peut surveiller l'avancement global |
+| Gérer les membres relecteurs | Non | Non | Oui |
+| Approuver / rejeter toute la revue | Non | Non | Oui |
+
+Si votre tâche est l'exécution des revues, poursuivez avec [Revue de données](./data-review/).
+
+## Matrice des rôles système
+
+| Action système | Membre | Admin | Propriétaire |
+| --- | --- | --- | --- |
+| Ouvrir l'administration système | Oui | Oui | Oui |
+| Voir la gestion des affichages | Oui | Oui | Oui |
+| Modifier les équipes affichées sur la page d'accueil | Non ou limité | Oui | Oui |
+| Ajouter des membres système | Non | Oui | Oui |
+| Retirer des membres non-propriétaires | Non | Oui | Oui |
+| Changer les rôles admin / membre | Non | Non | Oui |
+
+Pour la maintenance au niveau plateforme, poursuivez avec [Espace d'administration système](./system-management/).
+
+## Périmètres de données dans l'analyse de processus
+
+L'[Espace d'analyse de processus](./process-analysis/) introduit une autre couche de périmètre,
+liée aux espaces de données mais différente des autorisations de rôle :
+
+| Périmètre d'analyse | Signification |
+| --- | --- |
+| Données de l'utilisateur courant | Principalement les données que le compte courant peut analyser depuis Mes données |
+| Données ouvertes | Principalement les jeux de données ouverts publiés |
+| Toutes les données | La plage complète de candidats disponible dans le contexte d'analyse courant de ce déploiement |
+
+Ces périmètres servent à la sélection analytique et non à la définition des rôles d'équipe ou système.
+
+## Malentendus courants
+
+### Admin d'équipe signifie-t-il automatiquement relecteur ?
+
+Non. Les rôles d'équipe et les rôles de revue sont des systèmes d'autorisation distincts.
+
+### Admin système signifie-t-il automatiquement accès à toutes les pages métier ?
+
+Non. Les rôles système régissent principalement l'espace d'administration système et les opérations
+associées.
+
+### Pourquoi ne puis-je pas modifier directement dans les Données d'équipe ?
+
+Parce que les Données d'équipe sont conçues pour le partage et la réutilisation. Pour changer
+quelque chose, le schéma habituel est de le copier vers Mes données, de l'y modifier, puis de
+contribuer la version mise à jour à l'équipe.
