@@ -63,12 +63,12 @@ jobs:
           origin="${{ inputs.verify_origin }}"
           sha="${{ steps.sha.outputs.sha }}"
           for attempt in $(seq 1 20); do
-            if curl -fsSL --max-time 30 "${origin%/}/llms.txt" -o /tmp/llms.txt 2>/dev/null \
-              && grep -q "$sha" /tmp/llms.txt; then
+            code="$(curl -s -o /tmp/llms.txt -w '%{http_code}' --max-time 30 "${origin%/}/llms.txt" || true)"
+            if [ "$code" = "200" ] && grep -q "$sha" /tmp/llms.txt; then
               echo "llms.txt exposes $sha (attempt $attempt)"
               exit 0
             fi
-            echo "attempt $attempt: $sha not yet live on $origin; waiting 30s"
+            echo "attempt $attempt: HTTP $code; body head: $(head -c 300 /tmp/llms.txt 2>/dev/null | tr '\n' ' ' | head -c 300)"
             sleep 30
           done
           echo "::error::timeout waiting for ${origin}/llms.txt to expose ${sha}"
