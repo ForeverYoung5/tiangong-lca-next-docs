@@ -1,0 +1,28 @@
+---
+title: "Terminologie-Erläuterung"
+---
+
+## Formatspezifikationen
+
+| Kategorie | Formatname | UUID |
+| ---------- | ------------------------------------------ | ---------------------------------------- |
+| Datensatzformat | ILCD format | a97a0155-0234-4b87-b4ce-a45da52f2a40 |
+| Konformitätssystemname | ILCD Data Network - compliance (non-Process) | 9ba3ac1e-6797-4cc0-afd5-1b8f7bf28c6a |
+
+## Referenztabelle der Personenfelder
+
+Beispiel: Unternehmen A beauftragt Forschungsinstitut B mit einem Ökobilanzprojekt. Das
+Forschungsteam (Team C) ist für die Datenerzeugung verantwortlich; die Datensatzinformationen
+erfasst das Teammitglied (Person D). Nach Fertigstellung werden die Daten von der International
+Environmental Database Association (IEDA) registriert und archiviert. Das Eigentum an den
+endgültigen Daten liegt bei Unternehmen A, aber nur die interne Forschungsgruppe (Gruppe E) hat
+exklusiven Zugriff.
+
+| Feldname | Beschreibung | Typ | Beispiel |
+| :------------------------------------- | :------------------------------------------------------------------------------ | :----------- | :------------------------------------ |
+| Datensatz-Auftraggeber | Die Partei, die die Datenerhebung initiiert oder finanziert | Empfohlen, Mehrfachauswahl | Unternehmen A |
+| Datensatz-Ersteller/Modellierer | Die für die Erhebung oder Erstellung der Daten verantwortliche Partei | Empfohlen, Mehrfachauswahl | Forschungsinstitut B, Team C |
+| Dateneingabe durch | Die für die Dateneingabe verantwortliche Person | Optional, Einfachauswahl | Person D |
+| Registrierungsbehörde | Die Organisation, die die Daten beaufsichtigt/registriert | Optional, Einfachauswahl | IEDA |
+| Datensatz-Eigentümer | Der Inhaber der geistigen Eigentumsrechte (kann vom Auftraggeber abweichen) | Empfohlen, Einfachauswahl | Unternehmen A |
+| Berechtigte mit Exklusivzugriff | Personen/Organisationen mit absoluten Zugriffsrechten auf den Datensatz | Optional, Mehrfachauswahl | Gruppe E |
