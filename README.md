@@ -7,138 +7,103 @@ authoritative: true
 owner: next-docs
 language: en
 whenToUse:
-  - when setting up or maintaining the public Docusaurus docs repository
-  - when choosing local validation commands for public docs, llms.txt, or publication-scope work
+  - when setting up or maintaining the public Fumadocs documentation repository
+  - when choosing local validation commands for build contract, llms.txt, or search-records work
 whenToUpdate:
   - when docs repo setup, validation, publication, or AI-consumption commands change
 checkPaths:
-  - README.md
-  - package.json
+  - AGENTS.md
+  - .docpact/config.yaml
   - .github/workflows/publish-docs.yml
-  - scripts/generate-llms-txt.mjs
-  - scripts/check-publication-scope.mjs
-  - scripts/publication-policy.mjs
-  - scripts/check-screenshots.mjs
+  - .github/workflows/build.yml
+  - package.json
+  - next.config.ts
+  - edgeone.json
+  - crowdin.yml
   - context7.json
-  - static/llms.txt
-lastReviewedAt: 2026-08-20
-lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for docs-impact Issue #619 after rebasing current main into PR #129: lockfile-free install, docs:llms, publication-scope, screenshot, lint, typecheck, and build workflow remain current for TIDAS import API docs."
+  - scripts/build.mjs
+  - scripts/check-env.mjs
+  - scripts/verify-out.mjs
+  - content/docs/**
+  - app/**
+  - lib/**
+  - components/**
+lastReviewedAt: 2026-08-22
+lastReviewedCommit: ab5e3f495827ce0ef2ea86ecc852c00d389fcf5b
+lastReviewedNote: "Reviewed for P2 cleanup (issue #131): README rewritten for the Fumadocs static stack; build contract, publishing model, and repo layout documented."
 related:
   - AGENTS.md
+  - .docpact/config.yaml
   - docs/agents/repo-validation.md
-  - docs/dev/dev-env.md
 ---
 
-## TianGong LCA Docs
+# TianGong LCA Documentation
 
-This repository contains the public Docusaurus site for TianGong LCA.
+Public documentation for the [TianGong LCA](https://lca.tiangong.earth) platform, built with
+[Next.js 16](https://nextjs.org) + [Fumadocs 16](https://fumadocs.dev) + TypeScript 7 (native),
+exported as a fully static site and published by [EdgeOne Makers](https://pages.edgeone.ai)
+(Git integration).
 
-## Source of truth
+## Locales
 
-- Chinese public-doc source: `docs/**`
-- English mirror: `i18n/en/docusaurus-plugin-content-docs/current/**`
-- Product behaviour source: `../tiangong-lca-next`
+- `zh`（默认，内容源）— `/zh/docs/...`
+- `en` — `/en/docs/...`
+- `de` / `fr` — landing pages only; pages publish after translation review (Crowdin)
 
-The English tree is a maintained mirror, not a fire-and-forget translation dump. If a public page
-changes in Chinese, update the English mirror in the same change.
+Source files follow the dot-locale convention: `page.mdx`（中文）、`page.en.mdx`、`page.de.mdx`、`page.fr.mdx`.
+Pages missing a locale are simply not generated in that locale (`fallbackLanguage: null`).
 
-## Environment
+## Development
 
-- Docs repo runtime: `package.json` currently allows `node >=18.0`
-- Recommended workspace baseline: **Node 24**
-
-If you are working across both docs and `../tiangong-lca-next`, use Node 24 to avoid switching
-versions.
-
-## Install
+Requires Node.js ≥ 24.18.0 and pnpm 11.22.0 (`packageManager` enforced).
 
 ```bash
-nvm install 24
-nvm use 24
-npm install --no-package-lock
+pnpm install
+
+# 本地开发（next dev）
+pnpm dev
+
+# 契约构建（环境契约校验 → next build → out/ 结构断言）
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
+
+pnpm typecheck   # next typegen && tsc --noEmit（TypeScript 7 原生）
+pnpm lint        # markdownlint（md + mdx）
 ```
 
-This repository does not currently commit a package lock, so `npm ci` cannot
-bootstrap a clean checkout. Keep local installation lockfile-free unless a
-separate dependency-governance change intentionally introduces one.
+## Build contract (v4)
 
-## Common commands
+The build is environment-contract driven (`scripts/build.mjs`):
 
-```bash
-npm run start
-npm run lint
-npm run lint:fix
-npm run docs:llms
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run docs:screenshots:check
-npm run typecheck
-npm run build
-npm run serve
+| 变量 | 约束 |
+| --- | --- |
+| `SOURCE_COMMIT` | 40 位 SHA；缺省时由 `git rev-parse HEAD` 推导 |
+| `SOURCE_DATE_EPOCH` | commit 时间戳（unix 秒）；缺省由 git 推导 |
+| `DEPLOY_ENV` | `ci` / `preview` / `production`（决定 noindex、robots、搜索后端） |
+| `CANONICAL_ORIGIN` | 生产固定 `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static`（ci/preview）或 `algolia`（production） |
+
+`pnpm build` 产出 `out/`（静态导出）并通过 `scripts/verify-out.mjs` 的 18 项契约断言
+（site-routes manifest 全量路由、search-records/llms 的 commit 戳与计数、greenfield deny、
+sitemap locale 隔离、OG 图、内部内容零泄漏）。
+
+## Publishing
+
+EdgeOne Makers Git integration owns build + deploy (GitHub Actions runs validation only).
+See `spike/PLAN-v4.md`（spike 分支）与 [Issue #131](https://github.com/linancn/tiangong-lca-next-docs/issues/131)
+for the migration program and the publication state machine.
+
+## Repository layout
+
 ```
-
-`npm run build` runs `npm run docs:llms` through `prebuild` first, so hosted platforms that only
-invoke the standard build command still publish `llms.txt` with the current build commit.
-
-## Recommended verification
-
-For public-doc changes, run at least:
-
-```bash
-npm run lint
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run build
-```
-
-When a change adds, replaces, or reuses screenshots, pass the local visual
-evidence manifest:
-
-```bash
-npm run docs:screenshots:check -- \
-  --manifest /tmp/docs-impact-visual-result.json \
-  --diff-file /tmp/docs-impact-visual.name-status
-```
-
-Without a manifest, the command succeeds as `not_applicable` when the selected
-diff has no public screenshot changes and fails if screenshot binaries changed
-without declared evidence.
-
-If navigation or page structure changes, also check:
-
-- `sidebars.ts`
-- `docs/intro.md`
-- `docs/user-guide/overview.md`
-
-## Translation scaffolding
-
-```bash
-npm run write-translations -- --locale en
-```
-
-Use scaffolding only as a starting point. Final English content should be reviewed and edited
-manually.
-
-## Docs / Product sync
-
-For the full maintainer workflow, read:
-
-- `docs/dev/docs-product-sync.md`
-- `TODO.docs-system-gaps.md`
-
-The default online verification target is `https://lca.tiangong.earth/`.
-
-## Publish
-
-Every push to `main` runs `.github/workflows/publish-docs.yml`, which regenerates `static/llms.txt`,
-checks the publication scope, builds the Docusaurus site, deploys Cloudflare Pages, verifies
-`/llms.txt`, and refreshes Context7 when `CONTEXT7_API_KEY` is configured.
-
-The legacy tag-triggered release workflow remains available for version-style releases:
-
-```bash
-git tag
-git tag v0.0.1
-git push origin v0.0.1
+app/            Next.js App Router（[lang] 四语言路由 + 系统端点）
+components/     UI components（search dialog、VideoEmbed、MDX components）
+content/docs/   文档源（dot-locale 契约）
+lib/            i18n / source loader / 新 IA 常量
+public/assets/  媒体（/assets/docs/<sha256-8>/<slug> 哈希命名空间）
+manifests/      P0B 基线 manifest（site-routes / greenfield-deny / inventory）
+scripts/        build.mjs / check-env.mjs / verify-out.mjs / migration/*
+docs/agents/    内部治理文档（不发布）
 ```

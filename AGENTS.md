@@ -50,7 +50,7 @@ checkPaths:
   - scripts/install-git-hooks.sh
 lastReviewedAt: "2026-08-22"
 lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for P2 content migration (issue #131): all 74 public source pages (37 zh + 37 en) migrated to content/docs with new-IA paths, media moved to /assets/docs hash namespace, legacy syntax eliminated; content-check 5236/5236 prose lines absorbed; verify-out 18/18 green (103 routes, 78 llms/search records, 98 OG, greenfield deny)."
+lastReviewedNote: "Reviewed for P2 cleanup (issue #131): legacy Docusaurus trees removed (docs/ public pages, i18n/, static/), scripts superseded by manifest-driven verify-out; context7/crowdin/README/gitignore/docpact config aligned to the Fumadocs path model; docs/agents/** governance area retained."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

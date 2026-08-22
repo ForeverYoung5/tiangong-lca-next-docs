@@ -4,19 +4,20 @@
   "description": "Public TianGong LCA user documentation, integration guides, OpenAPI usage notes, MCP setup, deployment guidance, FAQ, and changelog.",
   "branch": "main",
   "folders": [
-    "docs",
-    "i18n/en/docusaurus-plugin-content-docs/current"
+    "content/docs"
   ],
   "excludeFolders": [
-    "docs/agents",
     ".agents",
     ".docpact",
     "_docs",
     ".github",
     "scripts",
-    "build",
-    ".docusaurus",
-    "node_modules"
+    "out",
+    ".next",
+    "node_modules",
+    "public/assets",
+    "manifests",
+    "docs/agents"
   ],
   "excludeFiles": [
     "AGENTS.md",

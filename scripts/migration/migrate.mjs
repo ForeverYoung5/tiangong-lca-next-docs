@@ -43,6 +43,24 @@ for (const m of mediaManifest.media) {
   for (const sp of m.sourcePaths) mediaPathMap.set(sp, m);
 }
 
+// 旧显式 heading ID → 新生成 slug（github-slugger；v4 §8.2 锚点由新页面重新生成）
+const ANCHOR_REMAP = {
+  zh: {
+    'create-process': '新建过程process',
+    'create-model': '新建模型model',
+    'create-flow': '新建流flow',
+    'create-contact': '新建联系人contact',
+    'create-source': '新建来源source',
+  },
+  en: {
+    'create-process': 'create-a-process',
+    'create-model': 'create-a-model',
+    'create-flow': 'create-a-flow',
+    'create-contact': 'create-a-contact',
+    'create-source': 'create-a-source',
+  },
+};
+
 const report = { pages: [], media: [], warnings: [] };
 const norm = (p) => path.posix.normalize(p);
 
@@ -87,7 +105,7 @@ function transformPage(page, pageInfo, locale) {
   });
 
   // 2. 显式 heading ID 移除（锚点由新页面标题重新生成）
-  text = text.replace(/(\s)\{#[^}]+\}(\s*)$/gm, '$1$2');
+  text = text.replace(/\s*\{#[^}]+\}\s*$/gm, '');
   transforms.push('strip-explicit-heading-ids');
 
   // 3. iframe JSX → VideoEmbed（demonstrations 页）
@@ -164,7 +182,12 @@ function transformPage(page, pageInfo, locale) {
       return m;
     }
     transforms.push('links-to-new-ia');
-    return `${pre}${newUrl}${anchor}${tail}`;
+    // 旧显式 heading ID 锚点 → 新生成 slug
+    const remappedAnchor = anchor.replace(
+      /^#(create-(?:process|model|flow|contact|source))$/,
+      (a, id) => `#${ANCHOR_REMAP[locale][id] ?? id}`,
+    );
+    return `${pre}${newUrl}${remappedAnchor}${tail}`;
   });
 
   // 6. 组装输出

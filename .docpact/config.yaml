@@ -3,7 +3,7 @@ layout: repo
 lastReviewedAt: "2026-08-22"
 lastReviewedCommit: "e76d5571a6fa495e103576e2a69a9c2407522458"
 reviewNote: "Reviewed for P0C (issue #131): transition-aware routing — new Fumadocs paths added, legacy paths retained until P1/P2."
-lastReviewedNote: "Reviewed for P2 content migration (issue #131): all 74 public source pages (37 zh + 37 en) migrated to content/docs with new-IA paths, media moved to /assets/docs hash namespace, legacy syntax eliminated; content-check 5236/5236 prose lines absorbed; verify-out 18/18 green (103 routes, 78 llms/search records, 98 OG, greenfield deny)."
+lastReviewedNote: "Reviewed for P2 cleanup (issue #131): legacy Docusaurus trees removed (docs/ public pages, i18n/, static/), scripts superseded by manifest-driven verify-out; context7/crowdin/README/gitignore/docpact config aligned to the Fumadocs path model; docs/agents/** governance area retained."
 
 catalog:
   repos:
@@ -32,18 +32,14 @@ ownership:
     - id: public-doc-content
       paths:
         include:
-          - docs/**
-          - i18n/en/docusaurus-plugin-content-docs/current/**
-          - static/**
           - content/docs/**
           - public/assets/docs/**
+          - public/favicon.ico
+          - public/logo.svg
       ownerRepo: next-docs
     - id: docs-site-structure
       paths:
         include:
-          - sidebars.ts
-          - docusaurus.config.ts
-          - src/**
           - package.json
           - tsconfig.json
           - next.config.ts
@@ -60,8 +56,6 @@ ownership:
           - scripts/generate-llms-txt.mjs
           - scripts/check-publication-scope.mjs
           - scripts/publication-policy.mjs
-          - scripts/check-screenshots.mjs
-          - scripts/check-screenshots.test.mjs
       ownerRepo: next-docs
 
     - id: local-docpact-push-gate
@@ -84,24 +78,20 @@ coverage:
     - TODO.docs-system-gaps.md
     - .docpact/config.yaml
     - docs/agents/**
-    - docs/**
-    - i18n/en/docusaurus-plugin-content-docs/current/**
-    - static/**
     - context7.json
-    - scripts/generate-llms-txt.mjs
-    - scripts/check-publication-scope.mjs
-    - scripts/publication-policy.mjs
     - scripts/check-screenshots.mjs
     - scripts/check-screenshots.test.mjs
-    - sidebars.ts
-    - docusaurus.config.ts
-    - src/**
     - package.json
     - tsconfig.json
     - .github/workflows/ai-doc-lint.yml
     - .github/workflows/publish-docs.yml
     - content/docs/**
     - public/assets/docs/**
+    - public/favicon.ico
+    - public/logo.svg
+    - scripts/build.mjs
+    - scripts/check-env.mjs
+    - scripts/verify-out.mjs
     - next.config.ts
     - edgeone.json
     - postcss.config.mjs
@@ -118,8 +108,6 @@ coverage:
     - .github/scripts/**
     - .docpact/runs/**
     - node_modules/**
-    - build/**
-    - .docusaurus/**
     - .next/**
     - out/**
     - .source/**
@@ -139,16 +127,10 @@ routing:
         - scripts/install-git-hooks.sh
     public-content:
       paths:
-        - docs/**
-        - i18n/en/docusaurus-plugin-content-docs/current/**
-        - static/**
         - content/docs/**
         - public/assets/docs/**
     site-structure:
       paths:
-        - sidebars.ts
-        - docusaurus.config.ts
-        - src/**
         - package.json
         - tsconfig.json
         - next.config.ts
@@ -162,11 +144,11 @@ routing:
         - crowdin.yml
         - scripts/migration/**
         - context7.json
-        - scripts/generate-llms-txt.mjs
-        - scripts/check-publication-scope.mjs
-        - scripts/publication-policy.mjs
         - scripts/check-screenshots.mjs
         - scripts/check-screenshots.test.mjs
+        - scripts/build.mjs
+        - scripts/check-env.mjs
+        - scripts/verify-out.mjs
         - .github/workflows/publish-docs.yml
     drift-backlog:
       paths:
@@ -182,9 +164,10 @@ routing:
       paths:
         - docs/agents/repo-validation.md
         - package.json
-        - sidebars.ts
-        - docusaurus.config.ts
-        - src/**
+        - next.config.ts
+        - app/**
+        - lib/**
+        - components/**
     root-integration:
       paths:
         - AGENTS.md
@@ -253,16 +236,14 @@ rules:
     scope: repo
     repo: next-docs
     triggers:
-      - path: docs/**
-        kind: public-doc-source
-      - path: i18n/en/docusaurus-plugin-content-docs/current/**
-        kind: public-doc-mirror
-      - path: static/**
-        kind: public-asset
       - path: content/docs/**
-        kind: public-doc-source-next
+        kind: public-doc-source
       - path: public/assets/docs/**
-        kind: public-asset-next
+        kind: public-asset
+      - path: public/favicon.ico
+        kind: public-asset
+      - path: public/logo.svg
+        kind: public-asset
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -277,12 +258,6 @@ rules:
     scope: repo
     repo: next-docs
     triggers:
-      - path: sidebars.ts
-        kind: site-nav
-      - path: docusaurus.config.ts
-        kind: site-config
-      - path: src/**
-        kind: site-runtime
       - path: package.json
         kind: site-runtime-config
       - path: tsconfig.json
@@ -313,6 +288,12 @@ rules:
         kind: docs-screenshot-validation
       - path: scripts/check-screenshots.test.mjs
         kind: docs-screenshot-validation-test
+      - path: scripts/build.mjs
+        kind: build-automation
+      - path: scripts/check-env.mjs
+        kind: build-automation
+      - path: scripts/verify-out.mjs
+        kind: build-automation
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -347,14 +328,10 @@ rules:
         kind: publication-automation
       - path: context7.json
         kind: ai-publication-config
-      - path: static/llms.txt
+      - path: app/llms.txt/route.ts
         kind: ai-publication-index
-      - path: scripts/generate-llms-txt.mjs
-        kind: publication-automation
-      - path: scripts/check-publication-scope.mjs
-        kind: publication-automation
-      - path: scripts/publication-policy.mjs
-        kind: publication-automation
+      - path: app/search-records.json/route.ts
+        kind: ai-publication-index
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -364,9 +341,9 @@ rules:
         mode: review_or_update
       - path: docs/agents/repo-validation.md
         mode: review_or_update
-      - path: docs/dev/dev-env.md
+      - path: content/docs/deploy-and-dev/dev-env.mdx
         mode: review_or_update
-      - path: i18n/en/docusaurus-plugin-content-docs/current/dev/dev-env.md
+      - path: content/docs/deploy-and-dev/dev-env.en.mdx
         mode: review_or_update
     reason: The publish workflow, llms.txt generator, publication scope policy, and Context7 source config define what public docs are exposed after main merges.
   - id: next-docs-local-docpact-push-gate
