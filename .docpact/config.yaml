@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-23"
-lastReviewedCommit: "d4f91b9c1d5a1e37f212da006a7ee75a1555c456"
-reviewNote: "Reviewed for Issue #136: greenfield Next/Fumadocs ownership, four-locale content, Data Atlas UI, permanent output/link gates, and current publication workflows."
-lastReviewedNote: "One-time migration and obsolete screenshot validators were removed; deterministic category, route, and deny manifests remain governed build contracts."
+lastReviewedCommit: "c6f4e8d23b14e0bd33fda7a741776becbce01e01"
+reviewNote: "Reviewed for Issue #138: preview deployment validation is isolated from production Algolia and Context7 mutation; routing and rule topology remain correct."
+lastReviewedNote: "Production reconciliation retains the publication mutation boundary while preview remains validation-only."
 
 catalog:
   repos:
