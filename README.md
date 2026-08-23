@@ -7,101 +7,101 @@ authoritative: true
 owner: next-docs
 language: en
 whenToUse:
-  - when setting up or maintaining the public Fumadocs documentation repository
-  - when choosing local validation commands for build contract, llms.txt, or search-records work
+  - when setting up or maintaining the public Next.js and Fumadocs documentation site
+  - when choosing local validation commands for static output, links, search records, or AI indexes
 whenToUpdate:
-  - when docs repo setup, validation, publication, or AI-consumption commands change
+  - when setup, validation, locale, publication, or search reconciliation changes
 checkPaths:
   - AGENTS.md
   - .docpact/config.yaml
-  - .github/workflows/publish-docs.yml
-  - .github/workflows/build.yml
+  - docs/agents/**
   - package.json
   - next.config.ts
   - edgeone.json
-  - crowdin.yml
-  - context7.json
-  - scripts/build.mjs
-  - scripts/check-env.mjs
-  - scripts/verify-out.mjs
-  - content/docs/**
   - app/**
-  - lib/**
   - components/**
-lastReviewedAt: 2026-08-22
-lastReviewedCommit: ab5e3f495827ce0ef2ea86ecc852c00d389fcf5b
-lastReviewedNote: "Reviewed for P4 preparation (issue #131): orphan media deletion decision recorded (15 files user-confirmed, never published on either site); migration cutover runbook added (docs/agents/migration-cutover-runbook.md) consolidating verified operational facts from P0A-P3 and the EdgeOne/GitHub environment matrix; P3 reconciliation chain fully green."
+  - lib/**
+  - content/docs/**
+  - public/**
+  - scripts/**
+  - context7.json
+  - crowdin.yml
+  - .github/workflows/**
+lastReviewedAt: 2026-08-23
+lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
+lastReviewedNote: "Reviewed for Issue #136 after Data Atlas UI, four-locale publication, generated link validation, and governance cleanup."
 related:
   - AGENTS.md
   - .docpact/config.yaml
+  - docs/agents/repo-architecture.md
   - docs/agents/repo-validation.md
 ---
 
-Public documentation for the [TianGong LCA](https://lca.tiangong.earth) platform, built with
-[Next.js 16](https://nextjs.org) + [Fumadocs 16](https://fumadocs.dev) + TypeScript 7 (native),
-exported as a fully static site and published by [EdgeOne Makers](https://pages.edgeone.ai)
-(Git integration).
+## TianGong LCA Docs
 
-## Locales
+Public documentation for the [TianGong LCA](https://lca.tiangong.earth) platform, built with Next.js 16, Fumadocs 16, React 19, and TypeScript 7. The site exports completely static output and EdgeOne Makers builds and deploys it from Git.
 
-- `zh`（默认，内容源）— `/zh/docs/...`
-- `en` — `/en/docs/...`
-- `de` / `fr` — landing pages only; pages publish after translation review (Crowdin)
+## Locales and routes
 
-Source files follow the dot-locale convention: `page.mdx`（中文）、`page.en.mdx`、`page.de.mdx`、`page.fr.mdx`.
-Pages missing a locale are simply not generated in that locale (`fallbackLanguage: null`).
+- `zh` — canonical authoring source
+- `en`, `de`, and `fr` — maintained full-page translations
+- `/` — complete Chinese `x-default` home, rendered directly without redirect
+- `/{lang}/` — locale home
+- `/{lang}/docs/**` — locale documentation
+
+Source files use dot-locale names: `page.mdx`, `page.en.mdx`, `page.de.mdx`, and `page.fr.mdx`. Missing translations do not fall back to another language.
 
 ## Development
 
-Requires Node.js ≥ 24.18.0 and pnpm 11.22.0 (`packageManager` enforced).
+Requires Node.js 24.18 or newer and pnpm 11.22.0.
 
 ```bash
-pnpm install
-
-# 本地开发（next dev）
+pnpm install --frozen-lockfile
 pnpm dev
+```
 
-# 契约构建（环境契约校验 → next build → out/ 结构断言）
+The development server normally listens on `http://localhost:3000`.
+
+## Validation
+
+```bash
+pnpm lint
+pnpm typecheck
+node --test scripts/check-links.test.mjs
+
 DEPLOY_ENV=ci \
 CANONICAL_ORIGIN=http://localhost:3000 \
 NEXT_PUBLIC_SEARCH_MODE=static \
 pnpm build
-
-pnpm typecheck   # next typegen && tsc --noEmit（TypeScript 7 原生）
-pnpm lint        # markdownlint（md + mdx）
 ```
 
-## Build contract (v4)
+The build wrapper performs environment validation, `next build`, deterministic output verification, and generated HTML link/fragment/asset checking. A successful build currently validates all locale routes, public endpoints, search and AI records, SEO files, Open Graph images, negative retired paths, and internal-content exclusion.
 
-The build is environment-contract driven (`scripts/build.mjs`):
+## Build environment
 
-| 变量 | 约束 |
+| Variable | Contract |
 | --- | --- |
-| `SOURCE_COMMIT` | 40 位 SHA；缺省时由 `git rev-parse HEAD` 推导 |
-| `SOURCE_DATE_EPOCH` | commit 时间戳（unix 秒）；缺省由 git 推导 |
-| `DEPLOY_ENV` | `ci` / `preview` / `production`（决定 noindex、robots、搜索后端） |
-| `CANONICAL_ORIGIN` | 生产固定 `https://docs.tiangong.earth` |
-| `NEXT_PUBLIC_SEARCH_MODE` | `static`（ci/preview）或 `algolia`（production） |
+| `SOURCE_COMMIT` | 40-character source SHA; derived from Git when omitted locally |
+| `SOURCE_DATE_EPOCH` | Source commit time; derived from Git when omitted locally |
+| `DEPLOY_ENV` | `ci`, `preview`, or `production` |
+| `CANONICAL_ORIGIN` | Production must use `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static` for CI/preview or `algolia` for production |
 
-`pnpm build` 产出 `out/`（静态导出）并通过 `scripts/verify-out.mjs` 的 18 项契约断言
-（site-routes manifest 全量路由、search-records/llms 的 commit 戳与计数、greenfield deny、
-sitemap locale 隔离、OG 图、内部内容零泄漏）。
+## Publishing and reconciliation
 
-## Publishing
+EdgeOne Makers owns build and deployment. GitHub Actions validates pull requests, waits for the deployed source SHA after a main update, validates public endpoints, replaces the Algolia index from the deployed `search-records.json`, and requests Context7 refresh.
 
-EdgeOne Makers Git integration owns build + deploy (GitHub Actions runs validation only).
-See `spike/PLAN-v4.md`（spike 分支）与 [Issue #131](https://github.com/linancn/tiangong-lca-next-docs/issues/131)
-for the migration program and the publication state machine.
+Writing credentials stay in the GitHub production environment and never enter the static bundle. The browser receives only the restricted search configuration required by production search.
 
 ## Repository layout
 
 ```text
-app/            Next.js App Router（[lang] 四语言路由 + 系统端点）
-components/     UI components（search dialog、VideoEmbed、MDX components）
-content/docs/   文档源（dot-locale 契约）
-lib/            i18n / source loader / 新 IA 常量
-public/assets/  媒体（/assets/docs/<sha256-8>/<slug> 哈希命名空间）
-manifests/      P0B 基线 manifest（site-routes / greenfield-deny / inventory）
-scripts/        build.mjs / check-env.mjs / verify-out.mjs / migration/*
-docs/agents/    内部治理文档（不发布）
+app/             routes, metadata, public endpoints, global Data Atlas styles
+components/      shared brand/home, search, MDX, and media components
+content/docs/    four-locale dot-suffix MDX sources
+lib/             locale, source, metadata, information architecture, layout options
+public/          brand and documentation media
+manifests/p0b/   retained deterministic route, category, and negative-path contracts
+scripts/         build, output, link, search, and Docpact validation
+docs/agents/     internal architecture, validation, and operations references
 ```

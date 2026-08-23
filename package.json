@@ -12,6 +12,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "check:env": "node scripts/check-env.mjs",
     "verify:out": "node scripts/verify-out.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "lint": "npx markdownlint-cli2 '**/*.md' '**/*.mdx' '#node_modules' '#content/docs/.source'"
   },
   "dependencies": {

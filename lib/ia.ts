@@ -1,9 +1,9 @@
 /**
- * v4 §5.2 新信息架构：10 组分类语义。
- * 单一来源为 manifests/p0b/categories.json；此处硬编码副本由
- * verify-out（site-routes 计数断言）保证与 manifest 一致。
+ * Public information architecture: 10 category groups.
+ * The retained build contract is manifests/p0b/categories.json; verify-out
+ * keeps this runtime list aligned with that deterministic route inventory.
  *
- * 分类首页默认 llms:false / search:false（v4 §2）。
+ * Category index pages stay out of llms.txt and search records.
  */
 export const categoryBases: readonly string[] = [
   'overview',

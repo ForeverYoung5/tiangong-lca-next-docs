@@ -1,187 +1,74 @@
 ---
 title: "Environnement de développement"
+description: "Maintenir TianGong LCA Docs avec Node.js, pnpm et son contrat de build statique."
 ---
 
-Cette page explique la configuration locale de `tiangong-lca-next-docs` et la relation entre sa
-baseline Node et le dépôt produit `../tiangong-lca-next`.
+Cette page décrit le développement local, la validation et la publication de `tiangong-lca-next-docs`. Pour vérifier aussi le comportement du produit, consultez le [guide de synchronisation entre documentation et produit](/fr/docs/deploy-and-dev/docs-product-sync/).
 
-Si votre travail implique aussi d'aligner la documentation sur le comportement du produit,
-poursuivez avec le [Guide de synchronisation docs/produit](./docs-product-sync/).
+## Environnement requis
 
-## Baseline Node
+- Node.js 24.18 ou version ultérieure
+- pnpm 11.22.0
+- Git, utilisé pour produire une identité de source et des horodatages reproductibles
 
-Deux baselines sont actuellement à garder en tête :
+Le dépôt fixe sa chaîne d'outils avec `packageManager`, `engines` et le fichier de verrouillage. Ne mélangez pas les gestionnaires de paquets.
 
-- **Dépôt du site de documentation** : `package.json` déclare actuellement `node >=18.0`
-- **Dépôt produit `../tiangong-lca-next`** : la baseline d'ingénierie actuelle est **Node 24**
-
-### Approche recommandée
-
-Pour une maintenance légère du dépôt de documentation, Node 18+ suffit techniquement.
-
-Si vous devez également :
-
-- inspecter l'implémentation réelle dans `../tiangong-lca-next`
-- basculer entre les deux dépôts
-- enquêter sur la dérive entre la documentation et le comportement livré
-
-utilisez **Node 24** dans les deux dépôts pour éviter les changements de version.
-
-## Installer les dépendances
+## Installation et développement local
 
 ```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-nvm install 24
-nvm alias default 24
-nvm use 24
-
-npm install --no-package-lock
+corepack enable
+corepack prepare pnpm@11.22.0 --activate
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-Le dépôt ne committe actuellement aucun lock de paquet, donc `npm ci` ne peut pas amorcer un
-checkout propre. Gardez l'installation locale sans lockfile, sauf si un changement distinct de
-gouvernance des dépendances en introduit un délibérément.
+Le site fonctionne normalement sur `http://localhost:3000`. La racine `/` affiche directement la page d'accueil chinoise complète ; les autres langues utilisent `/en/`, `/de/` et `/fr/`. Le changement de langue ne dépend d'aucune redirection.
 
-## Commandes courantes
-
-### Développement local
+## Validation quotidienne
 
 ```bash
-npm run start
+pnpm lint
+pnpm typecheck
+node --test scripts/check-links.test.mjs
 ```
 
-Le site local tourne normalement sur `http://localhost:3000/`.
-
-### Lint Markdown
+Après une modification de page, lien, navigation, média, mise en page ou métadonnée, exécutez également le build statique complet :
 
 ```bash
-npm run lint
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
 ```
 
-### Générer et vérifier l'index de documentation IA
+Le build valide l'environnement, produit `out/`, contrôle les routes et points d'accès publics déterministes, puis analyse chaque référence locale de page, fragment et média. Un lien cassé fait échouer le build.
 
-```bash
-npm run docs:llms
-npm run docs:llms:check
-```
+## Variables de build
 
-`docs:llms` génère `static/llms.txt` à partir de la documentation Docusaurus publique.
-`docs:llms:check` confirme que l'index commité correspond toujours à la source documentaire
-publique actuelle.
+| Variable | Rôle |
+| --- | --- |
+| `SOURCE_COMMIT` | SHA source de 40 caractères ; déduite de Git en local |
+| `SOURCE_DATE_EPOCH` | Date du commit source ; déduite de Git en local |
+| `DEPLOY_ENV` | `ci`, `preview` ou `production` |
+| `CANONICAL_ORIGIN` | La production utilise obligatoirement `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static` pour CI/aperçu, `algolia` pour la production |
 
-### Vérifier le périmètre de publication
+Les builds hors production ajoutent `noindex` et bloquent les robots. La production génère les URL canoniques, les alternatives dans quatre langues, la sitemap et les métadonnées Open Graph.
 
-```bash
-npm run docs:publication-scope:check
-```
+## Contenu en quatre langues
 
-Cette commande vérifie `static/llms.txt`, `sidebars.ts`, `context7.json` et `build/llms.txt` quand
-un build existe. Elle empêche que la documentation interne d'agents, les TODO, plans, registres
-d'incidents ou le matériel d'exécution de gouvernance n'entrent dans le périmètre public de
-consommation IA.
+Le chinois utilise `page.mdx` ; les traductions utilisent `page.en.mdx`, `page.de.mdx` et `page.fr.mdx`. Maintenez les quatre fichiers ensemble lorsque la structure, les liens, les exemples ou les faits visibles changent.
 
-### Vérifier les preuves de captures d'écran docs-impact
+## Contrôles visuels
 
-```bash
-npm run docs:screenshots:test
-npm run docs:screenshots:check
-npm run docs:screenshots:check -- \
-  --manifest /tmp/docs-impact-visual-result.json \
-  --diff-file /tmp/docs-impact-visual.name-status
-```
+Pour toute modification de l'accueil, de la navigation, de la recherche ou du style, vérifiez dans un vrai navigateur :
 
-`docs:screenshots:test` exécute la suite de régression du contrat de captures. Sans manifest,
-`docs:screenshots:check` confirme que le diff sélectionné ne contient aucun changement de captures
-de documentation. Pour des preuves d'ajout, remplacement ou réutilisation, transmettez le résultat
-visuel local et le diff name-status complet. Le validateur contrôle les actifs bilingues locaux à
-la page, les références et textes alternatifs, l'explication proche dans chaque page linguistique,
-les métadonnées 144 DPI, les hachages, les ratios et l'état du diff propre à l'action. Le
-`validate-visual-evidence.rb` du workspace reste responsable de la validation du rapport d'accès
-local 0600 utilisé par l'exception Draft access-denied.
+- mobile 390px
+- bureau 1440px
+- 2560px ou plus
+- thèmes clair et sombre
+- focus clavier, changement de langue, recherche, menu mobile et débordement horizontal
 
-### Corriger automatiquement les problèmes Markdown lintables
+## Publication
 
-```bash
-npm run lint:fix
-```
-
-### Vérification TypeScript
-
-```bash
-npm run typecheck
-```
-
-### Build de production
-
-```bash
-npm run build
-```
-
-`npm run build` exécute d'abord `npm run docs:llms` via `prebuild`, de sorte que les plateformes
-hébergées qui n'invoquent que la commande de build standard publient toujours un fichier
-`llms.txt` portant le commit du build courant.
-
-### Servir le site construit localement
-
-```bash
-npm run serve
-```
-
-### Générer l'échafaudage de traduction
-
-```bash
-npm run write-translations -- --locale en
-```
-
-## Vérification minimale pour les changements de documentation
-
-Pour les changements de contenu public, exécutez au minimum :
-
-```bash
-npm run lint
-npm run docs:screenshots:check
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run build
-```
-
-Si votre changement touche la navigation, la structure de la barre latérale, les liens ou les
-miroirs bilingues, revérifiez aussi :
-
-- `docs/intro.md`
-- `docs/user-guide/overview.md`
-- `sidebars.ts`
-
-## Notes de version
-
-Le `.github/workflows/publish-docs.yml` du dépôt exécute la boucle de publication après fusion à
-chaque push sur `main` :
-
-1. Générer et vérifier `static/llms.txt`
-2. Exécuter la vérification du périmètre de publication
-3. Exécuter lint, typecheck et le build Docusaurus
-4. Déployer sur Cloudflare Pages
-5. Vérifier le `/llms.txt` public
-6. Rafraîchir Context7 — ou laisser un suivi visible quand le secret manque ou que le rafraîchissement échoue
-
-Le dépôt conserve aussi `.github/workflows/build.yml` pour la publication de versions déclenchée
-par tag. Créez et poussez un tag correspondant à `v*` pour déclencher ce flux.
-
-```bash
-git tag
-git tag v0.0.1
-git push origin v0.0.1
-```
-
-Le déploiement Cloudflare Pages dépend toujours de variables d'environnement au niveau du dépôt :
-
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-- `CONTEXT7_API_KEY` pour le rafraîchissement automatique de Context7. S'il manque, le workflow
-  laisse un suivi en attente.
-
-Variable de dépôt optionnelle :
-
-- `CONTEXT7_LIBRARY_NAME`, par défaut sous la forme d'identifiant de bibliothèque Context7
-  `/${{ github.repository }}`
+Après un merge dans `main`, EdgeOne Makers construit et publie le site statique depuis Git. GitHub Actions attend ensuite que `/llms.txt` expose le même commit source, valide les points d'accès publics, synchronise Algolia et demande une actualisation Context7. Les accès d'écriture restent dans l'environnement de production GitHub et n'entrent jamais dans les fichiers statiques.

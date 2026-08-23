@@ -1,185 +1,74 @@
 ---
-title: "Entwicklerumgebung"
+title: "Entwicklungsumgebung"
+description: "TianGong LCA Docs mit Node.js, pnpm und dem statischen Build-Vertrag pflegen."
 ---
 
-Diese Seite erläutert das lokale Setup für `tiangong-lca-next-docs` und wie sich die Node-Baseline
-zum Produkt-Repository unter `../tiangong-lca-next` verhält.
+Diese Seite beschreibt lokale Entwicklung, Validierung und Veröffentlichung von `tiangong-lca-next-docs`. Wenn Sie zusätzlich das Produktverhalten prüfen, lesen Sie den [Leitfaden zur Synchronisierung von Dokumentation und Produkt](/de/docs/deploy-and-dev/docs-product-sync/).
 
-Wenn Ihre Arbeit auch die Abstimmung der Dokumentation mit dem Produktverhalten umfasst, fahren Sie
-fort mit dem [Docs-/Produkt-Synchronisationsleitfaden](./docs-product-sync/).
+## Umgebungsbasis
 
-## Node-Baseline
+- Node.js 24.18 oder neuer
+- pnpm 11.22.0
+- Git zur Ableitung reproduzierbarer Quellidentität und Zeitstempel
 
-Derzeit sind zwei Baselines zu beachten:
+`packageManager`, `engines` und die Lockdatei legen die Werkzeugkette fest. Verwenden Sie keinen zweiten Paketmanager.
 
-- **Docs-Seiten-Repository**: `package.json` deklariert derzeit `node >=18.0`
-- **Produkt-Repository `../tiangong-lca-next`**: die aktuelle Engineering-Baseline ist **Node 24**
-
-### Empfohlenes Vorgehen
-
-Für leichte Wartungsarbeiten im Docs-Repository genügt Node 18+ technisch.
-
-Wenn Sie zusätzlich:
-
-- die tatsächliche Implementierung in `../tiangong-lca-next` einsehen
-- zwischen den beiden Repositories wechseln
-- Drift zwischen Dokumentation und ausgeliefertem Verhalten untersuchen
-
-möchten, nutzen Sie **Node 24** in beiden Repositories, um Versionswechsel zu vermeiden.
-
-## Abhängigkeiten installieren
+## Installation und lokale Entwicklung
 
 ```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-nvm install 24
-nvm alias default 24
-nvm use 24
-
-npm install --no-package-lock
+corepack enable
+corepack prepare pnpm@11.22.0 --activate
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-Das Repository committet derzeit keinen Package-Lock, daher kann `npm ci` ein sauberes Checkout
-nicht bootstrappen. Halten Sie die lokale Installation lockfile-frei, sofern nicht eine separate
-Abhängigkeits-Governance-Änderung bewusst einen Lock einführt.
+Die Website läuft normalerweise unter `http://localhost:3000`. `/` rendert die vollständige chinesische Startseite direkt; weitere Sprachseiten liegen unter `/en/`, `/de/` und `/fr/`. Der Sprachwechsel benötigt keine Weiterleitung.
 
-## Häufige Befehle
-
-### Lokale Entwicklung
+## Tägliche Validierung
 
 ```bash
-npm run start
+pnpm lint
+pnpm typecheck
+node --test scripts/check-links.test.mjs
 ```
 
-Die lokale Seite läuft üblicherweise unter `http://localhost:3000/`.
-
-### Markdown-Lint
+Führen Sie nach Änderungen an Seiten, Links, Navigation, Medien, Layout oder Metadaten zusätzlich den vollständigen statischen Build aus:
 
 ```bash
-npm run lint
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
 ```
 
-### AI-Dokumentationsindex generieren und prüfen
+Der Build prüft die Umgebung, erzeugt `out/`, validiert deterministische Routen und öffentliche Endpunkte und scannt anschließend alle lokalen Seiten-, Fragment- und Medienverweise. Ein defekter Link stoppt den Build.
 
-```bash
-npm run docs:llms
-npm run docs:llms:check
-```
+## Build-Variablen
 
-`docs:llms` erzeugt `static/llms.txt` aus den öffentlichen Docusaurus-Dokumenten. `docs:llms:check`
-bestätigt, dass der committete Index weiterhin zur aktuellen öffentlichen Dokumentquelle passt.
+| Variable | Zweck |
+| --- | --- |
+| `SOURCE_COMMIT` | 40-stellige Quell-SHA; lokal aus Git abgeleitet |
+| `SOURCE_DATE_EPOCH` | Zeitpunkt des Quell-Commits; lokal aus Git abgeleitet |
+| `DEPLOY_ENV` | `ci`, `preview` oder `production` |
+| `CANONICAL_ORIGIN` | Produktion ist auf `https://docs.tiangong.earth` festgelegt |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static` für CI/Vorschau, `algolia` für Produktion |
 
-### Veröffentlichungsbereich prüfen
+Nicht produktive Builds setzen `noindex` und sperren Crawler. Die Produktion erzeugt kanonische URLs, Alternativen für vier Sprachen, eine Sitemap und Open-Graph-Metadaten.
 
-```bash
-npm run docs:publication-scope:check
-```
+## Inhalte in vier Sprachen
 
-Dieser Befehl prüft `static/llms.txt`, `sidebars.ts`, `context7.json` und `build/llms.txt`, sofern
-ein Build existiert. Er verhindert, dass interne Agent-Dokumente, TODOs, Pläne, Vorfälle oder
-Governance-Ausführungsmaterial in den öffentlichen AI-Konsumbereich gelangen.
+Chinesisch verwendet `page.mdx`; Übersetzungen verwenden `page.en.mdx`, `page.de.mdx` und `page.fr.mdx`. Struktur, Links, Beispiele und sichtbare Fakten müssen in allen vier Dateien gemeinsam geändert werden.
 
-### Docs-Impact-Screenshot-Beweise prüfen
+## Visuelle Prüfung
 
-```bash
-npm run docs:screenshots:test
-npm run docs:screenshots:check
-npm run docs:screenshots:check -- \
-  --manifest /tmp/docs-impact-visual-result.json \
-  --diff-file /tmp/docs-impact-visual.name-status
-```
+Prüfen Sie Änderungen an Startseite, Navigation, Suche oder Gestaltung in einem echten Browser:
 
-`docs:screenshots:test` führt die Regressions-Suite des Screenshot-Vertrags aus. Ohne Manifest
-bestätigt `docs:screenshots:check`, dass der gewählte Diff keine Änderungen an
-Dokumentations-Screenshots enthält. Für Hinzufügen-, Ersetzen- oder Wiederverwendungsnachweise
-übergeben Sie das lokale visuelle Ergebnis und den vollständigen name-status-Diff. Der Validator
-prüft seitelokale zweisprachige Assets, Referenzen und Alt-Texte, nahe Erläuterungen auf jeder
-Sprachseite, 144-DPI-Metadaten, Hashes, Verhältnisse und diffspezifische Zustände. Der Workspace-
-`validate-visual-evidence.rb` bleibt verantwortlich für die Validierung des lokalen 0600-
-Zugriffsberichts, den die access-denied-Draft-Ausnahme verwendet.
+- 390px Mobilansicht
+- 1440px Desktop
+- 2560px oder breiter
+- helle und dunkle Darstellung
+- Tastaturfokus, Sprachwechsel, Suche, mobiles Menü und horizontales Überlaufen
 
-### Lintbare Markdown-Probleme automatisch beheben
+## Veröffentlichung
 
-```bash
-npm run lint:fix
-```
-
-### TypeScript-Prüfung
-
-```bash
-npm run typecheck
-```
-
-### Produktions-Build
-
-```bash
-npm run build
-```
-
-`npm run build` führt zunächst `npm run docs:llms` über `prebuild` aus, sodass gehostete Plattformen,
-die nur den Standard-Build-Befehl aufrufen, weiterhin eine `llms.txt` mit dem aktuellen Build-Commit
-veröffentlichen.
-
-### Die gebaute Seite lokal ausliefern
-
-```bash
-npm run serve
-```
-
-### Übersetzungsgerüst generieren
-
-```bash
-npm run write-translations -- --locale en
-```
-
-## Mindestverifikation für Dokumentänderungen
-
-Für Änderungen an öffentlichen Dokumenten führen Sie mindestens aus:
-
-```bash
-npm run lint
-npm run docs:screenshots:check
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run build
-```
-
-Berührt Ihre Änderung Navigation, Seitenleistenstruktur, Links oder zweisprachige Spiegel, prüfen
-Sie zusätzlich erneut:
-
-- `docs/intro.md`
-- `docs/user-guide/overview.md`
-- `sidebars.ts`
-
-## Versionshinweise
-
-Das `.github/workflows/publish-docs.yml` des Repositories durchläuft bei jedem Push auf `main` die
-Publish-Schleife nach dem Merge:
-
-1. `static/llms.txt` generieren und prüfen
-2. Veröffentlichungsbereichs-Prüfung ausführen
-3. Lint, Typecheck und den Docusaurus-Build ausführen
-4. Cloudflare Pages bereitstellen
-5. Die öffentliche `/llms.txt` verifizieren
-6. Context7 aktualisieren — oder einen sichtbaren Follow-up-Eintrag hinterlassen, wenn der Secret
-   fehlt oder die Aktualisierung fehlschlägt
-
-Das Repository behält zudem `.github/workflows/build.yml` für tag-gesteuertes Release-Publishing.
-Erstellen und pushen Sie einen Tag nach dem Muster `v*`, um diesen Ablauf auszulösen.
-
-```bash
-git tag
-git tag v0.0.1
-git push origin v0.0.1
-```
-
-Die Cloudflare-Pages-Bereitstellung hängt weiterhin von repositoryweiten Umgebungsvariablen ab:
-
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-- `CONTEXT7_API_KEY` für die automatische Context7-Aktualisierung. Fehlt sie, hinterlässt der
-  Workflow einen ausstehenden Follow-up-Eintrag.
-
-Optionale Repository-Variable:
-
-- `CONTEXT7_LIBRARY_NAME`, standardmäßig in der Context7-Bibliotheks-ID-Form `/${{ github.repository }}`
+Nach dem Merge in `main` baut und veröffentlicht EdgeOne Makers die statische Website aus Git. GitHub Actions wartet danach auf denselben Quell-Commit in `/llms.txt`, validiert öffentliche Endpunkte, synchronisiert Algolia und fordert eine Context7-Aktualisierung an. Schreibzugänge bleiben in der GitHub-Produktionsumgebung und gelangen nie in die statischen Dateien.

@@ -1,176 +1,74 @@
 ---
 title: "开发环境配置"
+description: "使用 Node.js、pnpm 和静态构建契约维护 TianGong LCA 文档站。"
 ---
 
-本页说明 `tiangong-lca-next-docs` 的本地开发环境，以及它与产品仓
-`../tiangong-lca-next` 之间的 Node 基线关系。
+本页说明 `tiangong-lca-next-docs` 的本地开发、验证与发布边界。需要同时核对产品行为时，请继续阅读 [Docs / Product 同步指南](/zh/docs/deploy-and-dev/docs-product-sync/)。
 
-如果您这次修改还涉及文档与产品行为对齐，请继续阅读
-[Docs / Product 同步指南](./docs-product-sync/)。
+## 环境基线
 
-## Node 基线
+- Node.js 24.18 或更高版本
+- pnpm 11.22.0
+- Git，用于推导可复现构建的 source commit 与时间
 
-当前有两层基线需要区分：
+仓库通过 `packageManager`、`engines` 与锁文件固定工具链。不要混用其他包管理器。
 
-- **Docs 站点仓**：`package.json` 当前声明 `node >=18.0`
-- **产品仓 `../tiangong-lca-next`**：工程基线当前是 **Node 24**
-
-### 推荐做法
-
-如果您只在 docs 仓内做简单站点维护，理论上 Node 18 及以上即可。
-
-如果您需要同时：
-
-- 对照 `../tiangong-lca-next` 的真实实现
-- 在两个仓库之间来回切换
-- 排查文档与系统行为差异
-
-建议直接统一使用 **Node 24**，这样不会在 docs 仓和产品仓之间反复切换版本。
-
-## 安装依赖
+## 安装与本地开发
 
 ```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-nvm install 24
-nvm alias default 24
-nvm use 24
-
-npm install --no-package-lock
+corepack enable
+corepack prepare pnpm@11.22.0 --activate
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-仓库当前不提交 package lock，因此干净 checkout 不能使用 `npm ci`。除非另一个依赖治理变更明确
-引入 lockfile，本地安装请保持不生成 lockfile。
+站点默认运行在 `http://localhost:3000`。根 `/` 直接显示完整中文主页；其他语言位于 `/en/`、`/de/` 与 `/fr/`。切换语言不会依赖重定向。
 
-## 常用命令
-
-### 本地调试
+## 日常验证
 
 ```bash
-npm run start
+pnpm lint
+pnpm typecheck
+node --test scripts/check-links.test.mjs
 ```
 
-本地站点默认运行在 `http://localhost:3000/`。
-
-### Markdown 检查
+修改页面、链接、导航、媒体、布局或元数据后，还必须运行完整静态构建：
 
 ```bash
-npm run lint
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
 ```
 
-### 生成和检查 AI 文档索引
+完整构建会依次验证环境、生成 `out/`、检查确定性路由和公共端点，并扫描所有生成 HTML 中的本地页面、锚点与媒体引用。任何失效链接都会阻断构建。
 
-```bash
-npm run docs:llms
-npm run docs:llms:check
-```
+## 构建变量
 
-`docs:llms` 会从公开 Docusaurus 文档生成 `static/llms.txt`。`docs:llms:check`
-用于确认已提交的索引与当前公开文档内容一致。
+| 变量 | 说明 |
+| --- | --- |
+| `SOURCE_COMMIT` | 40 位源码 SHA；本地缺省时从 Git 推导 |
+| `SOURCE_DATE_EPOCH` | 源提交时间；本地缺省时从 Git 推导 |
+| `DEPLOY_ENV` | `ci`、`preview` 或 `production` |
+| `CANONICAL_ORIGIN` | 生产固定为 `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | CI/预览使用 `static`，生产使用 `algolia` |
 
-### 检查公开发布范围
+非生产构建自动添加 `noindex` 并禁止爬虫；生产构建输出 canonical、四语言 alternatives、sitemap 与 Open Graph 元数据。
 
-```bash
-npm run docs:publication-scope:check
-```
+## 四语言内容
 
-该命令会检查 `static/llms.txt`、`sidebars.ts`、`context7.json` 以及存在时的
-`build/llms.txt`，防止内部 agent 文档、TODO、计划、事故记录或治理执行材料进入公开 AI
-消费范围。
+中文源文件使用 `page.mdx`，其他语言使用 `page.en.mdx`、`page.de.mdx` 与 `page.fr.mdx`。结构、链接、示例或用户可见事实发生变化时，四个文件必须在同一次修改中保持一致。
 
-### 检查 docs-impact 截图证据
+## 视觉检查
 
-```bash
-npm run docs:screenshots:test
-npm run docs:screenshots:check
-npm run docs:screenshots:check -- \
-  --manifest /tmp/docs-impact-visual-result.json \
-  --diff-file /tmp/docs-impact-visual.name-status
-```
+首页、导航、搜索或样式修改需要用真实浏览器检查：
 
-`docs:screenshots:test` 运行截图合同回归测试。`docs:screenshots:check` 在没有 manifest 时会确认
-所选 diff 不包含文档截图变更；存在新增、替换或复用证据时，应传入本地 visual result 和
-完整 name-status diff。校验覆盖中英文页面本地资产、引用与 alt、各语言页面的邻近说明、
-144 DPI、hash、比例及 action 对应的 diff 状态。权限受阻的 Draft 例外仍由 workspace
-`validate-visual-evidence.rb` 复核本地 0600 access report。
+- 390px 移动端
+- 1440px 桌面端
+- 2560px 或更宽的超宽屏
+- 浅色与深色主题
+- 键盘焦点、语言切换、搜索、移动菜单与横向溢出
 
-### 自动修复可修复的 Markdown 问题
+## 发布
 
-```bash
-npm run lint:fix
-```
-
-### TypeScript 检查
-
-```bash
-npm run typecheck
-```
-
-### 生产构建
-
-```bash
-npm run build
-```
-
-`npm run build` 会先通过 `prebuild` 自动执行 `npm run docs:llms`，确保托管平台只调用
-标准构建命令时，发布产物中的 `llms.txt` 也会写入当前构建 commit。
-
-### 本地预览构建产物
-
-```bash
-npm run serve
-```
-
-### 生成翻译骨架
-
-```bash
-npm run write-translations -- --locale en
-```
-
-## 修改文档时的最小校验
-
-涉及公开文档内容变更时，至少建议执行：
-
-```bash
-npm run lint
-npm run docs:screenshots:check
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run build
-```
-
-如果这次修改影响了导航、侧边栏、链接结构或中英文镜像，也建议一并检查：
-
-- `docs/intro.md`
-- `docs/user-guide/overview.md`
-- `sidebars.ts`
-
-## 发布说明
-
-仓库中的 `.github/workflows/publish-docs.yml` 会在 `main` 收到 push 后自动执行发布闭环：
-
-1. 生成并检查 `static/llms.txt`
-2. 运行公开范围检查
-3. 执行 lint、typecheck、Docusaurus build
-4. 部署 Cloudflare Pages
-5. 验证公开站点的 `/llms.txt`
-6. 刷新 Context7，或在缺少 secret / refresh 失败时留下可见 follow-up
-
-仓库仍保留 `.github/workflows/build.yml` 的 tag 发布流程，适合版本式 release。创建符合
-`v*` 规则的标签并推送后，即可触发该流程。
-
-```bash
-git tag
-git tag v0.0.1
-git push origin v0.0.1
-```
-
-Cloudflare Pages 相关自动部署仍依赖仓库环境中的：
-
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-- `CONTEXT7_API_KEY`（用于自动刷新 Context7；缺失时 workflow 会保留 pending follow-up）
-
-可选仓库变量：
-
-- `CONTEXT7_LIBRARY_NAME`（默认使用 `/${{ github.repository }}` 形式的 Context7 library id）
+合并到 `main` 后，EdgeOne Makers 从 Git 构建并发布静态站。GitHub Actions 随后等待线上 `/llms.txt` 暴露同一 source commit，验证公共端点，同步 Algolia，并请求 Context7 刷新。生产写密钥只存在于 GitHub production environment，不会进入静态产物。

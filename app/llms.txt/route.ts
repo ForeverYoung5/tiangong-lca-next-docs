@@ -15,7 +15,7 @@ const SECTION_TITLES: Record<string, string> = {
 /**
  * v4 §3.3/§2：llms.txt 暴露构建 commit（post-deploy 回读契约），
  * 只列真实公开正文与首页（分类页 llms:false）。
- * 格式与旧 Docusaurus 产物保持兼容（locale 分节 + 绝对 URL + 描述）。
+ * 使用 locale 分节、绝对 URL 与简短描述，供公共检索系统稳定消费。
  */
 export function GET() {
   const commit = process.env.SOURCE_COMMIT ?? 'unknown';
@@ -27,7 +27,7 @@ export function GET() {
     `Source site: ${ORIGIN}`,
     'Source repository: https://github.com/linancn/tiangong-lca-next-docs',
     `Source commit: ${commit}`,
-    'Publication scope: public docs only (zh/en full pages, de/fr reviewed landing); internal agent, plan, incident, TODO, and governance execution records are excluded.',
+    'Publication scope: public docs only (complete zh/en/de/fr pages); internal agent, plan, incident, TODO, and governance execution records are excluded.',
   ];
 
   for (const lang of i18n.languages) {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * out/ 结构契约验证（v4 §3.3/§5.3）：manifest 驱动。
- * 输入：manifests/p0b/site-routes.json + greenfield-deny.json + 构建环境变量。
+ * Static output contract verification, driven by deterministic manifests.
+ * Inputs: retained route/deny contracts plus the build environment.
  * 用法：DEPLOY_ENV=ci SOURCE_COMMIT=<sha> node scripts/verify-out.mjs
  */
 import fs from 'node:fs';

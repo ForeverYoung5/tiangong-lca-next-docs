@@ -1,12 +1,12 @@
 export interface VideoEmbedProps {
   /** 嵌入源 URL（如 bilibili 播放器） */
   src: string;
-  /** 无障碍标题（必填，替代旧站无 title 的 iframe） */
+  /** Required accessible title for the embedded video frame. */
   title: string;
 }
 
 /**
- * v4 §2：旧站 iframe JSX（demonstrations.md 内联样式定位）的类型安全、可访问替代。
+ * Type-safe, accessible video embedding for public MDX pages.
  */
 export function VideoEmbed({ src, title }: VideoEmbedProps) {
   return (

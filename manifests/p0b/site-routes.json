@@ -3,7 +3,7 @@
     {
       "route": "/",
       "locale": null,
-      "pageType": "language-entry",
+      "pageType": "home",
       "sitemap": true,
       "llms": false,
       "search": false,
