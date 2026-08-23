@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { checkLinks, checkSourceLinks, extractReferences, formatReport } from './check-links.mjs';
+import { checkLinks, checkSourceLinks, extractMarkdownLinks, extractReferences, formatReport } from './check-links.mjs';
 
 function fixture(files) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'next-docs-links-'));
@@ -138,4 +138,35 @@ test('reports missing localized targets, locale mismatches, and relative paths',
   assert(report.issues.some((issue) => /locale mismatch/.test(issue.reason)));
   assert(report.issues.some((issue) => /path-relative/.test(issue.reason)));
   assert(report.issues.some((issue) => issue.attribute === 'md-link-set' && issue.source === 'guide.fr.mdx'));
+});
+
+test('ignores fenced and inline code while covering angle, reference, JSX, and parenthesized destinations', () => {
+  const source = [
+    '```md',
+    '[Ignored](../inside-fence/)',
+    '```',
+    '`[Ignored inline](../inline/)`',
+    '[Angle](<./angle/>)',
+    '[Reference]: ../reference/',
+    '<Link href="/zh/docs/jsx/" />',
+    '[Parentheses](/zh/docs/function_(one)/)',
+  ].join('\n');
+  assert.deepEqual(extractMarkdownLinks(source).map((link) => link.value), [
+    './angle/',
+    '/zh/docs/function_(one)/',
+    '../reference/',
+    '/zh/docs/jsx/',
+  ]);
+});
+
+test('recognizes docs roots so missing canonical trailing slashes fail', (t) => {
+  const contentDir = fixture({
+    'guide.mdx': '[文档](/zh/docs)',
+    'guide.en.mdx': '[Docs](/en/docs)',
+    'guide.de.mdx': '[Dokumentation](/de/docs)',
+    'guide.fr.mdx': '[Documentation](/fr/docs)',
+  });
+  t.after(() => fs.rmSync(contentDir, { recursive: true, force: true }));
+  const report = checkSourceLinks({ contentDir });
+  assert.equal(report.issues.filter((issue) => /canonical trailing slash/.test(issue.reason)).length, 4);
 });

@@ -131,18 +131,75 @@ function collectAnchors(html) {
   return anchors;
 }
 
+function blankNonNewlines(value) {
+  return value.replace(/[^\r\n]/g, ' ');
+}
+
+export function maskMdxCode(source) {
+  let masked = source.replace(/<!--[\s\S]*?-->/g, (value) => blankNonNewlines(value));
+  const lines = masked.match(/.*(?:\r?\n|$)/g) ?? [];
+  let fence = null;
+  masked = lines.map((line) => {
+    const marker = line.match(/^[ \t]{0,3}(`{3,}|~{3,})/);
+    if (!fence && marker) {
+      fence = { character: marker[1][0], length: marker[1].length };
+      return blankNonNewlines(line);
+    }
+    if (fence) {
+      const closing = new RegExp(`^[ \\t]{0,3}${fence.character}{${fence.length},}[ \\t]*(?:\\r?\\n)?$`);
+      if (closing.test(line)) fence = null;
+      return blankNonNewlines(line);
+    }
+    return line;
+  }).join('');
+  return masked.replace(/(`+)([^`\n]*?)\1/g, (value) => blankNonNewlines(value));
+}
+
 export function extractMarkdownLinks(source) {
   const links = [];
-  const pattern = /(?<!!)\[[^\]\n]+\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["'][^"']*["'])?\s*\)/g;
+  const masked = maskMdxCode(source);
+  const pattern = /(?<!!)\[[^\]\n]+\]\(\s*/g;
   let match;
-  while ((match = pattern.exec(source)) !== null) {
+  while ((match = pattern.exec(masked)) !== null) {
+    let cursor = pattern.lastIndex;
+    let value = '';
+    if (masked[cursor] === '<') {
+      const end = masked.indexOf('>', cursor + 1);
+      if (end === -1) continue;
+      value = masked.slice(cursor + 1, end);
+      pattern.lastIndex = end + 1;
+    } else {
+      let nested = 0;
+      const start = cursor;
+      for (; cursor < masked.length; cursor += 1) {
+        const character = masked[cursor];
+        if (/\s/.test(character) && nested === 0) break;
+        if (character === '(' && masked[cursor - 1] !== '\\') nested += 1;
+        if (character === ')' && masked[cursor - 1] !== '\\') {
+          if (nested === 0) break;
+          nested -= 1;
+        }
+      }
+      value = masked.slice(start, cursor);
+      pattern.lastIndex = cursor;
+    }
+    if (value) links.push({ value, ...lineAndColumn(source, match.index) });
+  }
+
+  const reference = /^[ \t]{0,3}\[[^\]\n]+\]:[ \t]*(?:<([^>\n]+)>|([^\s]+))/gm;
+  while ((match = reference.exec(masked)) !== null) {
+    links.push({ value: match[1] ?? match[2], ...lineAndColumn(source, match.index) });
+  }
+
+  const jsxHref = /(?<![\w:-])\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+  while ((match = jsxHref.exec(masked)) !== null) {
     links.push({ value: match[1] ?? match[2], ...lineAndColumn(source, match.index) });
   }
   return links;
 }
 
 function localizedDocTarget(value) {
-  const match = value.match(/^\/(zh|en|de|fr)(\/docs\/[^?#]*)(?:[?#].*)?$/);
+  const match = value.match(/^\/(zh|en|de|fr)(\/docs(?:\/[^?#]*)?)(?:[?#].*)?$/);
   if (!match) return null;
   return { locale: match[1], pathname: match[2], normalized: `/:lang${match[2]}` };
 }
