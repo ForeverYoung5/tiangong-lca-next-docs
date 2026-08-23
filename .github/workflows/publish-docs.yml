@@ -68,11 +68,8 @@ jobs:
       contents: read
 
     steps:
-      # v4 §6.3：EdgeOne Git 集成负责 build+deploy（外部事实）；本 job 只保留
-      # durable 证据（来源 PR/docs-impact 解析 + summary）。
-      # P3 接入完整 reconciliation 状态机（waiting-edgeone → validating-live →
-      # syncing-search → refreshing-context7 → complete，含 docs-publish-* 标签
-      # 与 Context7 刷新），P1 阶段不做任何标签迁移。
+      # EdgeOne Git integration owns build and deploy. This job records source
+      # context while the reusable reconciliation job waits for the live SHA.
       - name: Check out repository
         uses: actions/checkout@v7
         with:
@@ -139,8 +136,18 @@ jobs:
             echo
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Build & deploy: EdgeOne Makers Git integration (this workflow does not deploy)"
-            echo "- Site: ${DOCS_SITE_URL} (DNS switch pending; current production still on legacy hosting)"
-            echo "- Reconciliation: P3 wiring (llms.txt readback, Algolia sync, Context7 refresh)"
+            echo "- Site: ${DOCS_SITE_URL} (EdgeOne production)"
+            echo "- Reconciliation: automatic live-SHA validation, Algolia sync, and Context7 refresh"
             echo "- Source PRs: ${{ steps.context.outputs.pull_urls || 'not found' }}"
             echo "- Docs impact issue: ${{ steps.context.outputs.docs_impact_issue || 'not found' }}"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  reconcile-production:
+    name: Reconcile deployed docs
+    if: github.event_name == 'push'
+    needs: post-deploy-evidence
+    uses: ./.github/workflows/reconcile-docs.yml
+    with:
+      verify_origin: https://docs.tiangong.earth
+      expected_sha: ${{ github.sha }}
+    secrets: inherit

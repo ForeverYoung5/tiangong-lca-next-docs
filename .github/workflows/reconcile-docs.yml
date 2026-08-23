@@ -1,12 +1,19 @@
 name: Reconcile docs deployment
 
-# v4 §6.3 P3 初版：post-deploy reconciliation 状态机（workflow_dispatch 演练形态）。
-# 首次 DNS 切换（P5）完成后才将 main push observer 接入同一控制器。
-# 状态推进：waiting-edgeone → validating-live → syncing-search → refreshing-context7 → complete
-# 任一阶段失败 exit 1（调用方/观察者标记 blocked）；release generation/lease 的 CAS 互斥
-# 与 durable Issue 标签迁移在 P4 演练后接线（TODO.docs-system-gaps.md 已登记）。
+# Reusable post-deploy state machine. Main pushes call it automatically after
+# EdgeOne publishes; workflow_dispatch remains the recovery and replay entry.
 
 on:
+  workflow_call:
+    inputs:
+      verify_origin:
+        description: 'Deployed origin to verify'
+        required: true
+        type: string
+      expected_sha:
+        description: 'Expected deployed source commit'
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       verify_origin:
@@ -40,6 +47,17 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Set up pnpm 11.22.0
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.18.0'
+          cache: pnpm
 
       - name: Resolve expected SHA
         id: sha
@@ -95,7 +113,7 @@ jobs:
               exit 1
             fi
           done
-          # 负向：旧站路径必须 404（greenfield；de/fr 已全量发布，不再检查未发布路由）
+          # Greenfield negative contract: retired paths must remain 404.
           for path in intro user-guide/data search agents/repo-validation docs/openapi; do
             code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${origin%/}/${path}")"
             if [ "$code" != "404" ]; then
@@ -118,9 +136,7 @@ jobs:
             echo "::error::Algolia production secrets missing; refusing to mark complete (v4 §7.3)"
             exit 1
           fi
-          # search-sync.mjs 依赖 algoliasearch + fumadocs-core（均为 dependencies）
-          corepack enable
-          corepack prepare pnpm@11.22.0 --activate
+          # search-sync.mjs uses production dependencies only.
           pnpm install --frozen-lockfile --prod
           node scripts/search-sync.mjs --from "${{ inputs.verify_origin }}"
 

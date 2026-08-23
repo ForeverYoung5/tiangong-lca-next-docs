@@ -14,7 +14,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date(Number(process.env.SOURCE_DATE_EPOCH ?? 0) * 1000);
 
   const entries: MetadataRoute.Sitemap = [
-    { url: `${origin}/`, lastModified, changeFrequency: 'weekly', priority: 0.7 },
+    {
+      url: `${origin}/`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+      alternates: {
+        languages: {
+          'x-default': `${origin}/`,
+          ...Object.fromEntries(
+            i18n.languages.map((candidate) => [candidate === 'zh' ? 'zh-CN' : candidate, `${origin}/${candidate}/`]),
+          ),
+        },
+      },
+    },
   ];
 
   for (const lang of i18n.languages) {
