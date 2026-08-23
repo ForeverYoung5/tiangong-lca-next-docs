@@ -12,8 +12,8 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: publish-docs-main
-  cancel-in-progress: false
+  group: publish-docs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   DOCS_SITE_URL: https://docs.tiangong.earth
@@ -104,7 +104,13 @@ jobs:
           function hiddenJson(marker, body) {
             const pattern = new RegExp(`<!--\\s*${escapeRegExp(marker)}\\s*(\\{[\\s\\S]*?\\})\\s*-->`);
             const match = String(body || '').match(pattern);
-            return match ? JSON.parse(match[1]) : null;
+            if (!match) return null;
+            try {
+              return JSON.parse(match[1]);
+            } catch (error) {
+              console.error(`Ignoring malformed ${marker} metadata: ${error.message}`);
+              return null;
+            }
           }
 
           let metadata = null;
@@ -120,8 +126,9 @@ jobs:
             if (metadata) break;
           }
 
-          const issueRef = metadata?.docsImpactIssue || '';
-          const match = issueRef.match(/^([^#]+\/[^#]+)#(\d+)$/);
+          const rawIssueRef = typeof metadata?.docsImpactIssue === 'string' ? metadata.docsImpactIssue : '';
+          const match = rawIssueRef.match(/^([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)#([1-9][0-9]*)$/);
+          const issueRef = match ? `${match[1]}#${match[2]}` : '';
 
           console.log(`docs_impact_issue=${issueRef}`);
           console.log(`docs_impact_issue_repo=${match ? match[1] : ''}`);
@@ -130,6 +137,9 @@ jobs:
 
       - name: Write publish summary
         if: always()
+        env:
+          PULL_URLS: ${{ steps.context.outputs.pull_urls }}
+          DOCS_IMPACT_ISSUE: ${{ steps.context.outputs.docs_impact_issue }}
         run: |
           {
             echo "## Docs publish (EdgeOne Makers)"
@@ -138,8 +148,8 @@ jobs:
             echo "- Build & deploy: EdgeOne Makers Git integration (this workflow does not deploy)"
             echo "- Site: ${DOCS_SITE_URL} (EdgeOne production)"
             echo "- Reconciliation: automatic live-SHA validation, Algolia sync, and Context7 refresh"
-            echo "- Source PRs: ${{ steps.context.outputs.pull_urls || 'not found' }}"
-            echo "- Docs impact issue: ${{ steps.context.outputs.docs_impact_issue || 'not found' }}"
+            echo "- Source PRs: ${PULL_URLS:-not found}"
+            echo "- Docs impact issue: ${DOCS_IMPACT_ISSUE:-not found}"
           } >> "$GITHUB_STEP_SUMMARY"
 
   reconcile-production:

@@ -32,8 +32,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: docs-reconcile
-  cancel-in-progress: false
+  group: docs-reconcile-${{ inputs.verify_origin }}
+  cancel-in-progress: true
 
 jobs:
   reconcile:
@@ -42,6 +42,9 @@ jobs:
     # 永不进入 EdgeOne 构建环境或静态 bundle
     environment: production
     timeout-minutes: 30
+    env:
+      VERIFY_ORIGIN: ${{ inputs.verify_origin }}
+      EXPECTED_SHA_INPUT: ${{ inputs.expected_sha }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -63,22 +66,26 @@ jobs:
         id: sha
         run: |
           set -euo pipefail
-          sha="${{ inputs.expected_sha }}"
+          case "$VERIFY_ORIGIN" in
+            https://docs.tiangong.earth|https://preview.docs.tiangong.earth) ;;
+            *) echo "verify_origin is not allowlisted: $VERIFY_ORIGIN" >&2; exit 1 ;;
+          esac
+          sha="$EXPECTED_SHA_INPUT"
           if [ -z "$sha" ]; then
             sha="$(git rev-parse origin/main)"
           fi
-          if ! echo "$sha" | grep -qE '^[0-9a-f]{40}$'; then
+          if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
             echo "expected_sha is not a 40-hex SHA: $sha" >&2
             exit 1
           fi
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
-          echo "Reconciling ${{ inputs.verify_origin }} -> $sha"
+          echo "Reconciling $VERIFY_ORIGIN -> $sha"
 
       # --- phase: waiting-edgeone ---
       - name: 'Phase: waiting-edgeone (llms.txt exposes SHA)'
         run: |
           set -euo pipefail
-          origin="${{ inputs.verify_origin }}"
+          origin="$VERIFY_ORIGIN"
           sha="${{ steps.sha.outputs.sha }}"
           for attempt in $(seq 1 20); do
             code="$(curl -s -o /tmp/llms.txt -w '%{http_code}' --max-time 30 "${origin%/}/llms.txt" || true)"
@@ -96,7 +103,7 @@ jobs:
       - name: 'Phase: validating-live (contract endpoints same SHA)'
         run: |
           set -euo pipefail
-          origin="${{ inputs.verify_origin }}"
+          origin="$VERIFY_ORIGIN"
           sha="${{ steps.sha.outputs.sha }}"
 
           curl -fsSL --max-time 30 "${origin%/}/search-records.json" -o /tmp/search-records.json
@@ -110,6 +117,33 @@ jobs:
             code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${origin%/}/${path}")"
             if [ "$code" != "200" ]; then
               echo "::error::${origin%/}/${path} -> HTTP $code" >&2
+              exit 1
+            fi
+          done
+
+          curl -fsSL --max-time 30 "${origin%/}/robots.txt" -o /tmp/robots.txt
+          curl -fsSL --max-time 30 "${origin%/}/sitemap.xml" -o /tmp/sitemap.xml
+          if grep -qiE '^Disallow:[[:space:]]*/' /tmp/robots.txt || ! grep -qiE '^Allow:[[:space:]]*/' /tmp/robots.txt; then
+            echo "::error::production robots.txt is not indexable" >&2
+            exit 1
+          fi
+          if ! grep -Fq 'Sitemap: https://docs.tiangong.earth/sitemap.xml' /tmp/robots.txt; then
+            echo "::error::robots.txt does not expose the production sitemap" >&2
+            exit 1
+          fi
+          if ! grep -Fq '<loc>https://docs.tiangong.earth/' /tmp/sitemap.xml || grep -FqiE 'localhost|127\.0\.0\.1' /tmp/sitemap.xml; then
+            echo "::error::sitemap.xml does not use the production canonical origin" >&2
+            exit 1
+          fi
+          for locale in zh en de fr; do
+            page_file="/tmp/${locale}-docs.html"
+            curl -fsSL --max-time 30 "${origin%/}/${locale}/docs/" -o "$page_file"
+            if grep -qiE '<meta[^>]+name="robots"[^>]+noindex' "$page_file"; then
+              echo "::error::/${locale}/docs/ is noindex" >&2
+              exit 1
+            fi
+            if ! grep -Fq "<link rel=\"canonical\" href=\"https://docs.tiangong.earth/${locale}/docs/\"" "$page_file"; then
+              echo "::error::/${locale}/docs/ has a non-production canonical" >&2
               exit 1
             fi
           done
@@ -138,7 +172,7 @@ jobs:
           fi
           # search-sync.mjs uses production dependencies only.
           pnpm install --frozen-lockfile --prod
-          node scripts/search-sync.mjs --from "${{ inputs.verify_origin }}"
+          node scripts/search-sync.mjs --from "$VERIFY_ORIGIN"
 
       # --- phase: refreshing-context7 ---
       - name: 'Phase: refreshing-context7'
@@ -181,7 +215,7 @@ jobs:
           {
             echo "## Docs reconcile"
             echo
-            echo "- Origin: ${{ inputs.verify_origin }}"
+            echo "- Origin: ${VERIFY_ORIGIN}"
             echo "- SHA: ${{ steps.sha.outputs.sha }}"
             echo "- Context7: ${{ steps.context7.outputs.status || 'not-run' }}"
             echo "- Outcome: ${{ job.status }}"
