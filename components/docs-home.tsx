@@ -16,6 +16,7 @@ interface HomePath {
 interface HomeCopy {
   eyebrow: string;
   title: string;
+  titleLines?: readonly [string, string];
   description: string;
   primary: string;
   secondary: string;
@@ -33,10 +34,11 @@ interface HomeCopy {
 const copy: Record<Language, HomeCopy> = {
   zh: {
     eyebrow: 'TianGong LCA · 开源生命周期评价平台',
-    title: '查找数据、建立模型，完成生命周期评价',
+    title: '从数据到模型，完成生命周期评价',
+    titleLines: ['从数据到模型，', '完成生命周期评价'],
     description:
-      'TianGong LCA 将标准化数据、过程建模、LCIA 计算和团队评审连接在一个工作区。按任务查阅文档，从检索数据开始，直到解释结果。',
-    primary: '完成首次操作',
+      'TianGong LCA 将标准化数据、过程建模、LCIA 计算与团队评审串联起来。文档按真实任务组织，帮助你从查找数据、建立模型一路到理解结果。',
+    primary: '从快速入门开始',
     secondary: '浏览任务指南',
     pathsEyebrow: '任务指南',
     pathsTitle: '从要完成的工作开始',
@@ -53,6 +55,7 @@ const copy: Record<Language, HomeCopy> = {
     deploymentAction: '查看私有部署与开发',
     conceptMap: {
       ariaLabel: '生命周期评价概念图：参考数据连接过程关系，形成产品系统并生成 LCIA 结果。',
+      title: '生命周期评价概念图',
       referenceLabel: '参考数据',
       referenceItems: ['过程数据', '基本流', '影响方法'],
       relationsLabel: '过程关系',
@@ -84,6 +87,7 @@ const copy: Record<Language, HomeCopy> = {
     deploymentAction: 'View self-hosting and development',
     conceptMap: {
       ariaLabel: 'Life cycle assessment concept map: reference data connects process relationships to a product system and LCIA results.',
+      title: 'Life cycle assessment concept map',
       referenceLabel: 'Reference data',
       referenceItems: ['Process data', 'Elementary flows', 'Impact methods'],
       relationsLabel: 'Process relations',
@@ -115,6 +119,7 @@ const copy: Record<Language, HomeCopy> = {
     deploymentAction: 'Self-Hosting und Entwicklung ansehen',
     conceptMap: {
       ariaLabel: 'Konzeptkarte der Ökobilanz: Referenzdaten verbinden Prozessbeziehungen mit dem Produktsystem und den LCIA-Ergebnissen.',
+      title: 'Konzeptkarte der Ökobilanz',
       referenceLabel: 'Referenzdaten',
       referenceItems: ['Prozessdaten', 'Elementarflüsse', 'Wirkungsmethoden'],
       relationsLabel: 'Prozessbeziehungen',
@@ -146,6 +151,7 @@ const copy: Record<Language, HomeCopy> = {
     deploymentAction: 'Voir l’auto-hébergement et le développement',
     conceptMap: {
       ariaLabel: 'Carte conceptuelle de l’ACV : les données de référence relient les relations entre procédés au système de produit et aux résultats d’ACVI.',
+      title: 'Carte conceptuelle de l’ACV',
       referenceLabel: 'Données de référence',
       referenceItems: ['Données de procédé', 'Flux élémentaires', 'Méthodes d’impact'],
       relationsLabel: 'Relations de procédé',
@@ -176,8 +182,10 @@ export function DocsHome({ lang }: { lang: string }) {
           <div className="atlas-shell grid min-h-[40rem] grid-cols-[minmax(0,5fr)_minmax(31rem,7fr)] items-center gap-[clamp(2.5rem,5vw,5rem)] py-[clamp(4.5rem,8vw,7rem)] max-[68rem]:grid-cols-1 max-[40rem]:min-h-0 max-[40rem]:gap-12 max-[40rem]:py-12">
             <div className="min-w-0 max-w-[38rem] max-[68rem]:max-w-[48rem]">
               <p className="docs-eyebrow">{content.eyebrow}</p>
-              <h1 className="m-0 max-w-[14ch] text-[clamp(2.5rem,4.5vw,4.25rem)] leading-[1.08] font-[560] tracking-[-0.045em] text-balance max-[40rem]:max-w-full max-[40rem]:text-[clamp(2.25rem,10vw,3rem)] max-[40rem]:tracking-[-0.04em]">
-                {content.title}
+              <h1 className="m-0 max-w-[14ch] text-[clamp(2.5rem,4.5vw,4.25rem)] leading-[1.08] font-[560] tracking-[-0.045em] text-balance max-[40rem]:max-w-full max-[40rem]:text-[clamp(2.2rem,10vw,2.8rem)] max-[40rem]:tracking-[-0.04em]">
+                {content.titleLines
+                  ? content.titleLines.map((line) => <span className="block whitespace-nowrap" key={line}>{line}</span>)
+                  : content.title}
               </h1>
               <p className="mt-6 mb-0 max-w-[39rem] text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7] text-fd-muted-foreground">
                 {content.description}

@@ -1,5 +1,6 @@
 export interface ConceptMapCopy {
   ariaLabel: string;
+  title: string;
   referenceLabel: string;
   referenceItems: [string, string, string];
   relationsLabel: string;
@@ -9,15 +10,7 @@ export interface ConceptMapCopy {
   impactLabels: [string, string];
 }
 
-const conceptNode = 'rounded-[2px] border border-fd-border bg-fd-background px-2 py-2 text-center text-[0.625rem] leading-tight font-medium';
-
-function FlowArrow() {
-  return (
-    <svg className="h-4 w-6 shrink-0 text-fd-muted-foreground max-[40rem]:rotate-90" viewBox="0 0 24 16" aria-hidden="true">
-      <path d="M1 8h20m-5-5 5 5-5 5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+const conceptItem = 'text-[0.6875rem] leading-[1.45] text-fd-muted-foreground';
 
 export function LcaConceptMap({ copy }: { copy: ConceptMapCopy }) {
   return (
@@ -26,38 +19,39 @@ export function LcaConceptMap({ copy }: { copy: ConceptMapCopy }) {
       role="img"
       aria-label={copy.ariaLabel}
     >
-      <div className="flex min-h-[20rem] items-center justify-between gap-3 max-[40rem]:min-h-0 max-[40rem]:flex-col" aria-hidden="true">
-        <section className="grid min-w-0 flex-1 gap-3">
-          <p className="m-0 text-[0.6875rem] font-semibold tracking-[0.06em] text-fd-muted-foreground uppercase">{copy.referenceLabel}</p>
-          <div className="grid gap-2">
-            {copy.referenceItems.map((item) => <span className={conceptNode} key={item}>{item}</span>)}
+      <figcaption className="m-0 text-[0.6875rem] font-semibold tracking-[0.08em] text-fd-primary uppercase" aria-hidden="true">
+        {copy.title}
+      </figcaption>
+
+      <div className="relative mt-4 grid min-h-[19rem] grid-cols-[minmax(0,1.05fr)_minmax(7.5rem,0.72fr)_minmax(0,1fr)] grid-rows-2 gap-x-10 gap-y-4 max-[40rem]:min-h-0 max-[40rem]:grid-cols-1 max-[40rem]:grid-rows-none max-[40rem]:gap-3" aria-hidden="true">
+        <svg className="pointer-events-none absolute inset-0 h-full w-full text-fd-border max-[40rem]:hidden" preserveAspectRatio="none" viewBox="0 0 100 100">
+          <path d="M30 25 L43 50 M30 75 L43 50 M57 50 L72 50" fill="none" stroke="currentColor" strokeWidth="0.55" vectorEffect="non-scaling-stroke" />
+          <circle cx="43" cy="50" r="1.1" fill="var(--color-fd-primary)" />
+          <circle cx="57" cy="50" r="1.1" fill="var(--color-fd-primary)" />
+        </svg>
+
+        <section className="relative z-10 grid min-w-0 content-center gap-3 rounded-[2px] border border-fd-border bg-fd-background p-4">
+          <p className="m-0 text-[0.6875rem] font-semibold tracking-[0.06em] uppercase">{copy.referenceLabel}</p>
+          <div className="grid gap-1.5">
+            {copy.referenceItems.map((item) => <span className={conceptItem} key={item}>{item}</span>)}
           </div>
         </section>
 
-        <FlowArrow />
-
-        <section className="grid min-w-0 flex-[1.35] gap-3">
-          <p className="m-0 text-[0.6875rem] font-semibold tracking-[0.06em] text-fd-muted-foreground uppercase">{copy.relationsLabel}</p>
-          <div className="grid grid-cols-2 gap-2">
-            <span className={conceptNode}>{copy.relationItems[0]}</span>
-            <span className={`${conceptNode} row-span-2 flex items-center justify-center border-fd-primary bg-fd-accent`}>{copy.relationItems[2]}</span>
-            <span className={conceptNode}>{copy.relationItems[1]}</span>
+        <section className="relative z-10 row-start-2 grid min-w-0 content-center gap-3 rounded-[2px] border border-fd-border bg-fd-background p-4 max-[40rem]:row-auto">
+          <p className="m-0 text-[0.6875rem] font-semibold tracking-[0.06em] uppercase">{copy.relationsLabel}</p>
+          <div className="flex flex-wrap gap-x-3 gap-y-1.5">
+            {copy.relationItems.map((item) => <span className={conceptItem} key={item}>{item}</span>)}
           </div>
         </section>
 
-        <FlowArrow />
-
-        <section className="grid min-w-0 flex-1 gap-3">
-          <p className="m-0 text-[0.6875rem] font-semibold tracking-[0.06em] text-fd-muted-foreground uppercase">{copy.productSystemLabel}</p>
-          <div className="flex min-h-24 items-center justify-center rounded-[2px] border border-fd-primary bg-fd-accent px-3 text-center text-xs font-semibold">
+        <section className="relative z-10 col-start-2 row-span-2 flex min-w-0 items-center max-[40rem]:col-auto max-[40rem]:row-auto">
+          <div className="flex min-h-32 w-full items-center justify-center rounded-[2px] border border-fd-primary bg-fd-accent px-3 text-center text-xs font-semibold max-[40rem]:min-h-24">
             {copy.productSystemLabel}
           </div>
         </section>
 
-        <FlowArrow />
-
-        <section className="grid min-w-0 flex-1 gap-3">
-          <p className="m-0 text-[0.6875rem] font-semibold tracking-[0.06em] text-fd-muted-foreground uppercase">{copy.resultsLabel}</p>
+        <section className="relative z-10 col-start-3 row-span-2 grid min-w-0 content-center gap-4 rounded-[2px] border border-fd-border bg-fd-background p-4 max-[40rem]:col-auto max-[40rem]:row-auto">
+          <p className="m-0 text-[0.6875rem] font-semibold tracking-[0.06em] uppercase">{copy.resultsLabel}</p>
           <div className="grid gap-4">
             {copy.impactLabels.map((label, index) => (
               <div className="grid gap-2" key={label}>
