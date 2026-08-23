@@ -133,9 +133,14 @@ jobs:
             exit 1
           fi
           if ! awk -v origin="${canonical_origin}/" '
-            /<loc>|<xhtml:link/ {
-              seen = 1
-              if (index($0, origin) == 0) bad = 1
+            {
+              rest = $0
+              while (match(rest, /<loc>[^<]*<\/loc>|<xhtml:link[^>]*>/)) {
+                tag = substr(rest, RSTART, RLENGTH)
+                seen = 1
+                if (index(tag, origin) == 0) bad = 1
+                rest = substr(rest, RSTART + RLENGTH)
+              }
             }
             END { exit (seen && !bad ? 0 : 1) }
           ' /tmp/sitemap.xml; then
