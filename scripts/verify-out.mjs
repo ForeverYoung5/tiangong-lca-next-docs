@@ -156,6 +156,22 @@ let leaked = null;
 if (!leaked) passed.push('no /agents/ leak');
 else errors.push(`internal path leaked into out/: ${leaked}`);
 
+// 10. 文档根页是任务导航枢纽，而不是落地页副本或空白存根。
+let docsPortalCount = 0;
+for (const lang of ['zh', 'en', 'de', 'fr']) {
+  const html = read(`${lang}/docs/index.html`);
+  if (!html.includes('data-docs-portal="lca-task-hub"')) {
+    errors.push(`${lang} docs root omits the LCA task-hub marker`);
+    continue;
+  }
+  if (!html.includes('data-docs-portal-map="lca-task-route"')) {
+    errors.push(`${lang} docs root omits the LCA task-route marker`);
+    continue;
+  }
+  docsPortalCount += 1;
+}
+if (docsPortalCount === 4) passed.push('four-locale LCA docs task hubs');
+
 // --- summary ---
 console.log(`\n[verify-out] ${passed.length} checks passed:`);
 for (const p of passed) console.log(`  ✓ ${p}`);

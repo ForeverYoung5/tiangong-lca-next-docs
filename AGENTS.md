@@ -36,8 +36,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: aad45c9512df83636131439b6b6bff3d535c928e
-lastReviewedNote: "Reviewed for Issue #140 after the landing adopted the flat shared documentation shell, a TianGong LCA concept map, task-specific four-locale copy, and Fumadocs UI primitives."
+lastReviewedCommit: 125ad1721efbddd945918a849afb4a0c81321d29
+lastReviewedNote: "Reviewed for Issue #144 after the four-locale documentation root became a Fumadocs task hub with an LCA task route, locale-safe links, and browser-proof markers."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -80,7 +80,8 @@ This repository does not own shipped product behavior, route truth, API semantic
 - Public document links use locale-absolute `/{lang}/docs/**/` routes. The link gate checks browser-resolved output, canonical trailing slashes, source-locale ownership, and the normalized internal-link topology across all four variants of a page.
 - `SiteBrand`, `DocsHome`, and the Fumadocs Neutral theme define the shared documentation shell. Keep both documentation sites aligned on the 72rem shell, brand-lockup structure, solid plum interaction color, neutral layers, focus treatment, dark mode, low-radius controls, and responsive behavior.
 - Product identity belongs in a semantic hero signature rather than a shared decorative motif. This site uses `data-hero-signature="lca-concept-map"` for the reference-data → process-relations → product-system → LCIA-results concept map; TIDAS must retain a distinct data-system/schema signature.
-- Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and the product-specific concept figure; do not add gradients, glow, shadow, or lift animation to landing actions.
+- `/{lang}/docs/` is a task-navigation hub rendered by `DocsPortal`, not a second marketing landing or a directory placeholder. Its governed markers are `data-docs-portal="lca-task-hub"` and `data-docs-portal-map="lca-task-route"`; all links must remain locale-absolute and structurally aligned across four languages.
+- Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and product-specific concept or navigation figures; do not add gradients, glow, shadow, or lift animation to public actions.
 - `next.config.ts` sets `agentRules: false` because this governed file, not generated development-server text, is authoritative.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
 - Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.
