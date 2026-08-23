@@ -182,9 +182,9 @@ export function DocsHome({ lang }: { lang: string }) {
           <div className="atlas-shell grid min-h-[40rem] grid-cols-[minmax(0,5fr)_minmax(31rem,7fr)] items-center gap-[clamp(2.5rem,5vw,5rem)] py-[clamp(4.5rem,8vw,7rem)] max-[68rem]:grid-cols-1 max-[40rem]:min-h-0 max-[40rem]:gap-12 max-[40rem]:py-12">
             <div className="min-w-0 max-w-[38rem] max-[68rem]:max-w-[48rem]">
               <p className="docs-eyebrow">{content.eyebrow}</p>
-              <h1 className="m-0 max-w-[14ch] text-[clamp(2.5rem,4.5vw,4.25rem)] leading-[1.08] font-[560] tracking-[-0.045em] text-balance max-[40rem]:max-w-full max-[40rem]:text-[clamp(2.2rem,10vw,2.8rem)] max-[40rem]:tracking-[-0.04em]">
+              <h1 className="m-0 max-w-[14ch] text-[clamp(2.5rem,4.5vw,4.25rem)] leading-[1.08] font-[560] tracking-[-0.045em] text-balance max-[40rem]:max-w-full max-[40rem]:text-[clamp(2.2rem,10vw,2.8rem)] max-[40rem]:tracking-[-0.04em]" data-controlled-title>
                 {content.titleLines
-                  ? content.titleLines.map((line) => <span className="block whitespace-nowrap" key={line}>{line}</span>)
+                  ? content.titleLines.map((line) => <span className="block whitespace-nowrap" data-title-line key={line}>{line}</span>)
                   : content.title}
               </h1>
               <p className="mt-6 mb-0 max-w-[39rem] text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7] text-fd-muted-foreground">
