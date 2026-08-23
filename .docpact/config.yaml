@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-22"
-lastReviewedCommit: "e76d5571a6fa495e103576e2a69a9c2407522458"
-reviewNote: "Reviewed for P0C (issue #131): transition-aware routing — new Fumadocs paths added, legacy paths retained until P1/P2."
-lastReviewedNote: "Reviewed for UI polish batch (issue #131): language switcher displayName fix (was all-English), light/dark brand logos from product assets with explicit dimensions, Algolia attribution moved inside the search dialog (prebuilt component rendered it page-resident), search client memoization (infinite re-render fix)."
+lastReviewedAt: "2026-08-23"
+lastReviewedCommit: "d4f91b9c1d5a1e37f212da006a7ee75a1555c456"
+reviewNote: "Reviewed for Issue #136: greenfield Next/Fumadocs ownership, four-locale content, Data Atlas UI, permanent output/link gates, and current publication workflows."
+lastReviewedNote: "One-time migration and obsolete screenshot validators were removed; deterministic category, route, and deny manifests remain governed build contracts."
 
 catalog:
   repos:
@@ -14,7 +14,6 @@ catalog:
       workflowDocs:
         - docs/agents/repo-validation.md
         - docs/agents/repo-architecture.md
-        - docs/agents/migration-cutover-runbook.md
       workspaceIntegrationRequired: true
 
 ownership:
@@ -27,8 +26,7 @@ ownership:
           - TODO.docs-system-gaps.md
           - .docpact/config.yaml
           - docs/agents/**
-          - .github/workflows/ai-doc-lint.yml
-          - .github/workflows/publish-docs.yml
+          - .github/workflows/**
       ownerRepo: next-docs
     - id: public-doc-content
       paths:
@@ -36,7 +34,8 @@ ownership:
           - content/docs/**
           - public/assets/docs/**
           - public/favicon.ico
-          - public/logo.svg
+          - public/logo-light.svg
+          - public/logo-dark.svg
       ownerRepo: next-docs
     - id: docs-site-structure
       paths:
@@ -52,11 +51,16 @@ ownership:
           - lib/**
           - components/**
           - crowdin.yml
-          - scripts/migration/**
           - context7.json
-          - scripts/generate-llms-txt.mjs
-          - scripts/check-publication-scope.mjs
-          - scripts/publication-policy.mjs
+          - manifests/p0b/categories.json
+          - manifests/p0b/site-routes.json
+          - manifests/p0b/greenfield-deny.json
+          - scripts/build.mjs
+          - scripts/check-env.mjs
+          - scripts/verify-out.mjs
+          - scripts/check-links.mjs
+          - scripts/check-links.test.mjs
+          - scripts/search-sync.mjs
       ownerRepo: next-docs
 
     - id: local-docpact-push-gate
@@ -80,19 +84,20 @@ coverage:
     - .docpact/config.yaml
     - docs/agents/**
     - context7.json
-    - scripts/check-screenshots.mjs
-    - scripts/check-screenshots.test.mjs
     - package.json
     - tsconfig.json
-    - .github/workflows/ai-doc-lint.yml
-    - .github/workflows/publish-docs.yml
+    - .github/workflows/**
     - content/docs/**
     - public/assets/docs/**
     - public/favicon.ico
-    - public/logo.svg
+    - public/logo-light.svg
+    - public/logo-dark.svg
     - scripts/build.mjs
     - scripts/check-env.mjs
     - scripts/verify-out.mjs
+    - scripts/check-links.mjs
+    - scripts/check-links.test.mjs
+    - scripts/search-sync.mjs
     - next.config.ts
     - edgeone.json
     - postcss.config.mjs
@@ -102,8 +107,9 @@ coverage:
     - lib/**
     - components/**
     - crowdin.yml
-    - scripts/migration/**
-    - manifests/**
+    - manifests/p0b/categories.json
+    - manifests/p0b/site-routes.json
+    - manifests/p0b/greenfield-deny.json
   exclude:
     - .git/**
     - .github/scripts/**
@@ -143,14 +149,18 @@ routing:
         - lib/**
         - components/**
         - crowdin.yml
-        - scripts/migration/**
         - context7.json
-        - scripts/check-screenshots.mjs
-        - scripts/check-screenshots.test.mjs
         - scripts/build.mjs
         - scripts/check-env.mjs
         - scripts/verify-out.mjs
+        - scripts/check-links.mjs
+        - scripts/check-links.test.mjs
+        - scripts/search-sync.mjs
+        - manifests/p0b/categories.json
+        - manifests/p0b/site-routes.json
+        - manifests/p0b/greenfield-deny.json
         - .github/workflows/publish-docs.yml
+        - .github/workflows/reconcile-docs.yml
     drift-backlog:
       paths:
         - TODO.docs-system-gaps.md
@@ -160,7 +170,7 @@ routing:
         - README.md
         - .docpact/config.yaml
         - docs/agents/**
-        - .github/workflows/ai-doc-lint.yml
+        - .github/workflows/**
     proof:
       paths:
         - docs/agents/repo-validation.md
@@ -199,14 +209,6 @@ rules:
         kind: deep-doc
       - path: docs/agents/repo-architecture.md
         kind: deep-doc
-      - path: docs/agents/migration-cutover-runbook.md
-        kind: deep-doc
-      - path: ai/**
-        kind: legacy-doc-ai-layer
-      - path: .github/scripts/ai-doc-lint.mjs
-        kind: legacy-automation
-      - path: .github/scripts/ai-doc-lint.test.mjs
-        kind: legacy-automation
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -216,7 +218,7 @@ rules:
         mode: review_or_update
       - path: docs/agents/repo-architecture.md
         mode: review_or_update
-    reason: Repo entry guidance, machine-readable routing, retained source docs, and legacy AI-doc removal must stay aligned.
+    reason: Repository guidance, machine-readable routing, and retained architecture/validation references must stay aligned.
   - id: next-docs-readme-and-backlog-contract
     scope: repo
     repo: next-docs
@@ -245,7 +247,9 @@ rules:
         kind: public-asset
       - path: public/favicon.ico
         kind: public-asset
-      - path: public/logo.svg
+      - path: public/logo-light.svg
+        kind: public-asset
+      - path: public/logo-dark.svg
         kind: public-asset
     requiredDocs:
       - path: AGENTS.md
@@ -283,20 +287,24 @@ rules:
         kind: site-runtime
       - path: crowdin.yml
         kind: translation-config
-      - path: scripts/migration/**
-        kind: migration-automation
-      - path: manifests/**
-        kind: migration-manifest
-      - path: scripts/check-screenshots.mjs
-        kind: docs-screenshot-validation
-      - path: scripts/check-screenshots.test.mjs
-        kind: docs-screenshot-validation-test
+      - path: manifests/p0b/categories.json
+        kind: site-contract
+      - path: manifests/p0b/site-routes.json
+        kind: site-contract
+      - path: manifests/p0b/greenfield-deny.json
+        kind: site-contract
       - path: scripts/build.mjs
         kind: build-automation
       - path: scripts/check-env.mjs
         kind: build-automation
       - path: scripts/verify-out.mjs
         kind: build-automation
+      - path: scripts/check-links.mjs
+        kind: build-automation
+      - path: scripts/check-links.test.mjs
+        kind: build-automation-test
+      - path: scripts/search-sync.mjs
+        kind: publication-automation
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -315,6 +323,8 @@ rules:
         kind: automation
       - path: .github/workflows/publish-docs.yml
         kind: automation
+      - path: .github/workflows/reconcile-docs.yml
+        kind: automation
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -328,6 +338,8 @@ rules:
     repo: next-docs
     triggers:
       - path: .github/workflows/publish-docs.yml
+        kind: publication-automation
+      - path: .github/workflows/reconcile-docs.yml
         kind: publication-automation
       - path: context7.json
         kind: ai-publication-config
@@ -348,7 +360,11 @@ rules:
         mode: review_or_update
       - path: content/docs/deploy-and-dev/dev-env.en.mdx
         mode: review_or_update
-    reason: The publish workflow, llms.txt generator, publication scope policy, and Context7 source config define what public docs are exposed after main merges.
+      - path: content/docs/deploy-and-dev/dev-env.de.mdx
+        mode: review_or_update
+      - path: content/docs/deploy-and-dev/dev-env.fr.mdx
+        mode: review_or_update
+    reason: Publishing, deployed AI/search endpoints, and Context7 configuration define what public documentation is exposed after main merges.
   - id: next-docs-local-docpact-push-gate
     scope: repo
     repo: next-docs

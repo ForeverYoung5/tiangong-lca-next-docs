@@ -1,5 +1,5 @@
 ---
-title: next-docs Repo Architecture
+title: next-docs Repository Architecture
 docType: reference
 scope: repo
 status: active
@@ -7,66 +7,94 @@ authoritative: true
 owner: next-docs
 language: en
 whenToUse:
-  - when deciding whether public documentation, navigation, screenshots, or docs drift work belongs here
-  - when checking boundaries between public docs and shipped product behavior
+  - when changing routing, locale behavior, content loading, search, metadata, or the Data Atlas presentation
+  - when checking boundaries between public documentation and shipped product behavior
 whenToUpdate:
-  - when public docs ownership changes
-  - when bilingual mirror expectations change
-  - when site structure or product/docs drift tracking changes
+  - when public-site structure, locale policy, publishing, or output contracts change
 checkPaths:
   - AGENTS.md
   - .docpact/config.yaml
-  - docs/**
-  - i18n/en/docusaurus-plugin-content-docs/current/**
-  - sidebars.ts
-  - docusaurus.config.ts
-  - src/**
-  - static/**
+  - app/**
+  - components/**
+  - lib/**
+  - content/docs/**
+  - public/**
+  - manifests/p0b/categories.json
+  - manifests/p0b/site-routes.json
+  - manifests/p0b/greenfield-deny.json
+  - scripts/build.mjs
+  - scripts/verify-out.mjs
+  - scripts/check-links.mjs
+  - package.json
+  - next.config.ts
+  - edgeone.json
   - context7.json
-  - .github/workflows/publish-docs.yml
-  - scripts/generate-llms-txt.mjs
-  - scripts/check-publication-scope.mjs
-  - scripts/publication-policy.mjs
-  - scripts/check-screenshots.mjs
-  - scripts/check-screenshots.test.mjs
-  - TODO.docs-system-gaps.md
-  - .githooks/pre-push
-  - scripts/docpact
-  - scripts/docpact-gate.sh
-  - scripts/install-git-hooks.sh
-lastReviewedAt: "2026-08-22"
-lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for UI polish batch (issue #131): language switcher displayName fix (was all-English), light/dark brand logos from product assets with explicit dimensions, Algolia attribution moved inside the search dialog (prebuilt component rendered it page-resident), search client memoization (infinite re-render fix)."
+  - .github/workflows/**
+lastReviewedAt: "2026-08-23"
+lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
+lastReviewedNote: "Reviewed for Issue #136 after shared Data Atlas UI, locale-aware metadata, generated link validation, and greenfield cleanup."
 related:
   - AGENTS.md
   - .docpact/config.yaml
   - docs/agents/repo-validation.md
 ---
 
-## next-docs Repo Architecture
+## Architecture
 
-`tiangong-lca-next-docs` owns the public TianGong LCA documentation site built with Docusaurus.
+## Runtime and routes
 
-## Owned Surfaces
+The site uses Next.js App Router with Fumadocs and exports static files to `out/`.
 
-- `docs/**` is the canonical Chinese public-doc source.
-- `i18n/en/docusaurus-plugin-content-docs/current/**` is the maintained English mirror and should change with its paired Chinese page.
-- `sidebars.ts`, `docusaurus.config.ts`, `src/**`, and `static/**` define site structure, presentation, screenshots, and custom site behavior.
-- `scripts/check-screenshots.mjs` validates visual evidence without moving screenshots out of their existing page-local `img/` directories. Ordinary Chinese and English mirror assets remain byte-identical; replacements preserve their prior composition, while additions name an existing same-class reference image.
-- `static/llms.txt`, `context7.json`, `.github/workflows/publish-docs.yml`, and `scripts/*llms*` / `scripts/*publication*` define the public AI-consumption and post-merge publication boundary.
-- `TODO.docs-system-gaps.md` is the durable backlog for product/docs drift.
+- `app/(entry)/**` owns `/`, the `x-default` entry that renders the full Chinese home without a redirect.
+- `app/(locale)/[lang]/**` owns `/{lang}/` and `/{lang}/docs/**` for `zh`, `en`, `de`, and `fr`.
+- `lib/source.ts` loads dot-locale MDX from `content/docs/**` with no locale fallback.
+- `app/llms.txt`, `app/search-records.json`, `app/api/search`, `app/robots.ts`, `app/sitemap.ts`, and `app/og/**` are generated public endpoints.
+- Canonical URLs, language alternatives, `x-default`, and Open Graph images are produced by the layouts, document metadata, and `lib/metadata.ts`.
 
-## Non-Owner Boundaries
+Retired paths are intentionally absent. No application or hosting configuration may introduce redirects, rewrites, or compatibility copies.
 
-- `tiangong-lca-next` owns shipped product behavior, route truth, API semantics, and UI control behavior.
-- `lca-workspace` owns root integration state and submodule pointer updates.
+## Presentation
 
-Do not document product behavior here without checking the product repository when the current behavior is ambiguous.
+`components/SiteBrand` and `components/DocsHome` are the shared Data Atlas UI entry points. `lib/layout.shared.tsx` supplies the same brand, search, theme, language, documentation, and repository controls to `HomeLayout` and `DocsLayout`.
 
-## Integration Semantics
+`app/global.css` owns the shared contract:
 
-A merged PR in this repository is repo-complete only. If the updated docs site snapshot must ship through the workspace, root integration must deliberately update the `tiangong-lca-next-docs` submodule pointer after merge.
+- explicit centered shell widths and responsive gutters;
+- TianGong plum, bright violet, and amber tokens;
+- light/dark behavior and visible keyboard focus;
+- logo plus `TianGong LCA Docs` brand lockup;
+- responsive home grid and mobile-safe document pagination.
 
-## Local Docpact Push Gate
+Site-specific content can change, but shell widths, control placement, brand treatment, and accessibility behavior should stay aligned with the TIDAS documentation site.
 
-This repository has a versioned local `pre-push` hook under `.githooks/pre-push` that delegates to `scripts/docpact-gate.sh`. The gate resolves the CLI through `scripts/docpact`, so local agent shells do not need bare `docpact` on `PATH`. The hook is a local developer guard for docpact config validation and enforced doc-governance linting; ordinary PRs and pushes rely on the local gate; `.github/workflows/ai-doc-lint.yml` is manual-dispatch fallback for remote reproduction.
+## Content and locales
+
+Chinese is the canonical authoring source. The same logical page uses:
+
+```text
+page.mdx
+page.en.mdx
+page.de.mdx
+page.fr.mdx
+```
+
+All four variants must change together when structure, links, examples, or user-visible facts change. Locale metadata files follow the same suffix convention.
+
+## Build and publication
+
+`scripts/build.mjs` performs this fail-closed sequence:
+
+1. validate environment and source identity;
+2. run `next build` static export;
+3. validate deterministic routes, endpoints, search records, AI index, SEO files, and greenfield deny paths;
+4. validate every generated local page, fragment, and asset reference.
+
+The three retained `manifests/p0b/*.json` files are immutable build contracts for information architecture, expected routes, and retired-path denial. One-time rewrite inventories and executors were removed after cutover; Git history remains the audit source.
+
+EdgeOne Makers builds and deploys from Git. GitHub workflows validate pull requests and reconcile the deployed source commit with search and Context7 state.
+
+## Ownership boundaries
+
+- `tiangong-lca-next` owns product behavior, route truth, API semantics, and user-interface behavior.
+- `tiangong-lca-next-docs` owns the public explanation and site implementation.
+- `lca-workspace` owns the integrated child commit and completion state.

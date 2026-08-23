@@ -1,5 +1,5 @@
 {
-  "note": "v4 §5.3：旧页面/旧媒体无条件 deny（已排除新站重定义端点 /、locale landing、llms.txt、robots.txt、sitemap.xml）；不含旧→新映射",
+  "note": "Greenfield route contract: retired page and media paths must stay absent and return 404; this file never defines redirects or rewrites.",
   "oldPages": [
     "/search",
     "/agents/repo-architecture",

@@ -7,86 +7,72 @@ authoritative: true
 owner: next-docs
 language: en
 whenToUse:
-  - when validating public docs, site structure, bilingual mirror, screenshot, or documentation-governance changes
-  - when selecting proof for a next-docs PR
+  - when validating public content, navigation, presentation, metadata, search, publishing, or governance changes
+  - when selecting proof for a next-docs pull request
 whenToUpdate:
-  - when Docusaurus validation commands change
-  - when bilingual mirror or product/docs drift proof expectations change
-  - when docpact governance rules or CI behavior change
+  - when package scripts, output contracts, browser coverage, or CI behavior change
 checkPaths:
   - AGENTS.md
   - .docpact/config.yaml
-  - .github/workflows/ai-doc-lint.yml
-  - .github/workflows/publish-docs.yml
   - package.json
+  - scripts/build.mjs
+  - scripts/check-env.mjs
+  - scripts/verify-out.mjs
+  - scripts/check-links.mjs
+  - scripts/check-links.test.mjs
+  - app/**
+  - components/**
+  - lib/**
+  - content/docs/**
+  - public/**
   - context7.json
-  - scripts/generate-llms-txt.mjs
-  - scripts/check-publication-scope.mjs
-  - scripts/publication-policy.mjs
-  - scripts/check-screenshots.mjs
-  - scripts/check-screenshots.test.mjs
-  - sidebars.ts
-  - docusaurus.config.ts
-  - docs/**
-  - i18n/en/docusaurus-plugin-content-docs/current/**
-  - TODO.docs-system-gaps.md
-  - .githooks/pre-push
-  - scripts/docpact
-  - scripts/docpact-gate.sh
-  - scripts/install-git-hooks.sh
-lastReviewedAt: "2026-08-22"
-lastReviewedCommit: e76d5571a6fa495e103576e2a69a9c2407522458
-lastReviewedNote: "Reviewed for UI polish batch (issue #131): language switcher displayName fix (was all-English), light/dark brand logos from product assets with explicit dimensions, Algolia attribution moved inside the search dialog (prebuilt component rendered it page-resident), search client memoization (infinite re-render fix)."
+  - .github/workflows/**
+  - .githooks/**
+lastReviewedAt: "2026-08-23"
+lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
+lastReviewedNote: "Reviewed for Issue #136 after permanent generated-link validation and Data Atlas browser QA were added to the delivery proof."
 related:
   - AGENTS.md
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
 ---
 
-## next-docs Validation Guide
+## Validation guide
 
-The canonical local commands are:
-
-```bash
-npm run lint
-npm run build
-npm run typecheck
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run docs:screenshots:check
-```
-
-Use the narrowest command set that proves the touched area.
-
-## Required Validation Shape
-
-- Public docs changes require checking the Chinese source and English mirror together.
-- Navigation or site-config changes require at least typecheck and build when feasible.
-- Publication pipeline changes require `npm run docs:llms:check` and `npm run docs:publication-scope:check`; if they affect build output, also run `npm run build` and rerun the publication-scope check afterward.
-- `static/llms.txt` must list only public docs pages, and `context7.json` must keep Context7 scoped to public docs with internal agent, TODO, plan, incident, and governance execution records excluded.
-- Product-behavior documentation changes require checking `../tiangong-lca-next` when behavior is ambiguous.
-- Screenshot additions, replacements, or reuse require `npm run docs:screenshots:check -- --manifest <visual-result.json> --diff-file <name-status.diff>`. The check owns PNG integrity and 144 DPI metadata, same-path bilingual assets, Markdown references and alt text, nearby explanatory prose, action-specific diff behavior, and composition-reference ratios.
-- Screenshot replacement must preserve the prior composition within the declared tolerance unless the manifest records an `aspectRatioChangeReason`. A new screenshot must name a repository image with the same `compositionClass`; the validator does not force unrelated screenshots into one global ratio.
-- Partial fixes to product/docs drift must update `TODO.docs-system-gaps.md`.
-- Documentation-governance changes require docpact validation.
-
-## Docpact Validation
-
-Run these commands for governance changes:
+## Canonical commands
 
 ```bash
-scripts/docpact validate-config --root . --strict
-scripts/docpact lint --root . --base origin/main --head HEAD --mode enforce
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm typecheck
+node --test scripts/check-links.test.mjs
+DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-The manual `ai-doc-lint` workflow delegates to the same local docpact gate when remote reproduction is needed.
+`pnpm build` already includes `check:env`, static export, `verify:out`, and `check:links`. Running the focused link unit tests separately gives faster failure diagnosis.
 
-## Local Docpact Push Gate
+## Proof by change type
 
-Install the versioned local hook once per checkout:
+- Public content: update all four locale variants; run lint and the complete build.
+- Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets.
+- Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, and an ultra-wide viewport in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.
+- Metadata or route changes: inspect generated HTML for canonical, `x-default`, all real locale alternatives, and Open Graph image metadata; confirm sitemap entries and negative 404 contracts.
+- Publishing or search reconciliation: run the complete build, verify deployed `/llms.txt` and `/search-records.json` expose the expected SHA, then confirm locale-isolated search.
+- Governance: validate and lint Docpact after the implementation diff is final.
+
+## Docpact
+
+```bash
+scripts/docpact validate-config --root . --strict --format json
+scripts/docpact lint --root . --base origin/main --head HEAD --mode enforce --format json
+```
+
+Use an absolute root when invoked outside the repository. Save a report only when diagnostics need drill-down.
+
+## Local pre-push gate
 
 ```bash
 ./scripts/install-git-hooks.sh
 ```
 
-The `pre-push` hook runs `scripts/docpact-gate.sh`, which delegates CLI lookup to `scripts/docpact` and performs strict config validation plus enforced lint before the push leaves the machine. The wrapper checks `DOCPACT_BIN`, Cargo install locations, Homebrew install locations, and then `PATH`, so local agent shells should not fail only because bare `docpact` is unavailable. The default comparison base is `origin/main`. Override it for unusual stacks with `DOCPACT_BASE_REF=<ref>` or `scripts/docpact-gate.sh --base <ref>`. The gate writes its detailed report to a temporary file so normal pushes do not create `.docpact/runs/` artifacts.
+The hook runs strict configuration validation and enforced documentation-governance lint against `origin/main` by default.

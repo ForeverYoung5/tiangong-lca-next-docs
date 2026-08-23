@@ -5,7 +5,6 @@
 /build
 
 # Generated files
-.docusaurus
 .cache-loader
 
 # Misc
@@ -23,7 +22,7 @@ package-lock.json
 
 .env
 
-# Next.js / Fumadocs (P1+)
+# Next.js / Fumadocs
 .next/
 out/
 .source/

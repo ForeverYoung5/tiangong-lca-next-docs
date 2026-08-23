@@ -1,8 +1,7 @@
 name: Build/release
 
 # Version tag release gate. v4 §6.3: EdgeOne Makers Git integration is the
-# only hosting publisher — this workflow performs validation only and never
-# deploys (the legacy Cloudflare Pages deploy job was removed in P1).
+# only hosting publisher — this workflow performs validation only and never deploys.
 on:
   push:
     tags:

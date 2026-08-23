@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * P3 Algolia 搜索同步（v4 §7.1/§7.2 一致性模型）
+ * Algolia search reconciliation for the deployed source commit.
  *
  * 数据源：部署站点（或本地 out/）的 /search-records.json——不是本地构建产物，
  * 保证与 live 站点 commit 一致（v4：只有生产域暴露同一 sourceCommit 后才写索引）。

@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   experimental: {
-    // TS7 无 JS compiler API，Next 需直接调用本地 tsc CLI（P0A 验证项）
+    // TypeScript 7 has no JavaScript compiler API; use the local tsc CLI.
     useTypeScriptCli: true,
   },
 };
