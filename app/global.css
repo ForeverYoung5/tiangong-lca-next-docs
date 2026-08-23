@@ -10,6 +10,9 @@ html {
   --atlas-plum: #5c246a;
   --atlas-violet: #9e3ffd;
   --atlas-amber: #efb134;
+  --atlas-plum-ink: #5c246a;
+  --atlas-violet-ink: #7520c8;
+  --atlas-amber-ink: #6d4900;
   --atlas-ink: #211625;
   --atlas-paper: #f8f6f9;
   --atlas-line: color-mix(in srgb, var(--atlas-plum) 18%, transparent);
@@ -25,6 +28,9 @@ html {
   --atlas-plum: #c99cff;
   --atlas-violet: #a855f7;
   --atlas-amber: #f4bd52;
+  --atlas-plum-ink: var(--atlas-plum);
+  --atlas-violet-ink: var(--atlas-violet);
+  --atlas-amber-ink: var(--atlas-amber);
   --atlas-ink: #f5edf8;
   --atlas-paper: #120d15;
   --atlas-line: color-mix(in srgb, var(--atlas-violet) 28%, transparent);
@@ -182,11 +188,7 @@ html {
 .atlas-button-primary {
   background: linear-gradient(120deg, var(--atlas-plum), var(--atlas-violet));
   box-shadow: 0 14px 35px color-mix(in srgb, var(--atlas-plum) 25%, transparent);
-  color: #fff;
-}
-
-.dark .atlas-button-primary {
-  color: #fff;
+  color: var(--color-fd-primary-foreground);
 }
 
 .atlas-button-secondary {
@@ -375,12 +377,12 @@ html {
   transform: translateY(-4px);
 }
 
-.atlas-accent-plum { --card-accent: var(--atlas-plum); }
-.atlas-accent-violet { --card-accent: var(--atlas-violet); }
-.atlas-accent-amber { --card-accent: var(--atlas-amber); }
+.atlas-accent-plum { --card-accent: var(--atlas-plum); --card-accent-text: var(--atlas-plum-ink); }
+.atlas-accent-violet { --card-accent: var(--atlas-violet); --card-accent-text: var(--atlas-violet-ink); }
+.atlas-accent-amber { --card-accent: var(--atlas-amber); --card-accent-text: var(--atlas-amber-ink); }
 
 .atlas-card-kicker {
-  color: var(--card-accent);
+  color: var(--card-accent-text);
   font-size: 0.66rem;
   font-weight: 730;
   letter-spacing: 0.1em;

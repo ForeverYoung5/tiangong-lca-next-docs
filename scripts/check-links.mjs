@@ -11,6 +11,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const SITE_ORIGIN = 'https://docs.invalid';
+const PRODUCTION_ORIGIN = 'https://docs.tiangong.earth';
+
+function normalizedOrigin(value) {
+  if (!value) return null;
+  try {
+    return new URL(value).origin;
+  } catch {
+    return null;
+  }
+}
 
 function walkHtmlFiles(root) {
   const files = [];
@@ -106,7 +116,7 @@ function collectAnchors(html) {
   return anchors;
 }
 
-export function checkLinks({ outDir }) {
+export function checkLinks({ outDir, internalOrigins = [] }) {
   const absoluteOut = path.resolve(outDir);
   if (!fs.existsSync(absoluteOut)) {
     return {
@@ -122,6 +132,11 @@ export function checkLinks({ outDir }) {
   let checkedReferences = 0;
   let skippedExternal = 0;
   const htmlFiles = walkHtmlFiles(absoluteOut);
+  const localOrigins = new Set([SITE_ORIGIN, PRODUCTION_ORIGIN]);
+  for (const candidate of [process.env.CANONICAL_ORIGIN, ...internalOrigins]) {
+    const origin = normalizedOrigin(candidate);
+    if (origin) localOrigins.add(origin);
+  }
 
   for (const htmlFile of htmlFiles) {
     const html = fs.readFileSync(htmlFile, 'utf8');
@@ -141,7 +156,7 @@ export function checkLinks({ outDir }) {
         continue;
       }
 
-      if (resolved.origin !== SITE_ORIGIN) {
+      if (!localOrigins.has(resolved.origin)) {
         skippedExternal += 1;
         continue;
       }

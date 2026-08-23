@@ -61,6 +61,24 @@ test('checks local assets and skips external links', (t) => {
   assert.equal(result.skippedExternal, 3);
 });
 
+test('treats production and configured canonical origins as local routes', (t) => {
+  const outDir = fixture({
+    'index.html': [
+      '<a href="https://docs.tiangong.earth/zh/docs/valid/">production route</a>',
+      '<a href="https://preview.docs.tiangong.earth/zh/docs/valid/">configured route</a>',
+      '<a href="https://docs.tiangong.earth/retired/">retired route</a>',
+    ].join(''),
+    'zh/docs/valid/index.html': '<h1>Valid</h1>',
+  });
+  t.after(() => fs.rmSync(outDir, { recursive: true, force: true }));
+
+  const result = checkLinks({ outDir, internalOrigins: ['https://preview.docs.tiangong.earth'] });
+  assert.equal(result.checkedReferences, 3);
+  assert.equal(result.skippedExternal, 0);
+  assert.equal(result.issues.length, 1);
+  assert.match(formatReport(result), /href="https:\/\/docs\.tiangong\.earth\/retired\/"/);
+});
+
 test('reports missing pages, fragments, and assets with source locations', (t) => {
   const outDir = fixture({
     'en/docs/index.html': [
