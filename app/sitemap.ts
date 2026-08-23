@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { source } from '@/lib/source';
 import { i18n } from '@/lib/i18n';
+import { withTrailingSlash } from '@/lib/metadata';
 
 export const dynamic = 'force-static';
 
@@ -22,11 +23,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'weekly',
       priority: 1,
+      alternates: {
+        languages: Object.fromEntries(
+          i18n.languages.map((candidate) => [candidate === 'zh' ? 'zh-CN' : candidate, `${origin}/${candidate}/`]),
+        ),
+      },
     });
 
     for (const page of source.getPages(lang)) {
-      const url = page.url.endsWith('/') ? page.url : `${page.url}/`;
-      entries.push({ url: `${origin}${url}`, lastModified, priority: 0.8 });
+      const url = withTrailingSlash(page.url);
+      const languages = Object.fromEntries(
+        i18n.languages.flatMap((candidate) => {
+          const alternate = source.getPage(page.slugs, candidate);
+          if (!alternate) return [];
+          return [[candidate === 'zh' ? 'zh-CN' : candidate, `${origin}${withTrailingSlash(alternate.url)}`]];
+        }),
+      );
+      entries.push({ url: `${origin}${url}`, lastModified, priority: 0.8, alternates: { languages } });
     }
   }
 

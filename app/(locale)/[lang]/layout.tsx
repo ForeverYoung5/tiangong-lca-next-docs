@@ -3,21 +3,53 @@ import { i18nProvider } from 'fumadocs-ui/i18n';
 import { Provider } from '@/components/provider';
 import { translations } from '@/lib/layout.shared';
 import { i18n, toHtmlLang } from '@/lib/i18n';
+import { languageAlternates, localeMetadata, pageImagePath, siteOrigin } from '@/lib/metadata';
 import '@/app/global.css';
 
 export function generateStaticParams() {
   return i18n.languages.map((lang) => ({ lang }));
 }
 
-export const metadata: Metadata = {
-  title: {
-    default: 'TianGong LCA',
-    template: '%s | TianGong LCA',
-  },
-  ...(process.env.DEPLOY_ENV !== 'production'
-    ? { robots: { index: false, follow: false } }
-    : {}),
-};
+export async function generateMetadata({ params }: LayoutProps<'/[lang]'>): Promise<Metadata> {
+  const { lang } = await params;
+  const content = localeMetadata[lang] ?? localeMetadata.en;
+  const alternateLocale = i18n.languages
+    .filter((candidate) => candidate !== lang)
+    .map((candidate) => localeMetadata[candidate]?.openGraphLocale)
+    .filter((candidate): candidate is string => Boolean(candidate));
+
+  return {
+    metadataBase: new URL(siteOrigin),
+    title: {
+      default: content.title,
+      template: `%s | ${content.title}`,
+    },
+    description: content.description,
+    alternates: {
+      canonical: `/${lang}/`,
+      languages: languageAlternates(),
+    },
+    openGraph: {
+      type: 'website',
+      siteName: 'TianGong LCA Docs',
+      title: content.title,
+      description: content.description,
+      url: `/${lang}/`,
+      locale: content.openGraphLocale,
+      alternateLocale,
+      images: [pageImagePath(lang, [])],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: content.title,
+      description: content.description,
+      images: [pageImagePath(lang, [])],
+    },
+    ...(process.env.DEPLOY_ENV !== 'production'
+      ? { robots: { index: false, follow: false } }
+      : {}),
+  };
+}
 
 export default async function RootLayout({
   children,

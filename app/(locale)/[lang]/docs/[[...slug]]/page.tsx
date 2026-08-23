@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
 import { getMDXComponents } from '@/components/mdx';
+import { i18n } from '@/lib/i18n';
+import { localeMetadata, pageImagePath, withTrailingSlash } from '@/lib/metadata';
 import { source } from '@/lib/source';
 
 export const dynamicParams = false;
@@ -14,7 +16,7 @@ export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>)
   const MDX = page.data.body;
 
   return (
-    <DocsPage toc={page.data.toc}>
+    <DocsPage toc={page.data.toc} footer={{ className: 'docs-pagination' }}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
@@ -35,8 +37,40 @@ export async function generateMetadata(
   const page = source.getPage(params.slug, params.lang);
   if (!page) notFound();
 
+  const canonical = withTrailingSlash(page.url);
+  const languageEntries = i18n.languages.flatMap((lang) => {
+    const alternate = source.getPage(params.slug, lang);
+    if (!alternate) return [];
+    return [[lang === 'zh' ? 'zh-CN' : lang, withTrailingSlash(alternate.url)] as const];
+  });
+  const defaultPage = source.getPage(params.slug, i18n.defaultLanguage);
+  const pageImage = pageImagePath(params.lang, page.slugs);
+  const content = localeMetadata[params.lang] ?? localeMetadata.en;
+
   return {
     title: page.data.title,
     description: page.data.description,
+    alternates: {
+      canonical,
+      languages: {
+        'x-default': defaultPage ? withTrailingSlash(defaultPage.url) : canonical,
+        ...Object.fromEntries(languageEntries),
+      },
+    },
+    openGraph: {
+      type: 'article',
+      siteName: 'TianGong LCA Docs',
+      title: page.data.title,
+      description: page.data.description,
+      url: canonical,
+      locale: content.openGraphLocale,
+      images: [pageImage],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: page.data.title,
+      description: page.data.description,
+      images: [pageImage],
+    },
   };
 }

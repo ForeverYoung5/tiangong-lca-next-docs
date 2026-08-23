@@ -2,6 +2,7 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { zhCN } from '@fumadocs/language/zh-cn';
 import { uiTranslations } from 'fumadocs-ui/i18n';
 import { i18n } from '@/lib/i18n';
+import { SiteBrand } from '@/components/site-brand';
 
 /**
  * v4 §5.1：zh 使用官方语言包；de/fr 无官方包（@fumadocs/language 仅 zh-cn/zh-tw），
@@ -40,29 +41,25 @@ export const translations = i18n
     },
   });
 
-/** 品牌区：浅色主题用紫色 logo，深色主题用白色 logo（沿用产品站资产） */
-function brandTitle() {
-  return (
-    <span className="flex items-center gap-2">
-      {/* eslint-disable-next-line @next/next/no-img-element -- 静态导出无图片优化，logo 走 public 原生 img */}
-      <img src="/logo-light.svg" alt="TianGong LCA" width={28} height={28} className="dark:hidden" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo-dark.svg" alt="TianGong LCA" width={28} height={28} className="hidden dark:block" />
-    </span>
-  );
-}
+const docsLabel: Record<string, string> = {
+  zh: '文档',
+  en: 'Documentation',
+  de: 'Dokumentation',
+  fr: 'Documentation',
+};
 
 export function baseOptions(locale: string): BaseLayoutProps {
   return {
     nav: {
-      title: brandTitle(),
+      title: <SiteBrand />,
       url: `/${locale}`,
+      transparentMode: 'top',
     },
-    githubUrl: 'https://github.com/linancn/tiangong-lca-next',
+    githubUrl: 'https://github.com/linancn/tiangong-lca-next-docs',
     links: [
       {
         type: 'main',
-        text: locale === 'zh' ? '文档' : 'Documentation',
+        text: docsLabel[locale] ?? docsLabel.en,
         url: `/${locale}/docs`,
       },
     ],
