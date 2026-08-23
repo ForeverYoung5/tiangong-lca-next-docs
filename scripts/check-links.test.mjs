@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { checkLinks, extractReferences, formatReport } from './check-links.mjs';
+import { checkLinks, checkSourceLinks, extractReferences, formatReport } from './check-links.mjs';
 
 function fixture(files) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'next-docs-links-'));
@@ -101,4 +101,41 @@ test('extracts single and double quoted href/src attributes', () => {
     { attribute: 'href', value: 'one&two', line: 1, column: 4 },
     { attribute: 'src', value: 'image.png', line: 1, column: 28 },
   ]);
+});
+
+test('ignores data-href and data-id attributes', (t) => {
+  assert.deepEqual(extractReferences('<a data-href="ghost" href="real">real</a>'), [
+    { attribute: 'href', value: 'real', line: 1, column: 22 },
+  ]);
+
+  const outDir = fixture({
+    'index.html': '<a href="#ghost">ghost</a><div data-id="ghost" id="real"></div>',
+  });
+  t.after(() => fs.rmSync(outDir, { recursive: true, force: true }));
+  assert.match(formatReport(checkLinks({ outDir })), /fragment does not exist \(#ghost\)/);
+});
+
+test('enforces locale-aligned link topology across MDX variants', (t) => {
+  const contentDir = fixture({
+    'guide.mdx': '[目标](/zh/docs/target/)',
+    'guide.en.mdx': '[Target](/en/docs/target/)',
+    'guide.de.mdx': '[Ziel](/de/docs/target/)',
+    'guide.fr.mdx': '[Cible](/fr/docs/target/)',
+  });
+  t.after(() => fs.rmSync(contentDir, { recursive: true, force: true }));
+  assert.deepEqual(checkSourceLinks({ contentDir }).issues, []);
+});
+
+test('reports missing localized targets, locale mismatches, and relative paths', (t) => {
+  const contentDir = fixture({
+    'guide.mdx': '[目标](/zh/docs/target/)',
+    'guide.en.mdx': '[Wrong locale](/zh/docs/target/)',
+    'guide.de.mdx': '[Relative](./target/)',
+    'guide.fr.mdx': 'Aucun lien',
+  });
+  t.after(() => fs.rmSync(contentDir, { recursive: true, force: true }));
+  const report = checkSourceLinks({ contentDir });
+  assert(report.issues.some((issue) => /locale mismatch/.test(issue.reason)));
+  assert(report.issues.some((issue) => /path-relative/.test(issue.reason)));
+  assert(report.issues.some((issue) => issue.attribute === 'md-link-set' && issue.source === 'guide.fr.mdx'));
 });
