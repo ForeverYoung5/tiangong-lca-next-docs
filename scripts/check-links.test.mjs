@@ -150,10 +150,12 @@ test('ignores fenced and inline code while covering angle, reference, JSX, and p
     '[Reference]: ../reference/',
     '<Link href="/zh/docs/jsx/" />',
     '[Parentheses](/zh/docs/function_(one)/)',
+    '[Multiline\nlabel](/zh/docs/multiline/)',
   ].join('\n');
   assert.deepEqual(extractMarkdownLinks(source).map((link) => link.value), [
     './angle/',
     '/zh/docs/function_(one)/',
+    '/zh/docs/multiline/',
     '../reference/',
     '/zh/docs/jsx/',
   ]);

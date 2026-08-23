@@ -158,7 +158,7 @@ export function maskMdxCode(source) {
 export function extractMarkdownLinks(source) {
   const links = [];
   const masked = maskMdxCode(source);
-  const pattern = /(?<!!)\[[^\]\n]+\]\(\s*/g;
+  const pattern = /(?<!!)\[[^\]]+\]\(\s*/g;
   let match;
   while ((match = pattern.exec(masked)) !== null) {
     let cursor = pattern.lastIndex;
