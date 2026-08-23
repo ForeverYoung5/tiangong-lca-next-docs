@@ -91,7 +91,7 @@ All four variants must change together when structure, links, examples, or user-
 
 The three retained `manifests/p0b/*.json` files are immutable build contracts for information architecture, expected routes, and retired-path denial. One-time rewrite inventories and executors were removed after cutover; Git history remains the audit source.
 
-EdgeOne Makers builds and deploys from Git. GitHub workflows validate pull requests and reconcile the deployed source commit with search and Context7 state.
+EdgeOne Makers builds and deploys from Git. GitHub workflows validate pull requests and first reconcile any allowlisted deployment against its source SHA and environment-specific indexing policy. Preview stays `noindex` and canonicalizes to production. Only the production origin can start the separate production-environment job that replaces Algolia data and refreshes Context7; preview reconciliation is validation-only.
 
 ## Ownership boundaries
 
