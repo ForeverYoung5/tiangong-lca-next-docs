@@ -36,8 +36,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: "2026-08-23"
-lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
-lastReviewedNote: "Reviewed for Issue #136 after the Data Atlas UI, four-locale link repair, metadata, and permanent generated-output link gate were implemented."
+lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
+lastReviewedNote: "Reviewed for Issue #140 after the landing adopted the flat shared documentation shell, a TianGong LCA concept map, task-specific four-locale copy, and Fumadocs UI primitives."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -65,7 +65,7 @@ related:
 This repository owns:
 
 - `content/docs/**` as public content using dot-locale files: Chinese `page.mdx`, then `page.en.mdx`, `page.de.mdx`, and `page.fr.mdx`;
-- `app/**`, `components/**`, `lib/**`, and `app/global.css` for routing, metadata, the shared Data Atlas presentation, search, and MDX rendering;
+- `app/**`, `components/**`, `lib/**`, and `app/global.css` for routing, metadata, the shared documentation presentation, search, and MDX rendering;
 - `public/**` for public media and brand assets;
 - `scripts/build.mjs`, `scripts/verify-out.mjs`, and `scripts/check-links.mjs` for the static output contract;
 - `TODO.docs-system-gaps.md` for durable product/documentation drift.
@@ -77,7 +77,9 @@ This repository does not own shipped product behavior, route truth, API semantic
 - Supported locales are `zh`, `en`, `de`, and `fr`; every public page currently exists in all four.
 - `/` renders the complete Chinese home as the `x-default` entry without redirecting. Locale homes remain `/{lang}/`; documents remain `/{lang}/docs/**`.
 - Retired paths have no redirect or rewrite compatibility and must remain 404. `manifests/p0b/greenfield-deny.json` is a negative build contract, not a mapping table.
-- The shared `SiteBrand` and `DocsHome` components plus `app/global.css` define the Data Atlas visual contract. Keep both documentation sites aligned with its shell widths, brand lockup, color tokens, focus treatment, dark mode, and responsive behavior.
+- `SiteBrand`, `DocsHome`, and the Fumadocs Neutral theme define the shared documentation shell. Keep both documentation sites aligned on the 72rem shell, brand-lockup structure, solid plum interaction color, neutral layers, focus treatment, dark mode, low-radius controls, and responsive behavior.
+- Product identity belongs in a semantic hero signature rather than a shared decorative motif. This site uses `data-hero-signature="lca-concept-map"` for the reference-data → process-relations → product-system → LCIA-results concept map; TIDAS must retain a distinct data-system/schema signature.
+- Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and the product-specific concept figure; do not add gradients, glow, shadow, or lift animation to landing actions.
 - `next.config.ts` sets `agentRules: false` because this governed file, not generated development-server text, is authoritative.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
 - Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.

@@ -7,7 +7,7 @@ authoritative: true
 owner: next-docs
 language: en
 whenToUse:
-  - when changing routing, locale behavior, content loading, search, metadata, or the Data Atlas presentation
+  - when changing routing, locale behavior, content loading, search, metadata, or the documentation presentation
   - when checking boundaries between public documentation and shipped product behavior
 whenToUpdate:
   - when public-site structure, locale policy, publishing, or output contracts change
@@ -31,8 +31,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: "2026-08-23"
-lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
-lastReviewedNote: "Reviewed for Issue #136 after shared Data Atlas UI, locale-aware metadata, generated link validation, and greenfield cleanup."
+lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
+lastReviewedNote: "Reviewed for Issue #140 after the landing moved to Fumadocs Neutral primitives, a flat shared shell, and a Next-specific LCA concept map."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -55,17 +55,18 @@ Retired paths are intentionally absent. No application or hosting configuration 
 
 ## Presentation
 
-`components/SiteBrand` and `components/DocsHome` are the shared Data Atlas UI entry points. `lib/layout.shared.tsx` supplies the same brand, search, theme, language, documentation, and repository controls to `HomeLayout` and `DocsLayout`.
+`components/SiteBrand` and `components/DocsHome` are the shared shell entry points. `lib/layout.shared.tsx` supplies the same brand, search, theme, language, documentation, and repository controls to `HomeLayout` and `DocsLayout`. The landing reuses Fumadocs `buttonVariants`, `Card`, and `Cards`; it does not maintain parallel button or card primitives.
 
 `app/global.css` owns the shared contract:
 
-- explicit centered shell widths and responsive gutters;
-- TianGong plum, bright violet, and amber tokens;
+- an explicit centered 72rem shell and responsive gutters;
+- neutral Carbon-style layers with the original TianGong plum retained as a solid interaction color;
 - light/dark behavior and visible keyboard focus;
-- logo plus `TianGong LCA Docs` brand lockup;
-- responsive home grid and mobile-safe document pagination.
+- logo plus `TianGong LCA / Documentation` brand lockup;
+- low-radius, border-defined controls without gradients, glow, shadow, or lift animation;
+- mobile-safe document pagination.
 
-Site-specific content can change, but shell widths, control placement, brand treatment, and accessibility behavior should stay aligned with the TIDAS documentation site.
+`components/lca-concept-map.tsx` owns the TianGong LCA hero signature. Its abstract reference-data → process-relations → product-system → LCIA-results topology is intentionally different from the TIDAS data-system/schema signature. The `data-hero-signature="lca-concept-map"` marker makes that distinction testable while shell widths, control placement, brand treatment, and accessibility behavior remain aligned between the sites.
 
 ## Content and locales
 

@@ -18,8 +18,8 @@ checkPaths:
   - components/**
   - lib/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
-lastReviewedNote: "Issue #136 reconciled the completed site rewrite, four-locale publication, links, presentation, validation, and deployment documentation; no active repository-local drift remains."
+lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
+lastReviewedNote: "Reviewed for Issue #140 after the landing copy and LCA concept map were reconciled across all four locales; no product/documentation drift was introduced."
 related:
   - AGENTS.md
   - README.md
