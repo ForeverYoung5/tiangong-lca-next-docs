@@ -29,8 +29,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: aad45c9512df83636131439b6b6bff3d535c928e
-lastReviewedNote: "Reviewed for Issue #140 after browser proof and stable DOM markers were defined for the flat primary action and LCA concept-map landing."
+lastReviewedCommit: 125ad1721efbddd945918a849afb4a0c81321d29
+lastReviewedNote: "Reviewed for Issue #144 after static and browser proof was extended to the four-locale LCA docs task hub and task-route markers."
 related:
   - AGENTS.md
   - .docpact/config.yaml

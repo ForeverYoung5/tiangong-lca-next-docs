@@ -31,8 +31,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: aad45c9512df83636131439b6b6bff3d535c928e
-lastReviewedNote: "Reviewed for Issue #140 after the landing moved to Fumadocs Neutral primitives, a flat shared shell, and a Next-specific LCA concept map."
+lastReviewedCommit: 125ad1721efbddd945918a849afb4a0c81321d29
+lastReviewedNote: "Reviewed for Issue #144 after the ordinary docs layout gained a four-locale task portal while retaining the distinct LCA landing concept map."
 related:
   - AGENTS.md
   - .docpact/config.yaml
