@@ -209,6 +209,8 @@ rules:
         kind: deep-doc
       - path: docs/agents/repo-architecture.md
         kind: deep-doc
+      - path: docs/agents/migration-cutover-runbook.md
+        kind: retired-governance-doc
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -325,6 +327,8 @@ rules:
         kind: automation
       - path: .github/workflows/reconcile-docs.yml
         kind: automation
+      - path: .github/workflows/build.yml
+        kind: automation
     requiredDocs:
       - path: AGENTS.md
         mode: review_or_update
@@ -355,14 +359,6 @@ rules:
       - path: .docpact/config.yaml
         mode: review_or_update
       - path: docs/agents/repo-validation.md
-        mode: review_or_update
-      - path: content/docs/deploy-and-dev/dev-env.mdx
-        mode: review_or_update
-      - path: content/docs/deploy-and-dev/dev-env.en.mdx
-        mode: review_or_update
-      - path: content/docs/deploy-and-dev/dev-env.de.mdx
-        mode: review_or_update
-      - path: content/docs/deploy-and-dev/dev-env.fr.mdx
         mode: review_or_update
     reason: Publishing, deployed AI/search endpoints, and Context7 configuration define what public documentation is exposed after main merges.
   - id: next-docs-local-docpact-push-gate
