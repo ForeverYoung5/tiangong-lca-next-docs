@@ -31,7 +31,7 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: 0e27f0b9525bb3fe7817f48fd29a1293d6337bb5
+lastReviewedCommit: aad45c9512df83636131439b6b6bff3d535c928e
 lastReviewedNote: "Reviewed for Issue #140 after the landing moved to Fumadocs Neutral primitives, a flat shared shell, and a Next-specific LCA concept map."
 related:
   - AGENTS.md
