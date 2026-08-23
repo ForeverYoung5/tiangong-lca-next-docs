@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * v4 §6.2 构建包装器：解析/校验环境契约 → next build → verify-out。
+ * v4 §6.2 构建包装器：解析/校验环境契约 → next build → verify-out → check-links。
  *
  * EdgeOne 不注入 SOURCE_COMMIT/SOURCE_DATE_EPOCH，这里按契约从 git 推导并
  * 导出到构建环境；DEPLOY_ENV/CANONICAL_ORIGIN/NEXT_PUBLIC_SEARCH_MODE
@@ -49,6 +49,7 @@ const steps = [
   ['check-env', ['node', 'scripts/check-env.mjs']],
   ['build', ['next', 'build']],
   ['verify-out', ['node', 'scripts/verify-out.mjs']],
+  ['check-links', ['node', 'scripts/check-links.mjs']],
 ];
 
 for (const [label, command] of steps) {
