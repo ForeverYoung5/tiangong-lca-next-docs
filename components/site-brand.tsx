@@ -8,7 +8,8 @@ export function SiteBrand() {
         <img src="/logo-dark.svg" alt="" width={28} height={28} className="hidden dark:block" />
       </span>
       <span className="atlas-brand-name">
-        TianGong LCA <span className="atlas-brand-product">Docs</span>
+        TianGong LCA <span className="atlas-brand-divider" aria-hidden="true">/</span>{' '}
+        <span className="atlas-brand-product">Documentation</span>
       </span>
     </span>
   );

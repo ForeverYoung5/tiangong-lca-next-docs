@@ -29,8 +29,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: "2026-08-23"
-lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
-lastReviewedNote: "Reviewed for Issue #136 after permanent generated-link validation and Data Atlas browser QA were added to the delivery proof."
+lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
+lastReviewedNote: "Reviewed for Issue #140 after browser proof and stable DOM markers were defined for the flat primary action and LCA concept-map landing."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -56,6 +56,7 @@ DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=sta
 - Public content: update all four locale variants; run lint and the complete build.
 - Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets.
 - Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, and an ultra-wide viewport in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.
+- Landing visual contract: assert `data-hero-signature="lca-concept-map"`, exactly one `data-primary-action`, and a single semantic HTML `main`. The primary action must compute to `background-image: none`, `box-shadow: none`, and `transform: none`; the Next signature must not match the TIDAS hero signature.
 - Metadata or route changes: inspect generated HTML for canonical, `x-default`, all real locale alternatives, and Open Graph image metadata; confirm sitemap entries and negative 404 contracts.
 - Production publishing or search reconciliation: run the complete build, verify deployed `/llms.txt` and `/search-records.json` expose the expected SHA, assert indexable robots/canonical metadata, then confirm locale-isolated Algolia search.
 - Preview reconciliation: assert the same deployed SHA but require `Disallow: /`, page `noindex`, and production-origin canonical/sitemap URLs; confirm the production-state job is skipped.

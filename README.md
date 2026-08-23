@@ -28,8 +28,8 @@ checkPaths:
   - crowdin.yml
   - .github/workflows/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: d4f91b9c1d5a1e37f212da006a7ee75a1555c456
-lastReviewedNote: "Reviewed for Issue #136 after Data Atlas UI, four-locale publication, generated link validation, and governance cleanup."
+lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
+lastReviewedNote: "Reviewed for Issue #140 after the four-locale landing adopted the shared flat documentation shell and a Next-specific LCA concept map."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -98,8 +98,8 @@ The manual preview reconciliation choice is validation-only: it requires preview
 ## Repository layout
 
 ```text
-app/             routes, metadata, public endpoints, global Data Atlas styles
-components/      shared brand/home, search, MDX, and media components
+app/             routes, metadata, public endpoints, and shared neutral theme tokens
+components/      shared brand/home, LCA concept map, search, MDX, and media components
 content/docs/    four-locale dot-suffix MDX sources
 lib/             locale, source, metadata, information architecture, layout options
 public/          brand and documentation media
