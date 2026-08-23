@@ -179,10 +179,10 @@ export function DocsHome({ lang }: { lang: string }) {
     <HomeLayout {...baseOptions(language)}>
       <div className="min-w-0 max-w-full flex-1 overflow-clip text-fd-foreground">
         <section className="border-b border-fd-border bg-fd-background" data-hero-signature="lca-concept-map">
-          <div className="atlas-shell grid min-h-[40rem] grid-cols-[minmax(0,5fr)_minmax(31rem,7fr)] items-center gap-[clamp(2.5rem,5vw,5rem)] py-[clamp(4.5rem,8vw,7rem)] max-[68rem]:grid-cols-1 max-[40rem]:min-h-0 max-[40rem]:gap-12 max-[40rem]:py-12">
-            <div className="min-w-0 max-w-[38rem] max-[68rem]:max-w-[48rem]">
+          <div className="atlas-shell grid min-h-[40rem] grid-cols-[minmax(0,1fr)_minmax(28rem,1fr)] items-center gap-[clamp(2rem,4vw,4rem)] py-[clamp(4.5rem,8vw,7rem)] max-[68rem]:grid-cols-1 max-[40rem]:min-h-0 max-[40rem]:gap-12 max-[40rem]:py-12">
+            <div className="min-w-0 max-w-[38rem] max-[68rem]:max-w-[48rem]" data-hero-copy>
               <p className="docs-eyebrow">{content.eyebrow}</p>
-              <h1 className="m-0 max-w-[14ch] text-[clamp(2.5rem,4.5vw,4.25rem)] leading-[1.08] font-[560] tracking-[-0.045em] text-balance max-[40rem]:max-w-full max-[40rem]:text-[clamp(2.2rem,10vw,2.8rem)] max-[40rem]:tracking-[-0.04em]" data-controlled-title>
+              <h1 className="m-0 max-w-[14ch] text-[clamp(2.5rem,4.2vw,4rem)] leading-[1.08] font-[560] tracking-[-0.045em] text-balance max-[40rem]:max-w-full max-[40rem]:text-[clamp(2.2rem,10vw,2.8rem)] max-[40rem]:tracking-[-0.04em]" data-controlled-title>
                 {content.titleLines
                   ? content.titleLines.map((line) => <span className="block whitespace-nowrap" data-title-line key={line}>{line}</span>)
                   : content.title}

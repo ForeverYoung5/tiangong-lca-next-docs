@@ -47,6 +47,7 @@ for (const name of ['DEPLOY_ENV', 'CANONICAL_ORIGIN', 'NEXT_PUBLIC_SEARCH_MODE']
 
 const steps = [
   ['check-env', ['node', 'scripts/check-env.mjs']],
+  ['link-tests', ['node', '--test', 'scripts/check-links.test.mjs']],
   ['build', ['next', 'build']],
   ['verify-out', ['node', 'scripts/verify-out.mjs']],
   ['check-links', ['node', 'scripts/check-links.mjs']],

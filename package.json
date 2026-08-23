@@ -13,6 +13,7 @@
     "check:env": "node scripts/check-env.mjs",
     "verify:out": "node scripts/verify-out.mjs",
     "check:links": "node scripts/check-links.mjs",
+    "test:links": "node --test scripts/check-links.test.mjs",
     "lint": "npx markdownlint-cli2 '**/*.md' '**/*.mdx' '#node_modules' '#content/docs/.source'"
   },
   "dependencies": {

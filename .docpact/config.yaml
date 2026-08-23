@@ -1,7 +1,7 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-23"
-lastReviewedCommit: "19a92c256d967cbed023e8f75f1af0ac6ff39940"
+lastReviewedCommit: "aad45c9512df83636131439b6b6bff3d535c928e"
 reviewNote: "Reviewed for Issue #140: the landing redesign remains inside existing docs-site ownership and coverage; routing and rule topology remain correct."
 lastReviewedNote: "The Fumadocs primitive, theme-token, and LCA concept-map changes require no ownership, routing, coverage, or publication-rule changes."
 

@@ -37,6 +37,21 @@ function walkHtmlFiles(root) {
   return files.sort();
 }
 
+function walkMdxFiles(root) {
+  const files = [];
+
+  function walk(directory) {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const absolute = path.join(directory, entry.name);
+      if (entry.isDirectory()) walk(absolute);
+      else if (entry.isFile() && entry.name.endsWith('.mdx')) files.push(absolute);
+    }
+  }
+
+  walk(root);
+  return files.sort();
+}
+
 function decodeHtml(value) {
   return value.replace(
     /&(?:#(\d+)|#x([\da-f]+)|(amp|apos|gt|lt|quot));/gi,
@@ -63,7 +78,7 @@ function lineAndColumn(source, offset) {
 
 export function extractReferences(html) {
   const references = [];
-  const attribute = /\b(href|src)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+  const attribute = /(?<![\w:-])\b(href|src)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
   let match;
 
   while ((match = attribute.exec(html)) !== null) {
@@ -106,7 +121,7 @@ function resolveOutputFile(outDir, pathname) {
 
 function collectAnchors(html) {
   const anchors = new Set();
-  const attribute = /\b(?:id|name)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+  const attribute = /(?<![\w:-])\b(?:id|name)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
   let match;
 
   while ((match = attribute.exec(html)) !== null) {
@@ -114,6 +129,160 @@ function collectAnchors(html) {
   }
 
   return anchors;
+}
+
+function blankNonNewlines(value) {
+  return value.replace(/[^\r\n]/g, ' ');
+}
+
+export function maskMdxCode(source) {
+  let masked = source.replace(/<!--[\s\S]*?-->/g, (value) => blankNonNewlines(value));
+  const lines = masked.match(/.*(?:\r?\n|$)/g) ?? [];
+  let fence = null;
+  masked = lines.map((line) => {
+    const marker = line.match(/^[ \t]{0,3}(`{3,}|~{3,})/);
+    if (!fence && marker) {
+      fence = { character: marker[1][0], length: marker[1].length };
+      return blankNonNewlines(line);
+    }
+    if (fence) {
+      const closing = new RegExp(`^[ \\t]{0,3}${fence.character}{${fence.length},}[ \\t]*(?:\\r?\\n)?$`);
+      if (closing.test(line)) fence = null;
+      return blankNonNewlines(line);
+    }
+    return line;
+  }).join('');
+  return masked.replace(/(`+)([^`\n]*?)\1/g, (value) => blankNonNewlines(value));
+}
+
+export function extractMarkdownLinks(source) {
+  const links = [];
+  const masked = maskMdxCode(source);
+  const pattern = /(?<!!)\[[^\]]+\]\(\s*/g;
+  let match;
+  while ((match = pattern.exec(masked)) !== null) {
+    let cursor = pattern.lastIndex;
+    let value = '';
+    if (masked[cursor] === '<') {
+      const end = masked.indexOf('>', cursor + 1);
+      if (end === -1) continue;
+      value = masked.slice(cursor + 1, end);
+      pattern.lastIndex = end + 1;
+    } else {
+      let nested = 0;
+      const start = cursor;
+      for (; cursor < masked.length; cursor += 1) {
+        const character = masked[cursor];
+        if (/\s/.test(character) && nested === 0) break;
+        if (character === '(' && masked[cursor - 1] !== '\\') nested += 1;
+        if (character === ')' && masked[cursor - 1] !== '\\') {
+          if (nested === 0) break;
+          nested -= 1;
+        }
+      }
+      value = masked.slice(start, cursor);
+      pattern.lastIndex = cursor;
+    }
+    if (value) links.push({ value, ...lineAndColumn(source, match.index) });
+  }
+
+  const reference = /^[ \t]{0,3}\[[^\]\n]+\]:[ \t]*(?:<([^>\n]+)>|([^\s]+))/gm;
+  while ((match = reference.exec(masked)) !== null) {
+    links.push({ value: match[1] ?? match[2], ...lineAndColumn(source, match.index) });
+  }
+
+  const jsxHref = /(?<![\w:-])\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+  while ((match = jsxHref.exec(masked)) !== null) {
+    links.push({ value: match[1] ?? match[2], ...lineAndColumn(source, match.index) });
+  }
+  return links;
+}
+
+function localizedDocTarget(value) {
+  const match = value.match(/^\/(zh|en|de|fr)(\/docs(?:\/[^?#]*)?)(?:[?#].*)?$/);
+  if (!match) return null;
+  return { locale: match[1], pathname: match[2], normalized: `/:lang${match[2]}` };
+}
+
+export function checkSourceLinks({ contentDir }) {
+  const absoluteContent = path.resolve(contentDir);
+  const files = walkMdxFiles(absoluteContent);
+  const groups = new Map();
+  const issues = [];
+
+  for (const file of files) {
+    const relative = path.relative(absoluteContent, file).split(path.sep).join('/');
+    const match = relative.match(/^(.*?)(?:\.(en|de|fr))?\.mdx$/);
+    if (!match) continue;
+    const logicalPath = match[1];
+    const locale = match[2] ?? 'zh';
+    const source = fs.readFileSync(file, 'utf8');
+    const targets = new Set();
+
+    for (const link of extractMarkdownLinks(source)) {
+      if (/^\.{1,2}\//.test(link.value)) {
+        issues.push({
+          source: relative,
+          line: link.line,
+          column: link.column,
+          attribute: 'md-link',
+          value: link.value,
+          reason: 'path-relative internal links are forbidden; use a locale-absolute route',
+        });
+        continue;
+      }
+
+      const target = localizedDocTarget(link.value);
+      if (!target) continue;
+      if (target.locale !== locale) {
+        issues.push({
+          source: relative,
+          line: link.line,
+          column: link.column,
+          attribute: 'md-link',
+          value: link.value,
+          reason: `locale mismatch: ${locale} source links to ${target.locale}`,
+        });
+      }
+      if (!target.pathname.endsWith('/')) {
+        issues.push({
+          source: relative,
+          line: link.line,
+          column: link.column,
+          attribute: 'md-link',
+          value: link.value,
+          reason: 'documentation routes must use the canonical trailing slash',
+        });
+      }
+      targets.add(target.normalized);
+    }
+
+    const group = groups.get(logicalPath) ?? { files: new Map(), targets: new Map() };
+    group.files.set(locale, relative);
+    group.targets.set(locale, targets);
+    groups.set(logicalPath, group);
+  }
+
+  const locales = ['zh', 'en', 'de', 'fr'];
+  for (const [logicalPath, group] of groups) {
+    if (!locales.every((locale) => group.files.has(locale))) continue;
+    const union = new Set(locales.flatMap((locale) => [...group.targets.get(locale)]));
+    for (const target of union) {
+      for (const locale of locales) {
+        if (group.targets.get(locale).has(target)) continue;
+        issues.push({
+          source: group.files.get(locale),
+          line: 1,
+          column: 1,
+          attribute: 'md-link-set',
+          value: target.replace('/:lang', `/${locale}`),
+          reason: `localized link topology differs for ${logicalPath}; target is missing from ${locale}`,
+        });
+      }
+    }
+  }
+
+  return { checkedSourceFiles: files.length, issues };
 }
 
 export function checkLinks({ outDir, internalOrigins = [] }) {
@@ -200,7 +369,8 @@ export function checkLinks({ outDir, internalOrigins = [] }) {
 export function formatReport(result) {
   const summary =
     `[check-links] checked ${result.checkedReferences} local href/src references ` +
-    `across ${result.checkedHtml} HTML files (${result.skippedExternal} external skipped)`;
+    `across ${result.checkedHtml} HTML files and ${result.checkedSourceFiles ?? 0} MDX sources ` +
+    `(${result.skippedExternal} external skipped)`;
   if (result.issues.length === 0) return `${summary}\n[check-links] ALL GREEN`;
 
   const details = result.issues.map(
@@ -212,7 +382,14 @@ export function formatReport(result) {
 
 function main() {
   const outDir = path.resolve(process.argv[2] ?? path.join(import.meta.dirname, '..', 'out'));
-  const result = checkLinks({ outDir });
+  const contentDir = path.resolve(import.meta.dirname, '..', 'content', 'docs');
+  const outputResult = checkLinks({ outDir });
+  const sourceResult = checkSourceLinks({ contentDir });
+  const result = {
+    ...outputResult,
+    checkedSourceFiles: sourceResult.checkedSourceFiles,
+    issues: [...sourceResult.issues, ...outputResult.issues],
+  };
   const report = formatReport(result);
   (result.issues.length === 0 ? console.log : console.error)(report);
   if (result.issues.length > 0) process.exitCode = 1;
