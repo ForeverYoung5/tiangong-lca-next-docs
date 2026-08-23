@@ -112,8 +112,9 @@ jobs:
 
           curl -fsSL --max-time 30 "${origin%/}/robots.txt" -o /tmp/robots.txt
           curl -fsSL --max-time 30 "${origin%/}/sitemap.xml" -o /tmp/sitemap.xml
+          canonical_origin="https://docs.tiangong.earth"
           if [ "$origin" = "https://docs.tiangong.earth" ]; then
-            if grep -qiE '^Disallow:[[:space:]]*/' /tmp/robots.txt || ! grep -qiE '^Allow:[[:space:]]*/' /tmp/robots.txt; then
+            if grep -qiE '^Disallow:[[:space:]]*/[[:space:]]*$' /tmp/robots.txt || ! grep -qiE '^Allow:[[:space:]]*/[[:space:]]*$' /tmp/robots.txt; then
               echo "::error::production robots.txt is not indexable" >&2
               exit 1
             fi
@@ -122,13 +123,17 @@ jobs:
               exit 1
             fi
           else
-            if ! grep -qiE '^Disallow:[[:space:]]*/' /tmp/robots.txt || grep -qiE '^Allow:[[:space:]]*/' /tmp/robots.txt; then
+            if ! grep -qiE '^Disallow:[[:space:]]*/[[:space:]]*$' /tmp/robots.txt || grep -qiE '^Allow:' /tmp/robots.txt; then
               echo "::error::preview robots.txt must remain non-indexable" >&2
               exit 1
             fi
           fi
-          if ! grep -Fq "<loc>${origin%/}/" /tmp/sitemap.xml || grep -FqiE 'localhost|127\.0\.0\.1' /tmp/sitemap.xml; then
-            echo "::error::sitemap.xml does not use the verified origin" >&2
+          if ! grep -Fq "<loc>${canonical_origin}/" /tmp/sitemap.xml || grep -FqiE 'localhost|127\.0\.0\.1|preview\.docs\.tiangong\.earth' /tmp/sitemap.xml; then
+            echo "::error::sitemap.xml does not use the production canonical origin" >&2
+            exit 1
+          fi
+          if grep -E '<loc>|<xhtml:link' /tmp/sitemap.xml | grep -Fvq "https://docs.tiangong.earth/"; then
+            echo "::error::sitemap.xml mixes canonical origins or contains relative URLs" >&2
             exit 1
           fi
           for locale in zh en de fr; do
@@ -143,8 +148,8 @@ jobs:
               echo "::error::preview /${locale}/docs/ must be noindex" >&2
               exit 1
             fi
-            if ! grep -Fq "<link rel=\"canonical\" href=\"${origin%/}/${locale}/docs/\"" "$page_file"; then
-              echo "::error::/${locale}/docs/ has a canonical outside the verified origin" >&2
+            if ! grep -Fq "<link rel=\"canonical\" href=\"${canonical_origin}/${locale}/docs/\"" "$page_file"; then
+              echo "::error::/${locale}/docs/ does not use the production canonical origin" >&2
               exit 1
             fi
           done

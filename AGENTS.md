@@ -80,7 +80,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - The shared `SiteBrand` and `DocsHome` components plus `app/global.css` define the Data Atlas visual contract. Keep both documentation sites aligned with its shell widths, brand lockup, color tokens, focus treatment, dark mode, and responsive behavior.
 - `next.config.ts` sets `agentRules: false` because this governed file, not generated development-server text, is authoritative.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
-- Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots/canonical policy in a separate job path that cannot access those mutation steps.
+- Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.
 
 ## Required commands
 

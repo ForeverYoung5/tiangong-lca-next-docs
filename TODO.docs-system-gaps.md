@@ -53,4 +53,4 @@ No active repository-local drift is known after Issue #136.
 - Root `/` renders the full default-language home without redirect compatibility.
 - Generated routes, public endpoints, search records, AI index, metadata, local links, fragments, and assets are build-gated.
 - Visual changes require real-browser inspection at mobile, desktop, ultra-wide, light, and dark states.
-- EdgeOne reconciliation validates source identity and indexing policy for both allowlisted origins; only production may mutate Algolia or Context7 state, while preview remains validation-only.
+- EdgeOne reconciliation validates source identity and indexing policy for both allowlisted origins; preview canonicalizes to production, and only production may mutate Algolia or Context7 state.
