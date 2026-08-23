@@ -30,8 +30,8 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: "2026-08-23"
-lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
+lastReviewedAt: 2026-08-23
+lastReviewedCommit: cce6d443999b32bbd332131f43e958b482965583
 lastReviewedNote: "Reviewed for Issue #140 after the landing moved to Fumadocs Neutral primitives, a flat shared shell, and a Next-specific LCA concept map."
 related:
   - AGENTS.md
@@ -88,7 +88,7 @@ All four variants must change together when structure, links, examples, or user-
 1. validate environment and source identity;
 2. run `next build` static export;
 3. validate deterministic routes, endpoints, search records, AI index, SEO files, and greenfield deny paths;
-4. validate every generated local page, fragment, and asset reference.
+4. run adversarial link-checker tests, then validate source-locale link topology and every generated local page, fragment, and asset reference with browser URL semantics.
 
 The three retained `manifests/p0b/*.json` files are immutable build contracts for information architecture, expected routes, and retired-path denial. One-time rewrite inventories and executors were removed after cutover; Git history remains the audit source.
 

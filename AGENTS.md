@@ -35,8 +35,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: "2026-08-23"
-lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
+lastReviewedAt: 2026-08-23
+lastReviewedCommit: cce6d443999b32bbd332131f43e958b482965583
 lastReviewedNote: "Reviewed for Issue #140 after the landing adopted the flat shared documentation shell, a TianGong LCA concept map, task-specific four-locale copy, and Fumadocs UI primitives."
 related:
   - .docpact/config.yaml
@@ -77,6 +77,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - Supported locales are `zh`, `en`, `de`, and `fr`; every public page currently exists in all four.
 - `/` renders the complete Chinese home as the `x-default` entry without redirecting. Locale homes remain `/{lang}/`; documents remain `/{lang}/docs/**`.
 - Retired paths have no redirect or rewrite compatibility and must remain 404. `manifests/p0b/greenfield-deny.json` is a negative build contract, not a mapping table.
+- Public document links use locale-absolute `/{lang}/docs/**/` routes. The link gate checks browser-resolved output, canonical trailing slashes, source-locale ownership, and the normalized internal-link topology across all four variants of a page.
 - `SiteBrand`, `DocsHome`, and the Fumadocs Neutral theme define the shared documentation shell. Keep both documentation sites aligned on the 72rem shell, brand-lockup structure, solid plum interaction color, neutral layers, focus treatment, dark mode, low-radius controls, and responsive behavior.
 - Product identity belongs in a semantic hero signature rather than a shared decorative motif. This site uses `data-hero-signature="lca-concept-map"` for the reference-data → process-relations → product-system → LCIA-results concept map; TIDAS must retain a distinct data-system/schema signature.
 - Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and the product-specific concept figure; do not add gradients, glow, shadow, or lift animation to landing actions.
@@ -94,7 +95,7 @@ pnpm check:links
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` runs environment validation, static export, output-contract verification, and generated HTML link/fragment/asset validation. For visual changes, also inspect light and dark themes at 390px, 1440px, and an ultra-wide viewport using a real browser.
+`pnpm build` runs environment validation, adversarial link-checker tests, static export, output-contract verification, and source/generated link validation. For visual changes, also inspect light and dark themes at 390px, 1440px, the 1633px large-desktop regression width, and an ultra-wide viewport using a real browser.
 
 ## Hard boundaries
 
