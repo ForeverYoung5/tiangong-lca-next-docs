@@ -37,11 +37,11 @@ concurrency:
 
 jobs:
   reconcile:
+    name: Validate deployed docs
     runs-on: ubuntu-latest
-    # v4 §7.3：ALGOLIA_WRITE_KEY 只存在于 GitHub production environment，
-    # 永不进入 EdgeOne 构建环境或静态 bundle
-    environment: production
     timeout-minutes: 30
+    outputs:
+      deployed_sha: ${{ steps.sha.outputs.sha }}
     env:
       VERIFY_ORIGIN: ${{ inputs.verify_origin }}
       EXPECTED_SHA_INPUT: ${{ inputs.expected_sha }}
@@ -50,17 +50,6 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
-      - name: Set up pnpm 11.22.0
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.22.0
-
-      - name: Set up Node.js 24
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.18.0'
-          cache: pnpm
 
       - name: Resolve expected SHA
         id: sha
@@ -123,27 +112,39 @@ jobs:
 
           curl -fsSL --max-time 30 "${origin%/}/robots.txt" -o /tmp/robots.txt
           curl -fsSL --max-time 30 "${origin%/}/sitemap.xml" -o /tmp/sitemap.xml
-          if grep -qiE '^Disallow:[[:space:]]*/' /tmp/robots.txt || ! grep -qiE '^Allow:[[:space:]]*/' /tmp/robots.txt; then
-            echo "::error::production robots.txt is not indexable" >&2
-            exit 1
+          if [ "$origin" = "https://docs.tiangong.earth" ]; then
+            if grep -qiE '^Disallow:[[:space:]]*/' /tmp/robots.txt || ! grep -qiE '^Allow:[[:space:]]*/' /tmp/robots.txt; then
+              echo "::error::production robots.txt is not indexable" >&2
+              exit 1
+            fi
+            if ! grep -Fq 'Sitemap: https://docs.tiangong.earth/sitemap.xml' /tmp/robots.txt; then
+              echo "::error::robots.txt does not expose the production sitemap" >&2
+              exit 1
+            fi
+          else
+            if ! grep -qiE '^Disallow:[[:space:]]*/' /tmp/robots.txt || grep -qiE '^Allow:[[:space:]]*/' /tmp/robots.txt; then
+              echo "::error::preview robots.txt must remain non-indexable" >&2
+              exit 1
+            fi
           fi
-          if ! grep -Fq 'Sitemap: https://docs.tiangong.earth/sitemap.xml' /tmp/robots.txt; then
-            echo "::error::robots.txt does not expose the production sitemap" >&2
-            exit 1
-          fi
-          if ! grep -Fq '<loc>https://docs.tiangong.earth/' /tmp/sitemap.xml || grep -FqiE 'localhost|127\.0\.0\.1' /tmp/sitemap.xml; then
-            echo "::error::sitemap.xml does not use the production canonical origin" >&2
+          if ! grep -Fq "<loc>${origin%/}/" /tmp/sitemap.xml || grep -FqiE 'localhost|127\.0\.0\.1' /tmp/sitemap.xml; then
+            echo "::error::sitemap.xml does not use the verified origin" >&2
             exit 1
           fi
           for locale in zh en de fr; do
             page_file="/tmp/${locale}-docs.html"
             curl -fsSL --max-time 30 "${origin%/}/${locale}/docs/" -o "$page_file"
-            if grep -qiE '<meta[^>]+name="robots"[^>]+noindex' "$page_file"; then
-              echo "::error::/${locale}/docs/ is noindex" >&2
+            if [ "$origin" = "https://docs.tiangong.earth" ]; then
+              if grep -qiE '<meta[^>]+name="robots"[^>]+noindex' "$page_file"; then
+                echo "::error::production /${locale}/docs/ is noindex" >&2
+                exit 1
+              fi
+            elif ! grep -qiE '<meta[^>]+name="robots"[^>]+noindex' "$page_file"; then
+              echo "::error::preview /${locale}/docs/ must be noindex" >&2
               exit 1
             fi
-            if ! grep -Fq "<link rel=\"canonical\" href=\"https://docs.tiangong.earth/${locale}/docs/\"" "$page_file"; then
-              echo "::error::/${locale}/docs/ has a non-production canonical" >&2
+            if ! grep -Fq "<link rel=\"canonical\" href=\"${origin%/}/${locale}/docs/\"" "$page_file"; then
+              echo "::error::/${locale}/docs/ has a canonical outside the verified origin" >&2
               exit 1
             fi
           done
@@ -155,26 +156,62 @@ jobs:
               exit 1
             fi
           done
-          echo "live contract validated for $sha"
+          echo "live contract validated for $sha at $origin"
 
-      # --- phase: syncing-search ---
+      - name: Write deployment validation summary
+        if: always()
+        run: |
+          {
+            echo "## Docs deployment validation"
+            echo
+            echo "- Origin: ${VERIFY_ORIGIN}"
+            echo "- SHA: ${{ steps.sha.outputs.sha }}"
+            echo "- Policy: $([ "$VERIFY_ORIGIN" = "https://docs.tiangong.earth" ] && echo production-indexable || echo preview-noindex)"
+            echo "- Outcome: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  reconcile-production-state:
+    name: Sync production publication state
+    needs: reconcile
+    if: inputs.verify_origin == 'https://docs.tiangong.earth'
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 15
+    env:
+      VERIFY_ORIGIN: ${{ inputs.verify_origin }}
+      EXPECTED_SHA: ${{ needs.reconcile.outputs.deployed_sha }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up pnpm 11.22.0
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.18.0'
+          cache: pnpm
+
       - name: 'Phase: syncing-search (Algolia replaceAllObjects + locale smoke)'
         env:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
           ALGOLIA_INDEX_NAME: tiangong-lca-docs
-          EXPECTED_SHA: ${{ steps.sha.outputs.sha }}
         run: |
           set -euo pipefail
           if [ -z "${ALGOLIA_APP_ID:-}" ] || [ -z "${ALGOLIA_WRITE_KEY:-}" ]; then
-            echo "::error::Algolia production secrets missing; refusing to mark complete (v4 §7.3)"
+            echo "::error::Algolia production secrets missing; refusing to mark complete"
             exit 1
           fi
           # search-sync.mjs uses production dependencies only.
           pnpm install --frozen-lockfile --prod
           node scripts/search-sync.mjs --from "$VERIFY_ORIGIN"
 
-      # --- phase: refreshing-context7 ---
       - name: 'Phase: refreshing-context7'
         id: context7
         env:
@@ -198,7 +235,7 @@ jobs:
             cat /tmp/context7-response.json || true
             exit 0
           fi
-          # too-early：Context7 强制最小 10 天刷新间隔，项目已在新鲜期内——软跳过
+          # Context7 enforces a 10-day minimum refresh interval; an already-fresh project is a safe skip.
           if grep -q '"too-early"' /tmp/context7-response.json 2>/dev/null; then
             echo "status=too-early" >> "$GITHUB_OUTPUT"
             echo "::warning::Context7 refresh skipped: within the 10-day minimum interval (project already fresh)"
@@ -208,7 +245,6 @@ jobs:
           cat /tmp/context7-response.json || true
           exit 1
 
-      # --- phase: complete ---
       - name: 'Phase: complete (summary)'
         if: always()
         run: |
@@ -216,7 +252,7 @@ jobs:
             echo "## Docs reconcile"
             echo
             echo "- Origin: ${VERIFY_ORIGIN}"
-            echo "- SHA: ${{ steps.sha.outputs.sha }}"
+            echo "- SHA: ${EXPECTED_SHA}"
             echo "- Context7: ${{ steps.context7.outputs.status || 'not-run' }}"
             echo "- Outcome: ${{ job.status }}"
           } >> "$GITHUB_STEP_SUMMARY"

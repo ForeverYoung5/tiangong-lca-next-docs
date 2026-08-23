@@ -93,6 +93,8 @@ EdgeOne Makers owns build and deployment. GitHub Actions validates pull requests
 
 Writing credentials stay in the GitHub production environment and never enter the static bundle. The browser receives only the restricted search configuration required by production search.
 
+The manual preview reconciliation choice is validation-only: it requires preview `Disallow: /`, page `noindex`, and preview-origin canonical/sitemap URLs. Its production-state job is skipped, so preview records cannot replace production Algolia data or request a Context7 refresh.
+
 ## Repository layout
 
 ```text
