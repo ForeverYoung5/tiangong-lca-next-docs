@@ -36,7 +36,7 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: cce6d443999b32bbd332131f43e958b482965583
+lastReviewedCommit: 0e27f0b9525bb3fe7817f48fd29a1293d6337bb5
 lastReviewedNote: "Reviewed for Issue #140 after the landing adopted the flat shared documentation shell, a TianGong LCA concept map, task-specific four-locale copy, and Fumadocs UI primitives."
 related:
   - .docpact/config.yaml

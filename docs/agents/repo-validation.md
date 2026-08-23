@@ -29,7 +29,7 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-23
-lastReviewedCommit: cce6d443999b32bbd332131f43e958b482965583
+lastReviewedCommit: 0e27f0b9525bb3fe7817f48fd29a1293d6337bb5
 lastReviewedNote: "Reviewed for Issue #140 after browser proof and stable DOM markers were defined for the flat primary action and LCA concept-map landing."
 related:
   - AGENTS.md
