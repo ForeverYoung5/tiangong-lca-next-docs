@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-23"
-lastReviewedCommit: "c6f4e8d23b14e0bd33fda7a741776becbce01e01"
+lastReviewedCommit: "096faf0bb07928387be24423ad3198147134b460"
 reviewNote: "Reviewed for Issue #138: preview deployment validation is isolated from production Algolia and Context7 mutation; routing and rule topology remain correct."
-lastReviewedNote: "Production reconciliation retains the publication mutation boundary while preview remains validation-only."
+lastReviewedNote: "Production reconciliation retains the publication mutation boundary; preview stays noindex, canonicalizes to production, and remains validation-only."
 
 catalog:
   repos:
