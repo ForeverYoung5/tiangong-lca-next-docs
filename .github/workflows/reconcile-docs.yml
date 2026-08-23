@@ -132,7 +132,13 @@ jobs:
             echo "::error::sitemap.xml does not use the production canonical origin" >&2
             exit 1
           fi
-          if grep -E '<loc>|<xhtml:link' /tmp/sitemap.xml | grep -Fvq "https://docs.tiangong.earth/"; then
+          if ! awk -v origin="${canonical_origin}/" '
+            /<loc>|<xhtml:link/ {
+              seen = 1
+              if (index($0, origin) == 0) bad = 1
+            }
+            END { exit (seen && !bad ? 0 : 1) }
+          ' /tmp/sitemap.xml; then
             echo "::error::sitemap.xml mixes canonical origins or contains relative URLs" >&2
             exit 1
           fi
