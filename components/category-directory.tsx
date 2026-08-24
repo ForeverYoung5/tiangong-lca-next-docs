@@ -66,7 +66,8 @@ function summaryFor(item: Item, language: Language) {
 export function CategoryDirectory({ lang, category }: CategoryDirectoryProps) {
   const language: Language = lang in directoryCopy ? (lang as Language) : 'en';
   const tree = source.getPageTree(language);
-  const categoryPage = source.getPage([category], language);
+  const categorySlugs = category.split('/').filter(Boolean);
+  const categoryPage = source.getPage(categorySlugs, language);
   const categoryUrl = categoryPage?.url ?? `/${language}/docs/${category}`;
   const folder = findParent(tree, categoryUrl);
   const items = (folder?.children ?? []).flatMap((node) => {

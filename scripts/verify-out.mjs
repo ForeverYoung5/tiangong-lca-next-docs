@@ -233,6 +233,7 @@ for (const signature of ['source.getPageTree', 'findParent', 'structuredData']) 
 const directoryBases = [
   'overview', 'user-guide', 'data-collection', 'integration',
   'openapi', 'deploy-and-dev', 'faq', 'changelog',
+  'data-collection/case-introduction',
 ];
 let categoryDirectoryCount = 0;
 for (const lang of ['zh', 'en', 'de', 'fr']) {
@@ -262,7 +263,7 @@ for (const lang of ['zh', 'en', 'de', 'fr']) {
     categoryDirectoryCount += 1;
   }
 }
-if (categoryDirectoryCount === 32) passed.push('32 automatic localized category directories');
+if (categoryDirectoryCount === 36) passed.push('36 automatic localized category directories');
 
 // --- summary ---
 console.log(`\n[verify-out] ${passed.length} checks passed:`);
