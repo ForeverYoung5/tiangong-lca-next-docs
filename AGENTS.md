@@ -35,9 +35,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-23
-lastReviewedCommit: 125ad1721efbddd945918a849afb4a0c81321d29
-lastReviewedNote: "Reviewed for Issue #144 after the four-locale documentation root became a Fumadocs task hub with an LCA task route, locale-safe links, and browser-proof markers."
+lastReviewedAt: 2026-08-24
+lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
+lastReviewedNote: "Reviewed for Issue #146 after the four-locale Quick Start category gained a focused first-session route, completion cues, and browser-proof markers."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

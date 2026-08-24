@@ -30,9 +30,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-23
-lastReviewedCommit: 125ad1721efbddd945918a849afb4a0c81321d29
-lastReviewedNote: "Reviewed for Issue #144 after the ordinary docs layout gained a four-locale task portal while retaining the distinct LCA landing concept map."
+lastReviewedAt: 2026-08-24
+lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
+lastReviewedNote: "Reviewed for Issue #146 after the Quick Start category gained a four-locale first-session component distinct from the broader docs task hub."
 related:
   - AGENTS.md
   - .docpact/config.yaml
