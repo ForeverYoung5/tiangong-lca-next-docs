@@ -172,6 +172,41 @@ for (const lang of ['zh', 'en', 'de', 'fr']) {
 }
 if (docsPortalCount === 4) passed.push('four-locale LCA docs task hubs');
 
+// 11. 快速开始分类首页提供真实的首次使用路线和当前任务入口。
+const quickStartTargets = [
+  'quick-start/first-login',
+  'quick-start/demonstrations',
+  'user-guide/data',
+  'user-guide/create-my-data',
+  'user-guide/lcia',
+  'user-guide/account-profile',
+  'faq',
+  'overview/resources-and-support',
+];
+let quickStartGuideCount = 0;
+for (const lang of ['zh', 'en', 'de', 'fr']) {
+  const html = read(`${lang}/docs/quick-start/index.html`);
+  if (!html.includes('data-quick-start-guide="first-session-route"')) {
+    errors.push(`${lang} quick-start root omits the first-session route marker`);
+    continue;
+  }
+  if (!html.includes('data-quick-start-map="three-stage-onboarding"')) {
+    errors.push(`${lang} quick-start root omits the three-stage onboarding marker`);
+    continue;
+  }
+  if (!html.includes('data-quick-start-primary')) {
+    errors.push(`${lang} quick-start root omits the governed application entry action`);
+    continue;
+  }
+  const missingTarget = quickStartTargets.find((target) => !html.includes(`href="/${lang}/docs/${target}/"`));
+  if (missingTarget) {
+    errors.push(`${lang} quick-start root omits canonical target /${lang}/docs/${missingTarget}/`);
+    continue;
+  }
+  quickStartGuideCount += 1;
+}
+if (quickStartGuideCount === 4) passed.push('four-locale guided quick-start routes');
+
 // --- summary ---
 console.log(`\n[verify-out] ${passed.length} checks passed:`);
 for (const p of passed) console.log(`  ✓ ${p}`);
