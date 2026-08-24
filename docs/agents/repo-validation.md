@@ -29,8 +29,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-24
-lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
-lastReviewedNote: "Reviewed for Issue #146 after static and browser proof was extended to the four-locale guided Quick Start route and task links."
+lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
+lastReviewedNote: "Reviewed for Issue #148 after static and browser proof expanded to 36 automatic localized category directories."
 related:
   - AGENTS.md
   - .docpact/config.yaml

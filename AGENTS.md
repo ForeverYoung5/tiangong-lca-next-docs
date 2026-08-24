@@ -36,8 +36,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-24
-lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
-lastReviewedNote: "Reviewed for Issue #146 after the four-locale Quick Start category gained a focused first-session route, completion cues, and browser-proof markers."
+lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
+lastReviewedNote: "Reviewed for Issue #148 after category roots gained page-tree-derived four-locale directories with no hand-maintained entry lists."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

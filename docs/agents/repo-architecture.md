@@ -31,8 +31,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-24
-lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
-lastReviewedNote: "Reviewed for Issue #146 after the Quick Start category gained a four-locale first-session component distinct from the broader docs task hub."
+lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
+lastReviewedNote: "Reviewed for Issue #148 after category navigation began deriving localized order, links, titles, and summaries from the Fumadocs page tree."
 related:
   - AGENTS.md
   - .docpact/config.yaml

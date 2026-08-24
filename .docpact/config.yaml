@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-24"
-lastReviewedCommit: "595b07795ea8333d99d2be8aa2504b39a1c6ef1f"
-reviewNote: "Reviewed for Issue #146: the guided Quick Start route remains inside existing public-content and site-structure ownership; routing and rule topology remain correct."
-lastReviewedNote: "The four-locale QuickStartGuide, canonical task links, and output markers require no ownership, coverage, or publication-rule changes."
+lastReviewedCommit: "69c0b1a3bacb7cc78c8c70e626686599a0d329d4"
+reviewNote: "Reviewed for Issue #148: automatic category directories remain inside existing public-content and site-structure ownership; routing and rule topology remain correct."
+lastReviewedNote: "The page-tree-derived four-locale directories, nested case section, and output checks require no ownership, coverage, or publication-rule changes."
 
 catalog:
   repos:
