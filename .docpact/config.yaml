@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-23"
-lastReviewedCommit: "125ad1721efbddd945918a849afb4a0c81321d29"
-reviewNote: "Reviewed for Issue #140: the landing redesign remains inside existing docs-site ownership and coverage; routing and rule topology remain correct."
-lastReviewedNote: "The Fumadocs primitive, theme-token, and LCA concept-map changes require no ownership, routing, coverage, or publication-rule changes."
+lastReviewedAt: "2026-08-24"
+lastReviewedCommit: "595b07795ea8333d99d2be8aa2504b39a1c6ef1f"
+reviewNote: "Reviewed for Issue #146: the guided Quick Start route remains inside existing public-content and site-structure ownership; routing and rule topology remain correct."
+lastReviewedNote: "The four-locale QuickStartGuide, canonical task links, and output markers require no ownership, coverage, or publication-rule changes."
 
 catalog:
   repos:

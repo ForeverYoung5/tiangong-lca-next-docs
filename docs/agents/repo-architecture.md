@@ -30,9 +30,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-23
-lastReviewedCommit: 125ad1721efbddd945918a849afb4a0c81321d29
-lastReviewedNote: "Reviewed for Issue #144 after the ordinary docs layout gained a four-locale task portal while retaining the distinct LCA landing concept map."
+lastReviewedAt: 2026-08-24
+lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
+lastReviewedNote: "Reviewed for Issue #146 after the Quick Start category gained a four-locale first-session component distinct from the broader docs task hub."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -69,6 +69,8 @@ Retired paths are intentionally absent. No application or hosting configuration 
 `components/lca-concept-map.tsx` owns the TianGong LCA hero signature. Its abstract reference-data → process-relations → product-system → LCIA-results topology is intentionally different from the TIDAS data-system/schema signature. The `data-hero-signature="lca-concept-map"` marker makes that distinction testable while shell widths, control placement, brand treatment, and accessibility behavior remain aligned between the sites.
 
 The four `content/docs/index*.mdx` sources render `components/docs-portal.tsx` inside the normal Fumadocs document layout. The portal deliberately keeps the document title and sidebar, then provides recommended task entry points, a five-step task route, and technical references. This keeps `/{lang}/docs/` useful without copying the marketing hero. The LCA portal exposes `data-docs-portal="lca-task-hub"` and `data-docs-portal-map="lca-task-route"`; the TIDAS site uses the same information hierarchy with a distinct system-module matrix.
+
+The four `content/docs/quick-start/index*.mdx` sources render `components/quick-start-guide.tsx` as a category-level first-session route. It keeps the ordinary document shell, then sequences account access and an operation walkthrough before branching into a first data, authoring, or LCIA task. Completion cues make each stage testable, while account, FAQ, and support links remain a low-emphasis fallback. The `data-quick-start-guide="first-session-route"` and `data-quick-start-map="three-stage-onboarding"` markers distinguish this local onboarding path from the broader five-stage docs-root map.
 
 ## Content and locales
 

@@ -28,9 +28,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-23
-lastReviewedCommit: 125ad1721efbddd945918a849afb4a0c81321d29
-lastReviewedNote: "Reviewed for Issue #144 after static and browser proof was extended to the four-locale LCA docs task hub and task-route markers."
+lastReviewedAt: 2026-08-24
+lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
+lastReviewedNote: "Reviewed for Issue #146 after static and browser proof was extended to the four-locale guided Quick Start route and task links."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -59,6 +59,7 @@ DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=sta
 - Landing visual contract: assert `data-hero-signature="lca-concept-map"`, exactly one `data-primary-action`, and a single semantic HTML `main`. The primary action must compute to `background-image: none`, `box-shadow: none`, and `transform: none`; the Next signature must not match the TIDAS hero signature.
 - LCA concept geometry: while the hero is in two-column mode, the rightmost rendered title glyph must remain inside `[data-hero-copy]` and at least 24px away from `[data-concept-map]`; `[data-concept-connector]` must retain a rendered stroke width of at least 1.2px.
 - Documentation-root hub: all four `/{lang}/docs/` outputs must contain `[data-docs-portal="lca-task-hub"]` and `[data-docs-portal-map="lca-task-route"]`; each portal link must remain inside its locale, resolve successfully, remain visible at 390px, and produce no horizontal overflow at 390px, 1440px, 1633px, 2048px, or 2560px in light and dark themes.
+- Quick-start route: all four `/{lang}/docs/quick-start/` outputs must contain `[data-quick-start-guide="first-session-route"]`, `[data-quick-start-map="three-stage-onboarding"]`, one solid application entry action, and the same canonical onboarding/task targets. Browser proof must show readable completion cues, visible keyboard focus, no fixed-height overlap in German or French, and no horizontal overflow at the standard five widths in both themes.
 - Metadata or route changes: inspect generated HTML for canonical, `x-default`, all real locale alternatives, and Open Graph image metadata; confirm sitemap entries and negative 404 contracts.
 - Production publishing or search reconciliation: run the complete build, verify deployed `/llms.txt` and `/search-records.json` expose the expected SHA, assert indexable robots/canonical metadata, then confirm locale-isolated Algolia search.
 - Preview reconciliation: assert the same deployed SHA but require `Disallow: /`, page `noindex`, and production-origin canonical/sitemap URLs; confirm the production-state job is skipped.
