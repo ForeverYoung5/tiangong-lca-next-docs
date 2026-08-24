@@ -1,12 +1,14 @@
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
 import { DocsPortal } from '@/components/docs-portal';
+import { QuickStartGuide } from '@/components/quick-start-guide';
 import { VideoEmbed } from '@/components/video-embed';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
     ...defaultMdxComponents,
     DocsPortal,
+    QuickStartGuide,
     VideoEmbed,
     ...components,
   } satisfies MDXComponents;
