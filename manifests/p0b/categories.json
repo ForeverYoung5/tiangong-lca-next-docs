@@ -16,12 +16,12 @@
     "newBase": "quick-start",
     "labelZh": "快速开始",
     "titleZh": "快速开始",
-    "descriptionZh": "完成注册、首次登录与核心操作演示，快速熟悉平台。",
+    "descriptionZh": "用三步完成账号登录、平台导览和第一次数据任务。",
     "depth": 0,
     "parent": null,
     "labelEn": "Quick Start",
     "titleEn": "Quick Start",
-    "descriptionEn": "Complete registration, first login and core operation demos to get started quickly."
+    "descriptionEn": "Complete sign-in, a platform walkthrough, and your first data task in three steps."
   },
   {
     "oldSlug": "/user-guide",
@@ -81,7 +81,7 @@
     "parent": null,
     "labelEn": "OpenAPI",
     "titleEn": "OpenAPI",
-    "descriptionEn": ""
+    "descriptionEn": "Review calling conventions and examples for TianGong LCA's public interfaces."
   },
   {
     "oldSlug": "/deploy-and-dev",

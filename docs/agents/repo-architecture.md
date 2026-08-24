@@ -31,8 +31,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-24
-lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
-lastReviewedNote: "Reviewed for Issue #146 after the Quick Start category gained a four-locale first-session component distinct from the broader docs task hub."
+lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
+lastReviewedNote: "Reviewed for Issue #148 after category navigation began deriving localized order, links, titles, and summaries from the Fumadocs page tree."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -71,6 +71,8 @@ Retired paths are intentionally absent. No application or hosting configuration 
 The four `content/docs/index*.mdx` sources render `components/docs-portal.tsx` inside the normal Fumadocs document layout. The portal deliberately keeps the document title and sidebar, then provides recommended task entry points, a five-step task route, and technical references. This keeps `/{lang}/docs/` useful without copying the marketing hero. The LCA portal exposes `data-docs-portal="lca-task-hub"` and `data-docs-portal-map="lca-task-route"`; the TIDAS site uses the same information hierarchy with a distinct system-module matrix.
 
 The four `content/docs/quick-start/index*.mdx` sources render `components/quick-start-guide.tsx` as a category-level first-session route. It keeps the ordinary document shell, then sequences account access and an operation walkthrough before branching into a first data, authoring, or LCIA task. Completion cues make each stage testable, while account, FAQ, and support links remain a low-emphasis fallback. The `data-quick-start-guide="first-session-route"` and `data-quick-start-map="three-stage-onboarding"` markers distinguish this local onboarding path from the broader five-stage docs-root map.
+
+The `overview`, `user-guide`, `data-collection`, `integration`, `openapi`, `deploy-and-dev`, `faq`, and `changelog` roots, plus the nested `data-collection/case-introduction` root, render `components/category-directory.tsx`. Each MDX variant supplies only its locale and category slug. The server component locates the category folder in `source.getPageTree(lang)`, preserves current `meta*.json` order, includes direct pages and folder index pages, and normalizes emitted links to locale-absolute trailing-slash URLs. Titles and descriptions are read from the child page; when description metadata is absent, a bounded first sentence is derived from `structuredData`. Future child-page additions, removals, renames, ordering changes, and copy updates therefore require no category-index edit.
 
 ## Content and locales
 

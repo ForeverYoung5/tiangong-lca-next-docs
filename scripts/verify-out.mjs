@@ -37,6 +37,21 @@ if (JSON.stringify(iaBases) !== JSON.stringify(categories.map((c) => c.newBase))
 } else {
   passed.push('categoryBases == manifest');
 }
+for (const category of categories) {
+  for (const [suffix, key] of [['', 'descriptionZh'], ['.en', 'descriptionEn']]) {
+    const sourcePath = path.join(ROOT, 'content', 'docs', category.newBase, `index${suffix}.mdx`);
+    const expected = category[key];
+    if (!fs.existsSync(sourcePath)) {
+      errors.push(`missing category source ${path.relative(ROOT, sourcePath)}`);
+      continue;
+    }
+    const sourceText = fs.readFileSync(sourcePath, 'utf8');
+    if (!sourceText.includes(`description: "${expected}"`)) {
+      errors.push(`${category.newBase}${suffix} description differs from categories manifest`);
+    }
+  }
+}
+passed.push('zh/en category descriptions match manifest');
 
 // 1. 全量 HTML 路由（site-routes manifest）
 let htmlOk = 0;
@@ -206,6 +221,49 @@ for (const lang of ['zh', 'en', 'de', 'fr']) {
   quickStartGuideCount += 1;
 }
 if (quickStartGuideCount === 4) passed.push('four-locale guided quick-start routes');
+
+// 12. 分类首页目录从本地化 page tree 自动派生；meta 增删或排序无需再手改首页。
+const categoryDirectorySource = fs.readFileSync(path.join(ROOT, 'components', 'category-directory.tsx'), 'utf8');
+for (const signature of ['source.getPageTree', 'findParent', 'structuredData']) {
+  if (!categoryDirectorySource.includes(signature)) {
+    errors.push(`category directory omits automatic source signature ${signature}`);
+  }
+}
+
+const directoryBases = [
+  'overview', 'user-guide', 'data-collection', 'integration',
+  'openapi', 'deploy-and-dev', 'faq', 'changelog',
+  'data-collection/case-introduction',
+];
+let categoryDirectoryCount = 0;
+for (const lang of ['zh', 'en', 'de', 'fr']) {
+  for (const base of directoryBases) {
+    const metaFile = lang === 'zh' ? 'meta.json' : `meta.${lang}.json`;
+    const meta = load(`content/docs/${base}/${metaFile}`);
+    const targets = meta.pages.filter((page) => page !== 'index');
+    const html = read(`${lang}/docs/${base}/index.html`);
+    if (!html.includes(`data-category-directory="${base}"`)) {
+      errors.push(`${lang}/${base} omits its automatic category-directory marker`);
+      continue;
+    }
+    if (!html.includes(`data-category-count="${targets.length}"`)) {
+      errors.push(`${lang}/${base} directory count does not match ${metaFile}`);
+      continue;
+    }
+    const summaryCount = (html.match(/data-category-summary="true"/g) ?? []).length;
+    if (summaryCount !== targets.length) {
+      errors.push(`${lang}/${base} directory summaries ${summaryCount} != ${targets.length}`);
+      continue;
+    }
+    const missingTarget = targets.find((target) => !html.includes(`href="/${lang}/docs/${base}/${target}/"`));
+    if (missingTarget) {
+      errors.push(`${lang}/${base} directory omits meta target ${missingTarget}`);
+      continue;
+    }
+    categoryDirectoryCount += 1;
+  }
+}
+if (categoryDirectoryCount === 36) passed.push('36 automatic localized category directories');
 
 // --- summary ---
 console.log(`\n[verify-out] ${passed.length} checks passed:`);

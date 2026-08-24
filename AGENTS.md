@@ -36,8 +36,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-24
-lastReviewedCommit: 595b07795ea8333d99d2be8aa2504b39a1c6ef1f
-lastReviewedNote: "Reviewed for Issue #146 after the four-locale Quick Start category gained a focused first-session route, completion cues, and browser-proof markers."
+lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
+lastReviewedNote: "Reviewed for Issue #148 after category roots gained page-tree-derived four-locale directories with no hand-maintained entry lists."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -82,6 +82,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - Product identity belongs in a semantic hero signature rather than a shared decorative motif. This site uses `data-hero-signature="lca-concept-map"` for the reference-data → process-relations → product-system → LCIA-results concept map; TIDAS must retain a distinct data-system/schema signature.
 - `/{lang}/docs/` is a task-navigation hub rendered by `DocsPortal`, not a second marketing landing or a directory placeholder. Its governed markers are `data-docs-portal="lca-task-hub"` and `data-docs-portal-map="lca-task-route"`; all links must remain locale-absolute and structurally aligned across four languages.
 - `/{lang}/docs/quick-start/` is a focused first-session route rendered by `QuickStartGuide`. It uses `data-quick-start-guide="first-session-route"` and `data-quick-start-map="three-stage-onboarding"` to connect account access, the operation walkthrough, and one real first task without duplicating the broader docs hub.
+- The remaining top-level category roots render `CategoryDirectory` from only `lang` and `category`. Directory order and membership come from the localized Fumadocs page tree / `meta*.json`; titles and descriptions come from child-page metadata, with a bounded first-paragraph fallback. Never hand-maintain category entry lists in index MDX.
 - Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and product-specific concept or navigation figures; do not add gradients, glow, shadow, or lift animation to public actions.
 - `next.config.ts` sets `agentRules: false` because this governed file, not generated development-server text, is authoritative.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
