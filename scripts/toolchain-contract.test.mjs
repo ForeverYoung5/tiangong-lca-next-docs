@@ -79,6 +79,7 @@ test('pins every external action to a reviewed executable commit', () => {
       const separator = actionRef.lastIndexOf('@');
       const action = actionRef.slice(0, separator);
       const commit = actionRef.slice(separator + 1);
+      assert.equal(commit, expectedActions.get(action), `${fileName}: unexpected ${action} commit`);
       observedActions.set(action, commit);
     }
   }
