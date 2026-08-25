@@ -7,8 +7,8 @@ Diese Seite beschreibt lokale Entwicklung, Validierung und Veröffentlichung von
 
 ## Umgebungsbasis
 
-- Node.js 24.18 oder neuer
-- pnpm 11.22.0
+- Node.js 24.19.0
+- pnpm 11.23.0
 - Git zur Ableitung reproduzierbarer Quellidentität und Zeitstempel
 
 `packageManager`, `engines` und die Lockdatei legen die Werkzeugkette fest. Verwenden Sie keinen zweiten Paketmanager.
@@ -17,7 +17,7 @@ Diese Seite beschreibt lokale Entwicklung, Validierung und Veröffentlichung von
 
 ```bash
 corepack enable
-corepack prepare pnpm@11.22.0 --activate
+corepack install --global pnpm@11.23.0
 pnpm install --frozen-lockfile
 pnpm dev
 ```
@@ -29,7 +29,7 @@ Die Website läuft normalerweise unter `http://localhost:3000`. `/` rendert die 
 ```bash
 pnpm lint
 pnpm typecheck
-node --test scripts/check-links.test.mjs
+pnpm test
 ```
 
 Führen Sie nach Änderungen an Seiten, Links, Navigation, Medien, Layout oder Metadaten zusätzlich den vollständigen statischen Build aus:

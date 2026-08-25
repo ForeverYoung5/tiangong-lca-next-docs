@@ -27,9 +27,9 @@ checkPaths:
   - context7.json
   - crowdin.yml
   - .github/workflows/**
-lastReviewedAt: 2026-08-23
-lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
-lastReviewedNote: "Reviewed for Issue #140 after the four-locale landing adopted the shared flat documentation shell and a Next-specific LCA concept map."
+lastReviewedAt: 2026-08-25
+lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
+lastReviewedNote: "Reviewed for Issue #150; only the exact toolchain versions and canonical test command changed, while the existing Fumadocs workflow remains current."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -53,7 +53,7 @@ Source files use dot-locale names: `page.mdx`, `page.en.mdx`, `page.de.mdx`, and
 
 ## Development
 
-Requires Node.js 24.18 or newer and pnpm 11.22.0.
+Requires Node.js 24.19.0 and pnpm 11.23.0.
 
 ```bash
 pnpm install --frozen-lockfile
@@ -67,7 +67,7 @@ The development server normally listens on `http://localhost:3000`.
 ```bash
 pnpm lint
 pnpm typecheck
-node --test scripts/check-links.test.mjs
+pnpm test
 
 DEPLOY_ENV=ci \
 CANONICAL_ORIGIN=http://localhost:3000 \

@@ -15,8 +15,10 @@ checkPaths:
   - AGENTS.md
   - .docpact/config.yaml
   - package.json
+  - .nvmrc
   - scripts/build.mjs
   - scripts/check-env.mjs
+  - scripts/*.test.mjs
   - scripts/verify-out.mjs
   - scripts/check-links.mjs
   - scripts/check-links.test.mjs
@@ -28,9 +30,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-24
-lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
-lastReviewedNote: "Reviewed for Issue #148 after static and browser proof expanded to 36 automatic localized category directories."
+lastReviewedAt: 2026-08-25
+lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
+lastReviewedNote: "Reviewed for Issue #150 after exact Node/pnpm/TypeScript checks, local markdownlint, full Node contracts, and immutable CI setup became required proof."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -45,15 +47,16 @@ related:
 pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
-node --test scripts/check-links.test.mjs
+pnpm test
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` includes `check:env`, adversarial link tests, static export, `verify:out`, and `check:links`. Running the focused link unit tests separately still gives faster failure diagnosis.
+`pnpm build` includes fail-closed exact toolchain/environment validation, every Node contract/link test, static export, `verify:out`, and `check:links`. Use `pnpm test:env`, `pnpm test:toolchain`, or `pnpm test:links` for focused diagnosis.
 
 ## Proof by change type
 
 - Public content: update all four locale variants; run lint and the complete build.
+- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must be exactly `24.19.0`, pnpm exactly `11.23.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
 - Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets, zero path-relative document links, zero source-locale mismatches, and identical normalized internal-document target sets across the four variants of each page.
 - Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, 1633px, 2048px, and 2560px in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.
 - Landing visual contract: assert `data-hero-signature="lca-concept-map"`, exactly one `data-primary-action`, and a single semantic HTML `main`. The primary action must compute to `background-image: none`, `box-shadow: none`, and `transform: none`; the Next signature must not match the TIDAS hero signature.
