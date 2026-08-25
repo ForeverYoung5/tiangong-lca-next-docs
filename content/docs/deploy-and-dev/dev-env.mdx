@@ -7,8 +7,8 @@ description: "使用 Node.js、pnpm 和静态构建契约维护 TianGong LCA 文
 
 ## 环境基线
 
-- Node.js 24.18 或更高版本
-- pnpm 11.22.0
+- Node.js 24.19.0
+- pnpm 11.23.0
 - Git，用于推导可复现构建的 source commit 与时间
 
 仓库通过 `packageManager`、`engines` 与锁文件固定工具链。不要混用其他包管理器。
@@ -17,7 +17,7 @@ description: "使用 Node.js、pnpm 和静态构建契约维护 TianGong LCA 文
 
 ```bash
 corepack enable
-corepack prepare pnpm@11.22.0 --activate
+corepack install --global pnpm@11.23.0
 pnpm install --frozen-lockfile
 pnpm dev
 ```
@@ -29,7 +29,7 @@ pnpm dev
 ```bash
 pnpm lint
 pnpm typecheck
-node --test scripts/check-links.test.mjs
+pnpm test
 ```
 
 修改页面、链接、导航、媒体、布局或元数据后，还必须运行完整静态构建：

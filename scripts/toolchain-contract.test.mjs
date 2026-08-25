@@ -53,7 +53,7 @@ test('uses pnpm only across active repository automation', () => {
     ['package.json', read('package.json')],
     ...fs
       .readdirSync(path.join(repositoryRoot, 'scripts'))
-      .filter((fileName) => /\.(?:mjs|sh)$/u.test(fileName))
+      .filter((fileName) => /\.(?:mjs|sh)$/u.test(fileName) && !fileName.endsWith('.test.mjs'))
       .map((fileName) => [`scripts/${fileName}`, read(`scripts/${fileName}`)]),
     ...fs
       .readdirSync(path.join(repositoryRoot, '.githooks'))

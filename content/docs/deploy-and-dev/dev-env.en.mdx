@@ -7,8 +7,8 @@ This page covers local development, validation, and publishing boundaries for `t
 
 ## Environment baseline
 
-- Node.js 24.18 or newer
-- pnpm 11.22.0
+- Node.js 24.19.0
+- pnpm 11.23.0
 - Git, used to derive reproducible source identity and timestamps
 
 The repository pins its toolchain through `packageManager`, `engines`, and the lockfile. Do not mix package managers.
@@ -17,7 +17,7 @@ The repository pins its toolchain through `packageManager`, `engines`, and the l
 
 ```bash
 corepack enable
-corepack prepare pnpm@11.22.0 --activate
+corepack install --global pnpm@11.23.0
 pnpm install --frozen-lockfile
 pnpm dev
 ```
@@ -29,7 +29,7 @@ The site normally runs at `http://localhost:3000`. Root `/` renders the complete
 ```bash
 pnpm lint
 pnpm typecheck
-node --test scripts/check-links.test.mjs
+pnpm test
 ```
 
 After changing pages, links, navigation, media, layout, or metadata, also run the complete static build:

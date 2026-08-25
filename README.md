@@ -53,7 +53,7 @@ Source files use dot-locale names: `page.mdx`, `page.en.mdx`, `page.de.mdx`, and
 
 ## Development
 
-Requires Node.js 24.18 or newer and pnpm 11.22.0.
+Requires Node.js 24.19.0 and pnpm 11.23.0.
 
 ```bash
 pnpm install --frozen-lockfile
@@ -67,7 +67,7 @@ The development server normally listens on `http://localhost:3000`.
 ```bash
 pnpm lint
 pnpm typecheck
-node --test scripts/check-links.test.mjs
+pnpm test
 
 DEPLOY_ENV=ci \
 CANONICAL_ORIGIN=http://localhost:3000 \
