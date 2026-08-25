@@ -17,9 +17,9 @@ checkPaths:
   - app/**
   - components/**
   - lib/**
-lastReviewedAt: 2026-08-23
-lastReviewedCommit: 88952727c75ac491473cb9dc295651a1fc0b165d
-lastReviewedNote: "Reviewed for Issue #140 after the landing copy and LCA concept map were reconciled across all four locales; no product/documentation drift was introduced."
+lastReviewedAt: 2026-08-25
+lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
+lastReviewedNote: "Reviewed for Issue #150 after the four-locale development baseline moved to the exact repository toolchain; no product/documentation drift was introduced."
 related:
   - AGENTS.md
   - README.md

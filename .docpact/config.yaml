@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-24"
-lastReviewedCommit: "69c0b1a3bacb7cc78c8c70e626686599a0d329d4"
-reviewNote: "Reviewed for Issue #148: automatic category directories remain inside existing public-content and site-structure ownership; routing and rule topology remain correct."
-lastReviewedNote: "The page-tree-derived four-locale directories, nested case section, and output checks require no ownership, coverage, or publication-rule changes."
+lastReviewedAt: "2026-08-25"
+lastReviewedCommit: "e0fd672b28968a7ec92dcef01c2e083f6b921738"
+reviewNote: "Reviewed for Issue #150: exact toolchain metadata and generic script contracts belong to the existing site-structure governance surface."
+lastReviewedNote: "Added .nvmrc and scripts/*.test.mjs to existing ownership, coverage, routing, and site-structure triggers without creating a duplicate rule."
 
 catalog:
   repos:
@@ -41,6 +41,7 @@ ownership:
       paths:
         include:
           - package.json
+          - .nvmrc
           - tsconfig.json
           - next.config.ts
           - edgeone.json
@@ -59,7 +60,7 @@ ownership:
           - scripts/check-env.mjs
           - scripts/verify-out.mjs
           - scripts/check-links.mjs
-          - scripts/check-links.test.mjs
+          - scripts/*.test.mjs
           - scripts/search-sync.mjs
       ownerRepo: next-docs
 
@@ -85,6 +86,7 @@ coverage:
     - docs/agents/**
     - context7.json
     - package.json
+    - .nvmrc
     - tsconfig.json
     - .github/workflows/**
     - content/docs/**
@@ -96,7 +98,7 @@ coverage:
     - scripts/check-env.mjs
     - scripts/verify-out.mjs
     - scripts/check-links.mjs
-    - scripts/check-links.test.mjs
+    - scripts/*.test.mjs
     - scripts/search-sync.mjs
     - next.config.ts
     - edgeone.json
@@ -139,6 +141,7 @@ routing:
     site-structure:
       paths:
         - package.json
+        - .nvmrc
         - tsconfig.json
         - next.config.ts
         - edgeone.json
@@ -154,7 +157,7 @@ routing:
         - scripts/check-env.mjs
         - scripts/verify-out.mjs
         - scripts/check-links.mjs
-        - scripts/check-links.test.mjs
+        - scripts/*.test.mjs
         - scripts/search-sync.mjs
         - manifests/p0b/categories.json
         - manifests/p0b/site-routes.json
@@ -269,6 +272,8 @@ rules:
     triggers:
       - path: package.json
         kind: site-runtime-config
+      - path: .nvmrc
+        kind: site-runtime-config
       - path: tsconfig.json
         kind: site-runtime-config
       - path: next.config.ts
@@ -303,7 +308,7 @@ rules:
         kind: build-automation
       - path: scripts/check-links.mjs
         kind: build-automation
-      - path: scripts/check-links.test.mjs
+      - path: scripts/*.test.mjs
         kind: build-automation-test
       - path: scripts/search-sync.mjs
         kind: publication-automation

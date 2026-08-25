@@ -29,15 +29,16 @@ checkPaths:
   - manifests/p0b/greenfield-deny.json
   - scripts/**
   - package.json
+  - .nvmrc
   - next.config.ts
   - edgeone.json
   - crowdin.yml
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-24
-lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
-lastReviewedNote: "Reviewed for Issue #148 after category roots gained page-tree-derived four-locale directories with no hand-maintained entry lists."
+lastReviewedAt: 2026-08-25
+lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
+lastReviewedNote: "Reviewed for Issue #150 after Node 24.19.0, pnpm 11.23.0, TypeScript 7.0.2, local markdownlint, and immutable CI actions became one fail-closed toolchain contract."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -85,6 +86,8 @@ This repository does not own shipped product behavior, route truth, API semantic
 - The remaining top-level category roots render `CategoryDirectory` from only `lang` and `category`. Directory order and membership come from the localized Fumadocs page tree / `meta*.json`; titles and descriptions come from child-page metadata, with a bounded first-paragraph fallback. Never hand-maintain category entry lists in index MDX.
 - Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and product-specific concept or navigation figures; do not add gradients, glow, shadow, or lift animation to public actions.
 - `next.config.ts` sets `agentRules: false` because this governed file, not generated development-server text, is authoritative.
+- The repository toolchain is exact: Node `24.19.0`, pnpm `11.23.0`, and TypeScript `7.0.2`. `.nvmrc`, `package.json`, EdgeOne metadata, `scripts/check-env.mjs`, the frozen lock, and CI must agree; version drift fails before static generation.
+- Markdown lint uses the exact local `markdownlint-cli2` dependency through `pnpm exec`. Active repository automation has no npm/npx fallback, and every external GitHub Action is pinned to a reviewed executable commit rather than a tag object or moving tag.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
 - Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.
 
@@ -94,17 +97,19 @@ This repository does not own shipped product behavior, route truth, API semantic
 pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
+pnpm test
 pnpm check:links
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` runs environment validation, adversarial link-checker tests, static export, output-contract verification, and source/generated link validation. For visual changes, also inspect light and dark themes at 390px, 1440px, the 1633px large-desktop regression width, and an ultra-wide viewport using a real browser.
+`pnpm build` runs exact environment validation, all Node contract/link tests, static export, output-contract verification, and source/generated link validation. For visual changes, also inspect light and dark themes at 390px, 1440px, the 1633px large-desktop regression width, and an ultra-wide viewport using a real browser.
 
 ## Hard boundaries
 
 - Keep all four locale variants aligned in the same change.
 - Do not add redirects, rewrites, or compatibility copies for retired routes.
 - Do not expose internal agent, plan, incident, TODO, or governance documents through public AI indexes.
+- Do not introduce npm/npx execution, a second lockfile, movable external action references, or a second compiler generation.
 - Do not treat a successful child merge as workspace delivery completion while the root gitlink remains stale.
 - Record partial product/documentation drift in `TODO.docs-system-gaps.md` during the same session.
 - Run strict Docpact validation and lint for governance changes.

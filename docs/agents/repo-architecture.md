@@ -23,6 +23,8 @@ checkPaths:
   - manifests/p0b/site-routes.json
   - manifests/p0b/greenfield-deny.json
   - scripts/build.mjs
+  - scripts/check-env.mjs
+  - scripts/*.test.mjs
   - scripts/verify-out.mjs
   - scripts/check-links.mjs
   - package.json
@@ -30,9 +32,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-24
-lastReviewedCommit: 69c0b1a3bacb7cc78c8c70e626686599a0d329d4
-lastReviewedNote: "Reviewed for Issue #148 after category navigation began deriving localized order, links, titles, and summaries from the Fumadocs page tree."
+lastReviewedAt: 2026-08-25
+lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
+lastReviewedNote: "Reviewed for Issue #150 after the static pipeline gained one exact fail-closed Node/pnpm/TypeScript contract and deterministic local lint/test tooling."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -91,10 +93,13 @@ All four variants must change together when structure, links, examples, or user-
 
 `scripts/build.mjs` performs this fail-closed sequence:
 
-1. validate environment and source identity;
-2. run `next build` static export;
-3. validate deterministic routes, endpoints, search records, AI index, SEO files, and greenfield deny paths;
-4. run adversarial link-checker tests, then validate source-locale link topology and every generated local page, fragment, and asset reference with browser URL semantics.
+1. validate exact Node, pnpm, TypeScript, deployment environment, and source identity;
+2. run every Node environment/toolchain/link contract test;
+3. run `next build` static export;
+4. validate deterministic routes, endpoints, search records, AI index, SEO files, and greenfield deny paths;
+5. validate source-locale link topology and every generated local page, fragment, and asset reference with browser URL semantics.
+
+The package graph contains exact local markdownlint rather than dynamic npx installation. GitHub workflows use the same exact Node/pnpm inputs and immutable executable action commits, so local, EdgeOne, pull-request, release, and reconciliation validation share one toolchain identity.
 
 The three retained `manifests/p0b/*.json` files are immutable build contracts for information architecture, expected routes, and retired-path denial. One-time rewrite inventories and executors were removed after cutover; Git history remains the audit source.
 
