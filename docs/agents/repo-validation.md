@@ -30,9 +30,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-25
-lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
-lastReviewedNote: "Reviewed for Issue #150 after exact Node/pnpm/TypeScript checks, local markdownlint, full Node contracts, and immutable CI setup became required proof."
+lastReviewedAt: 2026-08-26
+lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
+lastReviewedNote: "Reviewed for Issue #152 after the exact pnpm pin moved from 11.23.0 to 11.24.0; Node 24.19.0, TypeScript 7.0.2, local markdownlint, full Node contracts, and immutable CI setup remain required proof."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -56,7 +56,7 @@ DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=sta
 ## Proof by change type
 
 - Public content: update all four locale variants; run lint and the complete build.
-- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must be exactly `24.19.0`, pnpm exactly `11.23.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
+- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must be exactly `24.19.0`, pnpm exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
 - Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets, zero path-relative document links, zero source-locale mismatches, and identical normalized internal-document target sets across the four variants of each page.
 - Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, 1633px, 2048px, and 2560px in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.
 - Landing visual contract: assert `data-hero-signature="lca-concept-map"`, exactly one `data-primary-action`, and a single semantic HTML `main`. The primary action must compute to `background-image: none`, `box-shadow: none`, and `transform: none`; the Next signature must not match the TIDAS hero signature.

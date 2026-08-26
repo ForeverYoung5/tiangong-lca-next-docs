@@ -17,9 +17,9 @@ checkPaths:
   - app/**
   - components/**
   - lib/**
-lastReviewedAt: 2026-08-25
-lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
-lastReviewedNote: "Reviewed for Issue #150 after the four-locale development baseline moved to the exact repository toolchain; no product/documentation drift was introduced."
+lastReviewedAt: 2026-08-26
+lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
+lastReviewedNote: "Reviewed for Issue #152 after the toolchain-only pnpm 11.23.0 to 11.24.0 update; no product/documentation drift was introduced."
 related:
   - AGENTS.md
   - README.md

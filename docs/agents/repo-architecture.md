@@ -32,9 +32,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-25
-lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
-lastReviewedNote: "Reviewed for Issue #150 after the static pipeline gained one exact fail-closed Node/pnpm/TypeScript contract and deterministic local lint/test tooling."
+lastReviewedAt: 2026-08-26
+lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
+lastReviewedNote: "Reviewed for Issue #152 after the current pnpm pin moved from 11.23.0 to 11.24.0 without changing the static pipeline, Node 24.19.0, TypeScript 7.0.2, or deterministic local lint/test tooling."
 related:
   - AGENTS.md
   - .docpact/config.yaml

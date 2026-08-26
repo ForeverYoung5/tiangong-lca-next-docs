@@ -8,7 +8,7 @@ Cette page décrit le développement local, la validation et la publication de `
 ## Environnement requis
 
 - Node.js 24.19.0
-- pnpm 11.23.0
+- pnpm 11.24.0
 - Git, utilisé pour produire une identité de source et des horodatages reproductibles
 
 Le dépôt fixe sa chaîne d'outils avec `packageManager`, `engines` et le fichier de verrouillage. Ne mélangez pas les gestionnaires de paquets.
@@ -17,7 +17,7 @@ Le dépôt fixe sa chaîne d'outils avec `packageManager`, `engines` et le fichi
 
 ```bash
 corepack enable
-corepack install --global pnpm@11.23.0
+corepack install --global pnpm@11.24.0
 pnpm install --frozen-lockfile
 pnpm dev
 ```

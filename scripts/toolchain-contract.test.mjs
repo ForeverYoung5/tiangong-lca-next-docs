@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (relativePath) => fs.readFileSync(path.join(repositoryRoot, relativePath), 'utf8');
 const readJson = (relativePath) => JSON.parse(read(relativePath));
+const withoutFrontmatter = (source) => source.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/u, '');
 const workflowSources = fs
   .readdirSync(path.join(repositoryRoot, '.github/workflows'))
   .filter((fileName) => fileName.endsWith('.yml'))
@@ -22,8 +23,8 @@ test('pins one exact Node, pnpm, TypeScript, and markdownlint toolchain', () => 
   const packageJson = readJson('package.json');
   const edgeOne = readJson('edgeone.json');
 
-  assert.equal(packageJson.packageManager, 'pnpm@11.23.0');
-  assert.deepEqual(packageJson.engines, { node: '24.19.0', pnpm: '11.23.0' });
+  assert.equal(packageJson.packageManager, 'pnpm@11.24.0');
+  assert.deepEqual(packageJson.engines, { node: '24.19.0', pnpm: '11.24.0' });
   assert.equal(packageJson.devDependencies.typescript, '7.0.2');
   assert.equal(packageJson.devDependencies['markdownlint-cli2'], '0.23.2');
   assert.equal(read('.nvmrc').trim(), '24.19.0');
@@ -93,7 +94,7 @@ test('binds every pnpm CI runtime to the exact toolchain', () => {
   const setupWorkflows = workflowSources.filter(({ source }) => source.includes('uses: pnpm/setup@'));
   assert.equal(setupWorkflows.length, 3);
   for (const { fileName, source } of setupWorkflows) {
-    assert.match(source, /version:\s*11\.23\.0/u, fileName);
+    assert.match(source, /version:\s*11\.24\.0/u, fileName);
     assert.match(source, /runtime:\s*node@24\.19\.0/u, fileName);
     assert.match(source, /install:\s*false/u, fileName);
   }
@@ -109,9 +110,9 @@ test('keeps contributor-facing environment baselines exact across four locales',
   ];
 
   for (const relativePath of documents) {
-    const source = read(relativePath);
-    assert.match(source, /24\.19\.0/u, relativePath);
-    assert.match(source, /11\.23\.0/u, relativePath);
-    assert.doesNotMatch(source, /24\.18|11\.22/u, relativePath);
+    const activeDocumentation = withoutFrontmatter(read(relativePath));
+    assert.match(activeDocumentation, /24\.19\.0/u, relativePath);
+    assert.match(activeDocumentation, /11\.24\.0/u, relativePath);
+    assert.doesNotMatch(activeDocumentation, /24\.18|11\.23/u, relativePath);
   }
 });
