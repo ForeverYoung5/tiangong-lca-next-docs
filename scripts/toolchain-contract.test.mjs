@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (relativePath) => fs.readFileSync(path.join(repositoryRoot, relativePath), 'utf8');
 const readJson = (relativePath) => JSON.parse(read(relativePath));
+const withoutFrontmatter = (source) => source.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/u, '');
 const workflowSources = fs
   .readdirSync(path.join(repositoryRoot, '.github/workflows'))
   .filter((fileName) => fileName.endsWith('.yml'))
@@ -109,9 +110,9 @@ test('keeps contributor-facing environment baselines exact across four locales',
   ];
 
   for (const relativePath of documents) {
-    const source = read(relativePath);
-    assert.match(source, /24\.19\.0/u, relativePath);
-    assert.match(source, /11\.24\.0/u, relativePath);
-    assert.doesNotMatch(source, /24\.18|11\.23/u, relativePath);
+    const activeDocumentation = withoutFrontmatter(read(relativePath));
+    assert.match(activeDocumentation, /24\.19\.0/u, relativePath);
+    assert.match(activeDocumentation, /11\.24\.0/u, relativePath);
+    assert.doesNotMatch(activeDocumentation, /24\.18|11\.23/u, relativePath);
   }
 });
