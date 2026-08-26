@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-25"
-lastReviewedCommit: "e0fd672b28968a7ec92dcef01c2e083f6b921738"
-reviewNote: "Reviewed for Issue #150: exact toolchain metadata and generic script contracts belong to the existing site-structure governance surface."
+lastReviewedAt: "2026-08-26"
+lastReviewedCommit: "a6d43f7e9f7814210a269a7763a9f1605e56bb73"
+reviewNote: "Reviewed for Issue #152: the exact pnpm 11.24.0 pin remains governed by the existing site-structure paths; Issue #150's pnpm 11.23.0 setup remains historical context."
 lastReviewedNote: "Added .nvmrc and scripts/*.test.mjs to existing ownership, coverage, routing, and site-structure triggers without creating a duplicate rule."
 
 catalog:

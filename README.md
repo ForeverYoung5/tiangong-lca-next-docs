@@ -27,9 +27,9 @@ checkPaths:
   - context7.json
   - crowdin.yml
   - .github/workflows/**
-lastReviewedAt: 2026-08-25
-lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
-lastReviewedNote: "Reviewed for Issue #150; only the exact toolchain versions and canonical test command changed, while the existing Fumadocs workflow remains current."
+lastReviewedAt: 2026-08-26
+lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
+lastReviewedNote: "Reviewed for Issue #152 after the current pnpm pin moved from 11.23.0 to 11.24.0; the existing Fumadocs workflow and all other exact toolchain versions remain current."
 related:
   - AGENTS.md
   - .docpact/config.yaml

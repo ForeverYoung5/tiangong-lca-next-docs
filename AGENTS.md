@@ -36,9 +36,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-25
-lastReviewedCommit: e0fd672b28968a7ec92dcef01c2e083f6b921738
-lastReviewedNote: "Reviewed for Issue #150 after Node 24.19.0, pnpm 11.23.0, TypeScript 7.0.2, local markdownlint, and immutable CI actions became one fail-closed toolchain contract."
+lastReviewedAt: 2026-08-26
+lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
+lastReviewedNote: "Reviewed for Issue #152 after pnpm 11.24.0 replaced the current 11.23.0 pin; Issue #150 remains the historical origin of the Node 24.19.0, pnpm 11.23.0, TypeScript 7.0.2 fail-closed contract."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -86,7 +86,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - The remaining top-level category roots render `CategoryDirectory` from only `lang` and `category`. Directory order and membership come from the localized Fumadocs page tree / `meta*.json`; titles and descriptions come from child-page metadata, with a bounded first-paragraph fallback. Never hand-maintain category entry lists in index MDX.
 - Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and product-specific concept or navigation figures; do not add gradients, glow, shadow, or lift animation to public actions.
 - `next.config.ts` sets `agentRules: false` because this governed file, not generated development-server text, is authoritative.
-- The repository toolchain is exact: Node `24.19.0`, pnpm `11.23.0`, and TypeScript `7.0.2`. `.nvmrc`, `package.json`, EdgeOne metadata, `scripts/check-env.mjs`, the frozen lock, and CI must agree; version drift fails before static generation.
+- The repository toolchain is exact: Node `24.19.0`, pnpm `11.24.0`, and TypeScript `7.0.2`. `.nvmrc`, `package.json`, EdgeOne metadata, `scripts/check-env.mjs`, the frozen lock, and CI must agree; version drift fails before static generation.
 - Markdown lint uses the exact local `markdownlint-cli2` dependency through `pnpm exec`. Active repository automation has no npm/npx fallback, and every external GitHub Action is pinned to a reviewed executable commit rather than a tag object or moving tag.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
 - Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.
