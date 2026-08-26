@@ -53,7 +53,7 @@ Source files use dot-locale names: `page.mdx`, `page.en.mdx`, `page.de.mdx`, and
 
 ## Development
 
-Requires Node.js 24.19.0 and pnpm 11.23.0.
+Requires Node.js 24.19.0 and pnpm 11.24.0.
 
 ```bash
 pnpm install --frozen-lockfile

@@ -8,7 +8,7 @@ This page covers local development, validation, and publishing boundaries for `t
 ## Environment baseline
 
 - Node.js 24.19.0
-- pnpm 11.23.0
+- pnpm 11.24.0
 - Git, used to derive reproducible source identity and timestamps
 
 The repository pins its toolchain through `packageManager`, `engines`, and the lockfile. Do not mix package managers.
@@ -17,7 +17,7 @@ The repository pins its toolchain through `packageManager`, `engines`, and the l
 
 ```bash
 corepack enable
-corepack install --global pnpm@11.23.0
+corepack install --global pnpm@11.24.0
 pnpm install --frozen-lockfile
 pnpm dev
 ```
