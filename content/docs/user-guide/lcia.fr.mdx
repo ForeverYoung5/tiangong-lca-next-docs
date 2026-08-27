@@ -109,6 +109,15 @@ Vérifiez :
 - Si les conversions d'unités sont valides
 - Si la méthode d'impact choisie contient des facteurs correspondants
 
+Le panneau de résultats vérifie aussi le paquet de méthodes LCIA, les preuves d'instantané du solveur
+et la couverture des facteurs de caractérisation. Un facteur manquant est affiché comme une
+couverture incomplète, pas comme un impact nul. Si le hachage du paquet de méthodes, l'instantané
+source, l'identité de méthode ou la version de preuve ne correspond pas, la page affiche un avis de
+donnée non fiable ou d'écart de source au lieu de continuer à afficher un résultat numérique. Lorsque
+des preuves de lacune apparaissent, vérifiez d'abord le flux, la direction et la méthode d'impact
+manquants avant d'ajouter des correspondances de flux élémentaires ou de changer de périmètre
+d'analyse.
+
 ### Pourquoi les ordres de grandeur semblent-ils erronés ?
 
 Causes fréquentes :

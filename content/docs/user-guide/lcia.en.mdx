@@ -106,6 +106,13 @@ Check:
 - Whether unit conversions are valid
 - Whether the selected impact method contains matching factors
 
+The result panel also verifies the LCIA method bundle, solver snapshot evidence, and
+characterisation-factor coverage. A missing factor is shown as incomplete coverage, not as zero
+impact. If the method-bundle hash, source snapshot, method identity, or evidence version does not
+match, the page shows an untrusted or source-mismatch notice instead of continuing to display a
+numeric result. When gap evidence is shown, inspect the missing flow, direction, and impact method
+before deciding whether to add elementary-flow mappings or change the analysis scope.
+
 ### Why do the result magnitudes look wrong?
 
 Common causes include:

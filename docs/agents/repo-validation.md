@@ -32,8 +32,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-27
-lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: screenshot-validator tests are reserved for docs-impact workers and excluded from regular test/build/CI work."
+lastReviewedCommit: 2bb11f2ad44a7d70d00e75e18c4b5e27477e113f
+lastReviewedNote: "Reviewed for workspace Issue #766: required proof remains pnpm lint, typecheck, test, CI/static build, Docpact, placement, and visual gates; no new screenshot capture or validation command is needed."
 related:
   - AGENTS.md
   - .docpact/config.yaml

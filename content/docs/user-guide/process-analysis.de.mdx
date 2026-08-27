@@ -37,7 +37,13 @@ Die aktuellen Optionen sind:
 
 Wählen Sie passend zum Ziel:
 
-- Nutzen Sie **Daten des aktuellen Nutzers**, wenn Sie eigene Entwürfe prüfen
+- Nutzen Sie **Daten des aktuellen Nutzers**, wenn Sie eigene Entwürfe prüfen. Dieser Bereich
+  kombiniert die für das aktuelle Konto sichtbaren Entwürfe mit veröffentlichten Referenzdaten in
+  einem geschützten privaten Entwurfsbereich; das Backend friert den beteiligten Prozess-/Flussumfang,
+  das LCIA-Methodenpaket und die Solver-Snapshot-Nachweise ein. Stimmen Nachweise nicht überein oder
+  ist die Faktorabdeckung unvollständig, zeigt der Ergebnisbereich einen nicht vertrauenswürdigen
+  Zustand, eine Quellenabweichung oder unvollständige Abdeckung, statt die Lücke als Nullwirkung zu
+  behandeln.
 - Nutzen Sie **Offene Daten** für den Vergleich veröffentlichter Datensätze. Prozessprofile und LCIA-Detailzeilen in Offenen Daten bevorzugen veröffentlichte LCIA-Ergebnismengen. Diese Ergebnismengen werden im Arbeitsbereich **Datenverarbeitung** von Konten mit `data_product_manager`-Zugriff erzeugt und veröffentlicht und enthalten nur Eingaben, die die Veröffentlichungs-Zulassungsregeln erfüllen. Ist keine veröffentlichte Ergebnismenge verfügbar, zeigt die Seite einen leeren bzw. nicht verfügbaren Zustand, statt Ergebnisse temporär neu zu berechnen und zu veröffentlichen.
 - Nutzen Sie **Alle Daten**, wenn Sie die breiteste verfügbare Kandidatenmenge benötigen
 

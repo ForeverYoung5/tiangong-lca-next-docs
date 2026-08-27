@@ -34,8 +34,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-27
-lastReviewedCommit: d1e3f45527b97ce8148760dd4ee34dc9c6975e00
-lastReviewedNote: "Reviewed for Issue #154: screenshot evidence now follows the four-locale Fumadocs and shared content-addressed asset architecture."
+lastReviewedCommit: 2bb11f2ad44a7d70d00e75e18c4b5e27477e113f
+lastReviewedNote: "Reviewed for workspace Issue #766: LCIA evidence and Process Analysis text updates use existing dot-locale Fumadocs pages and do not change routing, presentation, asset, or publication architecture."
 related:
   - AGENTS.md
   - .docpact/config.yaml

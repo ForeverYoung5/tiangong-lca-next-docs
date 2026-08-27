@@ -37,7 +37,12 @@ Les options actuelles sont :
 
 Choisissez selon votre objectif :
 
-- Utilisez **Données de l'utilisateur courant** pour vérifier vos propres brouillons
+- Utilisez **Données de l'utilisateur courant** pour vérifier vos propres brouillons. Ce périmètre
+  combine les brouillons visibles du compte courant avec les données de référence publiées dans un
+  périmètre protégé de brouillon privé ; le backend fige le périmètre des processus / flux, le paquet
+  de méthodes LCIA et les preuves d'instantané du solveur. Si les preuves ne correspondent pas ou si
+  la couverture des facteurs est incomplète, la zone de résultat affiche un état non fiable, un écart
+  de source ou une couverture incomplète au lieu de traiter la lacune comme un impact nul.
 - Utilisez **Données ouvertes** pour comparer des jeux de données publiés. Les profils de processus et les lignes de détail LCIA des Données ouvertes privilégient les ensembles de résultats LCIA publiés. Ces ensembles sont générés et publiés depuis l'espace **Traitement des données** par des comptes disposant de l'accès `data_product_manager`, et n'incluent que les entrées satisfaisant les règles d'éligibilité à l'état publié. En l'absence d'ensemble de résultats publié, la page affiche un état vide ou indisponible au lieu de recalculer et publier temporairement des résultats.
 - Utilisez **Toutes les données** lorsque vous avez besoin du plus large ensemble de candidats disponible
 

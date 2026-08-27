@@ -107,6 +107,14 @@ Prüfen Sie:
 - Ob Einheitenumrechnungen gültig sind
 - Ob die gewählte Wirkungsmethode passende Faktoren enthält
 
+Das Ergebnisfeld prüft außerdem das LCIA-Methodenpaket, die Solver-Snapshot-Nachweise und die
+Abdeckung der Charakterisierungsfaktoren. Ein fehlender Faktor erscheint als unvollständige
+Abdeckung, nicht als Nullwirkung. Stimmen Methodenpaket-Hash, Quell-Snapshot, Methodenidentität oder
+Nachweisversion nicht überein, zeigt die Seite einen Hinweis auf nicht vertrauenswürdige Daten oder
+eine Quellenabweichung, statt weiter ein numerisches Ergebnis anzuzeigen. Prüfen Sie bei
+Lückennachweisen zuerst den fehlenden Fluss, die Richtung und die Wirkungsmethode, bevor Sie
+Elementarfluss-Zuordnungen ergänzen oder den Analysebereich ändern.
+
 ### Warum wirken die Größenordnungen falsch?
 
 Häufige Ursachen:
