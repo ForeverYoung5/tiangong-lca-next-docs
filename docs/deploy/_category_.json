@@ -1,8 +1,0 @@
-{
-  "label": "Deloyment",
-  "position": 5,
-  "link": {
-    "type": "generated-index",
-    "description": "Guidance for local deployment."
-  }
-}

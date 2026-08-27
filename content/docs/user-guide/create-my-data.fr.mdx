@@ -1,0 +1,123 @@
+---
+title: "Créer mes données"
+description: "Suivez le flux Préparer → Construire → Validation des données pour créer processus, modèles, flux et références associées dans « Mes données »."
+---
+
+Dans « Mes données », vous contrôlez tout le cycle de vie des jeux de données TianGong LCA. Ce guide
+découpe le travail en trois étapes — **Préparation → Construction des jeux de données → Validation
+et publication** — afin de limiter les reprises et de garder des références cohérentes.
+
+## Avant de commencer
+
+### Règles générales
+
+1. **Champs linguistiques** : lorsqu'un champ offre plusieurs langues, la saisie en anglais est obligatoire. Adaptez le sélecteur de langue au contenu saisi.
+   ![](/assets/docs/3e94be89/language.png)
+2. **Panneaux de sélection** : pour les champs tels que « Format du jeu de données » ou « Nom du système de conformité » :
+   - Cliquez sur le bouton « Sélectionner » à côté du champ.
+   - Utilisez les onglets pour changer de catégorie.
+   - Cochez la ligne souhaitée (surlignée en violet).
+   - Pour référencer une version historique, ouvrez **Toutes les versions** de la ligne, sélectionnez la version, puis enregistrez.
+   - Cliquez sur « Enregistrer » pour valider et quitter le panneau.
+   ![](/assets/docs/5024749b/choose.png)
+3. **Versionnage** : pour un premier jeu de données, renseignez ou confirmez le champ version selon les exigences de la page, puis enregistrez souvent pour éviter toute perte. En ouvrant **Créer une version** depuis **Toutes les versions**, le champ version affiche « La nouvelle version sera générée automatiquement ». Le système crée la version suivante à partir de la version source choisie — ne modifiez donc pas le numéro de version manuellement.
+
+### Ordre de préparation recommandé
+
+Pour que chaque référence existe dès la modélisation, préparez d'abord :
+
+1. **Contacts** : identifier les personnes responsables et leurs adresses e-mail.
+2. **Sources** : rassembler littérature, rapports ou enquêtes ; téléverser les pièces jointes.
+3. **Groupes d'unités et propriétés de flux** : réutiliser autant que possible les définitions standard. N'en créer de nouveaux qu'après revue d'équipe.
+4. **Flux** : définir les flux avec les bons groupes d'unités et propriétés pour que les processus puissent les référencer immédiatement.
+
+Une fois ces bases posées, passez aux processus et modèles.
+
+## Construire les jeux de données
+
+### Créer un processus
+
+1. Ouvrez **Mes données → Processus** et cliquez sur `+`.
+2. Complétez les sections « Informations du processus », « Informations de modélisation » et « Informations de gestion ».
+   ![](/assets/docs/abca08fc/process1.png) ![](/assets/docs/f775f0d7/process2.png)
+3. Passez à **Entrées & Sorties** pour ajouter des flux :
+   - Cliquez sur `+` pour référencer un flux existant ou en créer un nouveau (voir [Créer un flux](#créer-un-flux)).
+   - Saisissez la quantité et l'unité ; effectuez les conversions nécessaires.
+   - Enregistrez et répétez jusqu'à ce que tous les flux soient listés.
+   ![](/assets/docs/44d54db6/process3.png)
+4. Désignez la sortie principale comme **Flux de référence** et enregistrez.
+5. Cliquez sur **Enregistrer** en bas pour stocker la configuration du processus.
+   ![](/assets/docs/f717d2e3/process4.png)
+
+### Créer un modèle
+
+1. Ouvrez **Mes données → Modèles** et cliquez sur `+`.
+2. Utilisez le sélecteur de nœuds pour ajouter les processus appartenant au modèle.
+   ![](/assets/docs/1a0fa84e/model1.png) ![](/assets/docs/54940bbf/model2.png)
+3. Pour chaque nœud, ouvrez **Entrées/Sorties** et connectez les flux requis.
+4. Disposez les nœuds, définissez le processus de référence et précisez la quantité du flux de référence.
+   ![](/assets/docs/be449243/model3.png) ![](/assets/docs/1ee3fed5/model4.png)
+5. Complétez « Informations du modèle », « Modélisation & validation » et « Informations de gestion ».
+   ![](/assets/docs/5a3e95af/model5.png)
+6. Consultez le panneau **Résultats du modèle**, puis enregistrez.
+   ![](/assets/docs/1c8d0410/model6.png)
+
+> Les modèles composés de plusieurs processus unitaires peuvent être réutilisés comme des processus.
+> Après enregistrement, ils apparaissent à la fois dans « Modèles » et « Processus ».
+
+### Créer un flux
+
+1. Ouvrez **Mes données → Flux** et cliquez sur `+`.
+   ![](/assets/docs/59d3cb52/flow1.png)
+2. Renseignez « Informations du flux », « Modélisation & validation » et « Informations de gestion ».
+   ![](/assets/docs/e84f59e6/flow2.png)
+3. Sous **Propriétés de flux**, cliquez sur `+` pour sélectionner ou créer des propriétés, puis indiquez les valeurs et réglages de quantité.
+4. Enregistrez le flux.
+   ![](/assets/docs/616b3af6/flow3.png)
+
+### Créer un contact
+
+1. Ouvrez **Mes données → Contacts** et cliquez sur `+`.
+2. Indiquez noms, e-mails et, si besoin, détails d'organisation (liaison à une équipe existante possible).
+3. Enregistrez afin que le contact puisse être référencé ailleurs.
+
+### Créer une source
+
+1. Ouvrez **Mes données → Sources** et cliquez sur `+`.
+2. Renseignez auteurs, titre, informations de publication, année et DOI/URL.
+3. Téléversez des pièces jointes sous « Lien du document électronique » le cas échéant, puis enregistrez.
+
+> Les citations devraient suivre des formats académiques standard. Exemple :
+> `Liu J., Zhao J., Wei H., et al., Comparative environmental assessment of methanol production technologies: A cradle-to-gate life cycle analysis. Energy Conversion and Management, 2024, 302:118128.`
+
+## Groupes d'unités et propriétés de flux (avancé)
+
+Des groupes d'unités ou propriétés de flux personnalisés peuvent introduire des problèmes de
+conversion ou des échecs LCIA. Ne les utilisez que si nécessaire. Dans **Mes données**, les
+utilisateurs ordinaires peuvent rechercher, consulter, inspecter toutes les versions et exporter les
+groupes d'unités et propriétés de flux existants pour vérifier la configuration de base disponible.
+La création, l'import, la copie, la création de version, la modification, la suppression, la
+contribution et les points d'entrée de maintenance similaires sont réservés aux administrateurs
+système ; si la page indique que des enregistrements doivent être ajoutés ou complétés, contactez un
+administrateur.
+
+### Créer un groupe d'unités
+
+1. Si vous êtes administrateur système, ouvrez **Mes données → Groupes d'unités** et cliquez sur `+`. Les autres utilisateurs contactent un administrateur lorsque des groupes d'unités doivent être ajoutés ou complétés.
+2. Renseignez « Informations du groupe d'unités », « Modélisation & validation » et « Informations de gestion ».
+3. Sous **Unités**, ajoutez chaque unité, définissez les facteurs de conversion et marquez l'unité de référence (p. ex. `kg` dans un groupe de masse).
+   ![](/assets/docs/d2c9a40a/unitgroup.png)
+
+### Créer une propriété de flux
+
+1. Si vous êtes administrateur système, ouvrez **Mes données → Propriétés de flux** et cliquez sur `+`. Les autres utilisateurs contactent un administrateur lorsque des propriétés de flux doivent être ajoutées ou complétées.
+2. Complétez « Informations de la propriété de flux », « Modélisation & validation » et « Informations de gestion ».
+3. Alignez la catégorie de la propriété (technique / chimique / économique / autre) sur un groupe d'unités compatible.
+4. Pour les jeux de données mis à jour, liez la version précédente dans « Informations de gestion ».
+
+## Validation et publication des données
+
+1. **Enregistrez souvent les brouillons** pour ne pas perdre votre progression.
+2. **Exécutez `Contrôle des données`** dans l'éditeur de processus ou de modèle pour valider les champs obligatoires et les références. Les formulaires actuels s'efforcent de placer les problèmes de validation du SDK sur l'onglet et le champ concernés. Les identifiants ou versions de référence, champs de classification, commentaires multilingues des échanges de processus, notes d'unité fonctionnelle et textes trop longs affichent désormais des indications de correction à côté de l'onglet ou du champ affecté — y compris les compteurs de caractères actuels et autorisés lorsque disponible.
+3. **Soumettez pour revue** et suivez le statut via le centre de notifications ou les filtres décrits dans [Revue de données](/fr/docs/user-guide/data-review/). Pour les jeux de processus, le système peut d'abord exécuter un **Contrôle de stabilité numérique**. Si vous voyez « La soumission en revue est en file », « Le contrôle de stabilité numérique est en cours » ou « La soumission en revue se poursuit en arrière-plan », assurez-vous que les données sont enregistrées et cliquez à nouveau plus tard sur **Soumettre pour revue** pour actualiser le dernier statut.
+4. **Collaborez** en contribuant le jeu de données à votre équipe si d'autres doivent poursuivre le travail, puis utilisez les [Fonctions d'équipe](/fr/docs/user-guide/team-function/) pour gérer l'accès et la suite de la collaboration.

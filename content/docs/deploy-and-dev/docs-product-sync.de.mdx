@@ -1,0 +1,51 @@
+---
+title: "Leitfaden zur Synchronisierung von Dokumentation und Produkt"
+description: "Öffentliche Dokumentation in vier Sprachen mit dem ausgelieferten TianGong-LCA-Verhalten abgleichen."
+---
+
+Die öffentliche Dokumentation erklärt die Möglichkeiten für Benutzer; das Produkt-Repository bestimmt das tatsächliche Verhalten. Prüfen Sie vor Änderungen an Abläufen, Berechtigungen, Routen, APIs oder Screenshots die aktuelle Implementierung in `../tiangong-lca-next`.
+
+## Maßgebliche Quellen
+
+- Produktverhalten: `../tiangong-lca-next`
+- Chinesische Dokumentationsquelle: `content/docs/**/page.mdx`
+- Englisch, Deutsch und Französisch: benachbarte `.en.mdx`-, `.de.mdx`- und `.fr.mdx`-Dateien
+- Routing und Darstellung: `app/**`, `components/**` und `lib/**`
+- Öffentliche Medien: `public/assets/docs/**`
+
+Die vier Sprachdateien bilden eine logische Seite. Struktur, Links, Schritte, Einschränkungen und Beispiele müssen im selben Commit gemeinsam aktualisiert werden.
+
+## Empfohlener Ablauf
+
+1. Reale Produktroute, Komponente, Berechtigungsprüfung oder API-Implementierung finden.
+2. Betroffene Benutzer, Rollen, Datenräume und Sprachseiten bestimmen.
+3. Chinesische Quelle und alle drei Übersetzungen aktualisieren.
+4. Bezeichnungen, Reihenfolge, Zustände, Fehler und Rollenunterschiede mit der aktuellen Oberfläche prüfen.
+5. Vollständige Dokumentationsvalidierung ausführen und das Ergebnis in einem echten Browser ansehen.
+
+## Wann die Live-Anwendung nötig ist
+
+Quellcode allein genügt nicht, wenn ein Einstieg rollenabhängig ist, ein Zustand von Backend-Daten abhängt, responsive Darstellung oder Barrierefreiheit wichtig ist oder ein Screenshot die reale Oberfläche zeigen soll.
+
+Schreiben Sie niemals Zugangsdaten, API-Schlüssel, Umgebungswerte oder private Daten in Dokumentation, Screenshots, Terminalausgaben oder Commits.
+
+## Screenshot-Grundsätze
+
+- Screenshots nur verwenden, wenn sie den Verständnisaufwand deutlich verringern.
+- Standardmäßig die englische Produktoberfläche verwenden.
+- Klare Ausschnitte, lesbare Beschriftungen und wenige nummerierte Hinweise bevorzugen.
+- Ein öffentliches Bild in allen Sprachseiten wiederverwenden und Alt-Text sowie Erklärung lokalisieren.
+- Medien unter `public/assets/docs/<hash>/<slug>` speichern und die generierte Linkprüfung bestehen lassen.
+
+## Validierung
+
+```bash
+pnpm lint
+pnpm typecheck
+node --test scripts/check-links.test.mjs
+DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
+```
+
+Visuelle Änderungen zusätzlich bei 390px, 1440px, ultra-breit sowie in heller und dunkler Darstellung prüfen, einschließlich Tastaturfokus, Suche, Sprachwechsel und mobilem Menü.
+
+Eine bestätigte, jetzt nicht lösbare Lücke muss noch in derselben Sitzung in `TODO.docs-system-gaps.md` oder einem ausführbaren Issue festgehalten werden.

@@ -7,138 +7,103 @@ authoritative: true
 owner: next-docs
 language: en
 whenToUse:
-  - when setting up or maintaining the public Docusaurus docs repository
-  - when choosing local validation commands for public docs, llms.txt, or publication-scope work
+  - when setting up or maintaining the public Next.js and Fumadocs documentation site
+  - when choosing local validation commands for static output, links, search records, or AI indexes
 whenToUpdate:
-  - when docs repo setup, validation, publication, or AI-consumption commands change
+  - when setup, validation, locale, publication, or search reconciliation changes
 checkPaths:
-  - README.md
+  - AGENTS.md
+  - .docpact/config.yaml
+  - docs/agents/**
   - package.json
-  - .github/workflows/publish-docs.yml
-  - scripts/generate-llms-txt.mjs
-  - scripts/check-publication-scope.mjs
-  - scripts/publication-policy.mjs
-  - scripts/check-screenshots.mjs
+  - next.config.ts
+  - edgeone.json
+  - app/**
+  - components/**
+  - lib/**
+  - content/docs/**
+  - public/**
+  - scripts/**
   - context7.json
-  - static/llms.txt
-lastReviewedAt: 2026-08-21
-lastReviewedCommit: e44e9b4d12197665265a88713f9ca7a5d52264f5
-lastReviewedNote: "Reviewed for docs-impact Issue #651: lockfile-free install, docs:llms, publication-scope, screenshot, lint, typecheck, and build workflow remain current for CLI dataset maintenance docs."
+  - crowdin.yml
+  - .github/workflows/**
+lastReviewedAt: 2026-08-26
+lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
+lastReviewedNote: "Reviewed for Issue #152 after the current pnpm pin moved from 11.23.0 to 11.24.0; the existing Fumadocs workflow and all other exact toolchain versions remain current."
 related:
   - AGENTS.md
+  - .docpact/config.yaml
+  - docs/agents/repo-architecture.md
   - docs/agents/repo-validation.md
-  - docs/dev/dev-env.md
 ---
 
 ## TianGong LCA Docs
 
-This repository contains the public Docusaurus site for TianGong LCA.
+Public documentation for the [TianGong LCA](https://lca.tiangong.earth) platform, built with Next.js 16, Fumadocs 16, React 19, and TypeScript 7. The site exports completely static output and EdgeOne Makers builds and deploys it from Git.
 
-## Source of truth
+## Locales and routes
 
-- Chinese public-doc source: `docs/**`
-- English mirror: `i18n/en/docusaurus-plugin-content-docs/current/**`
-- Product behaviour source: `../tiangong-lca-next`
+- `zh` — canonical authoring source
+- `en`, `de`, and `fr` — maintained full-page translations
+- `/` — complete Chinese `x-default` home, rendered directly without redirect
+- `/{lang}/` — locale home
+- `/{lang}/docs/**` — locale documentation
 
-The English tree is a maintained mirror, not a fire-and-forget translation dump. If a public page
-changes in Chinese, update the English mirror in the same change.
+Source files use dot-locale names: `page.mdx`, `page.en.mdx`, `page.de.mdx`, and `page.fr.mdx`. Missing translations do not fall back to another language.
 
-## Environment
+## Development
 
-- Docs repo runtime: `package.json` currently allows `node >=18.0`
-- Recommended workspace baseline: **Node 24**
-
-If you are working across both docs and `../tiangong-lca-next`, use Node 24 to avoid switching
-versions.
-
-## Install
+Requires Node.js 24.19.0 and pnpm 11.24.0.
 
 ```bash
-nvm install 24
-nvm use 24
-npm install --no-package-lock
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-This repository does not currently commit a package lock, so `npm ci` cannot
-bootstrap a clean checkout. Keep local installation lockfile-free unless a
-separate dependency-governance change intentionally introduces one.
+The development server normally listens on `http://localhost:3000`.
 
-## Common commands
+## Validation
 
 ```bash
-npm run start
-npm run lint
-npm run lint:fix
-npm run docs:llms
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run docs:screenshots:check
-npm run typecheck
-npm run build
-npm run serve
+pnpm lint
+pnpm typecheck
+pnpm test
+
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
 ```
 
-`npm run build` runs `npm run docs:llms` through `prebuild` first, so hosted platforms that only
-invoke the standard build command still publish `llms.txt` with the current build commit.
+The build wrapper performs environment validation, `next build`, deterministic output verification, and generated HTML link/fragment/asset checking. A successful build currently validates all locale routes, public endpoints, search and AI records, SEO files, Open Graph images, negative retired paths, and internal-content exclusion.
 
-## Recommended verification
+## Build environment
 
-For public-doc changes, run at least:
+| Variable | Contract |
+| --- | --- |
+| `SOURCE_COMMIT` | 40-character source SHA; derived from Git when omitted locally |
+| `SOURCE_DATE_EPOCH` | Source commit time; derived from Git when omitted locally |
+| `DEPLOY_ENV` | `ci`, `preview`, or `production` |
+| `CANONICAL_ORIGIN` | Production must use `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static` for CI/preview or `algolia` for production |
 
-```bash
-npm run lint
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run build
-```
+## Publishing and reconciliation
 
-When a change adds, replaces, or reuses screenshots, pass the local visual
-evidence manifest:
+EdgeOne Makers owns build and deployment. GitHub Actions validates pull requests, waits for the deployed source SHA after a main update, validates public endpoints, replaces the Algolia index from the deployed `search-records.json`, and requests Context7 refresh.
 
-```bash
-npm run docs:screenshots:check -- \
-  --manifest /tmp/docs-impact-visual-result.json \
-  --diff-file /tmp/docs-impact-visual.name-status
-```
+Writing credentials stay in the GitHub production environment and never enter the static bundle. The browser receives only the restricted search configuration required by production search.
 
-Without a manifest, the command succeeds as `not_applicable` when the selected
-diff has no public screenshot changes and fails if screenshot binaries changed
-without declared evidence.
+The manual preview reconciliation choice is validation-only: it requires preview `Disallow: /`, page `noindex`, and production-origin canonical/sitemap URLs so preview never becomes a competing canonical site. Its production-state job is skipped, so preview records cannot replace production Algolia data or request a Context7 refresh.
 
-If navigation or page structure changes, also check:
+## Repository layout
 
-- `sidebars.ts`
-- `docs/intro.md`
-- `docs/user-guide/overview.md`
-
-## Translation scaffolding
-
-```bash
-npm run write-translations -- --locale en
-```
-
-Use scaffolding only as a starting point. Final English content should be reviewed and edited
-manually.
-
-## Docs / Product sync
-
-For the full maintainer workflow, read:
-
-- `docs/dev/docs-product-sync.md`
-- `TODO.docs-system-gaps.md`
-
-The default online verification target is `https://lca.tiangong.earth/`.
-
-## Publish
-
-Every push to `main` runs `.github/workflows/publish-docs.yml`, which regenerates `static/llms.txt`,
-checks the publication scope, builds the Docusaurus site, deploys Cloudflare Pages, verifies
-`/llms.txt`, and refreshes Context7 when `CONTEXT7_API_KEY` is configured.
-
-The legacy tag-triggered release workflow remains available for version-style releases:
-
-```bash
-git tag
-git tag v0.0.1
-git push origin v0.0.1
+```text
+app/             routes, metadata, public endpoints, and shared neutral theme tokens
+components/      shared brand/home, LCA concept map, search, MDX, and media components
+content/docs/    four-locale dot-suffix MDX sources
+lib/             locale, source, metadata, information architecture, layout options
+public/          brand and documentation media
+manifests/p0b/   retained deterministic route, category, and negative-path contracts
+scripts/         build, output, link, search, and Docpact validation
+docs/agents/     internal architecture, validation, and operations references
 ```

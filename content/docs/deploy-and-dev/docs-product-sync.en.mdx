@@ -1,0 +1,56 @@
+---
+title: "Docs / Product Sync Guide"
+description: "Keep public documentation in four languages aligned with shipped TianGong LCA behaviour."
+---
+
+Public documentation explains what users can do; the product repository determines how the system actually works. Before changing a user flow, permission, route, API, or screenshot explanation, verify the current implementation in `../tiangong-lca-next`.
+
+## Sources of truth
+
+- Product behaviour: `../tiangong-lca-next`
+- Chinese documentation source: `content/docs/**/page.mdx`
+- English, German, and French: adjacent `.en.mdx`, `.de.mdx`, and `.fr.mdx` files
+- Documentation routing and presentation: `app/**`, `components/**`, and `lib/**`
+- Public media: `public/assets/docs/**`
+
+The four locale files represent one logical page. Update structure, links, steps, constraints, and examples together in the same commit.
+
+## Recommended workflow
+
+1. Locate the real product route, component, permission check, or API implementation.
+2. Identify affected users, roles, data spaces, and locale pages.
+3. Update the Chinese source and all three translations.
+4. Verify labels, order, states, errors, and role differences against the current product UI.
+5. Run the complete documentation validation and inspect the rendered result in a real browser.
+
+## When to use the live product
+
+Code inspection alone is insufficient when:
+
+- an entry is role- or permission-gated;
+- state depends on backend data;
+- responsive layout, theme, or accessible names matter;
+- a screenshot is meant to represent what users actually see.
+
+Never place credentials, API keys, environment values, or private data in documentation, screenshots, terminal output, or commits.
+
+## Screenshot principles
+
+- Add a screenshot only when it materially reduces reader effort.
+- Use the English product UI by default unless language differences are the subject.
+- Prefer clear crops, readable labels, and a few numbered callouts over sentences drawn into the image.
+- Reuse one public asset across locale pages, with accurate localized alt text and nearby explanation in every page.
+- Store assets in the `public/assets/docs/<hash>/<slug>` namespace and require generated link validation to pass.
+
+## Validation
+
+```bash
+pnpm lint
+pnpm typecheck
+node --test scripts/check-links.test.mjs
+DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
+```
+
+For visual work, also inspect 390px, 1440px, ultra-wide, light, and dark states, including keyboard focus, search, locale switching, and the mobile menu.
+
+Record a verified gap that cannot be completed now in root `TODO.docs-system-gaps.md` or an executable issue during the same session. Do not leave durable drift only in chat.

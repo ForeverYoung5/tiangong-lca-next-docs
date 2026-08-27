@@ -1,0 +1,242 @@
+---
+title: "Intégration en ligne de commande"
+---
+
+Les workflows en ligne de commande utilisent deux outils indépendants :
+
+- [`tidas`](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.3) est l'exécutable Rust
+  natif publié pour la conversion locale TIDAS/eILCD, l'import de données ACV externes, la
+  validation de packages, l'export de base de données et le packaging déterministe de versions.
+- `tiangong-lca` est le client de plateforme TianGong LCA distribué via npm pour les requêtes
+  distantes, l'écriture de brouillons, la revue et d'autres workflows d'API.
+
+Ces commandes ne sont pas des alias. Appelez `tidas` directement pour le travail local sur les
+packages ; ne supposez pas que `tiangong-lca` l'appelle en interne.
+
+## Installer `tidas` 0.1.3
+
+Les archives précompilées sont le canal privilégié pour l'utilisateur final et ne requièrent aucun
+runtime Rust, Python, Java ou Node.js. Les installateurs téléchargent une archive immuable et son
+fichier `.sha256`, puis les vérifient avant l'installation.
+
+### Linux et macOS
+
+```bash
+curl --proto '=https' --tlsv1.2 -fsSLO \
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.3/install.sh
+sh install.sh --version 0.1.3 --prefix "$HOME/.local"
+"$HOME/.local/bin/tidas" --version
+```
+
+Ajoutez `$HOME/.local/bin` au `PATH` si votre shell ne l'inclut pas déjà.
+
+### Windows PowerShell
+
+```powershell
+Invoke-WebRequest `
+  https://github.com/tiangong-lca/tidas-tools/releases/download/v0.1.3/install.ps1 `
+  -OutFile install.ps1
+.\install.ps1 -Version 0.1.3
+& "$env:LOCALAPPDATA\Programs\tidas\bin\tidas.exe" --version
+```
+
+Si l'invite le demande, ajoutez ce répertoire `bin` au `PATH`.
+
+### Plateformes précompilées
+
+| Plateforme | Archive de version |
+| --- | --- |
+| Linux x86_64 | `tidas-v0.1.3-x86_64-unknown-linux-gnu.tar.gz` |
+| Linux ARM64 | `tidas-v0.1.3-aarch64-unknown-linux-gnu.tar.gz` |
+| macOS Intel | `tidas-v0.1.3-x86_64-apple-darwin.tar.gz` |
+| macOS Apple Silicon | `tidas-v0.1.3-aarch64-apple-darwin.tar.gz` |
+| Windows x86_64 | `tidas-v0.1.3-x86_64-pc-windows-msvc.zip` |
+
+Chaque archive de la [version v0.1.3](https://github.com/tiangong-lca/tidas-tools/releases/tag/v0.1.3)
+est accompagnée d'un SHA-256 et d'un SBOM SPDX. Windows ARM64 est hors de la matrice de support
+actuelle. La version contient aussi des formules Homebrew et des manifestes Winget ; leur présence
+ne signifie pas qu'ils ont été soumis à un tap externe ou au dépôt communautaire Winget.
+
+### Installation depuis crates.io
+
+Les développeurs disposant de Rust 1.88+ et des dépendances de développement libxml2/libxslt
+peuvent installer depuis les sources :
+
+```bash
+cargo install tidas --version 0.1.3 --locked
+tidas --version
+tidas version --format json
+```
+
+Le paquet crates.io et l'exécutable installé se nomment tous deux `tidas`.
+
+## Workflows de packages `tidas`
+
+### Importer un format externe vers TIDAS
+
+`tidas import` prend en charge EcoSpold 1/2, SimaPro CSV, openLCA JSON-LD, XLSX de processus
+openLCA et les entrées ILCD/eILCD. Le format est normalement détecté :
+
+```bash
+tidas import ./openlca-package.zip \
+  --output ./imported \
+  --target tidas \
+  --format json
+
+tidas validate ./imported/tidas \
+  --input-format tidas-json \
+  --issues ./imported/validation-issues.jsonl \
+  --format json
+```
+
+Les sorties par défaut incluent `import-report.json`, `issues.jsonl`, `tidas/` et
+`process-bundles/<process_uuid>/`. Ajoutez `--write-mapping` pour générer `mapping.csv.gz` en vue
+d'une revue par champ, ou `--no-process-bundles` si les packages de dépendances par processus sont
+inutiles. `.zolca` n'est pas pris en charge ; exportez d'abord un format d'échange supporté depuis
+openLCA.
+
+### Convertir entre TIDAS et eILCD
+
+```bash
+tidas convert ./tidas-package \
+  --output ./eilcd-package \
+  --to ilcd \
+  --format json
+
+tidas convert ./eilcd-data \
+  --output ./tidas-package \
+  --to tidas \
+  --format json
+```
+
+Les données converties se trouvent dans le sous-répertoire `data/` du répertoire de sortie.
+Validez la représentation cible avant téléversement ou usage en aval :
+
+```bash
+tidas validate ./eilcd-package/data --input-format ilcd-xml --format json
+tidas validate ./tidas-package/data --input-format tidas-json --format json
+```
+
+### Rapports et codes de sortie
+
+Avec `--format json`, la sortie standard ne contient que le rapport lisible par machine. Persistez
+les problèmes complets avec des options propres à chaque commande telles que `--issues` ; utilisez
+l'option globale `--report <PATH>` pour écrire le rapport d'opération de façon atomique.
+
+| Code | Signification |
+| ---: | --- |
+| `0` | succès |
+| `2` | commande terminée avec des problèmes de données |
+| `64` | erreur d'utilisation ou d'option |
+| `69` | capacité connue actuellement indisponible |
+| `70` | erreur interne |
+| `74` | échec d'E/S requis |
+| `130` | opération annulée |
+
+Les pipelines doivent inspecter à la fois le code de sortie et les champs JSON tels que `status`,
+`exit_class`, `diagnostics`, `artifacts` et `summary` ; ne parsez pas le seul texte du terminal.
+
+## Installer et exécuter `tiangong-lca`
+
+Pour les requêtes distantes, l'écriture de brouillons et les workflows de revue, exécutez une fois
+le dernier paquet publié :
+
+```bash
+npm exec --yes --package=@tiangong-lca/cli@latest -- tiangong-lca --help
+npm exec --yes --package=@tiangong-lca/cli@latest -- tiangong-lca doctor
+```
+
+Installation globale :
+
+```bash
+npm install --global @tiangong-lca/cli
+tiangong-lca --help
+tiangong-lca doctor
+```
+
+## Variables d'environnement
+
+Les commandes distantes nécessitent l'URL de l'API TianGong LCA et une clé API utilisateur :
+
+```bash
+TIANGONG_LCA_API_BASE_URL=
+TIANGONG_LCA_API_KEY=
+TIANGONG_LCA_SUPABASE_PUBLISHABLE_KEY=
+TIANGONG_LCA_REGION=us-east-1
+```
+
+- `TIANGONG_LCA_API_BASE_URL` peut pointer vers la racine du projet, `/functions/v1` ou `/rest/v1`.
+- `TIANGONG_LCA_API_KEY` est la clé API utilisateur TianGong de la page du compte, pas une clé de projet Supabase.
+- Le CLI échange la clé API contre une session utilisateur et réutilise cette session pour l'accès aux Edge Functions et aux données Supabase.
+
+## Commandes courantes
+
+```bash
+tiangong-lca search flow --input ./search-flow.request.json --json
+tiangong-lca search process --input ./search-process.request.json --json
+tiangong-lca flow get --id <flow-id> --version <version> --json
+tiangong-lca process list --state-code 100 --limit 20 --json
+tiangong-lca dataset validate --input ./rows.jsonl --type auto --out-dir ./dataset-validate --json
+tiangong-lca dataset evidence-search plan --query "China 2026 electricity mix data" --out-dir ./evidence-search --json
+tiangong-lca dataset evidence-search run --input ./evidence-search.request.json --results ./search-results.json --out-dir ./evidence-search --json
+tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./process-save-draft --dry-run --json
+tiangong-lca lifecyclemodel validate-build --run-dir ./lifecyclemodel-run --json
+```
+
+Utilisez l'aide intégrée pour toutes les options :
+
+```bash
+tiangong-lca flow --help
+tiangong-lca process --help
+tiangong-lca lifecyclemodel --help
+tiangong-lca review --help
+```
+
+## Portes d'automatisation
+
+Pour les pipelines de production de données, le CLI fournit aussi des commandes de contrôle qualité
+utiles avant l'écriture, la publication ou la remise à un relecteur :
+
+```bash
+tiangong-lca process identity-preflight --input ./process-preflight.json --out-dir ./process-preflight --json
+tiangong-lca flow identity-preflight --input ./flow-preflight.json --out-dir ./flow-preflight --json
+tiangong-lca process build-plan validate --input ./process-build-plan.json --out-dir ./process-build-plan --json
+tiangong-lca flow build-plan validate --input ./flow-build-plan.json --out-dir ./flow-build-plan --json
+tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation merge-support-aliases --out-dir ./dataset-maintenance --json
+tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --json
+tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --json
+tiangong-lca publish run --input ./publish-request.json --dry-run --json
+```
+
+- `identity-preflight` compare un processus ou un flux cible aux données candidates et indique si l'automatisation peut le réutiliser, doit le router vers une revue manuelle, ou doit bloquer une nouvelle création.
+- `build-plan validate` vérifie qu'un plan de construction de processus ou de flux inclut les décisions d'identité, les liaisons de preuve, les plans de nommage, les décisions `unit_of_analysis` et les champs obligatoires de flux de référence ou de propriété de flux.
+- `dataset evidence-search plan/run` planifie la récupération de preuves publiques au niveau des champs et enregistre les résultats de recherche externes ; le CLI possède la matrice de requêtes, le budget, la normalisation des résultats et les artefacts de déclaration de preuve, tandis que les workflows humains ou d'agents conservent le jugement sur les sources.
+- `dataset maintenance plan/apply/verify` prend en charge le nettoyage contrôlé des données et la réparation d'alias de brouillons privés. `plan` fige les lignes, versions, hachages et l'intention de maintenance exactement visibles pour l'utilisateur courant ; `apply` n'écrit que si `--commit`, `--approve-plan <sha256>` et `--confirm <current-account-email>` sont tous fournis ; `verify` relit le résultat distant. `merge-support-aliases` est limité à des lots fixes `time` et `length_time` sous `target_mode: "owner_draft"` : chaque Unit Group, Flow Property, flux et processus source ou cible doit appartenir au compte courant et rester un brouillon `state_code=0` ; les lignes publiques, partagées, appartenant à autrui, non brouillon ou à visibilité mixte restent protégées.
+- `publish run --dry-run` rapporte les résultats du règleset de publication avant une véritable écriture ou publication.
+
+Ces commandes écrivent des rapports lisibles par machine sous `outputs/` ou `reports/` dans le
+`--out-dir` choisi. Pour l'automatisation, lisez des champs tels que `status`, `blockers`,
+`issues`, `files` et les chemins d'artefacts plutôt que de vous fier au texte du terminal.
+
+## Validation et rapports d'échec `tiangong-lca`
+
+`dataset validate`, `process save-draft`, `lifecyclemodel save-draft` et les commandes de réparation
+apparentées exécutent une validation locale du schéma TIDAS avant l'écriture. En cas d'échec de la
+validation rapide, le CLI actuel utilise une validation approfondie adossée au SDK pour fournir des
+chemins et messages de problème plus précis.
+
+Cela signifie :
+
+- les données qui passent la validation continuent d'utiliser le chemin rapide ;
+- les données invalides doivent renvoyer des chemins de champs, codes et messages plus actionnables ;
+- avant toute écriture `--commit`, les lignes invalides au regard du schéma sont bloquées et consignées dans `failures.jsonl` ou le rapport de validation du répertoire de sortie.
+- Les chemins de schéma TIDAS `common:classification` / `common:category` peuvent s'arrêter à leur profondeur de catégorie naturelle ; n'ajoutez pas de classes inférieures vides juste pour remplir la hiérarchie. Les chemins trop profonds, niveaux dupliqués ou valeurs invalides restent bloqués.
+- Pour les écritures de brouillons par lots, passez `--target-user-id` avec `process save-draft --commit`. Le CLI vérifie la session d'authentification courante et tout propriétaire de brouillon visible avant l'écriture, tandis que la vérification par relecture prouve toujours le propriétaire final et la charge utile.
+- `dataset save-draft` continue par défaut d'empêcher l'écriture en brouillons locaux au compte des Unit Groups, Flow Properties et autres configurations de base purement référentielles. Utilisez `--allow-account-local-support`, ou définissez `TIANGONG_ALLOW_ACCOUNT_LOCAL_SUPPORT=1`, uniquement pour des migrations ou réparations contrôlées ayant délibérément besoin de ces lignes de support dans Mes données ; les opérateurs interactifs devraient préférer les lignes existantes de la base.
+- `dataset classification apply --type location` peut créer l'objet parent et le champ cible manquants lorsque `target_path` pointe explicitement vers un champ de localisation dérivé du schéma. Les chemins ambigus ou champs hors localisation restent bloqués.
+- `dataset evidence-search run` écrit le plan de recherche, les résultats normalisés, le rapport et, lorsque les preuves sont insuffisantes ou partielles, une déclaration de preuve JSON sous `outputs/`.
+
+Pour les intégrations de pipeline `tiangong-lca`, lisez les champs JSON tels que `status`,
+`counts`, `issues`, `files` et les artefacts `outputs/**` générés plutôt que de vous fier au seul
+texte du terminal. Pour l'import local de packages, la conversion ou la validation complète d'un
+package, utilisez la commande `tidas` indépendante décrite ci-dessus.

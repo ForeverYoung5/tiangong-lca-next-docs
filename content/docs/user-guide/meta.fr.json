@@ -1,0 +1,21 @@
+{
+  "title": "Guide de l'utilisateur",
+  "pages": [
+    "index",
+    "overview",
+    "key-functions-introduction",
+    "notifications",
+    "tidas-zip-workflows",
+    "data",
+    "create-my-data",
+    "data-use",
+    "search",
+    "data-review",
+    "process-analysis",
+    "lcia",
+    "permissions-and-data-scopes",
+    "account-profile",
+    "team-function",
+    "system-management"
+  ]
+}

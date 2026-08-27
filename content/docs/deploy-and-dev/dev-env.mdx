@@ -1,0 +1,74 @@
+---
+title: "开发环境配置"
+description: "使用 Node.js、pnpm 和静态构建契约维护 TianGong LCA 文档站。"
+---
+
+本页说明 `tiangong-lca-next-docs` 的本地开发、验证与发布边界。需要同时核对产品行为时，请继续阅读 [Docs / Product 同步指南](/zh/docs/deploy-and-dev/docs-product-sync/)。
+
+## 环境基线
+
+- Node.js 24.19.0
+- pnpm 11.24.0
+- Git，用于推导可复现构建的 source commit 与时间
+
+仓库通过 `packageManager`、`engines` 与锁文件固定工具链。不要混用其他包管理器。
+
+## 安装与本地开发
+
+```bash
+corepack enable
+corepack install --global pnpm@11.24.0
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+站点默认运行在 `http://localhost:3000`。根 `/` 直接显示完整中文主页；其他语言位于 `/en/`、`/de/` 与 `/fr/`。切换语言不会依赖重定向。
+
+## 日常验证
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+```
+
+修改页面、链接、导航、媒体、布局或元数据后，还必须运行完整静态构建：
+
+```bash
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
+```
+
+完整构建会依次验证环境、生成 `out/`、检查确定性路由和公共端点，并扫描所有生成 HTML 中的本地页面、锚点与媒体引用。任何失效链接都会阻断构建。
+
+## 构建变量
+
+| 变量 | 说明 |
+| --- | --- |
+| `SOURCE_COMMIT` | 40 位源码 SHA；本地缺省时从 Git 推导 |
+| `SOURCE_DATE_EPOCH` | 源提交时间；本地缺省时从 Git 推导 |
+| `DEPLOY_ENV` | `ci`、`preview` 或 `production` |
+| `CANONICAL_ORIGIN` | 生产固定为 `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | CI/预览使用 `static`，生产使用 `algolia` |
+
+非生产构建自动添加 `noindex` 并禁止爬虫；生产构建输出 canonical、四语言 alternatives、sitemap 与 Open Graph 元数据。
+
+## 四语言内容
+
+中文源文件使用 `page.mdx`，其他语言使用 `page.en.mdx`、`page.de.mdx` 与 `page.fr.mdx`。结构、链接、示例或用户可见事实发生变化时，四个文件必须在同一次修改中保持一致。
+
+## 视觉检查
+
+首页、导航、搜索或样式修改需要用真实浏览器检查：
+
+- 390px 移动端
+- 1440px 桌面端
+- 2560px 或更宽的超宽屏
+- 浅色与深色主题
+- 键盘焦点、语言切换、搜索、移动菜单与横向溢出
+
+## 发布
+
+合并到 `main` 后，EdgeOne Makers 从 Git 构建并发布静态站。GitHub Actions 随后等待线上 `/llms.txt` 暴露同一 source commit，验证公共端点，同步 Algolia，并请求 Context7 刷新。生产写密钥只存在于 GitHub production environment，不会进入静态产物。

@@ -1,0 +1,103 @@
+---
+title: "Kontoverwaltung und API-Key"
+---
+
+Öffnen Sie das Profilmenü oben rechts und wählen Sie **Kontoprofil**, um zur Kontoseite zu gelangen.
+
+![Kontoprofil](/assets/docs/78a6dc92/account-profile-1.png)
+
+Die Seite enthält derzeit vier Reiter:
+
+- **Grundinformationen**
+- **Passwort ändern**
+- **E-Mail ändern**
+- **API-Key generieren**
+
+Möchten Sie entfernte MCP-Dienste oder authentifizierte APIs nutzen, generieren Sie zuerst hier den
+Key und fahren Sie dann fort mit [TianGong LCA MCP – remote](/de/docs/integration/mcp-lca-remote/)
+oder der [TIDAS-Paketimport-API](/de/docs/openapi/tidas-package-import/).
+
+## Grundinformationen
+
+Der Reiter **Grundinformationen** zeigt Ihre aktuelle E-Mail, Rolle und den Spitznamen.
+
+- E-Mail und Rolle sind schreibgeschützte Identitätsfelder.
+- Der Spitzname ist bearbeitbar.
+- Nach dem Speichern aktualisiert sich der Name in der Kopfleiste sofort.
+
+![Grundinformationen](/assets/docs/603f6b1d/basic-information.png)
+
+## Passwort ändern
+
+Zum Ändern des Passworts tragen Sie ein:
+
+- Aktuelles Passwort
+- Neues Passwort
+- Neues Passwort bestätigen
+
+Beachten Sie:
+
+- Das neue Passwort muss sich vom aktuellen unterscheiden.
+- Es muss die Passwort-Komplexitätsregeln der Plattform erfüllen.
+- Nutzen Sie Skripte oder externe Tools, aktualisieren Sie auch das dort gespeicherte Passwort.
+
+![Passwort ändern](/assets/docs/3cbfb9d8/change-password.png)
+
+## E-Mail ändern
+
+Der Reiter **E-Mail ändern** zeigt Ihre aktuelle E-Mail und fragt nach:
+
+- Neuer E-Mail
+- Bestätigung der neuen E-Mail
+
+Nach dem Absenden verschickt die Plattform eine Verifizierungs-E-Mail an die neue Adresse. Prüfen
+Sie Posteingang und [Benachrichtigungszentrum](/de/docs/user-guide/notifications/), bis die Änderung bestätigt ist.
+
+![E-Mail ändern](/assets/docs/c122399f/change-email.png)
+
+## API-Key generieren
+
+**API-Key generieren** ist inzwischen eine eigenständige Kontofunktion, nicht nur ein
+Integrationshinweis.
+
+### Typische Anwendungsfälle
+
+- Anbindung an das TianGong-LCA-Remote-MCP
+- Ausführung authentifizierter Automatisierungsskripte
+- Konfiguration externer Dienste, die die Plattform aufrufen
+
+### Schritte
+
+1. Öffnen Sie den Reiter **API-Key generieren**.
+2. Geben Sie Ihr aktuelles Kontopasswort ein, um Ihre Identität zu bestätigen.
+3. Klicken Sie auf **API-Key generieren**.
+4. Kopieren Sie den erzeugten Key sofort.
+
+![Reiter API-Key generieren](/assets/docs/916b64ab/account-api-key-tab.png)
+
+Im Screenshot markiert `1` den Reiter **API-Key generieren**, `2` das Feld zur Bestätigung des
+aktuellen Passworts und `3` die Schaltfläche zur Key-Erzeugung. Der tatsächliche Key ist aus
+Sicherheitsgründen hier nicht abgebildet.
+
+### Wichtiger Sicherheitshinweis
+
+> Der vollständige API-Key wird nur einmal angezeigt. Speichern Sie ihn umgehend an einem sicheren
+> Ort, etwa einem Passwort-Manager oder einem Managed-Secrets-System.
+
+- Schlägt die Passwortbestätigung fehl, bittet die Seite um erneute Prüfung des aktuellen Passworts.
+- Verlassen Sie die Seite ohne Speichern des Keys, müssen Sie einen neuen generieren.
+- Legen Sie den Key niemals in öffentlichen Repositories, Screenshots, Tickets oder geteilten
+  Chat-Verläufen ab.
+
+## FAQ
+
+### Warum ist die API-Key-Erzeugung jetzt auf der Kontoseite dokumentiert?
+
+Weil die Kontoseite der tatsächliche Produkteinstieg ist. Die MCP- und OpenAPI-Seiten erklären die
+Nutzung des Keys, nachdem er erstellt wurde.
+
+### Was, wenn ich den Reiter `API-Key generieren` nicht sehe?
+
+Laden Sie die Seite neu und vergewissern Sie sich, dass Sie das erwartete Konto verwenden. Bleibt
+der Reiter fehlen, klären Sie mit dem Betreiber der Umgebung, ob diese Funktion in der aktuellen
+Bereitstellung aktiviert ist.

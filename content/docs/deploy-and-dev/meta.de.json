@@ -1,0 +1,9 @@
+{
+  "title": "Bereitstellung und Entwicklung",
+  "pages": [
+    "index",
+    "local-deploy",
+    "dev-env",
+    "docs-product-sync"
+  ]
+}

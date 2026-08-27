@@ -1,0 +1,9 @@
+{
+  "title": "Déploiement et développement",
+  "pages": [
+    "index",
+    "local-deploy",
+    "dev-env",
+    "docs-product-sync"
+  ]
+}

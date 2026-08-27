@@ -7,86 +7,81 @@ authoritative: true
 owner: next-docs
 language: en
 whenToUse:
-  - when validating public docs, site structure, bilingual mirror, screenshot, or documentation-governance changes
-  - when selecting proof for a next-docs PR
+  - when validating public content, navigation, presentation, metadata, search, publishing, or governance changes
+  - when selecting proof for a next-docs pull request
 whenToUpdate:
-  - when Docusaurus validation commands change
-  - when bilingual mirror or product/docs drift proof expectations change
-  - when docpact governance rules or CI behavior change
+  - when package scripts, output contracts, browser coverage, or CI behavior change
 checkPaths:
   - AGENTS.md
   - .docpact/config.yaml
-  - .github/workflows/ai-doc-lint.yml
-  - .github/workflows/publish-docs.yml
   - package.json
+  - .nvmrc
+  - scripts/build.mjs
+  - scripts/check-env.mjs
+  - scripts/*.test.mjs
+  - scripts/verify-out.mjs
+  - scripts/check-links.mjs
+  - scripts/check-links.test.mjs
+  - app/**
+  - components/**
+  - lib/**
+  - content/docs/**
+  - public/**
   - context7.json
-  - scripts/generate-llms-txt.mjs
-  - scripts/check-publication-scope.mjs
-  - scripts/publication-policy.mjs
-  - scripts/check-screenshots.mjs
-  - scripts/check-screenshots.test.mjs
-  - sidebars.ts
-  - docusaurus.config.ts
-  - docs/**
-  - i18n/en/docusaurus-plugin-content-docs/current/**
-  - TODO.docs-system-gaps.md
-  - .githooks/pre-push
-  - scripts/docpact
-  - scripts/docpact-gate.sh
-  - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-08-21
-lastReviewedCommit: e44e9b4d12197665265a88713f9ca7a5d52264f5
-lastReviewedNote: "Reviewed for docs-impact Issue #651: bilingual, llms.txt, screenshot, publication-scope, lint, typecheck, build, and docpact proof requirements remain current for CLI dataset maintenance docs."
+  - .github/workflows/**
+  - .githooks/**
+lastReviewedAt: 2026-08-27
+lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
+lastReviewedNote: "Reviewed for PR #130 conflict resolution: four-locale CLI maintenance content still requires local markdownlint, typecheck, tests, link checks, build, and Docpact proof."
 related:
   - AGENTS.md
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
 ---
 
-## next-docs Validation Guide
+## Validation guide
 
-The canonical local commands are:
-
-```bash
-npm run lint
-npm run build
-npm run typecheck
-npm run docs:llms:check
-npm run docs:publication-scope:check
-npm run docs:screenshots:check
-```
-
-Use the narrowest command set that proves the touched area.
-
-## Required Validation Shape
-
-- Public docs changes require checking the Chinese source and English mirror together.
-- Navigation or site-config changes require at least typecheck and build when feasible.
-- Publication pipeline changes require `npm run docs:llms:check` and `npm run docs:publication-scope:check`; if they affect build output, also run `npm run build` and rerun the publication-scope check afterward.
-- `static/llms.txt` must list only public docs pages, and `context7.json` must keep Context7 scoped to public docs with internal agent, TODO, plan, incident, and governance execution records excluded.
-- Product-behavior documentation changes require checking `../tiangong-lca-next` when behavior is ambiguous.
-- Screenshot additions, replacements, or reuse require `npm run docs:screenshots:check -- --manifest <visual-result.json> --diff-file <name-status.diff>`. The check owns PNG integrity and 144 DPI metadata, same-path bilingual assets, Markdown references and alt text, nearby explanatory prose, action-specific diff behavior, and composition-reference ratios.
-- Screenshot replacement must preserve the prior composition within the declared tolerance unless the manifest records an `aspectRatioChangeReason`. A new screenshot must name a repository image with the same `compositionClass`; the validator does not force unrelated screenshots into one global ratio.
-- Partial fixes to product/docs drift must update `TODO.docs-system-gaps.md`.
-- Documentation-governance changes require docpact validation.
-
-## Docpact Validation
-
-Run these commands for governance changes:
+## Canonical commands
 
 ```bash
-scripts/docpact validate-config --root . --strict
-scripts/docpact lint --root . --base origin/main --head HEAD --mode enforce
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm typecheck
+pnpm test
+DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-The manual `ai-doc-lint` workflow delegates to the same local docpact gate when remote reproduction is needed.
+`pnpm build` includes fail-closed exact toolchain/environment validation, every Node contract/link test, static export, `verify:out`, and `check:links`. Use `pnpm test:env`, `pnpm test:toolchain`, or `pnpm test:links` for focused diagnosis.
 
-## Local Docpact Push Gate
+## Proof by change type
 
-Install the versioned local hook once per checkout:
+- Public content: update all four locale variants; run lint and the complete build.
+- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must be exactly `24.19.0`, pnpm exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
+- Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets, zero path-relative document links, zero source-locale mismatches, and identical normalized internal-document target sets across the four variants of each page.
+- Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, 1633px, 2048px, and 2560px in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.
+- Landing visual contract: assert `data-hero-signature="lca-concept-map"`, exactly one `data-primary-action`, and a single semantic HTML `main`. The primary action must compute to `background-image: none`, `box-shadow: none`, and `transform: none`; the Next signature must not match the TIDAS hero signature.
+- LCA concept geometry: while the hero is in two-column mode, the rightmost rendered title glyph must remain inside `[data-hero-copy]` and at least 24px away from `[data-concept-map]`; `[data-concept-connector]` must retain a rendered stroke width of at least 1.2px.
+- Documentation-root hub: all four `/{lang}/docs/` outputs must contain `[data-docs-portal="lca-task-hub"]` and `[data-docs-portal-map="lca-task-route"]`; each portal link must remain inside its locale, resolve successfully, remain visible at 390px, and produce no horizontal overflow at 390px, 1440px, 1633px, 2048px, or 2560px in light and dark themes.
+- Quick-start route: all four `/{lang}/docs/quick-start/` outputs must contain `[data-quick-start-guide="first-session-route"]`, `[data-quick-start-map="three-stage-onboarding"]`, one solid application entry action, and the same canonical onboarding/task targets. Browser proof must show readable completion cues, visible keyboard focus, no fixed-height overlap in German or French, and no horizontal overflow at the standard five widths in both themes.
+- Automatic category directories: all 36 localized category roots (eight top-level sections plus the nested case-introduction section, across four locales) must expose `[data-category-directory]` and a `data-category-count` equal to the non-index entries in their localized `meta*.json`. Every meta target must be emitted in order with a localized title and non-empty metadata or first-paragraph summary. Browser proof must cover the two-column User Guide and a nested-folder category, with no self-links, empty grid cells, overlap, or horizontal overflow.
+- Metadata or route changes: inspect generated HTML for canonical, `x-default`, all real locale alternatives, and Open Graph image metadata; confirm sitemap entries and negative 404 contracts.
+- Production publishing or search reconciliation: run the complete build, verify deployed `/llms.txt` and `/search-records.json` expose the expected SHA, assert indexable robots/canonical metadata, then confirm locale-isolated Algolia search.
+- Preview reconciliation: assert the same deployed SHA but require `Disallow: /`, page `noindex`, and production-origin canonical/sitemap URLs; confirm the production-state job is skipped.
+- Governance: validate and lint Docpact after the implementation diff is final.
+
+## Docpact
+
+```bash
+scripts/docpact validate-config --root . --strict --format json
+scripts/docpact lint --root . --base origin/main --head HEAD --mode enforce --format json
+```
+
+Use an absolute root when invoked outside the repository. Save a report only when diagnostics need drill-down.
+
+## Local pre-push gate
 
 ```bash
 ./scripts/install-git-hooks.sh
 ```
 
-The `pre-push` hook runs `scripts/docpact-gate.sh`, which delegates CLI lookup to `scripts/docpact` and performs strict config validation plus enforced lint before the push leaves the machine. The wrapper checks `DOCPACT_BIN`, Cargo install locations, Homebrew install locations, and then `PATH`, so local agent shells should not fail only because bare `docpact` is unavailable. The default comparison base is `origin/main`. Override it for unusual stacks with `DOCPACT_BASE_REF=<ref>` or `scripts/docpact-gate.sh --base <ref>`. The gate writes its detailed report to a temporary file so normal pushes do not create `.docpact/runs/` artifacts.
+The hook runs strict configuration validation and enforced documentation-governance lint against `origin/main` by default.

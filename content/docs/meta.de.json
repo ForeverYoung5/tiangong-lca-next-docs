@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "index",
+    "overview",
+    "quick-start",
+    "user-guide",
+    "data-collection",
+    "integration",
+    "openapi",
+    "deploy-and-dev",
+    "faq",
+    "changelog"
+  ]
+}

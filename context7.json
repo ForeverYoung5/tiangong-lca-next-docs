@@ -4,19 +4,20 @@
   "description": "Public TianGong LCA user documentation, integration guides, OpenAPI usage notes, MCP setup, deployment guidance, FAQ, and changelog.",
   "branch": "main",
   "folders": [
-    "docs",
-    "i18n/en/docusaurus-plugin-content-docs/current"
+    "content/docs"
   ],
   "excludeFolders": [
-    "docs/agents",
     ".agents",
     ".docpact",
     "_docs",
     ".github",
     "scripts",
-    "build",
-    ".docusaurus",
-    "node_modules"
+    "out",
+    ".next",
+    "node_modules",
+    "public/assets",
+    "manifests",
+    "docs/agents"
   ],
   "excludeFiles": [
     "AGENTS.md",
@@ -26,9 +27,9 @@
     "LICENSE.md"
   ],
   "rules": [
-    "Use only public Docusaurus docs pages; do not expose internal agent, planning, incident, TODO, or governance execution records.",
-    "Treat zh-CN docs under docs/ as the source of truth and /en pages as maintained English mirrors.",
-    "Prefer stable user-facing pages, OpenAPI guides, MCP guides, deployment docs, FAQ, and changelog entries for answers."
+    "Use only public Fumadocs MDX pages under content/docs; never expose internal agent, planning, incident, TODO, one-time rewrite, or governance execution records.",
+    "Treat unsuffixed MDX as the Chinese source and .en.mdx, .de.mdx, and .fr.mdx as maintained translations of the same logical page.",
+    "Prefer stable user-facing pages, OpenAPI guides, MCP and CLI guides, deployment documentation, FAQ, and changelog entries for answers."
   ],
   "url": "https://context7.com/linancn/tiangong-lca-next-docs",
   "public_key": "pk_PLfrQ8NexLhqPMtpyCSO2"

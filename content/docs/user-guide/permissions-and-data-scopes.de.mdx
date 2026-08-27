@@ -1,0 +1,108 @@
+---
+title: "Berechtigungen und Datenräume"
+description: "Bündelt die wichtigsten Zugriffsgrenzen für Offene Daten, Kommerzielle Daten, Meine Daten, Teamdaten, Prüfrollen und Systemrollen."
+---
+
+TianGong LCA verteilt Berechtigungsgrenzen über mehrere Seiten. Nutzen Sie diese Seite als
+Nachschlagewerk, statt sie aus den Dokumenten zu Daten, Team, Prüfung und Systemverwaltung
+zusammenzusuchen.
+
+## Zuerst: Das sind unterschiedliche Berechtigungssysteme
+
+Mindestens drei Berechtigungsebenen können sich auf der Plattform überlagern:
+
+- **Datenraum-Berechtigungen**: Offene Daten, Kommerzielle Daten, Meine Daten, Teamdaten
+- **Team-Rollen für Zusammenarbeit**: Team-Eigentümer / Administrator / Mitglied
+- **Spezielle Arbeitsbereichsrollen**: `review-admin` / `review-member`, `data_product_manager`,
+  dazu System-`owner` / `admin` / `member`
+
+Betrachten Sie sie nicht als eine lineare Hierarchie. Eine Person kann in verschiedenen Bereichen
+unterschiedliche Rollen innehaben.
+Die Rolle `data_product_manager` öffnet den Arbeitsbereich **Datenverarbeitung** zum Erzeugen,
+Vorschauen und Veröffentlichen von LCIA-Ergebnismengen für Offene Daten. Sie ist nicht
+gleichbedeutend mit System-`admin` und vergibt automatisch keine Prüfrollen.
+
+## Datenraum-Matrix
+
+| Datenraum | Vollständige Daten ansehen | Metadaten ansehen | Nach Meine Daten kopieren | Direkt bearbeiten | Importieren | JSON exportieren | Zur Prüfung einreichen | Zum Team beitragen |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Offene Daten | Ja | Ja | Ja | Nein | Nein | Ja | Nein | Nein |
+| Kommerzielle Daten | Meist Metadaten | Ja | Je nach UI-Verfügbarkeit | Nein | Nein | Üblicherweise kein vollständiger Daten-Exportpfad | Nein | Nein |
+| Meine Daten | Ja | Ja | Ja | Ja | Ja | Ja | Ja | Ja |
+| Teamdaten | Ja | Ja | Ja | Nein | Nein | Üblicherweise nicht der Haupt-Exportpfad | Nein | Nein |
+
+### So lesen Sie diese Matrix
+
+- **Offene Daten** dienen dem Entdecken, Referenzieren, Kopieren und Analysieren, nicht der direkten Bearbeitung
+- **Kommerzielle Daten** betreffen vor allem Metadaten und Anbieterkontakte, nicht offen herunterladbare vollständige Modelldaten
+- **Meine Daten** sind der zentrale Arbeitsbereich für Erstellung, Import, Export und Prüfeinreichung
+- **Teamdaten** dienen Teilen und Wiederverwendung, nicht der gleichzeitigen direkten Bearbeitung durch mehrere Nutzer
+
+## Teamrollen-Matrix
+
+| Teamaktion | Eigentümer | Administrator | Mitglied |
+| --- | --- | --- | --- |
+| Teamprofil bearbeiten | Ja | Nein | Nein |
+| Einladungen senden / erneut senden | Ja | Ja | Nein |
+| Teamrollen ändern | Ja | Nein | Nein |
+| Mitglieder entfernen | Ja | Ja | Nein |
+| Teamdaten ansehen | Ja | Ja | Ja |
+| Persönliche Daten ins Team beitragen | Ja | Ja | Ja |
+
+Details zum Zusammenarbeits-Workflow finden Sie auch unter [Teamfunktionen](/de/docs/user-guide/team-function/).
+
+## Prüfrollen-Matrix
+
+| Prüfaktion | Autor | review-member | review-admin |
+| --- | --- | --- | --- |
+| Daten aus Meine Daten zur Prüfung einreichen | Ja | Kann diese Fähigkeit ebenfalls besitzen | Kann diese Fähigkeit ebenfalls besitzen |
+| Prüfverwaltung öffnen | Nein, üblicherweise | Ja | Ja |
+| Ausstehende Prüfaufgaben ansehen | Nein | Ja, nur zugewiesene Aufgaben | Ja, für den breiteren Prüfpool |
+| Prüfer zuweisen | Nein | Nein | Ja |
+| Prüfkommmentare einreichen | Nein | Ja | Kann den Gesamtfortschritt überwachen |
+| Prüfmitglieder verwalten | Nein | Nein | Ja |
+| Gesamte Prüfung genehmigen / ablehnen | Nein | Nein | Ja |
+
+Steht die Prüfausführung im Mittelpunkt, fahren Sie fort mit [Datenprüfung](/de/docs/user-guide/data-review/).
+
+## Systemrollen-Matrix
+
+| Systemaktion | Mitglied | Administrator | Eigentümer |
+| --- | --- | --- | --- |
+| Systemverwaltung öffnen | Ja | Ja | Ja |
+| Show-Verwaltung ansehen | Ja | Ja | Ja |
+| Startseiten-Teams bearbeiten | Nein oder eingeschränkt | Ja | Ja |
+| Systemmitglieder hinzufügen | Nein | Ja | Ja |
+| Nicht-Eigentümer entfernen | Nein | Ja | Ja |
+| Admin-/Mitgliedsrollen ändern | Nein | Nein | Ja |
+
+Zur Wartung auf Plattformebene fahren Sie fort mit [Systemverwaltung](/de/docs/user-guide/system-management/).
+
+## Datenbereiche in der Prozessanalyse
+
+Der [Prozessanalyse-Arbeitsbereich](/de/docs/user-guide/process-analysis/) führt eine weitere Bereichsebene ein, die
+mit Datenräumen verwandt, aber nicht identisch mit Rollenberechtigungen ist:
+
+| Analysebereich | Bedeutung |
+| --- | --- |
+| Daten des aktuellen Nutzers | Vor allem die Daten, die das aktuelle Konto aus Meine Daten analysieren kann |
+| Offene Daten | Vor allem veröffentlichte offene Datensätze |
+| Alle Daten | Der volle Kandidatenbereich, der im aktuellen Analysekontext dieser Bereitstellung verfügbar ist |
+
+Diese Bereiche dienen der Analyseauswahl, nicht der Definition von Team- oder Systemrollen.
+
+## Häufige Missverständnisse
+
+### Bedeutet Team-Administrator automatisch Prüfer?
+
+Nein. Teamrollen und Prüfrollen sind getrennte Berechtigungssysteme.
+
+### Bedeutet System-Administrator automatisch Zugang zu jeder Fachseite?
+
+Nein. Systemrollen regeln vor allem den Arbeitsbereich Systemverwaltung und zugehörige Vorgänge.
+
+### Warum kann ich in Teamdaten nicht direkt bearbeiten?
+
+Weil Teamdaten für Teilen und Wiederverwendung konzipiert sind. Wenn Sie etwas ändern möchten, ist
+das übliche Muster: nach Meine Daten kopieren, dort bearbeiten und die aktualisierte Version zurück
+ins Team beitragen.

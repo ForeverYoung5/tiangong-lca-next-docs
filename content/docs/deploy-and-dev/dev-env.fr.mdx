@@ -1,0 +1,74 @@
+---
+title: "Environnement de développement"
+description: "Maintenir TianGong LCA Docs avec Node.js, pnpm et son contrat de build statique."
+---
+
+Cette page décrit le développement local, la validation et la publication de `tiangong-lca-next-docs`. Pour vérifier aussi le comportement du produit, consultez le [guide de synchronisation entre documentation et produit](/fr/docs/deploy-and-dev/docs-product-sync/).
+
+## Environnement requis
+
+- Node.js 24.19.0
+- pnpm 11.24.0
+- Git, utilisé pour produire une identité de source et des horodatages reproductibles
+
+Le dépôt fixe sa chaîne d'outils avec `packageManager`, `engines` et le fichier de verrouillage. Ne mélangez pas les gestionnaires de paquets.
+
+## Installation et développement local
+
+```bash
+corepack enable
+corepack install --global pnpm@11.24.0
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Le site fonctionne normalement sur `http://localhost:3000`. La racine `/` affiche directement la page d'accueil chinoise complète ; les autres langues utilisent `/en/`, `/de/` et `/fr/`. Le changement de langue ne dépend d'aucune redirection.
+
+## Validation quotidienne
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+```
+
+Après une modification de page, lien, navigation, média, mise en page ou métadonnée, exécutez également le build statique complet :
+
+```bash
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
+```
+
+Le build valide l'environnement, produit `out/`, contrôle les routes et points d'accès publics déterministes, puis analyse chaque référence locale de page, fragment et média. Un lien cassé fait échouer le build.
+
+## Variables de build
+
+| Variable | Rôle |
+| --- | --- |
+| `SOURCE_COMMIT` | SHA source de 40 caractères ; déduite de Git en local |
+| `SOURCE_DATE_EPOCH` | Date du commit source ; déduite de Git en local |
+| `DEPLOY_ENV` | `ci`, `preview` ou `production` |
+| `CANONICAL_ORIGIN` | La production utilise obligatoirement `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static` pour CI/aperçu, `algolia` pour la production |
+
+Les builds hors production ajoutent `noindex` et bloquent les robots. La production génère les URL canoniques, les alternatives dans quatre langues, la sitemap et les métadonnées Open Graph.
+
+## Contenu en quatre langues
+
+Le chinois utilise `page.mdx` ; les traductions utilisent `page.en.mdx`, `page.de.mdx` et `page.fr.mdx`. Maintenez les quatre fichiers ensemble lorsque la structure, les liens, les exemples ou les faits visibles changent.
+
+## Contrôles visuels
+
+Pour toute modification de l'accueil, de la navigation, de la recherche ou du style, vérifiez dans un vrai navigateur :
+
+- mobile 390px
+- bureau 1440px
+- 2560px ou plus
+- thèmes clair et sombre
+- focus clavier, changement de langue, recherche, menu mobile et débordement horizontal
+
+## Publication
+
+Après un merge dans `main`, EdgeOne Makers construit et publie le site statique depuis Git. GitHub Actions attend ensuite que `/llms.txt` expose le même commit source, valide les points d'accès publics, synchronise Algolia et demande une actualisation Context7. Les accès d'écriture restent dans l'environnement de production GitHub et n'entrent jamais dans les fichiers statiques.

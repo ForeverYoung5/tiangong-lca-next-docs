@@ -1,0 +1,183 @@
+---
+title: "Unit-Prozess-Konstruktion"
+---
+
+Referenz für Plattformoperationen: [Neue Daten erstellen – Prozess erstellen](/de/docs/user-guide/create-my-data/#prozess-erstellen)
+
+## Prozessinformationen
+
+### Grundname/Verarbeitung, Normen, Route/Mix und Standorttyp/Quantitative Produkt- oder Prozessattribute
+
+**[Biomasseaufbereitung]** Biomass processing; Pretreatment, granulation, drying; Production mixing, at plant
+
+Siehe Literatur: „First, biomass is subjected to necessary pretreatment, which includes granulation and drying."
+
+**[Biomassevergasung]** Biomass gasification; Feedstock gas condensation; Production mixing, at plant
+
+Siehe Literatur: „Subsequently, biomass gasification produces feedstock gas consisting mainly of CO, H₂, CO₂, and CH₄. Condensation is then employed to extract the fuel gas from the reactor."
+
+**[Methanolproduktion]** Methanol production; Biomass-to-methanol; Production mixing, at plant; Methanol mass fraction > 99%
+
+Siehe Literatur: „The purified syngas is compressed and added to the methanol synthesizer in the last step, where a catalyst helps to produce crude methanol."
+
+Obwohl die Literatur die Produktkonzentration in der aktuellen Unit-Prozess-Beschreibung nicht
+direkt angibt, stellt sie an anderer Stelle klar, dass das endgültige Methanolprodukt die Norm
+„Methanol-Massenanteil > 99 %" erfüllen muss. Daher kann dies als ergänzende Produktnorminformation
+in die Benennung des Methanolproduktionsprozesses einfließen.
+
+**Die Benennung soll Prozessbeschreibungen oder technische Flussdiagramme aus der Literatur
+kombinieren, um Verarbeitungsmethoden, Produktnormen und technische Pfade zu extrahieren — für eine
+genaue und repräsentative Benennung.**
+
+**Liefert die Literatur keine Konzentrationsinformationen zum Methanolprodukt dieses Prozesses,
+erwägen Sie eine Ergänzung aus anderer öffentlicher Literatur oder Branchenberichten. Für
+Endprodukte sollten Sie wichtige quantitative Attribute wie Konzentration und Temperatur ergänzen;
+für Zwischenprodukte ist dies bei fehlender Literaturangabe nicht zwingend.**
+
+Beispiele klar angegebener quantitativer Attribute:
+
+**[Kokerei zu Methanol]**: Coal production; Hard coal pyrolysis in coke oven; Production mixing, at plant; ~1100°C
+
+**[CO₂-Abscheidung zu Methanol]**: CO₂ capture; Direct air capture (DAC) technology; Production mixing, at plant; CO₂ concentration 99.5%~99.7%
+
+> Hinweis:
+Alle Felder erfordern chinesische und englische Namen, um die Mehrsprachigkeit des Modells zu gewährleisten.
+
+### Allgemeine Datensatzbeschreibung
+
+Am Beispiel [Biomasseaufbereitung]:
+
+Die allgemeine Beschreibung soll Prozessmerkmale, konkrete Literaturbeschreibungen und
+Dateneigenschaften kombinieren, um Positionierung, funktionale Rolle, technische Details,
+Datenquellen, Emissionserläuterungen und Anwendbarkeit des Unit-Prozesses vollständig abzubilden.
+
+![Alt text](/assets/docs/199ca293/dataset-description.png)
+
+**Zeitliche Repräsentativität**
+Referenzjahr: 2020–2023
+
+Hinweis: Die Literatur nennt keine genauen Zeitpunkte/Zeiträume der Datenerhebung oder Simulation.
+Angesichts des Publikationsjahres (2024) und des Fehlens von Zukunftsszenarien wird angenommen, dass
+die Daten Branchendurchschnitte 2020–2023 repräsentieren und für aktuelle Prozess-LCA geeignet sind.
+
+### Geografische Repräsentativität
+
+CN (China)
+
+In der Literatur ausdrücklich angegeben.
+
+### Flussdiagramm oder Prozessschema
+
+Die Literatur liefert zwar ein vollständiges Systemgrenzdiagramm, doch konzentriert sich die
+aktuelle Modellierung auf Einzelprozesse: Extrahieren Sie daher die relevanten Teile aus dem
+Originaldiagramm oder erstellen Sie anhand der Literaturbeschreibungen vereinfachte Flussdiagramme,
+die Grenzen sowie Eingabe-Ausgabe-Beziehungen korrekt darstellen.
+
+![Alt text](/assets/docs/27e0503e/process-chart.png)
+
+### Modellierungsinformationen
+
+### LCI-Methode und Zuteilung
+
+Datensatztyp: Unit process, single operation
+
+Da dieser Prozess in der Datenerhebungsphase nicht in feinere Operationsschritte zerlegt werden kann.
+
+Verwendete Datenquellen: Wählen Sie die Literaturdatei unter [Quellen].
+
+![Alt text](/assets/docs/030e7011/reference-citation.png)
+
+### Verwaltungsinformationen
+
+Wählen Sie entsprechend dem Interface-Modul bestehende Datenquellen; passt keine, darf das Feld
+leer bleiben.
+
+Daran schließen sich die Felder für Datensatz-Erfasser/Protokollant/Versionsnummer an.
+
+![Alt text](/assets/docs/0ea57770/data-set-generator.png)
+
+![Alt text](/assets/docs/21dd8e32/data-entry-personnel.png)
+
+![Alt text](/assets/docs/7ae801bd/data-set-version.png)
+
+### Eingabe/Ausgabe
+
+Berechnen Sie für jeden Eingabe-/Ausgabe-Posten relative Werte auf Basis der festgelegten
+Referenzflüsse und -mengen und gewährleisten Sie Datenabgleich und Einheitenkonsistenz.
+
+**[Biomasseaufbereitung]**
+
+Hinweis: Der Referenzfluss erfordert die Auswahl der Mengenreferenz.
+
+![Alt text](/assets/docs/bd904a1f/input-output-1.png)
+
+**[Biomassevergasung]**
+
+Der aktuelle Prozess zeigt ein Eingabe-Ausgabe-Ungleichgewicht, hauptsächlich weil Kesselspeisewasser
+intern recycelt und nicht als endgültige Emission im Ausgabefluss gezählt wird. Erläutern Sie dies in
+den Anmerkungen, um die Stoffbilanzlogik klarzustellen.
+
+![Alt text](/assets/docs/a1f405d4/input-2.png)
+
+![Alt text](/assets/docs/22ef0873/output-2.png)
+
+Beispiel: <u>Kesselspeisewasser wird im geschlossenen Kreislauf wiederverwendet (z. B. Vergasung, Synthese, Kondensat-Wiederverwendung). Der Großteil des Eingabewassers nimmt an internen chemischen Reaktionen und Energieübertragung teil, wird letztlich aufbereitet und in den Prozess zurückgeführt; daher wird der Wasser„verbrauch" in den Ausgaben nicht separat aufgeführt.</u>
+
+![Alt text](/assets/docs/11a83b19/water-usage-note.png)
+
+---
+
+**[Methanolproduktion]**
+
+Der aktuelle Prozess zeigt ein Eingabe-Ausgabe-Ungleichgewicht. Zur Erfüllung der Stoffbilanz wird
+anhand des Eingabewasservolumens ein Abwasser-Posten als entsprechender Ausgabefluss ergänzt, um den
+Gesamtmassefluss auszugleichen. Erläutern Sie dies in den Anmerkungen.
+
+![Alt text](/assets/docs/7cba249a/input-3.png)
+
+![Alt text](/assets/docs/1781bb8c/output-3.png)
+
+Beispiel: <u>Unter Berücksichtigung der Stoffbilanz wird die Abwassermenge anhand des Eingabewasservolumens ergänzt, um die Datentabelle auszugleichen.</u>
+
+![Alt text](/assets/docs/eeb55e62/wastewater-note.png)
+
+### Neue Flüsse anlegen
+
+Für den Prozess [Methanolproduktion] wird ein neuer Fluss benötigt: **Methanol; Biomass-to-methanol; Production mixing, at plant; Methanol mass fraction > 99%**
+
+Der neue Methanolfussname wurde anhand der Beschreibungen der zitierten Literatur festgelegt.
+
+Referenz zum Anlegen neuer Flüsse: [Neue Daten erstellen – Fluss erstellen](/de/docs/user-guide/create-my-data/#fluss-erstellen)
+
+![Alt text](/assets/docs/b26cecf7/flow-name.png)
+
+![Alt text](/assets/docs/7eeaec53/flow-information.png)
+
+![Alt text](/assets/docs/96d03427/flow-modelling.png)
+
+![Alt text](/assets/docs/70fe3d52/flow-administration.png)
+
+Um Anwendbarkeit und Vollständigkeit der Flussdaten zu erhöhen, wird empfohlen, beim Ausfüllen der
+Flusseigenschaften mehrere Einheitenformen zu ergänzen. Für Standardchemikalien wie Methanol sollten
+aus maßgeblichen Quellen oder der Literatur Schlüsselparameter wie Dichte und Heizwert ergänzt
+werden, um unterschiedliche Modellierungsbedarfe (Masse, Volumen, Energie) zu unterstützen. **Wählen
+Sie eine Einheit als Referenzmenge.**
+
+![Alt text](/assets/docs/d1b09081/flow-property.png)
+
+---
+
+## Weitere Überlegungen zu Unit-Prozessen
+
+**Eingabe- oder Ausgabeflüsse dürfen keine doppelten Flüsse enthalten (Beurteilung nach UUID). Treten
+Doppelungen auf, zusammenführen und erläuternde Anmerkungen hinzufügen.**
+
+**[CO₂-Abscheidung]**
+
+Erdgas für die Gasturbine und Erdgas für den Kalzinator müssen zusammengeführt werden.
+
+Beispiel: <u>33,33 % für die Gasturbine, 66,67 % für den Kalzinator.</u>
+
+![Alt text](/assets/docs/26082934/co2-natural-gas.png)
+
+![Alt text](/assets/docs/ef5f8641/natural-gas-note.png)

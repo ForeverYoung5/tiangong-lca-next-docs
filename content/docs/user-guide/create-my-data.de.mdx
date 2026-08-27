@@ -1,0 +1,122 @@
+---
+title: "Meine Daten erstellen"
+description: "Folgen Sie dem Ablauf Vorbereiten → Aufbauen → Datenvalidierung, um in «Meine Daten» Prozesse, Modelle, Flüsse und zugehörige Referenzen zu erstellen."
+---
+
+In „Meine Daten" steuern Sie den gesamten Lebenszyklus von TianGong-LCA-Datensätzen. Dieser Leitfaden
+gliedert die Arbeit in drei Phasen — **Vorbereitung → Datensätze aufbauen → Datenvalidierung und
+Veröffentlichen** —, um Nacharbeit zu minimieren und Referenzen konsistent zu halten.
+
+## Bevor Sie beginnen
+
+### Allgemeine Regeln
+
+1. **Sprachfelder**: Bietet ein Feld mehrere Sprachen an, ist die englische Eingabe Pflicht. Stimmen Sie die Sprachauswahl auf den eingegebenen Inhalt ab.
+   ![](/assets/docs/3e94be89/language.png)
+2. **Auswahlfelder**: Für Felder wie „Datensatzformat" oder „Name des Konformitätssystems":
+   - Klicken Sie neben dem Feld auf „Auswählen".
+   - Nutzen Sie die Reiter zum Wechseln der Kategorien.
+   - Aktivieren Sie die gewünschte Zeile (lila hervorgehoben).
+   - Um eine historische Version zu referenzieren, öffnen Sie für diese Zeile **Alle Versionen**, wählen die Version aus und speichern.
+   - Klicken Sie auf „Speichern", um das Feld zu bestätigen und zu verlassen.
+   ![](/assets/docs/5024749b/choose.png)
+3. **Versionierung**: Bei einem neuen Datensatz füllen Sie das Versionsfeld gemäß den Anforderungen der Seite aus bzw. bestätigen es und speichern häufig, um Datenverlust zu vermeiden. Beim Öffnen von **Version erstellen** aus **Alle Versionen** zeigt das Versionsfeld „Die neue Version wird automatisch generiert." Das System erzeugt die nächste Version aus der gewählten Quellversion — die Versionsnummer also nicht manuell ändern.
+
+### Empfohlene Vorbereitungsreihenfolge
+
+Damit beim Modellieren jede Referenz bereits existiert, bereiten Sie zuerst diese Elemente vor:
+
+1. **Kontakte**: Verantwortliche Personen und ihre E-Mail-Adressen erfassen.
+2. **Quellen**: Literatur, Berichte oder Umfragematerial sammeln; Belege hochladen.
+3. **Einheitengruppen und Flusseigenschaften**: Nach Möglichkeit Standarddefinitionen wiederverwenden. Neue nur nach Teamabstimmung anlegen.
+4. **Flüsse**: Flüsse mit den korrekten Einheitengruppen und Eigenschaften definieren, damit Prozesse sie sofort referenzieren können.
+
+Ist das Fundament gelegt, geht es an Prozesse und Modelle.
+
+## Datensätze aufbauen
+
+### Prozess erstellen
+
+1. Öffnen Sie **Meine Daten → Prozesse** und klicken Sie auf `+`.
+2. Vervollständigen Sie die Abschnitte „Prozessinformationen", „Modellierungsinformationen" und „Verwaltungsinformationen".
+   ![](/assets/docs/abca08fc/process1.png) ![](/assets/docs/f775f0d7/process2.png)
+3. Wechseln Sie zu **Eingaben & Ausgaben**, um Flüsse hinzuzufügen:
+   - Klicken Sie auf `+`, um einen bestehenden Fluss zu referenzieren oder einen neuen anzulegen (siehe [Fluss erstellen](#fluss-erstellen)).
+   - Geben Sie Menge und Einheit ein; rechnen Sie bei Bedarf um.
+   - Speichern und wiederholen, bis alle Flüsse erfasst sind.
+   ![](/assets/docs/44d54db6/process3.png)
+4. Legen Sie die Hauptausgabe als **Referenzfluss** fest und speichern Sie.
+5. Klicken Sie unten auf **Speichern**, um die Prozesskonfiguration abzulegen.
+   ![](/assets/docs/f717d2e3/process4.png)
+
+### Modell erstellen
+
+1. Öffnen Sie **Meine Daten → Modelle** und klicken Sie auf `+`.
+2. Nutzen Sie die Knotenauswahl, um die zum Modell gehörenden Prozesse hinzuzufügen.
+   ![](/assets/docs/1a0fa84e/model1.png) ![](/assets/docs/54940bbf/model2.png)
+3. Öffnen Sie für jeden Knoten **Eingaben/Ausgaben** und verbinden Sie die benötigten Flüsse.
+4. Ordnen Sie die Knoten an, legen Sie den Referenzprozess fest und geben Sie die Referenzflussmenge an.
+   ![](/assets/docs/be449243/model3.png) ![](/assets/docs/1ee3fed5/model4.png)
+5. Vervollständigen Sie „Modellinformationen", „Modellierung & Validierung" und „Verwaltungsinformationen".
+   ![](/assets/docs/5a3e95af/model5.png)
+6. Sehen Sie sich das Feld **Modellergebnisse** an und speichern Sie.
+   ![](/assets/docs/1c8d0410/model6.png)
+
+> Modelle aus mehreren Unit-Prozessen lassen sich als Prozesse wiederverwenden. Nach dem Speichern
+> erscheinen sie sowohl unter „Modelle" als auch unter „Prozesse".
+
+### Fluss erstellen
+
+1. Öffnen Sie **Meine Daten → Flüsse** und klicken Sie auf `+`.
+   ![](/assets/docs/59d3cb52/flow1.png)
+2. Füllen Sie „Flussinformationen", „Modellierung & Validierung" und „Verwaltungsinformationen" aus.
+   ![](/assets/docs/e84f59e6/flow2.png)
+3. Klicken Sie unter **Flusseigenschaften** auf `+`, um Eigenschaften auszuwählen oder anzulegen, und geben Sie Werte und Mengeneinstellungen an.
+4. Speichern Sie den Fluss.
+   ![](/assets/docs/616b3af6/flow3.png)
+
+### Kontakt erstellen
+
+1. Öffnen Sie **Meine Daten → Kontakte** und klicken Sie auf `+`.
+2. Geben Sie Namen, E-Mails und optional Organisationsdetails an (bei Bedarf mit einem bestehenden Team verknüpfen).
+3. Speichern Sie, damit der Kontakt anderweitig referenzierbar ist.
+
+### Quelle erstellen
+
+1. Öffnen Sie **Meine Daten → Quellen** und klicken Sie auf `+`.
+2. Tragen Sie Autoren, Titel, Publikationsangaben, Jahr sowie DOI/URL ein.
+3. Laden Sie unter „Link zum elektronischen Dokument" bei Bedarf Anhänge hoch und speichern Sie.
+
+> Zitierungen sollten akademischen Standardformaten folgen. Beispiel:
+> `Liu J., Zhao J., Wei H., et al., Comparative environmental assessment of methanol production technologies: A cradle-to-gate life cycle analysis. Energy Conversion and Management, 2024, 302:118128.`
+
+## Einheitengruppen und Flusseigenschaften (fortgeschritten)
+
+Eigene Einheitengruppen oder Flusseigenschaften können Umrechnungsprobleme oder LCIA-Fehler
+verursachen. Verwenden Sie sie nur, wenn es zwingend nötig ist. In **Meine Daten** können normale
+Nutzer bestehende Einheitengruppen und Flusseigenschaften durchsuchen, ansehen, in allen Versionen
+prüfen und exportieren, um die verfügbare Basiskonfiguration zu kontrollieren. Erstellen, Import,
+Kopie, Version-Anlegen, Bearbeiten, Löschen, Beitrag und ähnliche Pflege-Einstiegspunkte stehen nur
+Systemadministratoren zur Verfügung; zeigt die Seite, dass Datensätze ergänzt werden müssen, wenden
+Sie sich an einen Administrator.
+
+### Einheitengruppe erstellen
+
+1. Als Systemadministrator öffnen Sie **Meine Daten → Einheitengruppen** und klicken auf `+`. Andere Nutzer kontaktieren einen Administrator, wenn Einheitengruppen ergänzt werden sollen.
+2. Füllen Sie „Einheitengruppen-Informationen", „Modellierung & Validierung" und „Verwaltungsinformationen" aus.
+3. Fügen Sie unter **Einheiten** jede Einheit hinzu, definieren Sie Umrechnungsfaktoren und markieren Sie die Referenzeinheit (z. B. `kg` in einer Massengruppe).
+   ![](/assets/docs/d2c9a40a/unitgroup.png)
+
+### Flusseigenschaft erstellen
+
+1. Als Systemadministrator öffnen Sie **Meine Daten → Flusseigenschaften** und klicken auf `+`. Andere Nutzer kontaktieren einen Administrator, wenn Flusseigenschaften ergänzt werden sollen.
+2. Vervollständigen Sie „Flusseigenschafts-Informationen", „Modellierung & Validierung" und „Verwaltungsinformationen".
+3. Ordnen Sie die Eigenschaftskategorie (technisch / chemisch / ökonomisch / sonstige) einer kompatiblen Einheitengruppe zu.
+4. Verknüpfen Sie bei aktualisierten Datensätzen die Vorgängerversion in den „Verwaltungsinformationen".
+
+## Datenvalidierung und Veröffentlichen
+
+1. **Entwürfe speichern** Sie häufig, um Fortschritte nicht zu verlieren.
+2. **Führen Sie `Datenprüfung`** im Prozess- oder Modell-Editor aus, um Pflichtfelder und Referenzen zu validieren. Die aktuellen Formulare platzieren SDK-Validierungsprobleme möglichst am betroffenen Reiter und Feld. Referenz-IDs oder -Versionen, Klassifikationsfelder, mehrsprachige Kommentare zu Prozess-Austauschvorgängen, Notizen zur funktionalen Einheit und überlange Texte zeigen nun Reparaturhinweise neben dem betroffenen Reiter bzw. Feld — einschließlich aktueller und erlaubter Zeichenzahlen, soweit verfügbar.
+3. **Reichen Sie die Daten zur Prüfung ein** und verfolgen Sie den Status über das Benachrichtigungszentrum oder die Filter aus [Datenprüfung](/de/docs/user-guide/data-review/). Bei Prozessdatensätzen kann das System zunächst ein **Numerisches Stabilitätsgate** ausführen. Sehen Sie „Prüfeinreichung ist in der Warteschlange", „Numerisches Stabilitätsgate läuft" oder „Die Prüfeinreichung wird noch im Hintergrund verarbeitet", vergewissern Sie sich, dass die Daten gespeichert sind, und klicken Sie später erneut auf **Zur Prüfung einreichen**, um den neuesten Status zu laden.
+4. **Arbeiten Sie zusammen**, indem Sie den Datensatz an Ihr Team beitragen, wenn andere die Arbeit fortführen sollen, und nutzen Sie anschließend die [Teamfunktionen](/de/docs/user-guide/team-function/) für Zugriff und weitere Zusammenarbeit.

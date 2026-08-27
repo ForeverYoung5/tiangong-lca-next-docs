@@ -1,0 +1,74 @@
+---
+title: "Development environment"
+description: "Maintain TianGong LCA Docs with Node.js, pnpm, and its static build contract."
+---
+
+This page covers local development, validation, and publishing boundaries for `tiangong-lca-next-docs`. If you also need to verify product behaviour, continue with the [Docs / Product Sync Guide](/en/docs/deploy-and-dev/docs-product-sync/).
+
+## Environment baseline
+
+- Node.js 24.19.0
+- pnpm 11.24.0
+- Git, used to derive reproducible source identity and timestamps
+
+The repository pins its toolchain through `packageManager`, `engines`, and the lockfile. Do not mix package managers.
+
+## Install and develop locally
+
+```bash
+corepack enable
+corepack install --global pnpm@11.24.0
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+The site normally runs at `http://localhost:3000`. Root `/` renders the complete Chinese home directly; the other locale homes are `/en/`, `/de/`, and `/fr/`. Language switching does not depend on redirects.
+
+## Everyday validation
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+```
+
+After changing pages, links, navigation, media, layout, or metadata, also run the complete static build:
+
+```bash
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
+```
+
+The build validates its environment, creates `out/`, checks deterministic routes and public endpoints, then scans every generated local page, fragment, and media reference. A broken link fails the build.
+
+## Build variables
+
+| Variable | Purpose |
+| --- | --- |
+| `SOURCE_COMMIT` | 40-character source SHA; derived from Git when omitted locally |
+| `SOURCE_DATE_EPOCH` | Source commit time; derived from Git when omitted locally |
+| `DEPLOY_ENV` | `ci`, `preview`, or `production` |
+| `CANONICAL_ORIGIN` | Production is fixed to `https://docs.tiangong.earth` |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static` for CI/preview and `algolia` for production |
+
+Non-production builds add `noindex` and disallow crawlers. Production emits canonical URLs, four-language alternatives, a sitemap, and Open Graph metadata.
+
+## Four-language content
+
+Chinese uses `page.mdx`; the maintained translations use `page.en.mdx`, `page.de.mdx`, and `page.fr.mdx`. Keep all four files aligned whenever structure, links, examples, or user-visible facts change.
+
+## Visual checks
+
+For home, navigation, search, or styling changes, inspect a real browser at:
+
+- 390px mobile
+- 1440px desktop
+- 2560px or wider
+- light and dark themes
+- keyboard focus, locale switching, search, mobile menu, and horizontal overflow
+
+## Publishing
+
+After a merge to `main`, EdgeOne Makers builds and publishes the static site from Git. GitHub Actions then waits until live `/llms.txt` exposes the same source commit, validates public endpoints, synchronises Algolia, and requests a Context7 refresh. Production write credentials stay in the GitHub production environment and never enter static output.

@@ -1,0 +1,271 @@
+name: Reconcile docs deployment
+
+# Reusable post-deploy state machine. Main pushes call it automatically after
+# EdgeOne publishes; workflow_dispatch remains the recovery and replay entry.
+
+on:
+  workflow_call:
+    inputs:
+      verify_origin:
+        description: 'Deployed origin to verify'
+        required: true
+        type: string
+      expected_sha:
+        description: 'Expected deployed source commit'
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      verify_origin:
+        description: 'Verified deploy origin (allowlist)'
+        required: true
+        type: choice
+        options:
+          - https://preview.docs.tiangong.earth
+          - https://docs.tiangong.earth
+      expected_sha:
+        description: 'Expected commit SHA (default: origin/main HEAD)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-reconcile-${{ inputs.verify_origin }}
+  cancel-in-progress: true
+
+jobs:
+  reconcile:
+    name: Validate deployed docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      deployed_sha: ${{ steps.sha.outputs.sha }}
+    env:
+      VERIFY_ORIGIN: ${{ inputs.verify_origin }}
+      EXPECTED_SHA_INPUT: ${{ inputs.expected_sha }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Resolve expected SHA
+        id: sha
+        run: |
+          set -euo pipefail
+          case "$VERIFY_ORIGIN" in
+            https://docs.tiangong.earth|https://preview.docs.tiangong.earth) ;;
+            *) echo "verify_origin is not allowlisted: $VERIFY_ORIGIN" >&2; exit 1 ;;
+          esac
+          sha="$EXPECTED_SHA_INPUT"
+          if [ -z "$sha" ]; then
+            sha="$(git rev-parse origin/main)"
+          fi
+          if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "expected_sha is not a 40-hex SHA: $sha" >&2
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "Reconciling $VERIFY_ORIGIN -> $sha"
+
+      # --- phase: waiting-edgeone ---
+      - name: 'Phase: waiting-edgeone (llms.txt exposes SHA)'
+        run: |
+          set -euo pipefail
+          origin="$VERIFY_ORIGIN"
+          sha="${{ steps.sha.outputs.sha }}"
+          for attempt in $(seq 1 20); do
+            code="$(curl -s -o /tmp/llms.txt -w '%{http_code}' --max-time 30 "${origin%/}/llms.txt" || true)"
+            if [ "$code" = "200" ] && grep -q "$sha" /tmp/llms.txt; then
+              echo "llms.txt exposes $sha (attempt $attempt)"
+              exit 0
+            fi
+            echo "attempt $attempt: HTTP $code; body head: $(head -c 300 /tmp/llms.txt 2>/dev/null | tr '\n' ' ' | head -c 300)"
+            sleep 30
+          done
+          echo "::error::timeout waiting for ${origin}/llms.txt to expose ${sha}"
+          exit 1
+
+      # --- phase: validating-live ---
+      - name: 'Phase: validating-live (contract endpoints same SHA)'
+        run: |
+          set -euo pipefail
+          origin="$VERIFY_ORIGIN"
+          sha="${{ steps.sha.outputs.sha }}"
+
+          curl -fsSL --max-time 30 "${origin%/}/search-records.json" -o /tmp/search-records.json
+          actual="$(jq -r '.sourceCommit // empty' /tmp/search-records.json)"
+          if [ "$actual" != "$sha" ]; then
+            echo "::error::search-records sourceCommit $actual != $sha" >&2
+            exit 1
+          fi
+
+          for path in robots.txt sitemap.xml zh/docs/ en/docs/ de/docs/ fr/docs/; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${origin%/}/${path}")"
+            if [ "$code" != "200" ]; then
+              echo "::error::${origin%/}/${path} -> HTTP $code" >&2
+              exit 1
+            fi
+          done
+
+          curl -fsSL --max-time 30 "${origin%/}/robots.txt" -o /tmp/robots.txt
+          curl -fsSL --max-time 30 "${origin%/}/sitemap.xml" -o /tmp/sitemap.xml
+          canonical_origin="https://docs.tiangong.earth"
+          if [ "$origin" = "https://docs.tiangong.earth" ]; then
+            if grep -qiE '^Disallow:[[:space:]]*/[[:space:]]*$' /tmp/robots.txt || ! grep -qiE '^Allow:[[:space:]]*/[[:space:]]*$' /tmp/robots.txt; then
+              echo "::error::production robots.txt is not indexable" >&2
+              exit 1
+            fi
+            if ! grep -Fq 'Sitemap: https://docs.tiangong.earth/sitemap.xml' /tmp/robots.txt; then
+              echo "::error::robots.txt does not expose the production sitemap" >&2
+              exit 1
+            fi
+          else
+            if ! grep -qiE '^Disallow:[[:space:]]*/[[:space:]]*$' /tmp/robots.txt || grep -qiE '^Allow:' /tmp/robots.txt; then
+              echo "::error::preview robots.txt must remain non-indexable" >&2
+              exit 1
+            fi
+          fi
+          if ! grep -Fq "<loc>${canonical_origin}/" /tmp/sitemap.xml || grep -FqiE 'localhost|127\.0\.0\.1|preview\.docs\.tiangong\.earth' /tmp/sitemap.xml; then
+            echo "::error::sitemap.xml does not use the production canonical origin" >&2
+            exit 1
+          fi
+          if ! awk -v origin="${canonical_origin}/" '
+            {
+              rest = $0
+              while (match(rest, /<loc>[^<]*<\/loc>|<xhtml:link[^>]*>/)) {
+                tag = substr(rest, RSTART, RLENGTH)
+                seen = 1
+                if (index(tag, origin) == 0) bad = 1
+                rest = substr(rest, RSTART + RLENGTH)
+              }
+            }
+            END { exit (seen && !bad ? 0 : 1) }
+          ' /tmp/sitemap.xml; then
+            echo "::error::sitemap.xml mixes canonical origins or contains relative URLs" >&2
+            exit 1
+          fi
+          for locale in zh en de fr; do
+            page_file="/tmp/${locale}-docs.html"
+            curl -fsSL --max-time 30 "${origin%/}/${locale}/docs/" -o "$page_file"
+            if [ "$origin" = "https://docs.tiangong.earth" ]; then
+              if grep -qiE '<meta[^>]+name="robots"[^>]+noindex' "$page_file"; then
+                echo "::error::production /${locale}/docs/ is noindex" >&2
+                exit 1
+              fi
+            elif ! grep -qiE '<meta[^>]+name="robots"[^>]+noindex' "$page_file"; then
+              echo "::error::preview /${locale}/docs/ must be noindex" >&2
+              exit 1
+            fi
+            if ! grep -Fq "<link rel=\"canonical\" href=\"${canonical_origin}/${locale}/docs/\"" "$page_file"; then
+              echo "::error::/${locale}/docs/ does not use the production canonical origin" >&2
+              exit 1
+            fi
+          done
+          # Greenfield negative contract: retired paths must remain 404.
+          for path in intro user-guide/data search agents/repo-validation docs/openapi; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${origin%/}/${path}")"
+            if [ "$code" != "404" ]; then
+              echo "::error::${origin%/}/${path} -> HTTP $code (expected 404)" >&2
+              exit 1
+            fi
+          done
+          echo "live contract validated for $sha at $origin"
+
+      - name: Write deployment validation summary
+        if: always()
+        run: |
+          {
+            echo "## Docs deployment validation"
+            echo
+            echo "- Origin: ${VERIFY_ORIGIN}"
+            echo "- SHA: ${{ steps.sha.outputs.sha }}"
+            echo "- Policy: $([ "$VERIFY_ORIGIN" = "https://docs.tiangong.earth" ] && echo production-indexable || echo preview-noindex)"
+            echo "- Outcome: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  reconcile-production-state:
+    name: Sync production publication state
+    needs: reconcile
+    if: inputs.verify_origin == 'https://docs.tiangong.earth'
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 15
+    env:
+      VERIFY_ORIGIN: ${{ inputs.verify_origin }}
+      EXPECTED_SHA: ${{ needs.reconcile.outputs.deployed_sha }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
+        with:
+          version: 11.24.0
+          runtime: node@24.19.0
+          cache: true
+          install: false
+
+      - name: 'Phase: syncing-search (Algolia replaceAllObjects + locale smoke)'
+        env:
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
+          ALGOLIA_INDEX_NAME: tiangong-lca-docs
+        run: |
+          set -euo pipefail
+          if [ -z "${ALGOLIA_APP_ID:-}" ] || [ -z "${ALGOLIA_WRITE_KEY:-}" ]; then
+            echo "::error::Algolia production secrets missing; refusing to mark complete"
+            exit 1
+          fi
+          # search-sync.mjs uses production dependencies only.
+          pnpm install --frozen-lockfile --prod
+          node scripts/search-sync.mjs --from "$VERIFY_ORIGIN"
+
+      - name: 'Phase: refreshing-context7'
+        id: context7
+        env:
+          CONTEXT7_API_KEY: ${{ secrets.CONTEXT7_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CONTEXT7_API_KEY:-}" ]; then
+            echo "status=pending_missing_secret" >> "$GITHUB_OUTPUT"
+            echo "::warning::Context7 refresh pending: CONTEXT7_API_KEY not configured"
+            exit 0
+          fi
+          library="${CONTEXT7_LIBRARY_NAME:-/${GITHUB_REPOSITORY}}"
+          status_code="$(curl -sS -o /tmp/context7-response.json -w '%{http_code}' \
+            -X POST 'https://context7.com/api/v1/refresh' \
+            -H "Authorization: Bearer ${CONTEXT7_API_KEY}" \
+            -H 'Content-Type: application/json' \
+            --data "{\"libraryName\":\"${library}\"}")"
+          echo "status=http_${status_code}" >> "$GITHUB_OUTPUT"
+          if [ "$status_code" -ge 200 ] && [ "$status_code" -lt 300 ]; then
+            echo "Context7 refresh accepted for ${library}"
+            cat /tmp/context7-response.json || true
+            exit 0
+          fi
+          # Context7 enforces a 10-day minimum refresh interval; an already-fresh project is a safe skip.
+          if grep -q '"too-early"' /tmp/context7-response.json 2>/dev/null; then
+            echo "status=too-early" >> "$GITHUB_OUTPUT"
+            echo "::warning::Context7 refresh skipped: within the 10-day minimum interval (project already fresh)"
+            exit 0
+          fi
+          echo "::error::Context7 refresh failed (HTTP $status_code)"
+          cat /tmp/context7-response.json || true
+          exit 1
+
+      - name: 'Phase: complete (summary)'
+        if: always()
+        run: |
+          {
+            echo "## Docs reconcile"
+            echo
+            echo "- Origin: ${VERIFY_ORIGIN}"
+            echo "- SHA: ${EXPECTED_SHA}"
+            echo "- Context7: ${{ steps.context7.outputs.status || 'not-run' }}"
+            echo "- Outcome: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"

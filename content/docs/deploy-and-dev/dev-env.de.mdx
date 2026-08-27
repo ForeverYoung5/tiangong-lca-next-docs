@@ -1,0 +1,74 @@
+---
+title: "Entwicklungsumgebung"
+description: "TianGong LCA Docs mit Node.js, pnpm und dem statischen Build-Vertrag pflegen."
+---
+
+Diese Seite beschreibt lokale Entwicklung, Validierung und Veröffentlichung von `tiangong-lca-next-docs`. Wenn Sie zusätzlich das Produktverhalten prüfen, lesen Sie den [Leitfaden zur Synchronisierung von Dokumentation und Produkt](/de/docs/deploy-and-dev/docs-product-sync/).
+
+## Umgebungsbasis
+
+- Node.js 24.19.0
+- pnpm 11.24.0
+- Git zur Ableitung reproduzierbarer Quellidentität und Zeitstempel
+
+`packageManager`, `engines` und die Lockdatei legen die Werkzeugkette fest. Verwenden Sie keinen zweiten Paketmanager.
+
+## Installation und lokale Entwicklung
+
+```bash
+corepack enable
+corepack install --global pnpm@11.24.0
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Die Website läuft normalerweise unter `http://localhost:3000`. `/` rendert die vollständige chinesische Startseite direkt; weitere Sprachseiten liegen unter `/en/`, `/de/` und `/fr/`. Der Sprachwechsel benötigt keine Weiterleitung.
+
+## Tägliche Validierung
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+```
+
+Führen Sie nach Änderungen an Seiten, Links, Navigation, Medien, Layout oder Metadaten zusätzlich den vollständigen statischen Build aus:
+
+```bash
+DEPLOY_ENV=ci \
+CANONICAL_ORIGIN=http://localhost:3000 \
+NEXT_PUBLIC_SEARCH_MODE=static \
+pnpm build
+```
+
+Der Build prüft die Umgebung, erzeugt `out/`, validiert deterministische Routen und öffentliche Endpunkte und scannt anschließend alle lokalen Seiten-, Fragment- und Medienverweise. Ein defekter Link stoppt den Build.
+
+## Build-Variablen
+
+| Variable | Zweck |
+| --- | --- |
+| `SOURCE_COMMIT` | 40-stellige Quell-SHA; lokal aus Git abgeleitet |
+| `SOURCE_DATE_EPOCH` | Zeitpunkt des Quell-Commits; lokal aus Git abgeleitet |
+| `DEPLOY_ENV` | `ci`, `preview` oder `production` |
+| `CANONICAL_ORIGIN` | Produktion ist auf `https://docs.tiangong.earth` festgelegt |
+| `NEXT_PUBLIC_SEARCH_MODE` | `static` für CI/Vorschau, `algolia` für Produktion |
+
+Nicht produktive Builds setzen `noindex` und sperren Crawler. Die Produktion erzeugt kanonische URLs, Alternativen für vier Sprachen, eine Sitemap und Open-Graph-Metadaten.
+
+## Inhalte in vier Sprachen
+
+Chinesisch verwendet `page.mdx`; Übersetzungen verwenden `page.en.mdx`, `page.de.mdx` und `page.fr.mdx`. Struktur, Links, Beispiele und sichtbare Fakten müssen in allen vier Dateien gemeinsam geändert werden.
+
+## Visuelle Prüfung
+
+Prüfen Sie Änderungen an Startseite, Navigation, Suche oder Gestaltung in einem echten Browser:
+
+- 390px Mobilansicht
+- 1440px Desktop
+- 2560px oder breiter
+- helle und dunkle Darstellung
+- Tastaturfokus, Sprachwechsel, Suche, mobiles Menü und horizontales Überlaufen
+
+## Veröffentlichung
+
+Nach dem Merge in `main` baut und veröffentlicht EdgeOne Makers die statische Website aus Git. GitHub Actions wartet danach auf denselben Quell-Commit in `/llms.txt`, validiert öffentliche Endpunkte, synchronisiert Algolia und fordert eine Context7-Aktualisierung an. Schreibzugänge bleiben in der GitHub-Produktionsumgebung und gelangen nie in die statischen Dateien.

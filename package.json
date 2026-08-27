@@ -2,61 +2,43 @@
   "name": "tiangong-lca-next-docs",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": "24.19.0",
+    "pnpm": "11.24.0"
+  },
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "prebuild": "npm run docs:llms",
-    "build": "docusaurus build",
-    "docs:llms": "node scripts/generate-llms-txt.mjs",
-    "docs:llms:check": "node scripts/generate-llms-txt.mjs --check",
-    "docs:publication-scope:check": "node scripts/check-publication-scope.mjs",
-    "docs:screenshots:check": "node scripts/check-screenshots.mjs",
-    "docs:screenshots:test": "node --test scripts/check-screenshots.test.mjs",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc",
-    "lint": "npx markdownlint-cli2 '**/*.md' '#node_modules'",
-    "lint:fix": "npx markdownlint-cli2 '**/*.md' '#node_modules' --fix",
-    "ncu": "npx npm-check-updates",
-    "ncu:update": "npx npm-check-updates -u"
+    "dev": "next dev",
+    "build": "node scripts/build.mjs",
+    "typecheck": "next typegen && tsc --noEmit",
+    "check:env": "node scripts/check-env.mjs",
+    "verify:out": "node scripts/verify-out.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "test": "node --test scripts/check-env.test.mjs scripts/check-links.test.mjs scripts/toolchain-contract.test.mjs",
+    "test:env": "node --test scripts/check-env.test.mjs",
+    "test:links": "node --test scripts/check-links.test.mjs",
+    "test:toolchain": "node --test scripts/toolchain-contract.test.mjs",
+    "lint": "pnpm exec markdownlint-cli2 '**/*.md' '**/*.mdx' '#node_modules' '#content/docs/.source'"
   },
   "dependencies": {
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/preset-classic": "3.10.1",
-    "@mdx-js/react": "^3.1.1",
-    "clsx": "^2.1.1",
-    "prism-react-renderer": "^2.4.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-player": "^3.4.0",
-    "rehype-mathjax": "^7.1.0",
-    "remark-math": "^6.0.0"
+    "@fumadocs/language": "0.2.2",
+    "algoliasearch": "5.57.0",
+    "fumadocs-core": "16.15.0",
+    "fumadocs-mdx": "15.3.1",
+    "fumadocs-ui": "16.15.0",
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.10.1",
-    "@docusaurus/tsconfig": "3.10.1",
-    "@docusaurus/types": "3.10.1",
-    "markdownlint-cli2": "^0.20.0",
-    "npm-check-updates": "^19.3.2",
-    "typescript": "~5.9.3"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
-  },
-  "engines": {
-    "node": ">=18.0"
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/mdx": "2.0.14",
+    "@types/node": "24.13.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "markdownlint-cli2": "0.23.2",
+    "postcss": "8.5.26",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2"
   }
 }

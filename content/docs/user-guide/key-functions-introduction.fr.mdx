@@ -1,0 +1,155 @@
+---
+title: "Vue d'ensemble des fonctions clés"
+---
+
+Ce guide regroupe les principaux contrôles de l'interface par scénario. Si vous cherchez
+précisément le workflow de packages ZIP, poursuivez avec
+[Import/export TIDAS ZIP et centre de tâches](/fr/docs/user-guide/tidas-zip-workflows/).
+
+## Vue publique du tableau de bord carbone national
+
+Si vous recevez ou devez présenter un lien `/dashboard/national-carbon`, vous pouvez ouvrir
+directement le tableau de bord carbone national. Il n'apparaît pas dans le menu normal, et la route
+actuelle n'est visible que des comptes administrateur système ; les comptes sans accès voient l'état
+403 d'accès restreint.
+
+Le tableau de bord présente l'avancement de la plateforme nationale de données carbone à travers cinq
+vues : **Vue d'ensemble**, **Statut**, **Résultats**, **Calculable** et **Topologie des flux de
+processus**. La vue topologique montre les connexions entre processus et flux, permet de basculer
+entre les dispositions 3D sphérique, 2D étendue et carte géographique, et utilise la recherche de
+nœuds, la sélection rapide et l'état des tâches de cache pour indiquer si le graphe est prêt. Pendant
+le chargement des données du cache du graphe, la page reste en attente et n'affiche que des messages
+tels que « Aucune donnée disponible » lorsque le cache est indisponible. Utilisez le tableau de bord
+pour des scénarios de présentation, de tableau de bord public ou de démonstration hors ligne,
+et non pour modifier des données.
+
+## Contrôles de la barre supérieure globale
+
+Après connexion, la zone supérieure droite de la disposition principale affiche un ensemble de
+contrôles globaux. Ce sont des actions de niveau espace de travail plutôt que des boutons propres à
+une page.
+
+### Ordre habituel
+
+De gauche à droite, l'en-tête comprend généralement :
+
+1. **Importer un package TIDAS ZIP**
+2. **Exporter un package TIDAS ZIP**
+3. **Traitement des données** (visible uniquement pour les utilisateurs `data_product_manager`)
+4. **Centre de tâches**
+5. **Notifications**
+6. **Mode clair / sombre**
+7. **Sélecteur de langue**
+8. **Lien vers la documentation**
+
+## Rôle de chaque contrôle
+
+| Contrôle | Objectif | Remarques |
+| --- | --- | --- |
+| Importer un package TIDAS ZIP | Importer une archive ZIP conforme à la structure de package TIDAS | Accepte uniquement `.zip` |
+| Exporter un package TIDAS ZIP | Exporter les données accessibles sous forme de package ZIP | S'exécute en asynchrone et se termine dans le centre de tâches |
+| Traitement des données | Générer, prévisualiser et publier des ensembles de résultats LCIA | Visible uniquement pour les comptes avec accès `data_product_manager` |
+| Centre de tâches | Suivre les travaux en arrière-plan | Regroupe l'analyse ACV, l'import/export TIDAS et les tâches d'envoi en revue |
+| Notifications | Suivre les mises à jour de collaboration et de revue | Comprend les onglets Équipe, Données et Tickets ; voir [Centre de notifications](/fr/docs/user-guide/notifications/) |
+| Mode clair / sombre | Changer de thème | Utile selon l'environnement de travail |
+| Sélecteur de langue | Changer la langue de l'interface | Détermine aussi la langue de documentation ouverte |
+| Lien vers la documentation | Ouvrir le site de documentation TianGong | L'interface chinoise ouvre la doc chinoise ; l'anglaise, la doc anglaise |
+
+![Carte des contrôles de la barre supérieure](/assets/docs/5cda6150/top-bar-controls-current.png)
+
+Les repères numérotés suivent l'ordre actuel de gauche à droite : `1` Importer un package TIDAS ZIP,
+`2` Exporter un package TIDAS ZIP, `3` Centre de tâches, `4` Notifications, `5` Mode clair / sombre,
+`6` Sélecteur de langue, `7` Lien vers la documentation.
+Les comptes avec accès `data_product_manager` voient également **Traitement des données** avant le
+centre de tâches ; les comptes sans ce rôle ne voient pas ce contrôle.
+
+### Centre de notifications
+
+Le centre de notifications contient actuellement trois onglets :
+
+- **Notifications d'équipe**
+- **Notifications de données**
+- **Notifications de tickets**
+
+Vous pouvez aussi filtrer le flux sur les 3 derniers jours, 7 jours, 30 jours ou tout l'historique.
+Ouvrir un onglet met à jour son horodatage de consultation — il est utile de le vérifier
+régulièrement. Voir [Centre de notifications](/fr/docs/user-guide/notifications/) pour le workflow détaillé.
+
+## Entrées du menu du profil
+
+La sélection de l'avatar ou du nom de compte ouvre un menu dépendant du rôle. Les entrées courantes
+sont :
+
+- **Profil du compte**
+- **Mon équipe**
+- **Gestion des revues** : visible uniquement pour les rôles de revue
+- **Administration système** : visible uniquement pour les rôles système
+- **Déconnexion**
+
+Guides associés :
+
+- [Gestion du compte et clé API](/fr/docs/user-guide/account-profile/)
+- [Revue de données](/fr/docs/user-guide/data-review/)
+- [Espace d'administration système](/fr/docs/user-guide/system-management/)
+
+## Contrôles des tableaux de données
+
+La plupart des pages de liste proposent également un groupe standard de contrôles de tableau :
+
+- **Actualiser** : charger l'état le plus récent
+- **Densité d'affichage** : basculer entre Confortable / Moyen / Compact
+- **Paramètres de colonnes** : afficher, masquer ou réinitialiser les colonnes
+- **Plein écran** : masquer l'interface environnante et se concentrer sur le tableau
+
+![Contrôles de tableau](/assets/docs/83e564da/page-button-1.png)
+
+Vous pouvez combiner le plein écran avec les paramètres de colonnes pour adapter la vue à une tâche
+précise :
+
+![Exemple de configuration des colonnes](/assets/docs/a635edd1/filter-column-data.png)
+
+## Opérations sur les données
+
+### Actions au niveau des lignes
+
+Les actions courantes dans les tableaux de jeux de données sont :
+
+- **Voir les versions** : inspecter l'historique des révisions et les changements de publication
+- **Voir les détails** : ouvrir l'enregistrement complet en lecture seule
+- **Copier** : dupliquer le jeu de données dans **Mes données**
+- **Exporter en JSON** : télécharger un fichier `.json` compatible TIDAS
+
+> Assurez-vous que le système destinataire comprend le schéma TIDAS avant d'importer du JSON exporté.
+
+![Actions au niveau des lignes](/assets/docs/a7e4adc1/page-button-2.png)
+
+### Actions de « Mes données »
+
+L'espace de travail **Mes données** ajoute généralement :
+
+- **Ajouter un nouvel élément**
+- **Importer**
+- **Modifier**
+- **Contribuer à l'équipe**
+
+Voir [Créer mes données](/fr/docs/user-guide/create-my-data/) pour le workflow de création complet.
+
+![Actions de Mes données](/assets/docs/67b11bbe/page-button-3.png)
+
+![Boîte de dialogue d'import](/assets/docs/f5f03c1c/import.png)
+
+## Actions de collaboration
+
+### Actions de gestion d'équipe
+
+Dans **Mon équipe**, les utilisateurs autorisés peuvent :
+
+- **Inviter un membre / Renvoyer une invitation**
+- **Définir comme admin / Définir comme membre**
+- **Retirer un membre**
+
+![Actions sur les membres](/assets/docs/b0e86d8b/members-message-actions.png)
+
+Pour les limites de rôles et les règles d'accès aux données associées, voir
+[Fonctions d'équipe](/fr/docs/user-guide/team-function/#matrice-dautorisations-et-actions-courantes) et
+[Autorisations et espaces de données](/fr/docs/user-guide/permissions-and-data-scopes/).

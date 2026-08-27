@@ -5,7 +5,6 @@
 /build
 
 # Generated files
-.docusaurus
 .cache-loader
 
 # Misc
@@ -22,3 +21,11 @@ yarn-error.log*
 package-lock.json
 
 .env
+
+# Next.js / Fumadocs
+.next/
+out/
+.source/
+next-env.d.ts
+*.tsbuildinfo
+pnpm-debug.log*
