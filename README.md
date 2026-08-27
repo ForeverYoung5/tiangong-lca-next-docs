@@ -29,7 +29,7 @@ checkPaths:
   - .github/workflows/**
 lastReviewedAt: 2026-08-27
 lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: documented the restored four-locale Fumadocs screenshot-evidence validator."
+lastReviewedNote: "Reviewed for Issue #154: documented the restored screenshot validator and its dedicated test command outside the general test/build suite."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -79,6 +79,8 @@ pnpm build
 The build wrapper performs environment validation, `next build`, deterministic output verification, and generated HTML link/fragment/asset checking. A successful build currently validates all locale routes, public endpoints, search and AI records, SEO files, Open Graph images, negative retired paths, and internal-content exclusion.
 
 Docs-impact visual manifests are validated with `pnpm check:screenshots -- --manifest <visual-result.json> --diff-file <name-status> --base-ref <ref> --json`. The validator requires one content-addressed public PNG, explicit zh/en/de/fr MDX bindings, valid references and explanatory prose, verified image/privacy metadata, and safe add/replace/reuse diff semantics.
+
+`pnpm test:screenshots` is a dedicated validator test suite. It is intentionally not included in `pnpm test` or the `pnpm build` wrapper; GitHub CI invokes it as a separate named step.
 
 ## Build environment
 

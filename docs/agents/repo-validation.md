@@ -33,7 +33,7 @@ checkPaths:
   - .githooks/**
 lastReviewedAt: 2026-08-27
 lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: screenshot validation covers no-visual, add, replace, and reuse against four-locale MDX and content-addressed assets."
+lastReviewedNote: "Reviewed for Issue #154: screenshot validation covers add/replace/reuse while its dedicated tests remain separate from the general pnpm test/build suite."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -53,7 +53,7 @@ pnpm test:screenshots
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` includes fail-closed exact toolchain/environment validation, every Node contract/link/screenshot test, static export, `verify:out`, and `check:links`. Use `pnpm test:env`, `pnpm test:toolchain`, `pnpm test:links`, or `pnpm test:screenshots` for focused diagnosis.
+`pnpm build` includes fail-closed exact toolchain/environment validation, the general Node contract/link tests, static export, `verify:out`, and `check:links`. Screenshot-validator tests intentionally remain outside `pnpm test` and `pnpm build`; CI runs `pnpm test:screenshots` as a separate named step. Use `pnpm test:env`, `pnpm test:toolchain`, `pnpm test:links`, or `pnpm test:screenshots` for focused diagnosis.
 
 ## Proof by change type
 

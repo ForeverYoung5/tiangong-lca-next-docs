@@ -38,7 +38,7 @@ checkPaths:
   - .githooks/**
 lastReviewedAt: 2026-08-27
 lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: the restored screenshot validator owns the four-locale Fumadocs document-binding and content-addressed public-asset contract."
+lastReviewedNote: "Reviewed for Issue #154: the restored screenshot validator owns the four-locale Fumadocs contract, with its tests kept separate from the general pnpm test/build suite."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -104,7 +104,7 @@ pnpm test:screenshots
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` runs exact environment validation, all Node contract/link tests, static export, output-contract verification, and source/generated link validation. For visual changes, also inspect light and dark themes at 390px, 1440px, the 1633px large-desktop regression width, and an ultra-wide viewport using a real browser.
+`pnpm build` runs exact environment validation, the general Node contract/link tests, static export, output-contract verification, and source/generated link validation. Screenshot-validator tests intentionally remain outside `pnpm test` and `pnpm build`; run `pnpm test:screenshots` explicitly, as the repository CI does in its own step. For visual changes, also inspect light and dark themes at 390px, 1440px, the 1633px large-desktop regression width, and an ultra-wide viewport using a real browser.
 
 ## Hard boundaries
 
