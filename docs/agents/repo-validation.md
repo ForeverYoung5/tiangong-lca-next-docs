@@ -22,6 +22,7 @@ checkPaths:
   - scripts/verify-out.mjs
   - scripts/check-links.mjs
   - scripts/check-links.test.mjs
+  - scripts/check-screenshots.mjs
   - app/**
   - components/**
   - lib/**
@@ -30,9 +31,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-26
-lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
-lastReviewedNote: "Reviewed for Issue #152 after the exact pnpm pin moved from 11.23.0 to 11.24.0; Node 24.19.0, TypeScript 7.0.2, local markdownlint, full Node contracts, and immutable CI setup remain required proof."
+lastReviewedAt: 2026-08-27
+lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
+lastReviewedNote: "Reviewed for Issue #154: screenshot validation covers no-visual, add, replace, and reuse against four-locale MDX and content-addressed assets."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -48,16 +49,18 @@ pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm test:screenshots
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` includes fail-closed exact toolchain/environment validation, every Node contract/link test, static export, `verify:out`, and `check:links`. Use `pnpm test:env`, `pnpm test:toolchain`, or `pnpm test:links` for focused diagnosis.
+`pnpm build` includes fail-closed exact toolchain/environment validation, every Node contract/link/screenshot test, static export, `verify:out`, and `check:links`. Use `pnpm test:env`, `pnpm test:toolchain`, `pnpm test:links`, or `pnpm test:screenshots` for focused diagnosis.
 
 ## Proof by change type
 
 - Public content: update all four locale variants; run lint and the complete build.
 - Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must be exactly `24.19.0`, pnpm exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
 - Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets, zero path-relative document links, zero source-locale mismatches, and identical normalized internal-document target sets across the four variants of each page.
+- Docs-impact screenshots: run `pnpm test:screenshots`, then invoke `pnpm check:screenshots -- --manifest <visual-result.json> --diff-file <name-status> --base-ref <ref> --json`. Added assets must be content-addressed and referenced by all four locale siblings; replacement must use a new hash path and may delete the old asset only after all remaining MDX references are gone; reuse must not mutate the asset.
 - Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, 1633px, 2048px, and 2560px in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.
 - Landing visual contract: assert `data-hero-signature="lca-concept-map"`, exactly one `data-primary-action`, and a single semantic HTML `main`. The primary action must compute to `background-image: none`, `box-shadow: none`, and `transform: none`; the Next signature must not match the TIDAS hero signature.
 - LCA concept geometry: while the hero is in two-column mode, the rightmost rendered title glyph must remain inside `[data-hero-copy]` and at least 24px away from `[data-concept-map]`; `[data-concept-connector]` must retain a rendered stroke width of at least 1.2px.

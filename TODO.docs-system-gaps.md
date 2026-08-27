@@ -17,9 +17,9 @@ checkPaths:
   - app/**
   - components/**
   - lib/**
-lastReviewedAt: 2026-08-26
-lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
-lastReviewedNote: "Reviewed for Issue #152 after the toolchain-only pnpm 11.23.0 to 11.24.0 update; no product/documentation drift was introduced."
+lastReviewedAt: 2026-08-27
+lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
+lastReviewedNote: "Reviewed for Issue #154: restoring the screenshot-evidence validator closes an automation gap and introduces no product/documentation drift."
 related:
   - AGENTS.md
   - README.md
@@ -52,5 +52,6 @@ No active repository-local drift is known after Issue #136.
 - Four complete locales: Chinese source plus English, German, and French translations.
 - Root `/` renders the full default-language home without redirect compatibility.
 - Generated routes, public endpoints, search records, AI index, metadata, local links, fragments, and assets are build-gated.
+- Docs-impact screenshots are gated as shared content-addressed assets with complete four-locale MDX bindings and safe add/replace/reuse semantics.
 - Visual changes require real-browser inspection at mobile, desktop, ultra-wide, light, and dark states.
 - EdgeOne reconciliation validates source identity and indexing policy for both allowlisted origins; preview canonicalizes to production, and only production may mutate Algolia or Context7 state.

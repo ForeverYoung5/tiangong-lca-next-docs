@@ -27,14 +27,15 @@ checkPaths:
   - scripts/*.test.mjs
   - scripts/verify-out.mjs
   - scripts/check-links.mjs
+  - scripts/check-screenshots.mjs
   - package.json
   - next.config.ts
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-26
-lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
-lastReviewedNote: "Reviewed for Issue #152 after the current pnpm pin moved from 11.23.0 to 11.24.0 without changing the static pipeline, Node 24.19.0, TypeScript 7.0.2, or deterministic local lint/test tooling."
+lastReviewedAt: 2026-08-27
+lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
+lastReviewedNote: "Reviewed for Issue #154: screenshot evidence now follows the four-locale Fumadocs and shared content-addressed asset architecture."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -88,6 +89,8 @@ page.fr.mdx
 ```
 
 All four variants must change together when structure, links, examples, or user-visible facts change. Locale metadata files follow the same suffix convention.
+
+Screenshot evidence is stored once under `public/assets/docs/<sha256-prefix>/<semantic-name>.png` and referenced through `/assets/docs/**` by the complete locale family. `scripts/check-screenshots.mjs` validates manifest bindings, references, image metadata, privacy evidence, and add/replace/reuse diff semantics. Replacement creates a new hash path and removes the previous asset only when no current MDX source still references it.
 
 ## Build and publication
 

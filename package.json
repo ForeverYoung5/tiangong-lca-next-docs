@@ -14,9 +14,11 @@
     "check:env": "node scripts/check-env.mjs",
     "verify:out": "node scripts/verify-out.mjs",
     "check:links": "node scripts/check-links.mjs",
-    "test": "node --test scripts/check-env.test.mjs scripts/check-links.test.mjs scripts/toolchain-contract.test.mjs",
+    "check:screenshots": "node scripts/check-screenshots.mjs",
+    "test": "node --test scripts/check-env.test.mjs scripts/check-links.test.mjs scripts/check-screenshots.test.mjs scripts/toolchain-contract.test.mjs",
     "test:env": "node --test scripts/check-env.test.mjs",
     "test:links": "node --test scripts/check-links.test.mjs",
+    "test:screenshots": "node --test scripts/check-screenshots.test.mjs",
     "test:toolchain": "node --test scripts/toolchain-contract.test.mjs",
     "lint": "pnpm exec markdownlint-cli2 '**/*.md' '**/*.mdx' '#node_modules' '#content/docs/.source'"
   },

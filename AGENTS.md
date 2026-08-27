@@ -36,9 +36,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-26
-lastReviewedCommit: a6d43f7e9f7814210a269a7763a9f1605e56bb73
-lastReviewedNote: "Reviewed for Issue #152 after pnpm 11.24.0 replaced the current 11.23.0 pin; Issue #150 remains the historical origin of the Node 24.19.0, pnpm 11.23.0, TypeScript 7.0.2 fail-closed contract."
+lastReviewedAt: 2026-08-27
+lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
+lastReviewedNote: "Reviewed for Issue #154: the restored screenshot validator owns the four-locale Fumadocs document-binding and content-addressed public-asset contract."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -68,7 +68,7 @@ This repository owns:
 - `content/docs/**` as public content using dot-locale files: Chinese `page.mdx`, then `page.en.mdx`, `page.de.mdx`, and `page.fr.mdx`;
 - `app/**`, `components/**`, `lib/**`, and `app/global.css` for routing, metadata, the shared documentation presentation, search, and MDX rendering;
 - `public/**` for public media and brand assets;
-- `scripts/build.mjs`, `scripts/verify-out.mjs`, and `scripts/check-links.mjs` for the static output contract;
+- `scripts/build.mjs`, `scripts/verify-out.mjs`, `scripts/check-links.mjs`, and `scripts/check-screenshots.mjs` for static output, link, and screenshot-evidence contracts;
 - `TODO.docs-system-gaps.md` for durable product/documentation drift.
 
 This repository does not own shipped product behavior, route truth, API semantics, or root integration state. Verify ambiguous behavior in `../tiangong-lca-next`; integrate the resulting child commit in `lca-workspace` separately.
@@ -79,6 +79,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - `/` renders the complete Chinese home as the `x-default` entry without redirecting. Locale homes remain `/{lang}/`; documents remain `/{lang}/docs/**`.
 - Retired paths have no redirect or rewrite compatibility and must remain 404. `manifests/p0b/greenfield-deny.json` is a negative build contract, not a mapping table.
 - Public document links use locale-absolute `/{lang}/docs/**/` routes. The link gate checks browser-resolved output, canonical trailing slashes, source-locale ownership, and the normalized internal-link topology across all four variants of a page.
+- Docs-impact screenshots use one shared `public/assets/docs/<sha256-prefix>/<semantic-name>.png` asset and explicit zh/en/de/fr document bindings. Added and replaced screenshots must pass the repository validator; replacement never overwrites an existing content-addressed path.
 - `SiteBrand`, `DocsHome`, and the Fumadocs Neutral theme define the shared documentation shell. Keep both documentation sites aligned on the 72rem shell, brand-lockup structure, solid plum interaction color, neutral layers, focus treatment, dark mode, low-radius controls, and responsive behavior.
 - Product identity belongs in a semantic hero signature rather than a shared decorative motif. This site uses `data-hero-signature="lca-concept-map"` for the reference-data → process-relations → product-system → LCIA-results concept map; TIDAS must retain a distinct data-system/schema signature.
 - `/{lang}/docs/` is a task-navigation hub rendered by `DocsPortal`, not a second marketing landing or a directory placeholder. Its governed markers are `data-docs-portal="lca-task-hub"` and `data-docs-portal-map="lca-task-route"`; all links must remain locale-absolute and structurally aligned across four languages.
@@ -99,6 +100,7 @@ pnpm lint
 pnpm typecheck
 pnpm test
 pnpm check:links
+pnpm test:screenshots
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
