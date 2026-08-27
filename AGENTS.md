@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-27
-lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: screenshot-validator tests are worker-only and remain outside general test, build, pull-request CI, and release CI."
+lastReviewedCommit: 2bb11f2ad44a7d70d00e75e18c4b5e27477e113f
+lastReviewedNote: "Reviewed for workspace Issue #766: LCIA evidence and Process Analysis scope copy changes stay within public four-locale Fumadocs content and do not alter ownership, locale, screenshot, routing, or validation contracts."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

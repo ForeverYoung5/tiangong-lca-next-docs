@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-27"
-lastReviewedCommit: "7ce35fb6077395921bd7118c30d8f9abb5320648"
-reviewNote: "Reviewed for Issue #154: the screenshot-validator suite is worker-only and excluded from regular test/build/CI execution."
-lastReviewedNote: "Added scripts/check-screenshots.mjs to existing ownership, coverage, routing, and site-structure triggers without creating a duplicate rule."
+lastReviewedCommit: "2bb11f2ad44a7d70d00e75e18c4b5e27477e113f"
+reviewNote: "Reviewed for workspace Issue #766: public LCIA evidence and Process Analysis scope content updates remain covered by the existing next-docs-public-content-contract."
+lastReviewedNote: "No routing, ownership, coverage, locale, screenshot, or validation rule change is required for the four-locale public-content copy update."
 
 catalog:
   repos:
