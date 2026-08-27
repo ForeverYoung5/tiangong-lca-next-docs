@@ -51,9 +51,6 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Test screenshot validator
-        run: pnpm test:screenshots
-
       - name: Build (ci fixture)
         env:
           DEPLOY_ENV: ci

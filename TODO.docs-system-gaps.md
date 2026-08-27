@@ -18,7 +18,7 @@ checkPaths:
   - components/**
   - lib/**
 lastReviewedAt: 2026-08-27
-lastReviewedCommit: 645e18344e8a25ec2363fe58f9c95980a43b2686
+lastReviewedCommit: d1e3f45527b97ce8148760dd4ee34dc9c6975e00
 lastReviewedNote: "Reviewed for Issue #154: restoring the screenshot-evidence validator closes an automation gap and introduces no product/documentation drift."
 related:
   - AGENTS.md

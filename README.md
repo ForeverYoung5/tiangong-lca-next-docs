@@ -29,7 +29,7 @@ checkPaths:
   - .github/workflows/**
 lastReviewedAt: 2026-08-27
 lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: documented the restored screenshot validator and its dedicated test command outside the general test/build suite."
+lastReviewedNote: "Reviewed for Issue #154: documented screenshot-validator tests as docs-impact-worker-only rather than regular test/build/CI work."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -68,7 +68,6 @@ The development server normally listens on `http://localhost:3000`.
 pnpm lint
 pnpm typecheck
 pnpm test
-pnpm test:screenshots
 
 DEPLOY_ENV=ci \
 CANONICAL_ORIGIN=http://localhost:3000 \
@@ -80,7 +79,7 @@ The build wrapper performs environment validation, `next build`, deterministic o
 
 Docs-impact visual manifests are validated with `pnpm check:screenshots -- --manifest <visual-result.json> --diff-file <name-status> --base-ref <ref> --json`. The validator requires one content-addressed public PNG, explicit zh/en/de/fr MDX bindings, valid references and explanatory prose, verified image/privacy metadata, and safe add/replace/reuse diff semantics.
 
-`pnpm test:screenshots` is a dedicated validator test suite. It is intentionally not included in `pnpm test` or the `pnpm build` wrapper; GitHub CI invokes it as a separate named step.
+`pnpm test:screenshots` is a dedicated validator test suite used only by the docs-impact mapped/replay worker when visual evidence is present. It is intentionally not included in `pnpm test`, the `pnpm build` wrapper, pull-request CI, or release CI.
 
 ## Build environment
 

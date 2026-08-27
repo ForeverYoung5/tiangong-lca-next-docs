@@ -2,7 +2,7 @@ version: 1
 layout: repo
 lastReviewedAt: "2026-08-27"
 lastReviewedCommit: "7ce35fb6077395921bd7118c30d8f9abb5320648"
-reviewNote: "Reviewed for Issue #154: the restored screenshot validator is governed as repository-owned site validation automation with a dedicated test suite outside general test/build."
+reviewNote: "Reviewed for Issue #154: the screenshot-validator suite is worker-only and excluded from regular test/build/CI execution."
 lastReviewedNote: "Added scripts/check-screenshots.mjs to existing ownership, coverage, routing, and site-structure triggers without creating a duplicate rule."
 
 catalog:

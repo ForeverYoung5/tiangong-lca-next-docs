@@ -34,7 +34,7 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-27
-lastReviewedCommit: 645e18344e8a25ec2363fe58f9c95980a43b2686
+lastReviewedCommit: d1e3f45527b97ce8148760dd4ee34dc9c6975e00
 lastReviewedNote: "Reviewed for Issue #154: screenshot evidence now follows the four-locale Fumadocs and shared content-addressed asset architecture."
 related:
   - AGENTS.md

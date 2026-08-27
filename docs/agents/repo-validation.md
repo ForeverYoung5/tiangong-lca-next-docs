@@ -33,7 +33,7 @@ checkPaths:
   - .githooks/**
 lastReviewedAt: 2026-08-27
 lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: screenshot validation covers add/replace/reuse while its dedicated tests remain separate from the general pnpm test/build suite."
+lastReviewedNote: "Reviewed for Issue #154: screenshot-validator tests are reserved for docs-impact workers and excluded from regular test/build/CI work."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -49,18 +49,17 @@ pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
 pnpm test
-pnpm test:screenshots
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` includes fail-closed exact toolchain/environment validation, the general Node contract/link tests, static export, `verify:out`, and `check:links`. Screenshot-validator tests intentionally remain outside `pnpm test` and `pnpm build`; CI runs `pnpm test:screenshots` as a separate named step. Use `pnpm test:env`, `pnpm test:toolchain`, `pnpm test:links`, or `pnpm test:screenshots` for focused diagnosis.
+`pnpm build` includes fail-closed exact toolchain/environment validation, the general Node contract/link tests, static export, `verify:out`, and `check:links`. Screenshot-validator tests intentionally remain outside `pnpm test`, `pnpm build`, pull-request CI, and release CI. Use `pnpm test:env`, `pnpm test:toolchain`, or `pnpm test:links` for regular focused diagnosis; the docs-impact mapped/replay worker owns `pnpm test:screenshots` when visual evidence is present.
 
 ## Proof by change type
 
 - Public content: update all four locale variants; run lint and the complete build.
 - Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must be exactly `24.19.0`, pnpm exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
 - Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets, zero path-relative document links, zero source-locale mismatches, and identical normalized internal-document target sets across the four variants of each page.
-- Docs-impact screenshots: run `pnpm test:screenshots`, then invoke `pnpm check:screenshots -- --manifest <visual-result.json> --diff-file <name-status> --base-ref <ref> --json`. Added assets must be content-addressed and referenced by all four locale siblings; replacement must use a new hash path and may delete the old asset only after all remaining MDX references are gone; reuse must not mutate the asset.
+- Docs-impact screenshots: the mapped/replay worker runs `pnpm test:screenshots`, then invokes `pnpm check:screenshots -- --manifest <visual-result.json> --diff-file <name-status> --base-ref <ref> --json`. Added assets must be content-addressed and referenced by all four locale siblings; replacement must use a new hash path and may delete the old asset only after all remaining MDX references are gone; reuse must not mutate the asset.
 - Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, 1633px, 2048px, and 2560px in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.
 - Landing visual contract: assert `data-hero-signature="lca-concept-map"`, exactly one `data-primary-action`, and a single semantic HTML `main`. The primary action must compute to `background-image: none`, `box-shadow: none`, and `transform: none`; the Next signature must not match the TIDAS hero signature.
 - LCA concept geometry: while the hero is in two-column mode, the rightmost rendered title glyph must remain inside `[data-hero-copy]` and at least 24px away from `[data-concept-map]`; `[data-concept-connector]` must retain a rendered stroke width of at least 1.2px.

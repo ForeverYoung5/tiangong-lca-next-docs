@@ -49,9 +49,6 @@ jobs:
       - name: Typecheck (TypeScript 7 native)
         run: pnpm typecheck
 
-      - name: Test screenshot validator
-        run: pnpm test:screenshots
-
       - name: Build (ci fixture) and verify out contract
         env:
           DEPLOY_ENV: ci
