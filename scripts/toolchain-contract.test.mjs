@@ -37,6 +37,10 @@ test('pins one exact Node, pnpm, TypeScript, and markdownlint toolchain', () => 
     packageJson.scripts.test,
     'node --test scripts/check-env.test.mjs scripts/check-links.test.mjs scripts/toolchain-contract.test.mjs',
   );
+  assert.equal(
+    packageJson.scripts['test:screenshots'],
+    'node --test scripts/check-screenshots.test.mjs',
+  );
 });
 
 test('keeps the frozen graph on TypeScript 7 without dynamic lint installation', () => {
