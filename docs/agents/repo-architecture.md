@@ -33,9 +33,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-27
-lastReviewedCommit: 2bb11f2ad44a7d70d00e75e18c4b5e27477e113f
-lastReviewedNote: "Reviewed for workspace Issue #766: LCIA evidence and Process Analysis text updates use existing dot-locale Fumadocs pages and do not change routing, presentation, asset, or publication architecture."
+lastReviewedAt: 2026-08-28
+lastReviewedCommit: 7d688dc08c0f2bafe5852ce4c421b48530acecc0
+lastReviewedNote: "Reviewed for Issue #157: EdgeOne Corepack activation only provisions the pinned pnpm before install and does not change routes, outputs, content, or publication trust boundaries."
 related:
   - AGENTS.md
   - .docpact/config.yaml

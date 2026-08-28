@@ -31,9 +31,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-27
-lastReviewedCommit: 2bb11f2ad44a7d70d00e75e18c4b5e27477e113f
-lastReviewedNote: "Reviewed for workspace Issue #766: required proof remains pnpm lint, typecheck, test, CI/static build, Docpact, placement, and visual gates; no new screenshot capture or validation command is needed."
+lastReviewedAt: 2026-08-28
+lastReviewedCommit: 7d688dc08c0f2bafe5852ce4c421b48530acecc0
+lastReviewedNote: "Reviewed for Issue #157: existing exact-toolchain, static-output, link, Docpact, CI, and deployed-SHA proof remains sufficient; the toolchain contract test now covers EdgeOne Corepack bootstrap."
 related:
   - AGENTS.md
   - .docpact/config.yaml
