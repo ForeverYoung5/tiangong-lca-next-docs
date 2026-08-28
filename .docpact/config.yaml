@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-27"
-lastReviewedCommit: "2bb11f2ad44a7d70d00e75e18c4b5e27477e113f"
-reviewNote: "Reviewed for workspace Issue #766: public LCIA evidence and Process Analysis scope content updates remain covered by the existing next-docs-public-content-contract."
-lastReviewedNote: "No routing, ownership, coverage, locale, screenshot, or validation rule change is required for the four-locale public-content copy update."
+lastReviewedAt: "2026-08-28"
+lastReviewedCommit: "7d688dc08c0f2bafe5852ce4c421b48530acecc0"
+reviewNote: "Reviewed for Issue #157: EdgeOne Corepack bootstrap remains covered by the existing next-docs-site-structure-contract."
+lastReviewedNote: "No routing, ownership, coverage, locale, screenshot, or validation rule change is required; exact toolchain versions remain unchanged."
 
 catalog:
   repos:
