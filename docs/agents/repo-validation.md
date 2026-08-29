@@ -32,8 +32,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-30
-lastReviewedCommit: 07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4
-lastReviewedNote: "Reviewed for Issue #161: bounded Node 24, exact package-tool, static-output, link, Docpact, CI, and deployed-SHA proof covers the corrected EdgeOne runtime split."
+lastReviewedCommit: 23c1f194d44f22935845707cd00160e64ada2f1a
+lastReviewedNote: "Reviewed for Issue #163: toolchain proof now requires EdgeOne's direct frozen pnpm install while retaining bounded Node, exact package tools, static output, links, CI, and deployed-SHA validation."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -57,7 +57,7 @@ DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=sta
 ## Proof by change type
 
 - Public content: update all four locale variants; run lint and the complete build.
-- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must satisfy `>=24.18.0 <25`; EdgeOne must use `24.18.0`, local `.nvmrc` must select major `24`, reviewed GitHub workflows remain on `24.19.0`, pnpm stays exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
+- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must satisfy `>=24.18.0 <25`; EdgeOne must use `24.18.0` plus direct `pnpm install --frozen-lockfile`, local `.nvmrc` must select major `24`, reviewed GitHub workflows remain on `24.19.0`, pnpm stays exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
 - Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets, zero path-relative document links, zero source-locale mismatches, and identical normalized internal-document target sets across the four variants of each page.
 - Docs-impact screenshots: the mapped/replay worker runs `pnpm test:screenshots`, then invokes `pnpm check:screenshots -- --manifest <visual-result.json> --diff-file <name-status> --base-ref <ref> --json`. Added assets must be content-addressed and referenced by all four locale siblings; replacement must use a new hash path and may delete the old asset only after all remaining MDX references are gone; reuse must not mutate the asset.
 - Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, 1633px, 2048px, and 2560px in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.

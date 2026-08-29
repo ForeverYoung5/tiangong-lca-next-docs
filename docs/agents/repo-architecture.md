@@ -34,8 +34,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-30
-lastReviewedCommit: 07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4
-lastReviewedNote: "Reviewed for Issue #161: EdgeOne uses preinstalled Node 24.18.0 while local and CI selectors remain within one bounded Node 24 contract; routes, outputs, and publication trust boundaries are unchanged."
+lastReviewedCommit: 23c1f194d44f22935845707cd00160e64ada2f1a
+lastReviewedNote: "Reviewed for Issue #163: EdgeOne's managed build uses its preinstalled pnpm directly and no longer mutates Corepack shims; routes, outputs, and publication trust boundaries are unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -106,7 +106,7 @@ The package graph contains exact local markdownlint rather than dynamic npx inst
 
 The three retained `manifests/p0b/*.json` files are immutable build contracts for information architecture, expected routes, and retired-path denial. One-time rewrite inventories and executors were removed after cutover; Git history remains the audit source.
 
-EdgeOne Makers builds and deploys from Git. GitHub workflows validate pull requests and first reconcile any allowlisted deployment against its source SHA and environment-specific indexing policy. Preview stays `noindex` and canonicalizes to production. Only the production origin can start the separate production-environment job that replaces Algolia data and refreshes Context7; preview reconciliation is validation-only.
+EdgeOne Makers builds and deploys from Git. The managed Node runtime supplies pnpm, so `edgeone.json` invokes the frozen pnpm install directly without running `corepack enable`; Corepack setup remains a local contributor concern. GitHub workflows validate pull requests and first reconcile any allowlisted deployment against its source SHA and environment-specific indexing policy. Preview stays `noindex` and canonicalizes to production. Only the production origin can start the separate production-environment job that replaces Algolia data and refreshes Context7; preview reconciliation is validation-only.
 
 ## Ownership boundaries
 
