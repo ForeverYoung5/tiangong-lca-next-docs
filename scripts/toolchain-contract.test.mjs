@@ -105,7 +105,7 @@ test('binds every pnpm CI runtime to the exact toolchain', () => {
   }
 });
 
-test('keeps contributor-facing environment baselines exact across four locales', () => {
+test('keeps contributor-facing Node range and exact pnpm baseline aligned across locales', () => {
   const documents = [
     'README.md',
     'content/docs/deploy-and-dev/dev-env.mdx',
@@ -116,8 +116,8 @@ test('keeps contributor-facing environment baselines exact across four locales',
 
   for (const relativePath of documents) {
     const activeDocumentation = withoutFrontmatter(read(relativePath));
-    assert.match(activeDocumentation, /24\.19\.0/u, relativePath);
+    assert.match(activeDocumentation, />=24\.18\.0 <25/u, relativePath);
     assert.match(activeDocumentation, /11\.24\.0/u, relativePath);
-    assert.doesNotMatch(activeDocumentation, /24\.18|11\.23/u, relativePath);
+    assert.doesNotMatch(activeDocumentation, /11\.23/u, relativePath);
   }
 });

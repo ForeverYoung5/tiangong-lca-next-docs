@@ -7,11 +7,11 @@ Diese Seite beschreibt lokale Entwicklung, Validierung und Veröffentlichung von
 
 ## Umgebungsbasis
 
-- Node.js 24.19.0
+- Node.js `>=24.18.0 <25` (`.nvmrc` wählt lokal die aktuelle Node-24-Version; EdgeOne verwendet das vorinstallierte `24.18.0`)
 - pnpm 11.24.0
 - Git zur Ableitung reproduzierbarer Quellidentität und Zeitstempel
 
-`packageManager`, `engines` und die Lockdatei legen die Werkzeugkette fest. Verwenden Sie keinen zweiten Paketmanager.
+`engines` begrenzt Node auf unterstützte Node-24-Versionen; `packageManager` und die Lockdatei fixieren pnpm exakt. Verwenden Sie keinen zweiten Paketmanager.
 
 ## Installation und lokale Entwicklung
 

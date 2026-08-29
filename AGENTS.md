@@ -36,9 +36,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-28
-lastReviewedCommit: 7d688dc08c0f2bafe5852ce4c421b48530acecc0
-lastReviewedNote: "Reviewed for Issue #157: enabling Corepack in the EdgeOne install command preserves the exact Node, pnpm, TypeScript, ownership, routing, and validation contracts."
+lastReviewedAt: 2026-08-30
+lastReviewedCommit: 07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4
+lastReviewedNote: "Reviewed for Issue #161: local, EdgeOne, and CI Node selectors are separated within a bounded Node 24 contract while pnpm, TypeScript, ownership, routing, and validation remain exact."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -87,7 +87,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - The remaining top-level category roots render `CategoryDirectory` from only `lang` and `category`. Directory order and membership come from the localized Fumadocs page tree / `meta*.json`; titles and descriptions come from child-page metadata, with a bounded first-paragraph fallback. Never hand-maintain category entry lists in index MDX.
 - Reuse exported Fumadocs primitives such as `buttonVariants`, `Card`, and `Cards`. Custom presentation is limited to theme tokens, the shared shell, and product-specific concept or navigation figures; do not add gradients, glow, shadow, or lift animation to public actions.
 - `next.config.ts` sets `agentRules: false` because this governed file, not generated development-server text, is authoritative.
-- The repository toolchain is exact: Node `24.19.0`, pnpm `11.24.0`, and TypeScript `7.0.2`. `.nvmrc`, `package.json`, EdgeOne metadata, `scripts/check-env.mjs`, the frozen lock, and CI must agree; version drift fails before static generation.
+- The runtime contract accepts Node `>=24.18.0 <25` while pnpm `11.24.0` and TypeScript `7.0.2` remain exact. `.nvmrc` selects Node major `24`, EdgeOne pins its preinstalled `24.18.0`, and reviewed GitHub workflows use Node `24.19.0`; every selector must satisfy the bounded contract before static generation.
 - Markdown lint uses the exact local `markdownlint-cli2` dependency through `pnpm exec`. Active repository automation has no npm/npx fallback, and every external GitHub Action is pinned to a reviewed executable commit rather than a tag object or moving tag.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
 - Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.
@@ -103,7 +103,7 @@ pnpm check:links
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` runs exact environment validation, the general Node contract/link tests, static export, output-contract verification, and source/generated link validation. Screenshot-validator tests intentionally remain outside `pnpm test`, `pnpm build`, pull-request CI, and release CI; only the docs-impact mapped/replay worker runs `pnpm test:screenshots` before validating a visual manifest. For visual changes, also inspect light and dark themes at 390px, 1440px, the 1633px large-desktop regression width, and an ultra-wide viewport using a real browser.
+`pnpm build` runs bounded Node 24 plus exact package-tool environment validation, the general Node contract/link tests, static export, output-contract verification, and source/generated link validation. Screenshot-validator tests intentionally remain outside `pnpm test`, `pnpm build`, pull-request CI, and release CI; only the docs-impact mapped/replay worker runs `pnpm test:screenshots` before validating a visual manifest. For visual changes, also inspect light and dark themes at 390px, 1440px, the 1633px large-desktop regression width, and an ultra-wide viewport using a real browser.
 
 ## Hard boundaries
 

@@ -7,11 +7,11 @@ description: "使用 Node.js、pnpm 和静态构建契约维护 TianGong LCA 文
 
 ## 环境基线
 
-- Node.js 24.19.0
+- Node.js `>=24.18.0 <25`（本地 `.nvmrc` 选择当前 Node 24；EdgeOne 固定使用预装 `24.18.0`）
 - pnpm 11.24.0
 - Git，用于推导可复现构建的 source commit 与时间
 
-仓库通过 `packageManager`、`engines` 与锁文件固定工具链。不要混用其他包管理器。
+仓库通过 `engines` 约束 Node 24 范围，并通过 `packageManager` 与锁文件精确固定 pnpm。不要混用其他包管理器。
 
 ## 安装与本地开发
 

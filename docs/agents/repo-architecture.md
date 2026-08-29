@@ -33,9 +33,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-28
-lastReviewedCommit: 7d688dc08c0f2bafe5852ce4c421b48530acecc0
-lastReviewedNote: "Reviewed for Issue #157: EdgeOne Corepack activation only provisions the pinned pnpm before install and does not change routes, outputs, content, or publication trust boundaries."
+lastReviewedAt: 2026-08-30
+lastReviewedCommit: 07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4
+lastReviewedNote: "Reviewed for Issue #161: EdgeOne uses preinstalled Node 24.18.0 while local and CI selectors remain within one bounded Node 24 contract; routes, outputs, and publication trust boundaries are unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -96,13 +96,13 @@ Screenshot evidence is stored once under `public/assets/docs/<sha256-prefix>/<se
 
 `scripts/build.mjs` performs this fail-closed sequence:
 
-1. validate exact Node, pnpm, TypeScript, deployment environment, and source identity;
+1. validate bounded Node 24, exact pnpm and TypeScript, deployment environment, and source identity;
 2. run every Node environment/toolchain/link contract test;
 3. run `next build` static export;
 4. validate deterministic routes, endpoints, search records, AI index, SEO files, and greenfield deny paths;
 5. validate source-locale link topology and every generated local page, fragment, and asset reference with browser URL semantics.
 
-The package graph contains exact local markdownlint rather than dynamic npx installation. GitHub workflows use the same exact Node/pnpm inputs and immutable executable action commits, so local, EdgeOne, pull-request, release, and reconciliation validation share one toolchain identity.
+The package graph contains exact local markdownlint rather than dynamic npx installation. GitHub workflows retain reviewed Node `24.19.0`, exact pnpm `11.24.0`, and immutable executable action commits; local Node major `24`, EdgeOne `24.18.0`, and CI `24.19.0` all satisfy the same `>=24.18.0 <25` runtime contract.
 
 The three retained `manifests/p0b/*.json` files are immutable build contracts for information architecture, expected routes, and retired-path denial. One-time rewrite inventories and executors were removed after cutover; Git history remains the audit source.
 

@@ -7,11 +7,11 @@ This page covers local development, validation, and publishing boundaries for `t
 
 ## Environment baseline
 
-- Node.js 24.19.0
+- Node.js `>=24.18.0 <25` (`.nvmrc` selects the current local Node 24; EdgeOne uses preinstalled `24.18.0`)
 - pnpm 11.24.0
 - Git, used to derive reproducible source identity and timestamps
 
-The repository pins its toolchain through `packageManager`, `engines`, and the lockfile. Do not mix package managers.
+The repository bounds Node 24 through `engines` and pins pnpm exactly through `packageManager` and the lockfile. Do not mix package managers.
 
 ## Install and develop locally
 
