@@ -16,6 +16,7 @@ checkPaths:
   - .docpact/config.yaml
   - docs/agents/**
   - package.json
+  - .nvmrc
   - next.config.ts
   - edgeone.json
   - app/**
@@ -27,9 +28,9 @@ checkPaths:
   - context7.json
   - crowdin.yml
   - .github/workflows/**
-lastReviewedAt: 2026-08-27
-lastReviewedCommit: 7ce35fb6077395921bd7118c30d8f9abb5320648
-lastReviewedNote: "Reviewed for Issue #154: documented screenshot-validator tests as docs-impact-worker-only rather than regular test/build/CI work."
+lastReviewedAt: 2026-08-30
+lastReviewedCommit: 07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4
+lastReviewedNote: "Reviewed for Issue #161: local Node 24 selection, the bounded runtime contract, EdgeOne 24.18.0, and reviewed CI Node 24.19.0 are documented without dependency or site drift."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -53,7 +54,9 @@ Source files use dot-locale names: `page.mdx`, `page.en.mdx`, `page.de.mdx`, and
 
 ## Development
 
-Requires Node.js 24.19.0 and pnpm 11.24.0.
+Requires Node.js `>=24.18.0 <25` and pnpm `11.24.0`. `.nvmrc` selects the current
+local Node 24 release, EdgeOne pins its preinstalled `24.18.0`, and reviewed
+GitHub workflows use Node `24.19.0`.
 
 ```bash
 pnpm install --frozen-lockfile

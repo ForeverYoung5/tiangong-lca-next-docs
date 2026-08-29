@@ -17,9 +17,9 @@ checkPaths:
   - app/**
   - components/**
   - lib/**
-lastReviewedAt: 2026-08-27
-lastReviewedCommit: d1e3f45527b97ce8148760dd4ee34dc9c6975e00
-lastReviewedNote: "Reviewed for Issue #154: restoring the screenshot-evidence validator closes an automation gap and introduces no product/documentation drift."
+lastReviewedAt: 2026-08-30
+lastReviewedCommit: 07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4
+lastReviewedNote: "Reviewed for Issue #161: correcting the docs-site build runtime and environment guidance introduces no shipped-product or public-documentation gap."
 related:
   - AGENTS.md
   - README.md

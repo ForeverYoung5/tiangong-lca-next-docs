@@ -31,9 +31,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-28
-lastReviewedCommit: 7d688dc08c0f2bafe5852ce4c421b48530acecc0
-lastReviewedNote: "Reviewed for Issue #157: existing exact-toolchain, static-output, link, Docpact, CI, and deployed-SHA proof remains sufficient; the toolchain contract test now covers EdgeOne Corepack bootstrap."
+lastReviewedAt: 2026-08-30
+lastReviewedCommit: 07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4
+lastReviewedNote: "Reviewed for Issue #161: bounded Node 24, exact package-tool, static-output, link, Docpact, CI, and deployed-SHA proof covers the corrected EdgeOne runtime split."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -52,12 +52,12 @@ pnpm test
 DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=static pnpm build
 ```
 
-`pnpm build` includes fail-closed exact toolchain/environment validation, the general Node contract/link tests, static export, `verify:out`, and `check:links`. Screenshot-validator tests intentionally remain outside `pnpm test`, `pnpm build`, pull-request CI, and release CI. Use `pnpm test:env`, `pnpm test:toolchain`, or `pnpm test:links` for regular focused diagnosis; the docs-impact mapped/replay worker owns `pnpm test:screenshots` when visual evidence is present.
+`pnpm build` includes fail-closed bounded Node 24 and exact package-tool/environment validation, the general Node contract/link tests, static export, `verify:out`, and `check:links`. Screenshot-validator tests intentionally remain outside `pnpm test`, `pnpm build`, pull-request CI, and release CI. Use `pnpm test:env`, `pnpm test:toolchain`, or `pnpm test:links` for regular focused diagnosis; the docs-impact mapped/replay worker owns `pnpm test:screenshots` when visual evidence is present.
 
 ## Proof by change type
 
 - Public content: update all four locale variants; run lint and the complete build.
-- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must be exactly `24.19.0`, pnpm exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
+- Toolchain, package manager, environment checker, or CI actions: run a clean frozen install, `pnpm test:env`, `pnpm test:toolchain`, lint, typecheck, and the complete static build. Node must satisfy `>=24.18.0 <25`; EdgeOne must use `24.18.0`, local `.nvmrc` must select major `24`, reviewed GitHub workflows remain on `24.19.0`, pnpm stays exactly `11.24.0`, TypeScript exactly `7.0.2`, and markdownlint exactly local `0.23.2`; external actions must use reviewed executable commit SHAs.
 - Links, anchors, navigation, or assets: run link unit tests and the complete build. `check:links` must report zero missing pages, fragments, or local assets, zero path-relative document links, zero source-locale mismatches, and identical normalized internal-document target sets across the four variants of each page.
 - Docs-impact screenshots: the mapped/replay worker runs `pnpm test:screenshots`, then invokes `pnpm check:screenshots -- --manifest <visual-result.json> --diff-file <name-status> --base-ref <ref> --json`. Added assets must be content-addressed and referenced by all four locale siblings; replacement must use a new hash path and may delete the old asset only after all remaining MDX references are gone; reuse must not mutate the asset.
 - Layout, CSS, brand, search dialog, or responsive behavior: run typecheck and build, then inspect a real browser at 390px, 1440px, 1633px, 2048px, and 2560px in light and dark themes. Confirm keyboard focus, language switching, search, mobile menu, and zero horizontal overflow.

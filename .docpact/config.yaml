@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-28"
-lastReviewedCommit: "7d688dc08c0f2bafe5852ce4c421b48530acecc0"
-reviewNote: "Reviewed for Issue #157: EdgeOne Corepack bootstrap remains covered by the existing next-docs-site-structure-contract."
-lastReviewedNote: "No routing, ownership, coverage, locale, screenshot, or validation rule change is required; exact toolchain versions remain unchanged."
+lastReviewedAt: "2026-08-30"
+lastReviewedCommit: "07f09a3ffa0bec1a5ffafd10257d77dd043cd4d4"
+reviewNote: "Reviewed for Issue #161: the existing next-docs-site-structure and public-content rules govern the bounded Node 24 policy, EdgeOne runtime pin, tests, and four-locale setup guidance."
+lastReviewedNote: "No routing, ownership, coverage, locale, screenshot, or validation rule change is required; Node selectors now vary by environment within one bounded Node 24 contract."
 
 catalog:
   repos:

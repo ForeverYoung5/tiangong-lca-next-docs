@@ -19,16 +19,16 @@ const expectedActions = new Map([
   ['pnpm/setup', '84cb39b217b10273981911c288cd62326dc7c6d2'],
 ]);
 
-test('pins one exact Node, pnpm, TypeScript, and markdownlint toolchain', () => {
+test('bounds Node 24 while pinning pnpm, TypeScript, and markdownlint exactly', () => {
   const packageJson = readJson('package.json');
   const edgeOne = readJson('edgeone.json');
 
   assert.equal(packageJson.packageManager, 'pnpm@11.24.0');
-  assert.deepEqual(packageJson.engines, { node: '24.19.0', pnpm: '11.24.0' });
+  assert.deepEqual(packageJson.engines, { node: '>=24.18.0 <25', pnpm: '11.24.0' });
   assert.equal(packageJson.devDependencies.typescript, '7.0.2');
   assert.equal(packageJson.devDependencies['markdownlint-cli2'], '0.23.2');
-  assert.equal(read('.nvmrc').trim(), '24.19.0');
-  assert.equal(edgeOne.nodeVersion, '24.19.0');
+  assert.equal(read('.nvmrc').trim(), '24');
+  assert.equal(edgeOne.nodeVersion, '24.18.0');
   assert.equal(edgeOne.installCommand, 'corepack enable && pnpm install --frozen-lockfile');
   assert.equal(
     packageJson.scripts.lint,
@@ -105,7 +105,7 @@ test('binds every pnpm CI runtime to the exact toolchain', () => {
   }
 });
 
-test('keeps contributor-facing environment baselines exact across four locales', () => {
+test('keeps contributor-facing Node range and exact pnpm baseline aligned across locales', () => {
   const documents = [
     'README.md',
     'content/docs/deploy-and-dev/dev-env.mdx',
@@ -116,8 +116,8 @@ test('keeps contributor-facing environment baselines exact across four locales',
 
   for (const relativePath of documents) {
     const activeDocumentation = withoutFrontmatter(read(relativePath));
-    assert.match(activeDocumentation, /24\.19\.0/u, relativePath);
+    assert.match(activeDocumentation, />=24\.18\.0 <25/u, relativePath);
     assert.match(activeDocumentation, /11\.24\.0/u, relativePath);
-    assert.doesNotMatch(activeDocumentation, /24\.18|11\.23/u, relativePath);
+    assert.doesNotMatch(activeDocumentation, /11\.23/u, relativePath);
   }
 });
