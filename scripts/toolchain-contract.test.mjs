@@ -29,7 +29,7 @@ test('bounds Node 24 while pinning pnpm, TypeScript, and markdownlint exactly', 
   assert.equal(packageJson.devDependencies['markdownlint-cli2'], '0.23.2');
   assert.equal(read('.nvmrc').trim(), '24');
   assert.equal(edgeOne.nodeVersion, '24.18.0');
-  assert.equal(edgeOne.installCommand, 'corepack enable && pnpm install --frozen-lockfile');
+  assert.equal(edgeOne.installCommand, 'pnpm install --frozen-lockfile');
   assert.equal(
     packageJson.scripts.lint,
     "pnpm exec markdownlint-cli2 '**/*.md' '**/*.mdx' '#node_modules' '#content/docs/.source'",
