@@ -149,18 +149,24 @@ tiangong-lca doctor
 
 ## 环境变量
 
-远程命令需要 TianGong LCA API 地址和用户 API Key：
+远程命令使用 Supabase OAuth 2.1 浏览器授权。配置 API 地址、publishable key 和环境专属的 public OAuth client ID：
 
 ```bash
 TIANGONG_LCA_API_BASE_URL=
-TIANGONG_LCA_API_KEY=
 TIANGONG_LCA_SUPABASE_PUBLISHABLE_KEY=
+TIANGONG_LCA_OAUTH_CLIENT_ID=
+TIANGONG_LCA_AUTH_MODE=oauth
 TIANGONG_LCA_REGION=us-east-1
 ```
 
 - `TIANGONG_LCA_API_BASE_URL` 可填写项目根地址、`/functions/v1` 或 `/rest/v1` 地址。
-- `TIANGONG_LCA_API_KEY` 是账号页面生成的 TianGong 用户 API Key，不是 Supabase 项目密钥。
-- CLI 会使用 API Key 换取用户会话，并复用该会话访问 Edge Functions 与 Supabase 数据。
+- `TIANGONG_LCA_OAUTH_CLIENT_ID` 是公开 client ID，不是密钥；Dev 与 Production 的 ID 不同。
+- 先运行 `tiangong-lca auth status --json`。若返回 `login-required`，由用户本人在可信终端运行 `tiangong-lca auth login`，浏览器中登录并确认授权。
+- CLI 将 access/rotating refresh token 保存在本机私有 session 文件中，自动按需刷新；命令输出不会显示 token、完整邮箱或 session 路径。
+- 使用 `tiangong-lca auth whoami --json` 查看脱敏的实时身份，账号敏感写入前运行 `tiangong-lca auth doctor-auth --json`。
+- `auth logout` 只删除本机 session。要立即阻止后续 refresh，请在账号页的“已连接应用”中撤销 TianGong CLI；已签发的短期 access token 仍可能存活到到期。
+
+不要向 AI、脚本参数或聊天窗口提供用户名、密码、authorization code、access token、refresh token 或旧的可逆用户 API Key。批准的 headless 自动化只能由 orchestrator 注入一个短期 `TIANGONG_LCA_ACCESS_TOKEN`；Supabase OAuth 不提供 password 或 client-credentials grant。多账号工作应为每个 account/project/client 使用独立私有 `TIANGONG_LCA_SESSION_FILE`。
 
 ## 常用命令
 

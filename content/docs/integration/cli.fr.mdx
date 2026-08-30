@@ -156,18 +156,24 @@ tiangong-lca doctor
 
 ## Variables d'environnement
 
-Les commandes distantes nécessitent l'URL de l'API TianGong LCA et une clé API utilisateur :
+Les commandes distantes utilisent l'autorisation navigateur Supabase OAuth 2.1. Configurez l'URL de l'API, la clé publiable et l'identifiant public du client OAuth propre à l'environnement :
 
 ```bash
 TIANGONG_LCA_API_BASE_URL=
-TIANGONG_LCA_API_KEY=
 TIANGONG_LCA_SUPABASE_PUBLISHABLE_KEY=
+TIANGONG_LCA_OAUTH_CLIENT_ID=
+TIANGONG_LCA_AUTH_MODE=oauth
 TIANGONG_LCA_REGION=us-east-1
 ```
 
 - `TIANGONG_LCA_API_BASE_URL` peut pointer vers la racine du projet, `/functions/v1` ou `/rest/v1`.
-- `TIANGONG_LCA_API_KEY` est la clé API utilisateur TianGong de la page du compte, pas une clé de projet Supabase.
-- Le CLI échange la clé API contre une session utilisateur et réutilise cette session pour l'accès aux Edge Functions et aux données Supabase.
+- `TIANGONG_LCA_OAUTH_CLIENT_ID` est un identifiant public, pas un secret ; Dev et Production utilisent des ID différents.
+- Exécutez d'abord `tiangong-lca auth status --json`. Si le résultat est `login-required`, l'utilisateur exécute lui-même `tiangong-lca auth login` dans un terminal de confiance, puis se connecte et consent dans le navigateur.
+- Le CLI conserve les jetons d'accès et de rafraîchissement rotatifs dans un fichier de session local privé et les actualise au besoin. Les sorties n'affichent ni jeton, ni adresse e-mail complète, ni chemin de session.
+- Utilisez `tiangong-lca auth whoami --json` pour une identité live expurgée et `tiangong-lca auth doctor-auth --json` avant une écriture sensible au compte.
+- `auth logout` supprime uniquement la session locale. Pour empêcher immédiatement les prochains rafraîchissements, révoquez TianGong CLI dans les applications connectées du compte ; un jeton d'accès court déjà émis peut rester valide jusqu'à son expiration.
+
+Ne donnez jamais à une IA, à un argument de commande ou à un chat un nom d'utilisateur, mot de passe, code d'autorisation, jeton d'accès/rafraîchissement ou l'ancienne clé API utilisateur réversible. Une automatisation headless approuvée ne peut recevoir qu'un `TIANGONG_LCA_ACCESS_TOKEN` court injecté par son orchestrateur ; Supabase OAuth ne propose ni grant password ni client-credentials. Utilisez un `TIANGONG_LCA_SESSION_FILE` privé distinct pour chaque contexte compte/projet/client.
 
 ## Commandes courantes
 

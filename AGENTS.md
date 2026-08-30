@@ -36,9 +36,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-30
-lastReviewedCommit: 23c1f194d44f22935845707cd00160e64ada2f1a
-lastReviewedNote: "Reviewed for Issue #163: EdgeOne uses its preinstalled pnpm directly; local Corepack setup remains contributor-only and the bounded Node/exact package-tool contract is unchanged."
+lastReviewedAt: 2026-08-31
+lastReviewedCommit: 3640b8e2d0c7636199e07d4a4fb9f1a431ad1adc
+lastReviewedNote: "Reviewed for Issue #165: CLI, remote MCP, account, and OpenAPI locale families document browser OAuth, connected-app revocation, token separation, and headless limits while retiring password-equivalent LCA API-key setup and screenshots."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -91,6 +91,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - EdgeOne's managed Node runtime already supplies pnpm. Its install command runs `pnpm install --frozen-lockfile` directly; do not run `corepack enable` in the managed build because that mutates shims beside the platform-owned Node executable. Local contributor setup may still enable Corepack.
 - Markdown lint uses the exact local `markdownlint-cli2` dependency through `pnpm exec`. Active repository automation has no npm/npx fallback, and every external GitHub Action is pinned to a reviewed executable commit rather than a tag object or moving tag.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
+- The four CLI, remote LCA MCP, account-profile, and TIDAS-import locale families share one OAuth contract: human browser authorization, exact registered clients/callbacks, PKCE, local/connected-app revoke distinction, short access-token lifetime, refresh rotation, explicit headless limits, and no password/code/token/API-key handoff to AI.
 - Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.
 
 ## Required commands
@@ -111,6 +112,7 @@ DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=sta
 - Keep all four locale variants aligned in the same change.
 - Do not add redirects, rewrites, or compatibility copies for retired routes.
 - Do not expose internal agent, plan, incident, TODO, or governance documents through public AI indexes.
+- Do not restore LCA user API-key generation, OAuth demo/code-copy, manual MCP bearer-paste, or password-to-AI instructions. The independently owned Knowledge Base MCP and server-side GLAD keys are separate surfaces.
 - Do not introduce npm/npx execution, a second lockfile, movable external action references, or a second compiler generation.
 - Do not treat a successful child merge as workspace delivery completion while the root gitlink remains stale.
 - Record partial product/documentation drift in `TODO.docs-system-gaps.md` during the same session.

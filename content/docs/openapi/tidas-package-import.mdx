@@ -1,6 +1,6 @@
 ---
 title: "TIDAS 数据包导入 API"
-description: "使用 API Key 调用 TianGong LCA 的 TIDAS 数据包导入流程。"
+description: "使用注册 OAuth client 的短期 actor token 调用 TianGong LCA TIDAS 数据包导入流程。"
 ---
 
 本文档说明如何通过 TianGong LCA 的 Edge Function API 导入 TIDAS ZIP 数据包。
@@ -17,13 +17,12 @@ description: "使用 API Key 调用 TianGong LCA 的 TIDAS 数据包导入流程
 推荐的鉴权方式为：
 
 ```http
-Authorization: Bearer <USER_API_KEY>
+Authorization: Bearer <OAUTH_ACCESS_TOKEN>
 ```
 
-- `USER_API_KEY` 可在 TianGong LCA 平台的账号信息页面生成
-- API Key 等同于账号凭证，应按密钥管理，不要写入公开前端或公开仓库
-- TianGong LCA 的浏览器会话仍可使用 `USER_JWT`，但外部 API 集成建议使用
-  `USER_API_KEY`
+- access/refresh token 由注册 OAuth client 通过 Authorization Code + PKCE 获取，并保存在批准的 secret store；不要让 AI、聊天、日志或公开仓库接触 token
+- Supabase OAuth 不支持 password 或 client-credentials grant。headless 任务需要人类预授权的 refresh session、orchestrator 注入的短期 actor token，或单独审计的 service capability
+- 交互式导入优先使用 CLI 或产品界面。自建客户端必须预登记精确 client/回调，并自行安全管理 OAuth session
 
 基础地址示例：
 
@@ -74,7 +73,7 @@ JSON 报告和 `validation-issues.jsonl`，只在本地校验通过后继续上�
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   --header 'Content-Type: application/json' \
-  --header "Authorization: Bearer ${USER_API_KEY}" \
+  --header "Authorization: Bearer ${OAUTH_ACCESS_TOKEN}" \
   --header 'X-Idempotency-Key: tidas-import-prepare-001' \
   --data '{
     "action": "prepare_upload",
@@ -146,7 +145,7 @@ const { error } = await supabase.storage
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   --header 'Content-Type: application/json' \
-  --header "Authorization: Bearer ${USER_API_KEY}" \
+  --header "Authorization: Bearer ${OAUTH_ACCESS_TOKEN}" \
   --header 'X-Idempotency-Key: tidas-import-enqueue-001' \
   --data '{
     "action": "enqueue",
@@ -182,7 +181,7 @@ curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
 
 ```bash
 curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
-  --header "Authorization: Bearer ${USER_API_KEY}"
+  --header "Authorization: Bearer ${OAUTH_ACCESS_TOKEN}"
 ```
 
 也支持 `GET /tidas_package_jobs?job_id=<job-id>`，以及 `POST /tidas_package_jobs`
@@ -333,5 +332,6 @@ curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
 
 - 导入校验不会在浏览器本地同步完成，而是在异步 worker 中执行
 - `prepare_upload` 成功后，仍需完成上传、`enqueue` 和轮询
-- API Key 认证与浏览器 JWT 共用同一套接口，但外部 API 集成优先推荐 API Key
+- CLI 用户优先使用 [TianGong CLI](/zh/docs/integration/cli/) 的浏览器 OAuth session，不导出 token
+- 自建 API 集成必须先登记精确 client/回调，实现 S256 PKCE 和 refresh rotation；不要从用户处收集密码或手工复制 token
 - 如需与产品前端对齐，请使用与当前部署环境一致的 Edge Function base URL

@@ -1,0 +1,72 @@
+{
+  "schema_version": "docpact.diagnostics.v1",
+  "tool_name": "docpact",
+  "tool_version": "0.1.9",
+  "status": "ok",
+  "changed_paths": [
+    ".docpact/config.yaml",
+    "AGENTS.md",
+    "content/docs/integration/cli.de.mdx",
+    "content/docs/integration/cli.en.mdx",
+    "content/docs/integration/cli.fr.mdx",
+    "content/docs/integration/cli.mdx",
+    "content/docs/integration/mcp-lca-remote.de.mdx",
+    "content/docs/integration/mcp-lca-remote.en.mdx",
+    "content/docs/integration/mcp-lca-remote.fr.mdx",
+    "content/docs/integration/mcp-lca-remote.mdx",
+    "content/docs/openapi/tidas-package-import.de.mdx",
+    "content/docs/openapi/tidas-package-import.en.mdx",
+    "content/docs/openapi/tidas-package-import.fr.mdx",
+    "content/docs/openapi/tidas-package-import.mdx",
+    "content/docs/overview/intro.de.mdx",
+    "content/docs/overview/intro.en.mdx",
+    "content/docs/overview/intro.fr.mdx",
+    "content/docs/overview/intro.mdx",
+    "content/docs/user-guide/account-profile.de.mdx",
+    "content/docs/user-guide/account-profile.en.mdx",
+    "content/docs/user-guide/account-profile.fr.mdx",
+    "content/docs/user-guide/account-profile.mdx",
+    "content/docs/user-guide/key-functions-introduction.de.mdx",
+    "content/docs/user-guide/key-functions-introduction.en.mdx",
+    "content/docs/user-guide/key-functions-introduction.fr.mdx",
+    "content/docs/user-guide/key-functions-introduction.mdx",
+    "docs/agents/repo-architecture.md",
+    "docs/agents/repo-validation.md",
+    "package.json",
+    "public/assets/docs/47aed1f7/10.png",
+    "public/assets/docs/78a6dc92/account-profile-1.png",
+    "public/assets/docs/861a547c/11.png",
+    "public/assets/docs/916b64ab/account-api-key-tab.png",
+    "public/assets/docs/b56ae1db/15.png",
+    "public/assets/docs/ef53e152/17.png",
+    "scripts/toolchain-contract.test.mjs"
+  ],
+  "matched_rule_count": 36,
+  "uncovered_changed_paths": [],
+  "coverage_status": "ok",
+  "freshness_status": "ok",
+  "freshness_summary": {
+    "governed_doc_count": 4,
+    "fresh_doc_count": 4,
+    "stale_doc_count": 0,
+    "warn_count": 0,
+    "critical_count": 0,
+    "invalid_review_reference_count": 0
+  },
+  "baseline_status": "not-applied",
+  "baseline_summary": {
+    "active_count": 0,
+    "suppressed_count": 0
+  },
+  "waiver_status": "not-applied",
+  "waiver_summary": {
+    "waived_count": 0,
+    "expired_count": 0
+  },
+  "summary": {
+    "total_count": 0,
+    "counts_by_type": {},
+    "top_rules": []
+  },
+  "diagnostics": []
+}

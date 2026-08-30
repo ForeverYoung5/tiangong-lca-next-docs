@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-30"
-lastReviewedCommit: "23c1f194d44f22935845707cd00160e64ada2f1a"
-reviewNote: "Reviewed for Issue #163: the existing next-docs-site-structure rule governs the EdgeOne direct-pnpm install command and its contract test."
-lastReviewedNote: "No routing, ownership, coverage, locale, screenshot, or validation rule change is required; the managed EdgeOne runtime supplies pnpm and no longer runs Corepack shim mutation."
+lastReviewedAt: "2026-08-31"
+lastReviewedCommit: "3640b8e2d0c7636199e07d4a4fb9f1a431ad1adc"
+reviewNote: "Reviewed for Issue #165: existing public-content and site-structure rules govern synchronized OAuth locale families, the OAuth content contract test, and retired screenshots."
+lastReviewedNote: "No routing, ownership, coverage, locale-count, or publication-trust rule change is required."
 
 catalog:
   repos:

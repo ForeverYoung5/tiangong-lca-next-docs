@@ -1,97 +1,44 @@
 ---
-title: "账号管理与 API Key"
+title: "账号管理与已连接应用"
+description: "管理个人资料、登录凭据以及 CLI/MCP 的 OAuth 授权。"
 ---
 
-点击右上角头像或用户名，选择**账号信息**，即可进入账户页。
-
-![账号信息](/assets/docs/78a6dc92/account-profile-1.png)
-
-当前账户页包含四个标签：
-
-- **基本信息**
-- **修改密码**
-- **修改邮箱**
-- **生成 API Key**
-
-如果您需要调用远程 MCP 或 OpenAPI，请先在此页生成 API Key，再结合
-[天工 LCA MCP（远程）](/zh/docs/integration/mcp-lca-remote/) 或
-[TIDAS 数据包导入 API](/zh/docs/openapi/tidas-package-import/) 完成后续配置。
+点击右上角头像或用户名，选择**账号信息**，即可进入账户页。这里可以管理基本信息、密码、邮箱和已连接应用。
 
 ## 基本信息
 
-在**基本信息**中，您可以查看当前邮箱、角色和昵称。
-
-- 邮箱和角色为只读信息，用于确认当前账户身份与权限。
-- 昵称可编辑。保存成功后，右上角显示名称会同步更新。
+在**基本信息**中查看当前邮箱、角色和昵称。邮箱与角色为只读身份字段；昵称保存后会同步到页面右上角。
 
 ![基本信息](/assets/docs/603f6b1d/basic-information.png)
 
 ## 修改密码
 
-修改密码时，系统会要求您填写：
+修改密码时填写当前密码、新密码与确认新密码。新密码必须与当前密码不同并满足复杂度要求。
 
-- 当前密码
-- 新密码
-- 确认新密码
-
-使用时请注意：
-
-- 新密码不能与当前密码相同。
-- 新密码必须满足系统当前的复杂度规则。
-- 建议修改后立即重新确认常用客户端或自动化脚本中的登录信息。
+密码只用于平台登录。不要把密码保存到 AI 工具、CLI、MCP、自动化脚本、工单或聊天中；CLI 与远程 MCP 使用浏览器 OAuth 授权，不需要把密码交给客户端。
 
 ![修改密码](/assets/docs/3cbfb9d8/change-password.png)
 
 ## 修改邮箱
 
-在**修改邮箱**中，系统会显示当前注册邮箱，并要求输入：
-
-- 新邮箱地址
-- 确认新邮箱地址
-
-提交成功后，系统会向新邮箱发送验证邮件。完成验证前，请留意[通知中心](/zh/docs/user-guide/notifications/)与邮箱收件箱。
+提交新邮箱及确认邮箱后，平台会向新地址发送验证邮件。验证完成前请同时检查收件箱与[通知中心](/zh/docs/user-guide/notifications/)。邮箱变更可能要求现有客户端重新登录。
 
 ![修改邮箱](/assets/docs/c122399f/change-email.png)
 
-## 生成 API Key
+## 已连接应用
 
-**生成 API Key** 是账户页内的独立标签，不再只在集成文档中说明。
+CLI 或远程 MCP 首次通过浏览器授权后，会出现在**已连接应用**列表中。每条记录显示应用名称、授权时间和可用操作。
 
-### 适用场景
+- 在授权页确认当前账号与应用名称后再允许访问。
+- 撤销某个应用会立即删除该应用的 Supabase grant，并阻止后续 refresh。
+- 已签发的短期 access token 仍可能有效到到期；敏感接口按自己的在线校验契约处理。
+- 撤销后，客户端必须重新发起浏览器授权。CLI 可再次运行 `tiangong-lca auth login`；MCP host 重新连接即可。
+- CLI 的 `auth logout` 或 MCP host 本地断开只删除本地 session，不等于账号侧撤销。
 
-- 远程连接 TianGong LCA MCP
-- 调用需要 API Key 的自动化脚本或服务
-- 配置与平台对接的外部工具
+## CLI、MCP 与自动化
 
-### 生成步骤
+- [TianGong CLI](/zh/docs/integration/cli/) 使用 public OAuth client、S256 PKCE 和精确 `127.0.0.1` 回调。
+- [TianGong LCA MCP（远程）](/zh/docs/integration/mcp-lca-remote/) 使用 MCP discovery 与浏览器 consent；用户不复制 code 或 token。
+- Supabase OAuth 不支持 password/client-credentials grant。headless 任务需要人类预先授权的 refresh session、orchestrator 注入的短期 actor token，或单独审计的 service capability。
 
-1. 打开**生成 API Key**标签。
-2. 输入当前账户密码，用于再次验证身份。
-3. 点击**生成 API Key**。
-4. 系统生成成功后，会在页面中显示一次完整 Key。
-
-![生成 API Key 标签](/assets/docs/916b64ab/account-api-key-tab.png)
-
-图中 `1` 为 **生成 API Key** 标签，`2` 为当前密码验证输入框，`3` 为生成密钥按钮。出于安全
-原因，本文不展示实际生成后的完整 Key。
-
-### 重要安全提示
-
-> 生成后的 API Key 只会完整显示一次。请立即复制并保存在安全位置，例如密码管理器
-> 或受控的密钥管理系统中。
-
-- 如果密码校验失败，系统会提示您重新检查当前密码。
-- 如果页面关闭或离开后未保存，您需要重新生成新的 API Key。
-- 不要将 API Key 写入公开仓库、截图、工单评论或公共聊天记录。
-
-## 常见问题
-
-### 为什么我在远程 MCP 配置里看到了 API Key，但账号页里没有写？
-
-现在 API Key 的生成入口以账号页为准，远程 MCP 和 OpenAPI 页面只负责说明如何使用
-这个 Key，而不再把生成流程藏在集成文档里。
-
-### 账号页里没有“生成 API Key”怎么办？
-
-请先确认您已经登录到正确账号，并刷新页面。如果仍然没有该标签，再联系平台维护者确认
-当前环境是否已启用该能力。
+旧的可逆用户 API Key 属于退役兼容路径，不再是新集成的设置方式。不要向 AI 或外部工具提供密码、authorization code、access token、refresh token 或旧 API Key。
