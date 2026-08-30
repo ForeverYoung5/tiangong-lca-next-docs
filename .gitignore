@@ -6,6 +6,7 @@
 
 # Generated files
 .cache-loader
+.docpact/runs/
 
 # Misc
 .DS_Store

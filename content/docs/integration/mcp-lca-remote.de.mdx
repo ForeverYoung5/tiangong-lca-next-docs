@@ -1,139 +1,47 @@
 ---
 title: "TianGong LCA MCP (remote)"
+description: "Remote-TianGong-LCA-Werkzeuge über standardbasierte MCP-OAuth-2.1-Browserautorisierung verbinden."
 ---
 
-Für die neuesten Versionshinweise, Tooling-Beispiele und Integrationstipps besuchen Sie den
-[TianGong MCP Hub](https://hub.ceeai.net/). Diese Seite beleuchtet das Wesentliche zur Nutzung des
-Remote-Dienstes.
+Der Remote-Endpunkt ist [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiangong.earth/mcp). Verwenden Sie einen MCP-Host mit Unterstützung für Streamable HTTP, OAuth 2.1, PKCE und Protected Resource Metadata.
 
-## Remote-Authentifizierung
+## Browserautorisierung
 
-Der Fernzugriff erfordert eine Bearer-Token-Authentifizierung. Derzeit gibt es zwei Hauptwege, um
-Bearer-Token zu erhalten: über den **OAuth-2.0-Flow** und über die **Tiangong Life Cycle Data Platform**.
+1. Wählen Sie im MCP-Host **Streamable HTTP** und tragen Sie den Remote-Endpunkt ein.
+2. Die erste Verbindung erhält `401` mit `resource_metadata`. Der Host liest automatisch `/.well-known/oauth-protected-resource/mcp` und die Metadaten des Autorisierungsservers.
+3. Der Host öffnet den Browser mit einer vorregistrierten öffentlichen Client-ID und S256-PKCE. Dynamic Client Registration ist in der ersten Produktionsversion deaktiviert; nicht registrierte Clients oder Callbacks können keine Verbindung herstellen.
+4. Der Nutzer meldet sich auf der [TianGong Life Cycle Data Platform](https://lca.tiangong.earth) an, prüft Anwendung, Konto und Zugriff auf der Einwilligungsseite und erlaubt oder verweigert die Anfrage.
+5. Der Browser kehrt zum exakten Callback des Hosts zurück. Der Host tauscht den Code aus und speichert seine MCP-Sitzung. Der Nutzer kopiert keinen Autorisierungscode und sieht oder fügt kein Token ein.
 
-### Tiangong Life Cycle Data Platform
+Der MCP-Host erhält nur ein undurchsichtiges Token für `https://lcamcp.tiangong.earth/mcp`. Der Dienst hält eine getrennte, verschlüsselte Supabase-Sitzung für Edge Functions oder PostgREST; das eingehende MCP-Token wird nie nachgelagert weitergereicht.
 
-Melden Sie sich bei der [Tiangong Life Cycle Data Platform](https://lca.tiangong.earth) an. Hinweise
-zu Registrierung und Anmeldung finden Sie in der [offiziellen Dokumentation](/de/docs/quick-start/first-login/).
-Führen Sie nach dem erfolgreichen Öffnen der Seite folgende Schritte aus.
+Geben Sie KI, Chat, Kommandoargumenten oder manuellen Headern niemals Benutzername, Passwort, Autorisierungscode, Access-/Refresh-Token oder den ausgemusterten Nutzer-API-Key. Der Remote-Dienst bietet keine OAuth-Demo-/Code-Anzeigeseite mehr und unterstützt weder Password- noch Client-Credentials-Grant.
 
-1. persönliche Informationen aufklappen: Klicken Sie oben rechts in der Kopfleiste auf den persönlichen Namen, um das Dropdown-Feld anzuzeigen.
-2. Kontoinformationen wählen: Wählen Sie im Dropdown-Feld „Account Information", um zur Kontoinformationsseite zu gelangen.
-3. API-Key generieren: Klicken Sie in der rechten Seitenleiste auf „Generate API Key".
-4. Passwort bestätigen: Geben Sie im Popup-Feld das Plattformpasswort zur Bestätigung ein.
-5. Key erhalten: Klicken Sie auf „Generate Key", um den API-Key erfolgreich zu erhalten.
-
-    ![](/assets/docs/861a547c/11.png)
-
-### OAuth-2.0-Flow
-
-1. OAuth-Interface öffnen: Öffnen Sie die [Demo-Oberfläche der TianGong-MCP-Server-OAuth-Authentifizierung](https://lcamcp.tiangong.earth/oauth/demo).
-2. Autorisierung starten: Scrollen Sie nach unten, finden Sie die Schaltfläche „Start OAuth Flow" und klicken Sie, um die Autorisierung zu beginnen.
-3. Nutzeranmeldung: Melden Sie sich mit Benutzername und Passwort der Tiangong Life Cycle Data Platform an.
-4. Autorisierungscode erhalten: Holen Sie nach erfolgreicher Anmeldung den Authorization Code und kopieren Sie ihn zur Aufbewahrung.
-5. Fenster schließen: Klicken Sie auf „close windows", um zur Hauptoberfläche zurückzukehren.
-6. Code einlösen: Fügen Sie den kopierten Code unten auf der Seite unter „Exchange Authorization Code" ein und klicken Sie auf „Exchange for tokens", um Access token und Refresh token zu erhalten.
-    ![](/assets/docs/47aed1f7/10.png)
-
-## MCP-Server-Aufruf
-
-### Inspector
-
-MCP-Inspector starten: Geben Sie folgenden Befehl im Terminal ein; es leitet automatisch zur
-Inspector-Seite weiter.
+## MCP Inspector
 
 ```bash
 npx @modelcontextprotocol/inspector
 ```
 
-1. Transporttyp konfigurieren: Wählen Sie auf der Inspector-Seite in der Dropdown-Box „Streamable HTTP".
-2. URL konfigurieren: Tragen Sie im URL-Feld die Adresse des MCP-Servers ein: [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiangong.earth/mcp).
-3. Token konfigurieren: Geben Sie den Access token oder API-Key aus dem obigen Vorgang in das entsprechende Token-Feld ein.
-4. Verbindung herstellen: Klicken Sie auf „Connect".
+1. Wählen Sie **Streamable HTTP**.
+2. Tragen Sie `https://lcamcp.tiangong.earth/mcp` als URL ein.
+3. Verwenden Sie die vom Betreiber bereitgestellte vorregistrierte Client-ID. Erzeugen Sie keinen Client und fügen Sie weder API-Key noch Bearer-Token ein.
+4. Stellen Sie die Verbindung her und schließen Sie die Browserautorisierung ab.
+5. Öffnen Sie **Tools** → **List Tools** und führen Sie eine Suche oder ein anderes Werkzeug aus.
 
-    **Nach erfolgreicher Seitenverbindung** zeigt das Folgende die Anwendung am Beispiel der Prozesssuche.
+Das anfängliche Fixed-Client-Rollout unterstützt nur registrierte Hosts. Wenn Cherry Studio, Dify oder ein anderer Host nur manuelle Authorization-Header unterstützt oder Dynamic Client Registration erzwingt, ist dies noch kein unterstützter Pfad; umgehen Sie dies nicht durch Kopieren von Tokens.
 
-5. Operation wählen: Klicken Sie auf der oberen Symbolleiste auf „Tools".
-6. Werkzeugliste aufklappen: Klicken Sie auf „List Tools", um die Werkzeugliste anzuzeigen.
-7. Suchwerkzeug wählen: Klicken Sie in der Liste auf „Search_processes_Tool".
-8. Suchparameter konfigurieren: Geben Sie in das entsprechende Eingabefeld die gesuchten Prozessschlüsselwörter ein.
-9. Werkzeug ausführen: Klicken Sie auf „Run Tool", um das Werkzeug auszuführen und die Suchergebnisse anzuzeigen.
+## Sitzung, Refresh und Widerruf
 
-    ![](/assets/docs/51ae3aa4/12.png)
+- Access-Tokens sind kurzlebig; der Host erneuert sie mit einem rotierenden Refresh-Token.
+- Lokales Trennen oder Abmelden soll die MCP-Sitzung des Hosts löschen, ersetzt aber nicht den kontoseitigen Widerruf.
+- Der Widerruf von „TianGong LCA MCP“ unter **Verbundene Anwendungen** verhindert sofort neue Supabase-Refreshes. Ein bereits ausgestelltes kurzlebiges Access-Token kann bis zum Ablauf gültig bleiben; sensible Vorgänge folgen ihrem eigenen Online-Validierungsvertrag.
+- Nach Widerruf, Refresh-Replay, Client-/Callback-Fehler oder ungültigem Grant erneut verbinden und im Browser autorisieren.
 
-Hat der Remote-MCP-Dienst die GLAD-Datensatzsuche aktiviert, enthält die Werkzeugliste zusätzlich
-`Search_GLAD_Datasets_Tool` und `Get_GLAD_Dataset_Tool`. Für die Remote-Nutzung konfigurieren Sie
-lediglich den auf dieser Seite beschriebenen TianGong-MCP-Bearer-Token; der GLAD-API-Key wird
-serverseitig konfiguriert. Sind die Werkzeuge nicht aufgeführt, hat der aktuelle Remote-Dienst die
-GLAD-Integration üblicherweise nicht aktiviert.
+## Headless- und Dienstidentitäten
 
-GLAD-Abfragewerkzeuge dienen dem Auffinden externer LCA-Datensatz-Metadaten und
-Zugangsbeschreibungen. Sie schreiben nicht automatisch externe Daten in TianGong LCA. Nutzen Sie den
-TIDAS-ZIP-Workflow oder die passende Konvertierungskette, wenn Sie Daten migrieren oder importieren
-möchten.
+Supabase OAuth unterstützt nur Authorization Code + PKCE und Refresh. Ein unbeaufsichtigter Workflow benötigt zuerst eine menschliche Autorisierung für einen festen Client und speichert die Refresh-Sitzung in einem genehmigten Secret Store, oder erhält ein kurzlebiges Akteur-Token vom Orchestrator. Eine KI darf niemals Kontozugangsdaten sammeln. Eine wirklich nutzerlose Integration verwendet eine separat geprüfte Service Capability statt vorgetäuschtem Nutzer-OAuth.
 
-### Cherry Studio
+## Werkzeug- und Datengrenze
 
-Laden Sie auf der [Cherry-Studio-Website](https://www.cherry-ai.com/download) gemäß der [offiziellen Dokumentation](https://docs.cherry-ai.com/pre-basic/installation) die Software auf Ihren lokalen Rechner herunter und öffnen Sie sie.
-
-1. Einstellungen öffnen: Klicken Sie in der Seitenleiste auf die Einstellungen-Schaltfläche.
-2. MCP-Einstellungen öffnen: Wählen Sie „MCP Settings", um zur MCP-Konfiguration zu gelangen.
-3. MCP-Server hinzufügen: Klicken Sie oben rechts auf „Add Server", um zur Konfiguration zu gelangen.
-
-    ![](/assets/docs/b4702b56/6.png)
-
-4. Serverdaten eintragen: Konfigurieren Sie die Grunddaten des Remote-MCP-Servers (XXX in Headers ist der erhaltene Access token oder API-Key).
-
-    >Type: Streamable HTTP
-    >URL: [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiangong.earth/mcp)
-    >Headers:
-    >Content-Type=application/json
-    >Authorization=Bearer XXX
-
-5. Konfiguration speichern: Klicken Sie auf „Save", um alle Einstellungen zu sichern.
-6. MCP-Verbindung starten: Klicken Sie auf die Start-Schaltfläche, um die MCP-Server-Verbindung zu öffnen.
-
-    ![](/assets/docs/6aff5542/7.png)
-
-7. Chat erstellen: Klicken Sie oben in der Seitenleiste, um zur Hauptseite zurückzukehren. Konfigurieren Sie das Modell (siehe [offizielle Dokumentation](https://docs.cherry-ai.com/pre-basic/providers)) und erstellen Sie einen Chat.
-8. Serververbindung konfigurieren: Klicken Sie unterhalb des Dialogfelds auf „MCP Settings".
-9. MCP-Dienst auswählen: Wählen Sie aus den Popup-Optionen den benötigten MCP-Server.
-
-    ![](/assets/docs/b56ae1db/15.png)
-
-### Dify
-
-1. Werkzeugseite öffnen: Klicken Sie in der oberen Symbolleiste auf „Tools", um die Werkzeugverwaltung zu öffnen.
-1. MCP-Werkzeug suchen: Geben Sie in der Suchleiste das Schlüsselwort „MCP" ein.
-1. Aus dem Markt herunterladen: Finden und laden Sie das MCP-Werkzeug im Marketplace (das hervorgehobene Werkzeug ist das empfohlene).
-1. Installation ausführen: Klicken Sie auf „Install", um die Installation abzuschließen.
-
-    ![](/assets/docs/3b6ff4be/16.png)
-1. Konfigurationsfeld öffnen: Klicken Sie nach Abschluss der Installation auf das erscheinende Konfigurationsfeld.
-1. Autorisierung öffnen: Klicken Sie auf „Authorization", um die MCP-Autorisierung zu konfigurieren.
-1. Konfigurationsfenster öffnen: Klicken Sie, um das MCP-Detailkonfigurationsfenster zu öffnen.
-1. Grunddaten eintragen: Füllen Sie im Konfigurationsfenster die nötigen Verbindungsinformationen aus (Beispiel unten).
-
-    ```json
-    {
-        "tiangong_lca_remote": {
-        "transport": "streamable_http",
-        "url": "https://lcamcp.tiangong.earth/mcp",
-        "headers": {
-            "Accept": "application/json,text/event-stream",
-            "Authorization": "Bearer XXX"
-        },
-        "timeout": 50,
-        "sse_read_timeout": 50
-        }
-    }
-    ```
-
-1. Konfiguration speichern: Klicken Sie nach dem Ausfüllen auf „Save".
-
-    ![](/assets/docs/ef53e152/17.png)
-
-1. Workflow aufbauen: Erstellen Sie in Dify Workflows oder Agenten, die das MCP aufrufen.
-    >
-    >1. Zum Erstellen von Agenten und Workflows siehe [offizielle Dokumentation](https://docs.dify.ai/zh-hans/guides/application-orchestrate/creating-an-application).
-    >2. Zu MCP-Anwendungen siehe [offizielle Dokumentation](https://docs.dify.ai/zh-hans/guides/tools/mcp)
+Die Werkzeugliste enthält normalerweise Flow-, Process- und LifecycleModel-Suche sowie RLS-geschützte Datenoperationen. Ist GLAD aktiviert, erscheinen auch `Search_GLAD_Datasets_Tool` und `Get_GLAD_Dataset_Tool`; der GLAD-API-Key liegt nur auf dem Remote-Server. GLAD-Werkzeuge fragen externe Datensatzmetadaten ab und importieren keine Daten automatisch.

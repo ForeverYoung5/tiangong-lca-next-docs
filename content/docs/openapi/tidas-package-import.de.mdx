@@ -1,6 +1,6 @@
 ---
 title: "TIDAS-Paketimport-API"
-description: "TIDAS-ZIP-Pakete über die TianGong-LCA-API mit API-Key-Authentifizierung importieren."
+description: "TIDAS-ZIP-Pakete mit einem kurzlebigen Akteur-Token eines registrierten OAuth-Clients über die TianGong-LCA-API importieren."
 ---
 
 Dieser Leitfaden erklärt, wie Sie ein TIDAS-ZIP-Paket über die TianGong-LCA-
@@ -19,13 +19,12 @@ mit angehängtem `/functions/v1`.
 Der empfohlene Auth-Header ist:
 
 ```http
-Authorization: Bearer <USER_API_KEY>
+Authorization: Bearer <OAUTH_ACCESS_TOKEN>
 ```
 
-- `USER_API_KEY` lässt sich auf der TianGong-LCA-Kontoprofilseite generieren
-- Behandeln Sie den API-Key mit derselben Sorgfalt wie Kontozugangsdaten als Secret
-- First-Party-Browsersitzungen können weiterhin `USER_JWT` nutzen; externe API-
-  Integrationen sollten `USER_API_KEY` bevorzugen
+- Ein registrierter OAuth-Client erhält Access-/Refresh-Tokens über Authorization Code + PKCE und speichert sie in einem genehmigten Secret Store. Tokens gehören nie in KI, Chat, Logs oder öffentliche Repositories
+- Supabase OAuth unterstützt weder Password- noch Client-Credentials-Grant. Headless-Arbeit benötigt eine menschlich autorisierte Refresh-Sitzung, ein kurzlebiges Akteur-Token vom Orchestrator oder eine separat geprüfte Service Capability
+- Nutzen Sie für interaktive Imports bevorzugt CLI oder Produkt-UI. Ein eigener Client muss exakten Client/Callback vorregistrieren und seine OAuth-Sitzung sicher verwalten
 
 Beispiel-Basis-URL:
 
@@ -79,7 +78,7 @@ Anfrage:
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   --header 'Content-Type: application/json' \
-  --header "Authorization: Bearer ${USER_API_KEY}" \
+  --header "Authorization: Bearer ${OAUTH_ACCESS_TOKEN}" \
   --header 'X-Idempotency-Key: tidas-import-prepare-001' \
   --data '{
     "action": "prepare_upload",
@@ -156,7 +155,7 @@ Import-Worker in die Warteschlange:
 ```bash
 curl -i --location --request POST "${BASE_URL}/import_tidas_package" \
   --header 'Content-Type: application/json' \
-  --header "Authorization: Bearer ${USER_API_KEY}" \
+  --header "Authorization: Bearer ${OAUTH_ACCESS_TOKEN}" \
   --header 'X-Idempotency-Key: tidas-import-enqueue-001' \
   --data '{
     "action": "enqueue",
@@ -192,7 +191,7 @@ Empfohlene Abfrage:
 
 ```bash
 curl -i --location --request GET "${BASE_URL}/tidas_package_jobs/<job-id>" \
-  --header "Authorization: Bearer ${USER_API_KEY}"
+  --header "Authorization: Bearer ${OAUTH_ACCESS_TOKEN}"
 ```
 
 Die API unterstützt außerdem `GET /tidas_package_jobs?job_id=<job-id>` und
@@ -369,7 +368,7 @@ die Form im Stil `64-17-5` und validiert anschließend die finale CAS-Prüfziffe
   im asynchronen Worker
 - `prepare_upload` allein genügt nicht; Upload, Enqueue und Abfragen sind
   alle erforderlich
-- API-Key-Authentifizierung und Browser-JWT teilen denselben Endpunkt-Vertrag; externe
-  Integrationen sollten API-Keys bevorzugen
+- CLI-Nutzer sollten die Browser-OAuth-Sitzung aus [TianGong CLI](/de/docs/integration/cli/) verwenden; die CLI exportiert keine Tokens
+- Eigene API-Integrationen müssen exakten Client/Callback vorregistrieren sowie S256-PKCE und Refresh-Rotation implementieren; sammeln Sie niemals Nutzerpasswörter oder manuell kopierte Tokens
 - Halten Sie die Edge-Function-Basis-URL mit der bereitgestellten Umgebung konsistent, die
   Ihre Produkt-UI bedient

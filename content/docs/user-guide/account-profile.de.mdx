@@ -1,103 +1,44 @@
 ---
-title: "Kontoverwaltung und API-Key"
+title: "Kontoverwaltung und verbundene Anwendungen"
+description: "Profil, Anmeldedaten und OAuth-Berechtigungen für CLI- und MCP-Clients verwalten."
 ---
 
-Öffnen Sie das Profilmenü oben rechts und wählen Sie **Kontoprofil**, um zur Kontoseite zu gelangen.
-
-![Kontoprofil](/assets/docs/78a6dc92/account-profile-1.png)
-
-Die Seite enthält derzeit vier Reiter:
-
-- **Grundinformationen**
-- **Passwort ändern**
-- **E-Mail ändern**
-- **API-Key generieren**
-
-Möchten Sie entfernte MCP-Dienste oder authentifizierte APIs nutzen, generieren Sie zuerst hier den
-Key und fahren Sie dann fort mit [TianGong LCA MCP – remote](/de/docs/integration/mcp-lca-remote/)
-oder der [TIDAS-Paketimport-API](/de/docs/openapi/tidas-package-import/).
+Öffnen Sie oben rechts das Profilmenü und wählen Sie **Kontoprofil**. Die Seite verwaltet Grundinformationen, Passwort, E-Mail und verbundene Anwendungen.
 
 ## Grundinformationen
 
-Der Reiter **Grundinformationen** zeigt Ihre aktuelle E-Mail, Rolle und den Spitznamen.
-
-- E-Mail und Rolle sind schreibgeschützte Identitätsfelder.
-- Der Spitzname ist bearbeitbar.
-- Nach dem Speichern aktualisiert sich der Name in der Kopfleiste sofort.
+Hier sehen Sie E-Mail, Rolle und Spitznamen. E-Mail und Rolle sind schreibgeschützte Identitätsfelder; ein gespeicherter Spitzname erscheint in der Kopfleiste.
 
 ![Grundinformationen](/assets/docs/603f6b1d/basic-information.png)
 
 ## Passwort ändern
 
-Zum Ändern des Passworts tragen Sie ein:
+Geben Sie aktuelles Passwort, neues Passwort und Bestätigung ein. Das neue Passwort muss sich vom aktuellen unterscheiden und die Komplexitätsregeln erfüllen.
 
-- Aktuelles Passwort
-- Neues Passwort
-- Neues Passwort bestätigen
-
-Beachten Sie:
-
-- Das neue Passwort muss sich vom aktuellen unterscheiden.
-- Es muss die Passwort-Komplexitätsregeln der Plattform erfüllen.
-- Nutzen Sie Skripte oder externe Tools, aktualisieren Sie auch das dort gespeicherte Passwort.
+Das Passwort dient nur der Plattformanmeldung. Speichern Sie es niemals in KI-Tools, CLI, MCP-Client, Automatisierungsskript, Ticket oder Chat. CLI und Remote-MCP verwenden Browser-OAuth; der Client benötigt das Passwort nicht.
 
 ![Passwort ändern](/assets/docs/3cbfb9d8/change-password.png)
 
 ## E-Mail ändern
 
-Der Reiter **E-Mail ändern** zeigt Ihre aktuelle E-Mail und fragt nach:
-
-- Neuer E-Mail
-- Bestätigung der neuen E-Mail
-
-Nach dem Absenden verschickt die Plattform eine Verifizierungs-E-Mail an die neue Adresse. Prüfen
-Sie Posteingang und [Benachrichtigungszentrum](/de/docs/user-guide/notifications/), bis die Änderung bestätigt ist.
+Nach Eingabe und Bestätigung der neuen Adresse sendet die Plattform eine Verifizierungsnachricht. Prüfen Sie Posteingang und [Benachrichtigungszentrum](/de/docs/user-guide/notifications/), bis die Verifizierung abgeschlossen ist. Bestehende Clients müssen sich danach gegebenenfalls neu anmelden.
 
 ![E-Mail ändern](/assets/docs/c122399f/change-email.png)
 
-## API-Key generieren
+## Verbundene Anwendungen
 
-**API-Key generieren** ist inzwischen eine eigenständige Kontofunktion, nicht nur ein
-Integrationshinweis.
+Nach der ersten Browserautorisierung erscheinen CLI oder Remote-MCP unter **Verbundene Anwendungen**. Jeder Eintrag zeigt Anwendung, Autorisierungszeit und verfügbare Aktion.
 
-### Typische Anwendungsfälle
+- Prüfen Sie Konto und Anwendungsname auf der Einwilligungsseite.
+- Ein Widerruf löscht den Supabase-Grant sofort und verhindert weitere Refreshes.
+- Ein bereits ausgestelltes kurzlebiges Access-Token kann bis zum Ablauf gültig bleiben; sensible Endpunkte folgen ihrem Online-Validierungsvertrag.
+- Nach Widerruf muss der Client erneut Browser-OAuth starten: `tiangong-lca auth login` für die CLI oder erneutes Verbinden des MCP-Hosts.
+- CLI `auth logout` oder lokales MCP-Trennen entfernt nur lokalen Zustand und ist kein kontoseitiger Widerruf.
 
-- Anbindung an das TianGong-LCA-Remote-MCP
-- Ausführung authentifizierter Automatisierungsskripte
-- Konfiguration externer Dienste, die die Plattform aufrufen
+## CLI, MCP und Automatisierung
 
-### Schritte
+- [TianGong CLI](/de/docs/integration/cli/) nutzt einen öffentlichen OAuth-Client, S256-PKCE und einen exakten `127.0.0.1`-Callback.
+- [TianGong LCA MCP – remote](/de/docs/integration/mcp-lca-remote/) nutzt MCP-Discovery und Browser-Einwilligung; Nutzer kopieren weder Code noch Token.
+- Supabase OAuth unterstützt weder Password- noch Client-Credentials-Grant. Headless-Arbeit benötigt eine menschlich autorisierte Refresh-Sitzung, ein kurzlebiges Akteur-Token vom Orchestrator oder eine separat geprüfte Service Capability.
 
-1. Öffnen Sie den Reiter **API-Key generieren**.
-2. Geben Sie Ihr aktuelles Kontopasswort ein, um Ihre Identität zu bestätigen.
-3. Klicken Sie auf **API-Key generieren**.
-4. Kopieren Sie den erzeugten Key sofort.
-
-![Reiter API-Key generieren](/assets/docs/916b64ab/account-api-key-tab.png)
-
-Im Screenshot markiert `1` den Reiter **API-Key generieren**, `2` das Feld zur Bestätigung des
-aktuellen Passworts und `3` die Schaltfläche zur Key-Erzeugung. Der tatsächliche Key ist aus
-Sicherheitsgründen hier nicht abgebildet.
-
-### Wichtiger Sicherheitshinweis
-
-> Der vollständige API-Key wird nur einmal angezeigt. Speichern Sie ihn umgehend an einem sicheren
-> Ort, etwa einem Passwort-Manager oder einem Managed-Secrets-System.
-
-- Schlägt die Passwortbestätigung fehl, bittet die Seite um erneute Prüfung des aktuellen Passworts.
-- Verlassen Sie die Seite ohne Speichern des Keys, müssen Sie einen neuen generieren.
-- Legen Sie den Key niemals in öffentlichen Repositories, Screenshots, Tickets oder geteilten
-  Chat-Verläufen ab.
-
-## FAQ
-
-### Warum ist die API-Key-Erzeugung jetzt auf der Kontoseite dokumentiert?
-
-Weil die Kontoseite der tatsächliche Produkteinstieg ist. Die MCP- und OpenAPI-Seiten erklären die
-Nutzung des Keys, nachdem er erstellt wurde.
-
-### Was, wenn ich den Reiter `API-Key generieren` nicht sehe?
-
-Laden Sie die Seite neu und vergewissern Sie sich, dass Sie das erwartete Konto verwenden. Bleibt
-der Reiter fehlen, klären Sie mit dem Betreiber der Umgebung, ob diese Funktion in der aktuellen
-Bereitstellung aktiviert ist.
+Der reversible Nutzer-API-Key ist ein ausgemusterter Kompatibilitätspfad, keine Einrichtung für neue Integrationen. Geben Sie KI oder externen Tools niemals Passwort, Autorisierungscode, Access-/Refresh-Token oder alten API-Key.

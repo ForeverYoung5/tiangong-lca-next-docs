@@ -1,106 +1,44 @@
 ---
-title: "Gestion du compte et clé API"
+title: "Gestion du compte et applications connectées"
+description: "Gérer le profil, les identifiants de connexion et les autorisations OAuth des clients CLI et MCP."
 ---
 
-Ouvrez le menu du profil en haut à droite et sélectionnez **Profil du compte** pour accéder à la
-page du compte.
-
-![Profil du compte](/assets/docs/78a6dc92/account-profile-1.png)
-
-La page contient actuellement quatre onglets :
-
-- **Informations de base**
-- **Changer le mot de passe**
-- **Changer l'e-mail**
-- **Générer une clé API**
-
-Si vous devez vous connecter à des services MCP distants ou à des API authentifiées, générez d'abord
-la clé ici, puis poursuivez avec [TianGong LCA MCP – distant](/fr/docs/integration/mcp-lca-remote/)
-ou l'[API d'import de packages TIDAS](/fr/docs/openapi/tidas-package-import/).
+Ouvrez le menu du profil en haut à droite et sélectionnez **Profil du compte**. Cette page gère les informations de base, le mot de passe, l'e-mail et les applications connectées.
 
 ## Informations de base
 
-L'onglet **Informations de base** affiche votre e-mail, votre rôle et votre pseudonyme actuels.
-
-- L'e-mail et le rôle sont des champs d'identité en lecture seule.
-- Le pseudonyme est modifiable.
-- Après enregistrement, le nom affiché dans l'en-tête se met à jour immédiatement.
+Consultez l'e-mail, le rôle et le pseudonyme. L'e-mail et le rôle sont en lecture seule ; un pseudonyme enregistré apparaît dans l'en-tête.
 
 ![Informations de base](/assets/docs/603f6b1d/basic-information.png)
 
 ## Changer le mot de passe
 
-Pour changer votre mot de passe, renseignez :
+Saisissez le mot de passe actuel, le nouveau et sa confirmation. Le nouveau mot de passe doit être différent et respecter la politique de complexité.
 
-- Mot de passe actuel
-- Nouveau mot de passe
-- Confirmation du nouveau mot de passe
-
-À garder à l'esprit :
-
-- Le nouveau mot de passe doit différer de l'actuel.
-- Il doit respecter les règles de complexité de la plateforme.
-- Si vous utilisez des scripts ou des outils externes, mettez aussi à jour le mot de passe qui y est
-  stocké.
+Le mot de passe sert uniquement à la connexion à la plateforme. Ne le stockez jamais dans un outil d'IA, la CLI, un client MCP, un script, un ticket ou un chat. La CLI et le MCP distant utilisent OAuth dans le navigateur ; le client n'a pas besoin de recevoir le mot de passe.
 
 ![Changer le mot de passe](/assets/docs/3cbfb9d8/change-password.png)
 
 ## Changer l'e-mail
 
-L'onglet **Changer l'e-mail** affiche votre adresse actuelle et demande :
-
-- Le nouvel e-mail
-- La confirmation du nouvel e-mail
-
-Après soumission, la plateforme envoie un e-mail de vérification à la nouvelle adresse. Vérifiez à
-la fois votre boîte de réception et le [centre de notifications](/fr/docs/user-guide/notifications/) jusqu'à
-confirmation du changement.
+Après saisie et confirmation de la nouvelle adresse, la plateforme lui envoie un message de vérification. Consultez la boîte de réception et le [centre de notifications](/fr/docs/user-guide/notifications/) jusqu'à validation. Les clients existants peuvent devoir se reconnecter.
 
 ![Changer l'e-mail](/assets/docs/c122399f/change-email.png)
 
-## Générer une clé API
+## Applications connectées
 
-**Générer une clé API** est désormais une fonction de compte à part entière, et plus une simple
-note d'intégration.
+Après la première autorisation dans le navigateur, la CLI ou le MCP distant apparaît sous **Applications connectées**. Chaque élément affiche l'application, l'heure d'autorisation et l'action disponible.
 
-### Cas d'usage typiques
+- Vérifiez le compte et le nom de l'application sur la page de consentement.
+- La révocation supprime immédiatement le grant Supabase et empêche les prochains rafraîchissements.
+- Un jeton d'accès court déjà émis peut rester valide jusqu'à son expiration ; les endpoints sensibles suivent leur contrat de vérification en ligne.
+- Après révocation, le client doit recommencer OAuth dans le navigateur : `tiangong-lca auth login` pour la CLI ou reconnexion de l'hôte MCP.
+- `auth logout` de la CLI ou une déconnexion MCP locale supprime seulement l'état local et ne vaut pas révocation côté compte.
 
-- Connexion au MCP distant TianGong LCA
-- Exécution de scripts d'automatisation authentifiés
-- Configuration de services externes appelant la plateforme
+## CLI, MCP et automatisation
 
-### Étapes
+- [TianGong CLI](/fr/docs/integration/cli/) utilise un client OAuth public, PKCE S256 et un callback `127.0.0.1` exact.
+- [TianGong LCA MCP – distant](/fr/docs/integration/mcp-lca-remote/) utilise la découverte MCP et le consentement navigateur ; l'utilisateur ne copie ni code ni jeton.
+- Supabase OAuth ne prend en charge ni grant password ni client-credentials. Un travail headless nécessite une session de rafraîchissement autorisée par un humain, un jeton acteur court injecté par l'orchestrateur, ou une service capability auditée séparément.
 
-1. Ouvrez l'onglet **Générer une clé API**.
-2. Saisissez le mot de passe actuel du compte pour vérifier votre identité.
-3. Cliquez sur **Générer une clé API**.
-4. Copiez immédiatement la clé générée.
-
-![Onglet de génération de clé API](/assets/docs/916b64ab/account-api-key-tab.png)
-
-Sur la capture, `1` marque l'onglet **Générer une clé API**, `2` le champ de vérification du mot de
-passe courant et `3` le bouton de génération. La clé réelle est masquée ici pour des raisons de
-sécurité.
-
-### Remarque de sécurité importante
-
-> La clé API complète n'est affichée qu'une seule fois. Conservez-la immédiatement dans un endroit
-> sûr, tel qu'un gestionnaire de mots de passe ou un système de secrets géré.
-
-- Si la vérification du mot de passe échoue, la page invite à revérifier le mot de passe courant.
-- Si vous quittez la page sans enregistrer la clé, vous devrez en générer une nouvelle.
-- Ne placez jamais la clé dans des dépôts publics, des captures d'écran, des tickets ou des
-  historiques de conversation partagés.
-
-## FAQ
-
-### Pourquoi la génération de clé API est-elle documentée sur la page du compte ?
-
-Parce que la page du compte est le véritable point d'entrée produit. Les pages MCP et OpenAPI
-expliquent comment utiliser la clé une fois créée.
-
-### Que faire si je ne vois pas l'onglet `Générer une clé API` ?
-
-Rechargez la page et confirmez que vous utilisez le compte attendu. Si l'onglet manque toujours,
-vérifiez auprès du mainteneur de l'environnement si cette capacité est activée dans le déploiement
-courant.
+L'ancienne clé API utilisateur réversible est un chemin de compatibilité retiré, pas une configuration pour les nouvelles intégrations. Ne donnez jamais à une IA ou un outil externe un mot de passe, code d'autorisation, jeton d'accès/rafraîchissement ou ancienne clé API.

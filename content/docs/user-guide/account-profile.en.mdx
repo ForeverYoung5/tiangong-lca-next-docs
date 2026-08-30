@@ -1,102 +1,44 @@
 ---
-title: "Account Management & API Key"
+title: "Account Management & Connected Applications"
+description: "Manage profile details, login credentials, and OAuth grants for CLI and MCP clients."
 ---
 
-Open the avatar menu in the top-right corner and select **Account Profile** to reach the account
-page.
+Open the avatar menu in the top-right corner and select **Account Profile**. The page manages basic information, password, email, and connected applications.
 
-![Account Profile](/assets/docs/78a6dc92/account-profile-1.png)
+## Basic information
 
-The page currently contains four tabs:
-
-- **Basic Information**
-- **Change Password**
-- **Change Email**
-- **Generate API Key**
-
-If you need to connect to remote MCP services or authenticated APIs, generate the key here first and
-then continue with [TianGong LCA MCP - Remote](/en/docs/integration/mcp-lca-remote/) or
-[TIDAS Package Import API](/en/docs/openapi/tidas-package-import/).
-
-## Basic Information
-
-The **Basic Information** tab shows your current email, role, and nickname.
-
-- Email and role are read-only identity fields.
-- Nickname is editable.
-- After saving, the name shown in the header updates immediately.
+View your current email, role, and nickname. Email and role are read-only identity fields; a saved nickname is reflected in the page header.
 
 ![Basic Information](/assets/docs/603f6b1d/basic-information.png)
 
-## Change Password
+## Change password
 
-To change your password, fill in:
+Enter the current password, new password, and confirmation. The new password must differ from the current one and satisfy the platform complexity policy.
 
-- Current password
-- New password
-- Confirm new password
-
-Keep in mind:
-
-- The new password must differ from the current one.
-- It must satisfy the platform's password complexity rules.
-- If you use scripts or external tools, update the stored password there as well.
+The password is for platform sign-in only. Never store it in an AI tool, CLI, MCP client, automation script, ticket, or chat. CLI and remote MCP use browser OAuth and do not need the client to receive the password.
 
 ![Change Password](/assets/docs/3cbfb9d8/change-password.png)
 
-## Change Email
+## Change email
 
-The **Change Email** tab shows your current email and asks for:
-
-- New email
-- Confirm new email
-
-After submission, the platform sends a verification email to the new address. Check both your inbox
-and the [notification center](/en/docs/user-guide/notifications/) until the change is confirmed.
+After submitting and confirming a new email address, the platform sends a verification message to it. Check both the inbox and [notification center](/en/docs/user-guide/notifications/) until verification completes. Existing clients may need to sign in again after an email change.
 
 ![Change Email](/assets/docs/c122399f/change-email.png)
 
-## Generate API Key
+## Connected applications
 
-**Generate API Key** is now a first-class account feature, not just an integration note.
+After the CLI or remote MCP is authorized in the browser for the first time, it appears under **Connected applications**. Each item shows the application, authorization time, and available action.
 
-### Typical use cases
+- Confirm the current account and application name on the consent page before allowing access.
+- Revoking an application immediately deletes its Supabase grant and prevents future refreshes.
+- An already issued short-lived access token can remain valid until expiry; sensitive endpoints follow their own online-validation contract.
+- After revocation, the client must start browser authorization again. Run `tiangong-lca auth login` for the CLI or reconnect the MCP host.
+- CLI `auth logout` or a local MCP disconnect removes only local state; it is not account-side revocation.
 
-- Connecting to TianGong LCA remote MCP
-- Running authenticated automation scripts
-- Configuring external services that call the platform
+## CLI, MCP, and automation
 
-### Steps
+- [TianGong CLI](/en/docs/integration/cli/) uses a public OAuth client, S256 PKCE, and an exact `127.0.0.1` callback.
+- [TianGong LCA MCP - Remote](/en/docs/integration/mcp-lca-remote/) uses MCP discovery and browser consent; the user never copies a code or token.
+- Supabase OAuth supports neither password nor client-credentials grants. Headless work needs a human-authorized refresh session, an orchestrator-injected short-lived actor token, or a separately reviewed service capability.
 
-1. Open the **Generate API Key** tab.
-2. Enter your current account password to verify your identity.
-3. Click **Generate API Key**.
-4. Copy the generated key immediately.
-
-![Generate API Key tab](/assets/docs/916b64ab/account-api-key-tab.png)
-
-In the screenshot, `1` marks the **Generate API Key** tab, `2` marks the current-password
-verification field, and `3` marks the key-generation button. The actual generated key is omitted
-here for security reasons.
-
-### Important security note
-
-> The full API key is displayed only once. Store it immediately in a secure location such as a
-> password manager or managed secrets system.
-
-- If password verification fails, the page asks you to re-check the current password.
-- If you leave the page without saving the key, you will need to generate a new one.
-- Never place the key in public repositories, screenshots, tickets, or shared chat history.
-
-## FAQ
-
-### Why is API key generation documented on the account page now?
-
-Because the account page is the actual product entry point. MCP and OpenAPI pages explain how to use
-the key after it has been created.
-
-### What if I do not see the `Generate API Key` tab?
-
-Refresh the page and confirm you are using the expected account. If the tab is still missing, check
-with the environment maintainer to confirm whether this capability is enabled in the current
-deployment.
+The reversible user API key is a retired compatibility path, not a setup option for new integrations. Never give an AI or external tool a password, authorization code, access token, refresh token, or legacy API key.

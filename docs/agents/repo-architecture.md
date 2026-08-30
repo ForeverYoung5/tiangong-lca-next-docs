@@ -33,9 +33,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-30
-lastReviewedCommit: 23c1f194d44f22935845707cd00160e64ada2f1a
-lastReviewedNote: "Reviewed for Issue #163: EdgeOne's managed build uses its preinstalled pnpm directly and no longer mutates Corepack shims; routes, outputs, and publication trust boundaries are unchanged."
+lastReviewedAt: 2026-08-31
+lastReviewedCommit: 3640b8e2d0c7636199e07d4a4fb9f1a431ad1adc
+lastReviewedNote: "Reviewed for Issue #165: four synchronized public locale families now own the OAuth user explanation and a build-time contract test rejects retired LCA credential setup; site topology is unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -89,6 +89,8 @@ page.fr.mdx
 ```
 
 All four variants must change together when structure, links, examples, or user-visible facts change. Locale metadata files follow the same suffix convention.
+
+Authentication content is cross-page but not a second runtime. `integration/cli*`, `integration/mcp-lca-remote*`, `user-guide/account-profile*`, and `openapi/tidas-package-import*` must describe the same browser OAuth, PKCE, registered-client, connected-app revoke, token-lifetime, headless, and service-identity facts. `scripts/oauth-doc-contract.test.mjs` inventories those exact families and rejects the retired LCA user API-key/demo/manual-token path. Knowledge Base MCP and server-side GLAD authentication remain independently owned and are not rewritten by that LCA guard.
 
 Screenshot evidence is stored once under `public/assets/docs/<sha256-prefix>/<semantic-name>.png` and referenced through `/assets/docs/**` by the complete locale family. `scripts/check-screenshots.mjs` validates manifest bindings, references, image metadata, privacy evidence, and add/replace/reuse diff semantics. Replacement creates a new hash path and removes the previous asset only when no current MDX source still references it.
 
