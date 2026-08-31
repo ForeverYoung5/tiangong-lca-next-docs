@@ -34,8 +34,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-31
-lastReviewedCommit: 3640b8e2d0c7636199e07d4a4fb9f1a431ad1adc
-lastReviewedNote: "Reviewed for Issue #165: four synchronized public locale families now own the OAuth user explanation and a build-time contract test rejects retired LCA credential setup; site topology is unchanged."
+lastReviewedCommit: 632d185f005db41fdfb5ebb9f9ced1b3f97fec7a
+lastReviewedNote: "Reviewed for Issue #167: the OAuth contract test now rejects localized legacy credential generation in all four supported languages; site topology and public guidance are unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -90,7 +90,7 @@ page.fr.mdx
 
 All four variants must change together when structure, links, examples, or user-visible facts change. Locale metadata files follow the same suffix convention.
 
-Authentication content is cross-page but not a second runtime. `integration/cli*`, `integration/mcp-lca-remote*`, `user-guide/account-profile*`, and `openapi/tidas-package-import*` must describe the same browser OAuth, PKCE, registered-client, connected-app revoke, token-lifetime, headless, and service-identity facts. `scripts/oauth-doc-contract.test.mjs` inventories those exact families and rejects the retired LCA user API-key/demo/manual-token path. Knowledge Base MCP and server-side GLAD authentication remain independently owned and are not rewritten by that LCA guard.
+Authentication content is cross-page but not a second runtime. `integration/cli*`, `integration/mcp-lca-remote*`, `user-guide/account-profile*`, and `openapi/tidas-package-import*` must describe the same browser OAuth, PKCE, registered-client, connected-app revoke, token-lifetime, headless, and service-identity facts. `scripts/oauth-doc-contract.test.mjs` inventories those exact families and rejects the retired LCA user API-key/demo/manual-token path, with English, Chinese, German, and French negative fixtures that prove the localized generation phrases remain covered. Knowledge Base MCP and server-side GLAD authentication remain independently owned and are not rewritten by that LCA guard.
 
 Screenshot evidence is stored once under `public/assets/docs/<sha256-prefix>/<semantic-name>.png` and referenced through `/assets/docs/**` by the complete locale family. `scripts/check-screenshots.mjs` validates manifest bindings, references, image metadata, privacy evidence, and add/replace/reuse diff semantics. Replacement creates a new hash path and removes the previous asset only when no current MDX source still references it.
 
