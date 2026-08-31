@@ -211,6 +211,28 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 这些命令会把机器可读报告写入 `--out-dir` 下的 `outputs/` 或 `reports/` 目录。接入自动化时，应优先读取报告中的
 `status`、`blockers`、`issues`、`files` 和具体制品路径。
 
+## 数据集维护
+
+`tiangong-lca dataset maintenance plan/apply/verify` 面向受控的账号级数据清理、坏导入修复和
+支持数据别名合并。它以当前认证用户运行，依赖服务端 RLS 限制可见行和可写行；不要把它当成
+跨账号管理员批处理工具。
+
+```bash
+tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation redo-import --out-dir ./dataset-maintenance --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
+tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+```
+
+`--page-size` 是请求的最大值，范围为 `1-5000`；PostgREST 仍可能按服务端上限返回更小页面。
+CLI 会请求 `Prefer: count=exact`，从每个 `Content-Range` 校验精确总数和返回范围，并按实际
+返回行数推进下一页 offset。一个可接受的扫描必须保持严格的 `id` / `version` 排序，不能缺失
+或重复身份，并会记录每张表的请求页大小、有效页大小、页数、已取行数、精确总数和聚合实体数。
+
+这个完整性证明表示 CLI 在表成员和排序键保持稳定期间遍历了过滤后的结果集。由于读取跨多个
+HTTP 请求完成，它不是单一时刻的事务级或 MVCC 快照；同账号维护期间应避免并发清理、删除或插入。
+`plan` 会把完整性证明写入不可变计划哈希，`apply` 在接受批准或写入前会重新执行完整账号扫描并
+检查漂移，`verify` 也会通过新的完整读回证明而不是只信任 apply 报告。
+
 ## `tiangong-lca` 校验与失败报告
 
 `dataset validate`、`process save-draft`、`lifecyclemodel save-draft` 以及相关修复命令会先进行本地 TIDAS schema 校验。当前 CLI 在快速校验失败后，会使用 SDK 的深度校验补充更具体的问题路径和消息。
