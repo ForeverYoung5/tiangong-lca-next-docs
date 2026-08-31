@@ -34,8 +34,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-08-31
-lastReviewedCommit: 632d185f005db41fdfb5ebb9f9ced1b3f97fec7a
-lastReviewedNote: "Reviewed for Issue #167: the OAuth contract test now rejects localized legacy credential generation in all four supported languages; site topology and public guidance are unchanged."
+lastReviewedCommit: 55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce
+lastReviewedNote: "Reviewed for workspace Issue #768: CLI dataset-maintenance guidance adds localized public docs content only; site topology, locale structure, package graph, and runtime architecture remain unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml

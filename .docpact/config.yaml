@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-31"
-lastReviewedCommit: "632d185f005db41fdfb5ebb9f9ced1b3f97fec7a"
-reviewNote: "Reviewed for Issue #167: existing public-content and site-structure rules govern the expanded four-locale OAuth credential guard."
-lastReviewedNote: "The test now proves localized English, Chinese, German, and French legacy-generation phrases are rejected; no routing, ownership, coverage, locale-count, or publication-trust rule change is required."
+lastReviewedCommit: "55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce"
+reviewNote: "Reviewed for workspace Issue #768: existing public-content and site-structure rules cover the CLI dataset-maintenance docs update."
+lastReviewedNote: "Reviewed for workspace Issue #768: dataset-maintenance guidance only changes public CLI content; no routing, ownership, coverage, locale-count, or publication-trust rule change is required."
 
 catalog:
   repos:
