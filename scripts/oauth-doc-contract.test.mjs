@@ -20,12 +20,23 @@ const importPages = locales.map(
   (locale) => `content/docs/openapi/tidas-package-import${locale}.mdx`,
 );
 const migratedPages = [...cliPages, ...mcpPages, ...accountPages, ...importPages];
+const forbiddenCredentialSetup =
+  /TIANGONG_LCA_API_KEY\s*=|USER_API_KEY|oauth\/demo|Generate\s+(?:an?\s+)?API[- ]?Key|生成\s*API[- ]?Key|API[- ]?Key\s*生成|API[- ]?(?:Key|Schlüssel)\s+generieren|G[eé]n[eé]rer\s+(?:une\s+)?cl[eé]\s+API|Authorization.*Bearer XXX|Exchange Authorization Code|Exchange for tokens/iu;
+
+test('legacy API-key generation fixtures are rejected in every locale', () => {
+  for (const [locale, fixture] of [
+    ['en', 'Generate API Key'],
+    ['zh', '生成 API Key'],
+    ['de', 'API-Key generieren'],
+    ['fr', 'Générer une clé API'],
+  ]) {
+    assert.match(fixture, forbiddenCredentialSetup, locale);
+  }
+});
 
 test('LCA auth pages contain no retired password-equivalent setup path', () => {
-  const forbidden =
-    /TIANGONG_LCA_API_KEY\s*=|USER_API_KEY|oauth\/demo|Generate API Key|生成 API Key|API Key生成|Authorization.*Bearer XXX|Exchange Authorization Code|Exchange for tokens/u;
   for (const relativePath of migratedPages) {
-    assert.doesNotMatch(read(relativePath), forbidden, relativePath);
+    assert.doesNotMatch(read(relativePath), forbiddenCredentialSetup, relativePath);
   }
   for (const relativePath of [
     'public/assets/docs/861a547c/11.png',
