@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-31
-lastReviewedCommit: 3640b8e2d0c7636199e07d4a4fb9f1a431ad1adc
-lastReviewedNote: "Reviewed for Issue #165: CLI, remote MCP, account, and OpenAPI locale families document browser OAuth, connected-app revocation, token separation, and headless limits while retiring password-equivalent LCA API-key setup and screenshots."
+lastReviewedCommit: 632d185f005db41fdfb5ebb9f9ced1b3f97fec7a
+lastReviewedNote: "Reviewed for Issue #167: the retired LCA API-key setup guard includes executable English, Chinese, German, and French generation fixtures while the public OAuth contract remains unchanged."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -112,7 +112,7 @@ DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=sta
 - Keep all four locale variants aligned in the same change.
 - Do not add redirects, rewrites, or compatibility copies for retired routes.
 - Do not expose internal agent, plan, incident, TODO, or governance documents through public AI indexes.
-- Do not restore LCA user API-key generation, OAuth demo/code-copy, manual MCP bearer-paste, or password-to-AI instructions. The independently owned Knowledge Base MCP and server-side GLAD keys are separate surfaces.
+- Do not restore LCA user API-key generation in any locale, OAuth demo/code-copy, manual MCP bearer-paste, or password-to-AI instructions. The executable guard must retain negative fixtures for English, Chinese, German, and French generation phrases. The independently owned Knowledge Base MCP and server-side GLAD keys are separate surfaces.
 - Do not introduce npm/npx execution, a second lockfile, movable external action references, or a second compiler generation.
 - Do not treat a successful child merge as workspace delivery completion while the root gitlink remains stale.
 - Record partial product/documentation drift in `TODO.docs-system-gaps.md` during the same session.

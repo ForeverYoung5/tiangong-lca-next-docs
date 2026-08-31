@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-08-31"
-lastReviewedCommit: "3640b8e2d0c7636199e07d4a4fb9f1a431ad1adc"
-reviewNote: "Reviewed for Issue #165: existing public-content and site-structure rules govern synchronized OAuth locale families, the OAuth content contract test, and retired screenshots."
-lastReviewedNote: "No routing, ownership, coverage, locale-count, or publication-trust rule change is required."
+lastReviewedCommit: "632d185f005db41fdfb5ebb9f9ced1b3f97fec7a"
+reviewNote: "Reviewed for Issue #167: existing public-content and site-structure rules govern the expanded four-locale OAuth credential guard."
+lastReviewedNote: "The test now proves localized English, Chinese, German, and French legacy-generation phrases are rejected; no routing, ownership, coverage, locale-count, or publication-trust rule change is required."
 
 catalog:
   repos:
