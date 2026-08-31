@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-31
-lastReviewedCommit: 632d185f005db41fdfb5ebb9f9ced1b3f97fec7a
-lastReviewedNote: "Reviewed for Issue #167: the retired LCA API-key setup guard includes executable English, Chinese, German, and French generation fixtures while the public OAuth contract remains unchanged."
+lastReviewedCommit: 55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce
+lastReviewedNote: "Reviewed for workspace Issue #768: CLI dataset-maintenance guidance is a public documentation content update and does not change repository contract, publication, runtime, or validation rules."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

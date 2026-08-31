@@ -221,6 +221,36 @@ Diese Befehle schreiben maschinenlesbare Berichte unter `outputs/` oder `reports
 `--out-dir`. Lesen Sie für die Automatisierung Felder wie `status`, `blockers`, `issues`, `files`
 und Artefaktpfade, statt sich auf Terminaltext zu verlassen.
 
+## Datensatzwartung
+
+`tiangong-lca dataset maintenance plan/apply/verify` dient kontrollierter kontobezogener Bereinigung,
+der Reparatur fehlerhafter Importe und dem Zusammenführen von Support-Daten-Aliasen. Es läuft als
+aktuell authentifizierter Nutzer und stützt sich auf serverseitige RLS, um sichtbare und schreibbare
+Zeilen zu begrenzen; behandeln Sie es nicht als kontoübergreifendes Admin-Batch-Werkzeug.
+
+```bash
+tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation redo-import --out-dir ./dataset-maintenance --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
+tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+```
+
+`--page-size` ist das angeforderte Maximum von `1-5000`; PostgREST kann wegen einer serverseitigen
+Grenze trotzdem kleinere Seiten liefern. Das CLI fordert `Prefer: count=exact` an, validiert die
+exakte Gesamtsumme und den zurückgegebenen Bereich aus jedem `Content-Range` und erhöht den nächsten
+Offset um die tatsächlich zurückgegebenen Zeilen. Ein akzeptierter Scan muss eine strikte
+`id`- / `version`-Sortierung ohne fehlende oder doppelte Identitäten beibehalten und zeichnet je
+Tabelle angeforderte Seitengröße, effektive Seitengröße, Seitenanzahl, gelesene Zeilen, exakte
+Gesamtsumme und aggregierte Entitätszahlen auf.
+
+Dieser Vollständigkeitsnachweis bedeutet, dass das CLI das gefilterte Ergebnis durchlaufen hat,
+während Tabellenmitgliedschaft und Sortierschlüssel stabil blieben. Da der Lesevorgang mehrere HTTP
+Requests umfasst, ist er kein transaktionaler oder MVCC-Snapshot eines einzelnen Zeitpunkts;
+vermeiden Sie parallele Bereinigung, Löschung oder Einfügung für dasselbe Konto während der Wartung.
+`plan` bindet den Vollständigkeitsnachweis in den unveränderlichen Plan-Hash ein, `apply` führt vor
+Annahme der Freigabe oder Schreibvorgängen erneut den vollständigen Kontoscan samt Driftprüfung aus,
+und `verify` nutzt einen frischen vollständigen Readback-Nachweis statt nur dem Apply-Bericht zu
+vertrauen.
+
 ## `tiangong-lca`-Validierung und Fehlerberichte
 
 `dataset validate`, `process save-draft`, `lifecyclemodel save-draft` und verwandte

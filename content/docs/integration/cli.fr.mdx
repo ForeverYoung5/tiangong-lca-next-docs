@@ -220,6 +220,35 @@ Ces commandes écrivent des rapports lisibles par machine sous `outputs/` ou `re
 `--out-dir` choisi. Pour l'automatisation, lisez des champs tels que `status`, `blockers`,
 `issues`, `files` et les chemins d'artefacts plutôt que de vous fier au texte du terminal.
 
+## Maintenance des jeux de données
+
+`tiangong-lca dataset maintenance plan/apply/verify` sert au nettoyage contrôlé au niveau du compte,
+à la réparation de mauvais imports et à la fusion d'alias de données de support. Il s'exécute comme
+l'utilisateur actuellement authentifié et s'appuie sur la RLS côté serveur pour limiter les lignes
+visibles et modifiables ; ne le traitez pas comme un outil batch d'administration entre comptes.
+
+```bash
+tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation redo-import --out-dir ./dataset-maintenance --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
+tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+```
+
+`--page-size` est le maximum demandé, de `1-5000` ; PostgREST peut tout de même renvoyer des pages
+plus petites à cause d'une limite côté serveur. Le CLI demande `Prefer: count=exact`, valide le total
+exact et la plage retournée depuis chaque `Content-Range`, puis avance l'offset suivant du nombre de
+lignes réellement renvoyées. Un scan accepté doit conserver un ordre strict `id` / `version`, sans
+identités manquantes ni dupliquées, et enregistre pour chaque table la taille de page demandée, la
+taille effective, le nombre de pages, les lignes lues, le total exact et les compteurs agrégés
+d'entités.
+
+Cette preuve de complétude signifie que le CLI a parcouru le résultat filtré pendant que les membres
+de la table et les clés de tri restaient stables. Comme la lecture couvre plusieurs requêtes HTTP,
+ce n'est pas un snapshot transactionnel ou MVCC d'un instant unique ; évitez tout nettoyage,
+suppression ou insertion concurrent pour le même compte pendant la maintenance. `plan` lie la preuve
+de complétude au hash immuable du plan, `apply` relance le scan complet du compte et les contrôles de
+dérive avant d'accepter l'approbation ou d'écrire, et `verify` utilise une preuve fraîche de relecture
+complète au lieu de faire confiance au seul rapport apply.
+
 ## Validation et rapports d'échec `tiangong-lca`
 
 `dataset validate`, `process save-draft`, `lifecyclemodel save-draft` et les commandes de réparation

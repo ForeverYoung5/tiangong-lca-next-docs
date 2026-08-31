@@ -32,8 +32,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-08-31
-lastReviewedCommit: 632d185f005db41fdfb5ebb9f9ced1b3f97fec7a
-lastReviewedNote: "Reviewed for Issue #167: OAuth validation now includes executable localized legacy-key fixtures for zh/en/de/fr plus the unchanged content, link, and static-build gates."
+lastReviewedCommit: 55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce
+lastReviewedNote: "Reviewed for workspace Issue #768: validation remains lint, typecheck, tests, static build, strict Docpact config validation, and enforced Docpact lint for the localized CLI docs update."
 related:
   - AGENTS.md
   - .docpact/config.yaml

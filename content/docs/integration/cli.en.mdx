@@ -220,6 +220,34 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 
 These commands write machine-readable reports under `outputs/` or `reports/` in the selected `--out-dir`. For automation, read fields such as `status`, `blockers`, `issues`, `files`, and artifact paths instead of relying on terminal text.
 
+## Dataset maintenance
+
+`tiangong-lca dataset maintenance plan/apply/verify` is for controlled account-level cleanup, bad
+import repair, and support-data alias merges. It runs as the currently authenticated user and relies
+on server-side RLS to limit visible and writable rows; do not treat it as a cross-account admin batch
+tool.
+
+```bash
+tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation redo-import --out-dir ./dataset-maintenance --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
+tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+```
+
+`--page-size` is the requested maximum, from `1-5000`; PostgREST may still return smaller pages
+because of a server-side cap. The CLI requests `Prefer: count=exact`, validates the exact total and
+returned range from each `Content-Range`, and advances the next offset by the number of rows actually
+returned. An accepted scan must keep strict `id` / `version` ordering, with no missing or duplicate
+identities, and records each table's requested page size, effective page size, page count, fetched
+rows, exact total, and aggregate entity counts.
+
+This completeness proof means the CLI traversed the filtered result while table membership and
+ordering keys stayed stable. Because the read spans multiple HTTP requests, it is not a
+transaction-level or MVCC snapshot of one instant; avoid concurrent cleanup, deletion, or insertion
+for the same account while maintenance is running. `plan` binds the completeness proof into the
+immutable plan hash, `apply` reruns the complete account scan and drift checks before accepting
+approval or writing, and `verify` uses a fresh complete readback proof instead of trusting only the
+apply report.
+
 ## `tiangong-lca` validation and failure reports
 
 `dataset validate`, `process save-draft`, `lifecyclemodel save-draft`, and related repair commands run local TIDAS schema validation before writing data. When fast validation fails, the current CLI uses SDK-backed deep validation to provide more specific issue paths and messages.
