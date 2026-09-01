@@ -232,7 +232,30 @@ tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operati
 tiangong-lca dataset maintenance plan --scope ./derivative-rebuild-scope.json --operation rebuild-derivatives --out-dir ./derivative-rebuild --json
 tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
 tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance plan --scope ./alias-scope.json --operation merge-support-aliases --out-dir ./dataset-maintenance --json
+tiangong-lca dataset maintenance flow-identity --help
 ```
+
+Use `merge-support-aliases` only for protected owner-draft support-data alias repair. Ordinary
+`apply` is not the fallback for a sealed production execution: build the immutable plan first, use
+`freeze-protected` to re-read the exact production scope and generate the approval request, use
+`seal-protected-approval` to record byte-exact human approval locally, and use `run-protected` only
+to execute or inspect one sealed production run. `verify` must judge the result from a fresh readback
+proof instead of trusting only the apply/run report. Preflight timing still follows server-side
+expiry; the CLI only tolerates a small server-ahead clock skew and does not extend approval or
+execution validity. Derivative verification bridges database-domain action evidence to the fresh
+snapshot; do not compare CLI canonical JSON directly with PostgreSQL `jsonb::text` as though they
+were the same hash domain.
+
+Step 3 flow identity maintenance uses the dedicated `dataset maintenance flow-identity` subworkflow
+and never reuses the Step 2 runner. The usual order is: `capture` for production read-only census
+and one database attestation, `plan` from the compatibility policy, review ledger, and live capture,
+`freeze` plus `seal-approval` to bind the exact execution bytes, `run` to submit the next durable
+ordinal serially and finalize only after derivatives are ready, then `verify` to independently
+re-read the terminal scope, source rows, public/support rows, affected processes, and owner-draft
+reference closure. If a response is ambiguous, the wrapper exits without its in-memory permit, or
+derivatives become ready later, continue only with `freeze-recovery`, `seal-recovery-approval`, and
+`run-recovery`; do not replay process writes automatically in the same invocation.
 
 `--page-size` is the requested maximum, from `1-5000`; PostgREST may still return smaller pages
 because of a server-side cap. The CLI requests `Prefer: count=exact`, validates the exact total and

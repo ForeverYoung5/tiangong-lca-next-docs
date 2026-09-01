@@ -222,7 +222,25 @@ tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operati
 tiangong-lca dataset maintenance plan --scope ./derivative-rebuild-scope.json --operation rebuild-derivatives --out-dir ./derivative-rebuild --json
 tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
 tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance plan --scope ./alias-scope.json --operation merge-support-aliases --out-dir ./dataset-maintenance --json
+tiangong-lca dataset maintenance flow-identity --help
 ```
+
+`merge-support-aliases` 面向受保护的 owner-draft 支持数据别名修复。普通 `apply` 不能作为
+生产级封存执行的回退路径；需要先用 `plan` 生成不可变计划，再通过 `freeze-protected`
+重新读取精确生产范围并生成审批请求，`seal-protected-approval` 只在本地封存逐字节人工审批，
+`run-protected` 只执行或查询一次已封存的生产执行。`verify` 必须通过新的读回证明判断结果，
+而不是只信任 apply/run 报告。预检时间仍以服务端过期时间为准；CLI 只容忍很小的服务端超前时钟
+偏差，不会延长审批或执行有效期。派生物校验使用数据库域 action evidence 与新快照之间的桥接证明，
+不要把 CLI canonical JSON 与 PostgreSQL `jsonb::text` 当作同一个哈希域。
+
+Step 3 流身份维护使用独立的 `dataset maintenance flow-identity` 子工作流，不复用 Step 2
+runner。常用顺序是 `capture` 进行生产只读 census 与一次数据库证明，`plan` 基于兼容策略、
+审核 ledger 和 live capture 生成不可变计划，`freeze` 与 `seal-approval` 绑定本次执行的精确
+字节，`run` 串行提交下一个 durable ordinal 并只在派生物就绪后 finalize，`verify` 独立重读终态
+scope、来源行、公开/支持行、受影响过程和 owner-draft 引用闭包。若响应不明确、wrapper 退出后
+丢失内存 permit，或派生物稍后才就绪，只能走 `freeze-recovery`、`seal-recovery-approval`、
+`run-recovery`，不能在同一次调用中自动重放过程写入。
 
 `--page-size` 是请求的最大值，范围为 `1-5000`；PostgREST 仍可能按服务端上限返回更小页面。
 CLI 会请求 `Prefer: count=exact`，从每个 `Content-Range` 校验精确总数和返回范围，并按实际

@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-09-01
-lastReviewedCommit: 1563a19e9116b967ebfea368cb795b2543d01675
-lastReviewedNote: "Reviewed for workspace Issue #769: derivative rebuild maintenance changes localized public CLI docs only; repository contract, site runtime, ownership, publication, and validation rules remain unchanged."
+lastReviewedCommit: 6d0d4f9dd9e81034efb3fb86e9b5b21338a109df
+lastReviewedNote: "Reviewed for workspace Issue #935: protected maintenance and flow-identity CLI guidance changes localized public CLI docs only; repository contract, site runtime, ownership, publication, and validation rules remain unchanged."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

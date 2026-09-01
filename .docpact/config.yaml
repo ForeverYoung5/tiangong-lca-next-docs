@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-01"
-lastReviewedCommit: "1563a19e9116b967ebfea368cb795b2543d01675"
-reviewNote: "Reviewed for workspace Issue #769: existing public-content and site-structure rules cover the derivative rebuild CLI docs update."
-lastReviewedNote: "Reviewed for workspace Issue #769: derivative rebuild maintenance only changes localized public CLI content; no routing, ownership, coverage, locale-count, or publication-trust rule change is required."
+lastReviewedCommit: "6d0d4f9dd9e81034efb3fb86e9b5b21338a109df"
+reviewNote: "Reviewed for workspace Issue #935: existing public-content and site-structure rules cover the protected maintenance CLI docs update."
+lastReviewedNote: "Reviewed for workspace Issue #935: protected maintenance and flow-identity CLI guidance only changes localized public CLI content; no routing, ownership, coverage, locale-count, or publication-trust rule change is required."
 
 catalog:
   repos:

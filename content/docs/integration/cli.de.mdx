@@ -234,7 +234,33 @@ tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operati
 tiangong-lca dataset maintenance plan --scope ./derivative-rebuild-scope.json --operation rebuild-derivatives --out-dir ./derivative-rebuild --json
 tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
 tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance plan --scope ./alias-scope.json --operation merge-support-aliases --out-dir ./dataset-maintenance --json
+tiangong-lca dataset maintenance flow-identity --help
 ```
+
+Verwenden Sie `merge-support-aliases` nur für geschützte owner-draft-Reparaturen von
+Support-Daten-Aliasen. Das normale `apply` ist kein Rückfallpfad für eine versiegelte
+Produktionsausführung: Erstellen Sie zuerst den unveränderlichen Plan, lesen Sie mit
+`freeze-protected` den exakten Produktionsumfang erneut und erzeugen Sie die Freigabeanforderung,
+zeichnen Sie mit `seal-protected-approval` die bytegenaue menschliche Freigabe lokal auf und nutzen
+Sie `run-protected` nur zum Ausführen oder Prüfen einer einzelnen versiegelten Produktionsausführung.
+`verify` bewertet das Ergebnis über einen frischen Readback-Nachweis, nicht nur über den Apply-/Run-
+Bericht. Das Preflight-Timing bleibt an die serverseitige Ablaufzeit gebunden; das CLI toleriert nur
+eine kleine Server-voraus-Uhrabweichung und verlängert keine Freigabe- oder Ausführungsgültigkeit.
+Die Derivatprüfung verbindet Action Evidence aus der Datenbankdomäne mit dem frischen Snapshot;
+vergleichen Sie CLI-kanonisches JSON nicht direkt mit PostgreSQL `jsonb::text`, als wären sie dieselbe
+Hash-Domäne.
+
+Die Step-3-Flussidentitätswartung nutzt den eigenen Unterworkflow `dataset maintenance flow-identity`
+und verwendet den Step-2-Runner nie wieder. Üblich ist: `capture` für produktive Nur-Lese-Zählung und
+eine Datenbankattestierung, `plan` aus Kompatibilitätsrichtlinie, Review-Ledger und Live-Capture,
+`freeze` plus `seal-approval` zur Bindung der exakten Ausführungsbytes, `run` zur seriellen Übergabe
+des nächsten durable ordinal und Finalisierung erst nach fertigen Derivaten, danach `verify` zum
+unabhängigen erneuten Lesen des terminalen Scope, der Quellzeilen, öffentlichen/Support-Zeilen,
+betroffenen Prozesse und owner-draft-Referenzschließung. Bei mehrdeutiger Antwort, verlorenem
+In-Memory-Permit nach Wrapper-Ende oder später fertigen Derivaten fahren Sie nur mit
+`freeze-recovery`, `seal-recovery-approval` und `run-recovery` fort; Prozessschreibvorgänge werden
+nicht automatisch in derselben Ausführung wiederholt.
 
 `--page-size` ist das angeforderte Maximum von `1-5000`; PostgREST kann wegen einer serverseitigen
 Grenze trotzdem kleinere Seiten liefern. Das CLI fordert `Prefer: count=exact` an, validiert die
