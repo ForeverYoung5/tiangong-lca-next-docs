@@ -34,8 +34,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-09-01
-lastReviewedCommit: 1563a19e9116b967ebfea368cb795b2543d01675
-lastReviewedNote: "Reviewed for workspace Issue #769: derivative rebuild maintenance adds localized public CLI docs content only; site topology, locale structure, package graph, and runtime architecture remain unchanged."
+lastReviewedCommit: 6d0d4f9dd9e81034efb3fb86e9b5b21338a109df
+lastReviewedNote: "Reviewed for workspace Issue #935: protected maintenance and flow-identity CLI guidance adds localized public CLI docs content only; site topology, locale structure, package graph, and runtime architecture remain unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml

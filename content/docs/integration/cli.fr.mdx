@@ -233,7 +233,34 @@ tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operati
 tiangong-lca dataset maintenance plan --scope ./derivative-rebuild-scope.json --operation rebuild-derivatives --out-dir ./derivative-rebuild --json
 tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
 tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance plan --scope ./alias-scope.json --operation merge-support-aliases --out-dir ./dataset-maintenance --json
+tiangong-lca dataset maintenance flow-identity --help
 ```
+
+Utilisez `merge-support-aliases` uniquement pour réparer des alias de données de support protégés
+en owner-draft. Le `apply` ordinaire n'est pas le repli d'une exécution de production scellée :
+construisez d'abord le plan immuable, utilisez `freeze-protected` pour relire le périmètre de
+production exact et générer la demande d'approbation, utilisez `seal-protected-approval` pour
+enregistrer localement l'approbation humaine octet pour octet, puis utilisez `run-protected`
+uniquement pour exécuter ou inspecter une exécution de production scellée. `verify` doit juger le
+résultat à partir d'une preuve de relecture fraîche plutôt qu'en faisant confiance au seul rapport
+apply/run. Le préflight reste lié à l'expiration côté serveur ; le CLI ne tolère qu'un faible décalage
+d'horloge serveur en avance et ne prolonge pas la validité de l'approbation ou de l'exécution. La
+vérification des dérivés relie l'action evidence du domaine base de données au snapshot frais ; ne
+comparez pas directement le JSON canonique du CLI avec `jsonb::text` PostgreSQL comme s'ils relevaient
+du même domaine de hash.
+
+La maintenance d'identité de flux Step 3 utilise le sous-workflow dédié
+`dataset maintenance flow-identity` et ne réutilise jamais le runner Step 2. L'ordre habituel est :
+`capture` pour un recensement production en lecture seule et une attestation base de données, `plan`
+à partir de la politique de compatibilité, du ledger de revue et du live capture, `freeze` puis
+`seal-approval` pour lier les octets exacts d'exécution, `run` pour soumettre en série le prochain
+durable ordinal et finaliser seulement lorsque les dérivés sont prêts, puis `verify` pour relire
+indépendamment le périmètre terminal, les lignes sources, les lignes publiques/support, les processus
+affectés et la fermeture de références owner-draft. Si une réponse est ambiguë, si le wrapper se
+termine sans son permit en mémoire, ou si les dérivés deviennent prêts plus tard, continuez seulement
+avec `freeze-recovery`, `seal-recovery-approval` et `run-recovery` ; ne rejouez pas automatiquement
+les écritures de processus dans la même invocation.
 
 `--page-size` est le maximum demandé, de `1-5000` ; PostgREST peut tout de même renvoyer des pages
 plus petites à cause d'une limite côté serveur. Le CLI demande `Prefer: count=exact`, valide le total
