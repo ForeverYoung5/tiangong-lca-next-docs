@@ -32,23 +32,25 @@ Ouvrez Claude Code, sélectionnez `tiangong-lca` dans `/mcp`, puis autorisez dan
 
 ## Codex
 
-Avant la connexion, ajoutez l'identifiant public et le callback loopback exact enregistré dans `~/.codex/config.toml` :
+Avant la connexion, ajoutez l'identifiant public, la base globale du callback loopback et le port d'écoute fixe dans `~/.codex/config.toml` :
 
 ```toml
+mcp_oauth_callback_url = "http://127.0.0.1:49193/callback"
+mcp_oauth_callback_port = 49193
+
 [mcp_servers.tiangong_lca]
 url = "https://lcamcp.tiangong.earth/mcp"
 oauth_resource = "https://lcamcp.tiangong.earth/mcp"
 
 [mcp_servers.tiangong_lca.oauth]
 client_id = "<registered-codex-client-id>"
-callback_url = "<exact-registered-loopback-callback>"
 ```
 
 ```bash
 codex mcp login tiangong_lca --scopes openid,email,profile
 ```
 
-`callback_url` doit correspondre octet pour octet à l'URI enregistrée, y compris le schéma, l'hôte, le port, le chemin et le suffixe fixe. Codex ouvre le navigateur et conserve le refresh token rotatif localement. N'activez pas DCR, n'ajoutez pas de secret client et ne collez pas de jeton Bearer.
+Codex combine cette base avec l'identifiant de callback stable de l'URL MCP pour produire `http://127.0.0.1:49193/callback/sB-dwg9ebTQE`, l'URI de redirection finale enregistrée octet pour octet dans Supabase. Un port explicite dans l'URL ne configure pas le listener ; `mcp_oauth_callback_port` doit donc aussi rester à `49193`. Codex ouvre le navigateur et conserve le refresh token rotatif localement. N'activez pas DCR, n'ajoutez pas de secret client et ne collez pas de jeton Bearer.
 
 ## MCP Inspector
 

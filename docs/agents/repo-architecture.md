@@ -35,7 +35,7 @@ checkPaths:
   - .github/workflows/**
 lastReviewedAt: 2026-09-02
 lastReviewedCommit: d3c3ee35881ff0825eb0585fd496e01a7b64026c
-lastReviewedNote: "Reviewed for Issue #177: four-locale remote MCP content now pins Codex's per-server OAuth client and exact callback configuration before login."
+lastReviewedNote: "Reviewed for Issue #177: four-locale remote MCP content now pins Codex's top-level callback base and listener port, effective redirect, and per-server OAuth client before login."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -90,7 +90,7 @@ page.fr.mdx
 
 All four variants must change together when structure, links, examples, or user-visible facts change. Locale metadata files follow the same suffix convention.
 
-Authentication content is cross-page but not a second runtime. `integration/cli*`, `integration/mcp-lca-remote*`, `user-guide/account-profile*`, and `openapi/tidas-package-import*` must describe the same browser OAuth, PKCE, registered-client, connected-app revoke, token-lifetime, headless, and service-identity facts. Remote LCA MCP pages additionally require client-local refresh, direct Supabase access JWT/JWKS verification, independent Edge `getClaims()`, and `auth.uid()` plus `client_id` RLS. With DCR disabled, every Codex locale must configure per-server `oauth.client_id` and byte-exact `oauth.callback_url` before login; an unspecified ephemeral callback is not supported. The pages must not describe opaque broker tokens, encrypted server-side Supabase sessions, Redis OAuth state, or local authorization-server endpoints. `scripts/oauth-doc-contract.test.mjs` inventories those exact families and rejects both the broker architecture and LCA user API-key, demo, manual-token, or callback-omission setup. Knowledge Base MCP and server-side GLAD authentication remain independently owned.
+Authentication content is cross-page but not a second runtime. `integration/cli*`, `integration/mcp-lca-remote*`, `user-guide/account-profile*`, and `openapi/tidas-package-import*` must describe the same browser OAuth, PKCE, registered-client, connected-app revoke, token-lifetime, headless, and service-identity facts. Remote LCA MCP pages additionally require client-local refresh, direct Supabase access JWT/JWKS verification, independent Edge `getClaims()`, and `auth.uid()` plus `client_id` RLS. With DCR disabled and Supabase not advertising authorization-response issuer support, every Codex locale must configure the top-level `mcp_oauth_callback_url` base and matching `mcp_oauth_callback_port` plus per-server `oauth.client_id`; Codex's deterministic callback ID must produce the byte-exact Supabase redirect registration. An unspecified ephemeral callback is not supported. The pages must not describe opaque broker tokens, encrypted server-side Supabase sessions, Redis OAuth state, or local authorization-server endpoints. `scripts/oauth-doc-contract.test.mjs` inventories those exact families and rejects both the broker architecture and LCA user API-key, demo, manual-token, or callback-omission setup. Knowledge Base MCP and server-side GLAD authentication remain independently owned.
 
 Screenshot evidence is stored once under `public/assets/docs/<sha256-prefix>/<semantic-name>.png` and referenced through `/assets/docs/**` by the complete locale family. `scripts/check-screenshots.mjs` validates manifest bindings, references, image metadata, privacy evidence, and add/replace/reuse diff semantics. Replacement creates a new hash path and removes the previous asset only when no current MDX source still references it.
 

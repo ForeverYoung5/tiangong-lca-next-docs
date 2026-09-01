@@ -64,7 +64,7 @@ test('every CLI locale documents browser login, local status, live doctor, and h
   }
 });
 
-test('every remote MCP locale documents direct Supabase JWT, local refresh, RLS, and revocation', () => {
+test('every remote MCP locale documents direct Supabase JWT, effective Codex callback, RLS, and revocation', () => {
   for (const relativePath of mcpPages) {
     const text = read(relativePath);
     assert.doesNotMatch(text, forbiddenMcpBroker, relativePath);
@@ -84,9 +84,16 @@ test('every remote MCP locale documents direct Supabase JWT, local refresh, RLS,
     assert.match(text, /client_id = "<registered-codex-client-id>"/u, relativePath);
     assert.match(
       text,
-      /callback_url = "<exact-registered-loopback-callback>"/u,
+      /mcp_oauth_callback_url = "http:\/\/127\.0\.0\.1:49193\/callback"/u,
       relativePath,
     );
+    assert.match(text, /mcp_oauth_callback_port = 49193/u, relativePath);
+    assert.match(
+      text,
+      /http:\/\/127\.0\.0\.1:49193\/callback\/sB-dwg9ebTQE/u,
+      relativePath,
+    );
+    assert.doesNotMatch(text, /^callback_url\s*=/mu, relativePath);
     assert.match(
       text,
       /oauth_resource = "https:\/\/lcamcp\.tiangong\.earth\/mcp"/u,
