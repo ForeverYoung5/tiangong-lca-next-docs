@@ -36,9 +36,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-31
-lastReviewedCommit: 55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce
-lastReviewedNote: "Reviewed for workspace Issue #768: CLI dataset-maintenance guidance is a public documentation content update and does not change repository contract, publication, runtime, or validation rules."
+lastReviewedAt: 2026-09-01
+lastReviewedCommit: 1563a19e9116b967ebfea368cb795b2543d01675
+lastReviewedNote: "Reviewed for workspace Issue #769: derivative rebuild maintenance changes localized public CLI docs only; repository contract, site runtime, ownership, publication, and validation rules remain unchanged."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

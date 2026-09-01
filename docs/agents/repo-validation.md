@@ -31,9 +31,9 @@ checkPaths:
   - context7.json
   - .github/workflows/**
   - .githooks/**
-lastReviewedAt: 2026-08-31
-lastReviewedCommit: 55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce
-lastReviewedNote: "Reviewed for workspace Issue #768: validation remains lint, typecheck, tests, static build, strict Docpact config validation, and enforced Docpact lint for the localized CLI docs update."
+lastReviewedAt: 2026-09-01
+lastReviewedCommit: 1563a19e9116b967ebfea368cb795b2543d01675
+lastReviewedNote: "Reviewed for workspace Issue #769: validation remains lint, typecheck, tests, screenshot evidence checks, static build, strict Docpact config validation, and enforced Docpact lint for the localized CLI docs update."
 related:
   - AGENTS.md
   - .docpact/config.yaml

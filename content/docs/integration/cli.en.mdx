@@ -223,12 +223,13 @@ These commands write machine-readable reports under `outputs/` or `reports/` in 
 ## Dataset maintenance
 
 `tiangong-lca dataset maintenance plan/apply/verify` is for controlled account-level cleanup, bad
-import repair, and support-data alias merges. It runs as the currently authenticated user and relies
-on server-side RLS to limit visible and writable rows; do not treat it as a cross-account admin batch
-tool.
+import repair, support-data alias merges, and protected process derivative rebuilds. It runs as the
+currently authenticated user and relies on server-side RLS to limit visible and writable rows; do not
+treat it as a cross-account admin batch tool.
 
 ```bash
 tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation redo-import --out-dir ./dataset-maintenance --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance plan --scope ./derivative-rebuild-scope.json --operation rebuild-derivatives --out-dir ./derivative-rebuild --json
 tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
 tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
 ```
@@ -247,6 +248,22 @@ for the same account while maintenance is running. `plan` binds the completeness
 immutable plan hash, `apply` reruns the complete account scan and drift checks before accepting
 approval or writing, and `verify` uses a fresh complete readback proof instead of trusting only the
 apply report.
+
+`rebuild-derivatives` can target only one exact-version current-user draft process. The scope must
+declare `action: "rebuild_derivatives"`, `target_mode: "owner_draft"`, the expected current owner,
+expected `state_code: 0`, and the full component set `extracted_md` plus `embedding_ft`. It rebuilds
+only derived Markdown and embeddings; it does not change the primary process payload, owner, state,
+or `modified_at`, and it cannot target public/shared rows, foreign owners, non-draft rows, other
+tables, multiple rows, or partial component sets.
+
+When `apply` runs for `rebuild-derivatives`, success means only that the guarded database RPC
+accepted and queued the request. It does not mean Markdown or embedding generation has completed.
+The CLI has no fallback to a direct Edge call, `admin embedding-run`, raw queue, SQL, service-role
+credentials, or raw REST mutation; replaying the same plan must return the same durable request
+proof. `verify` reads the durable request plus a fresh process derivative snapshot and reports only
+`pending`, `passed`, or `failed`. It passes only after both requested derivatives are current and
+the frozen primary-field preconditions still match; treat `pending` and `failed` as non-success
+states.
 
 ## `tiangong-lca` validation and failure reports
 
