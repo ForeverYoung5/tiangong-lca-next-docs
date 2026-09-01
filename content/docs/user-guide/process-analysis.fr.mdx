@@ -43,7 +43,16 @@ Choisissez selon votre objectif :
   de méthodes LCIA et les preuves d'instantané du solveur. Si les preuves ne correspondent pas ou si
   la couverture des facteurs est incomplète, la zone de résultat affiche un état non fiable, un écart
   de source ou une couverture incomplète au lieu de traiter la lacune comme un impact nul.
-- Utilisez **Données ouvertes** pour comparer des jeux de données publiés. Les profils de processus et les lignes de détail LCIA des Données ouvertes privilégient les ensembles de résultats LCIA publiés. Ces ensembles sont générés et publiés depuis l'espace **Traitement des données** par des comptes disposant de l'accès `data_product_manager`, et n'incluent que les entrées satisfaisant les règles d'éligibilité à l'état publié. En l'absence d'ensemble de résultats publié, la page affiche un état vide ou indisponible au lieu de recalculer et publier temporairement des résultats.
+- Utilisez **Données ouvertes** pour comparer des jeux de données publiés. Les profils de processus
+  et les lignes de détail LCIA des Données ouvertes privilégient les ensembles de résultats LCIA
+  publiés. Ces ensembles sont générés et publiés depuis l'espace **Traitement des données** par des
+  comptes disposant de l'accès `data_product_manager`, et n'incluent que les entrées satisfaisant les
+  règles d'éligibilité à l'état publié. En l'absence d'ensemble de résultats publié, la page affiche
+  un état vide ou indisponible au lieu de recalculer et publier temporairement des résultats. La
+  prévisualisation de Traitement des données affiche aussi le contrat Calculation Bundle, la
+  couverture, les hachages snapshot / méthode / facteur et les artefacts téléchargeables ; si ces
+  preuves sont incomplètes ou bloquées, l'analyse Données ouvertes ne les traite pas comme un
+  résultat publiable.
 - Utilisez **Toutes les données** lorsque vous avez besoin du plus large ensemble de candidats disponible
 
 ### Recherche de processus

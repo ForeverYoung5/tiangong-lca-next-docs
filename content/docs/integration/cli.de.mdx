@@ -190,6 +190,43 @@ tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./pr
 tiangong-lca lifecyclemodel validate-build --run-dir ./lifecyclemodel-run --json
 ```
 
+## LCI/LCIA-Datenrelease-Befehle
+
+`tiangong-lca release ...` ist die Remote-Befehlsfamilie für die LCI/LCIA-Datenrelease-Steuerung.
+Sie ist weder der npm-Paket-Release-Workflow noch ein Alias für den lokalen `tidas`-Paketbauer. Sie
+nutzt die oben beschriebene OAuth-Nutzersitzung; der Server prüft für private Lese- und
+Schreiboperationen weiterhin `data_product_manager`-Zugriff und akzeptiert keine service-role keys.
+
+Die übliche Reihenfolge ist:
+
+```bash
+tiangong-lca release prepare --input ./release-prepare.json --json
+tiangong-lca release upload --input ./release-upload.json --output ./upload-receipt.json
+tiangong-lca release finalize --input ./release-finalize.json --json
+tiangong-lca release approve --input ./release-approval.json --json
+tiangong-lca release publish --input ./release-publish.json --json
+tiangong-lca release readback-verify --input ./release-readback.json --json
+tiangong-lca release status --release-run-id <release-run-id> --json
+```
+
+Release-Artefakte bleiben dateibasiert: Die Upload-Anfrage muss für jedes ZIP Profil, Format, Pfad,
+Byte-Größe und SHA-256 deklarieren. Das CLI prüft die lokalen Bytes, bevor es signierte Upload-URLs
+anfordert. Belege, Downloads und Calculation-Bundle-Projektionen werden in private Dateien geschrieben
+statt große Nutzlasten nach stdout zu streamen.
+
+```bash
+tiangong-lca release calculation-bundle --package-id <package-id> --output ./calculation-bundle.json
+tiangong-lca release calculation-artifact --package-id <package-id> --artifact-path chunks/lci-00000.jsonl.gz --output ./lci-00000.jsonl.gz
+tiangong-lca release current --json
+tiangong-lca release artifact-download --artifact-id <artifact-id> --output ./release.zip
+```
+
+`calculation-bundle` gibt nur eine geprüfte Manifest-Projektion plus kurzlebige Download-URLs zurück.
+Prüfen Sie vor einem Artefakt-Download, dass der exakte Pfad in diesem Manifest vorhanden ist; nach
+dem Download prüft das CLI Größe und SHA-256 erneut. Nutzen Sie `--dry-run`, wenn Sie eine
+zugangsdatenmaskierte Anfrageform prüfen müssen, und geben Sie Zugangsdaten oder signierte URLs
+nicht an KI oder Chats weiter.
+
 Nutzen Sie die eingebaute Hilfe für alle Optionen:
 
 ```bash
@@ -197,6 +234,7 @@ tiangong-lca flow --help
 tiangong-lca process --help
 tiangong-lca lifecyclemodel --help
 tiangong-lca review --help
+tiangong-lca release --help
 ```
 
 ## Automatisierungs-Gates

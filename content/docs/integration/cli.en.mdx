@@ -192,6 +192,43 @@ tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./pr
 tiangong-lca lifecyclemodel validate-build --run-dir ./lifecyclemodel-run --json
 ```
 
+## LCI/LCIA data release commands
+
+`tiangong-lca release ...` is the remote command family for the LCI/LCIA data-release control
+plane. It is not the npm package release workflow, and it is not an alias for the local `tidas`
+package builder. It uses the OAuth user session described above; the server still checks
+`data_product_manager` access for private reads and mutating operations, and service-role keys are
+not accepted.
+
+The usual sequence is:
+
+```bash
+tiangong-lca release prepare --input ./release-prepare.json --json
+tiangong-lca release upload --input ./release-upload.json --output ./upload-receipt.json
+tiangong-lca release finalize --input ./release-finalize.json --json
+tiangong-lca release approve --input ./release-approval.json --json
+tiangong-lca release publish --input ./release-publish.json --json
+tiangong-lca release readback-verify --input ./release-readback.json --json
+tiangong-lca release status --release-run-id <release-run-id> --json
+```
+
+Release artifacts stay file-first: the upload request must declare each ZIP's profile, format, path,
+byte size, and SHA-256. The CLI verifies local bytes before requesting signed upload URLs. Receipts,
+downloads, and Calculation Bundle projections are written to private files instead of streaming large
+payloads to stdout.
+
+```bash
+tiangong-lca release calculation-bundle --package-id <package-id> --output ./calculation-bundle.json
+tiangong-lca release calculation-artifact --package-id <package-id> --artifact-path chunks/lci-00000.jsonl.gz --output ./lci-00000.jsonl.gz
+tiangong-lca release current --json
+tiangong-lca release artifact-download --artifact-id <artifact-id> --output ./release.zip
+```
+
+`calculation-bundle` returns only a verified manifest projection plus short-lived download URLs.
+Before downloading an artifact, confirm that the exact path is present in that manifest; after the
+download, the CLI verifies size and SHA-256 again. Add `--dry-run` when you need to inspect a
+credential-masked request shape, and do not pass credentials or signed URLs to an AI or chat window.
+
 Use built-in help for full options:
 
 ```bash
@@ -199,6 +236,7 @@ tiangong-lca flow --help
 tiangong-lca process --help
 tiangong-lca lifecyclemodel --help
 tiangong-lca review --help
+tiangong-lca release --help
 ```
 
 ## Automation Gates
