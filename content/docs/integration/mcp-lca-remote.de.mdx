@@ -32,18 +32,23 @@ claude mcp add --transport http --scope user \
 
 ## Codex
 
-Verwenden Sie die vom Betreiber für diesen Codex-Host registrierte öffentliche Client-ID und den exakten Loopback-Callback:
+Tragen Sie vor der Anmeldung die öffentliche Client-ID und den exakt registrierten Loopback-Callback in `~/.codex/config.toml` ein:
+
+```toml
+[mcp_servers.tiangong_lca]
+url = "https://lcamcp.tiangong.earth/mcp"
+oauth_resource = "https://lcamcp.tiangong.earth/mcp"
+
+[mcp_servers.tiangong_lca.oauth]
+client_id = "<registered-codex-client-id>"
+callback_url = "<exact-registered-loopback-callback>"
+```
 
 ```bash
-codex mcp add tiangong_lca \
-  --url https://lcamcp.tiangong.earth/mcp \
-  --oauth-client-id "<registered-codex-client-id>" \
-  --oauth-resource https://lcamcp.tiangong.earth/mcp
-
 codex mcp login tiangong_lca --scopes openid,email,profile
 ```
 
-Codex öffnet den Browser und speichert das rotierende Refresh-Token lokal. Weicht sein Loopback-Callback vom registrierten Wert ab, muss der Betreiber das exakte Client-/Callback-Paar registrieren; aktivieren Sie nicht DCR und fügen Sie kein Bearer-Token ein.
+`callback_url` muss einschließlich Schema, Host, Port, Pfad und festem Callback-Suffix bytegenau der registrierten URI entsprechen. Codex öffnet den Browser und speichert das rotierende Refresh-Token lokal. Aktivieren Sie nicht DCR, fügen Sie kein Client Secret und kein Bearer-Token ein.
 
 ## MCP Inspector
 

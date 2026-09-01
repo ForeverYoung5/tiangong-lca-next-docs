@@ -32,18 +32,23 @@ Ouvrez Claude Code, sélectionnez `tiangong-lca` dans `/mcp`, puis autorisez dan
 
 ## Codex
 
-Utilisez l'identifiant public et le callback loopback exact enregistrés par l'opérateur pour cet hôte Codex :
+Avant la connexion, ajoutez l'identifiant public et le callback loopback exact enregistré dans `~/.codex/config.toml` :
+
+```toml
+[mcp_servers.tiangong_lca]
+url = "https://lcamcp.tiangong.earth/mcp"
+oauth_resource = "https://lcamcp.tiangong.earth/mcp"
+
+[mcp_servers.tiangong_lca.oauth]
+client_id = "<registered-codex-client-id>"
+callback_url = "<exact-registered-loopback-callback>"
+```
 
 ```bash
-codex mcp add tiangong_lca \
-  --url https://lcamcp.tiangong.earth/mcp \
-  --oauth-client-id "<registered-codex-client-id>" \
-  --oauth-resource https://lcamcp.tiangong.earth/mcp
-
 codex mcp login tiangong_lca --scopes openid,email,profile
 ```
 
-Codex ouvre le navigateur et conserve le refresh token rotatif dans son stockage local. Si le callback loopback diffère de la valeur enregistrée, demandez à l'opérateur d'enregistrer la paire client/callback exacte ; n'activez pas DCR et ne collez pas de jeton Bearer.
+`callback_url` doit correspondre octet pour octet à l'URI enregistrée, y compris le schéma, l'hôte, le port, le chemin et le suffixe fixe. Codex ouvre le navigateur et conserve le refresh token rotatif localement. N'activez pas DCR, n'ajoutez pas de secret client et ne collez pas de jeton Bearer.
 
 ## MCP Inspector
 

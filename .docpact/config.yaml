@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-02"
-lastReviewedCommit: "616aabc1c7aad9e555a8718b41b79639d85db733"
-reviewNote: "Reviewed for Issue #175: existing public-content and site-structure rules cover the four-locale direct Supabase OAuth JWT documentation and executable broker-deny contract."
-lastReviewedNote: "Reviewed for Issue #175: remote MCP pages now describe client-local refresh, direct Supabase JWT validation, downstream RLS, and zero broker/Redis session state; routing and publication boundaries remain unchanged."
+lastReviewedCommit: "d3c3ee35881ff0825eb0585fd496e01a7b64026c"
+reviewNote: "Reviewed for Issue #177: existing public-content and site-structure rules cover the four-locale exact Codex callback configuration contract."
+lastReviewedNote: "Reviewed for Issue #177: remote MCP pages pin per-server Codex OAuth client and callback values before login; routing and publication boundaries remain unchanged."
 
 catalog:
   repos:

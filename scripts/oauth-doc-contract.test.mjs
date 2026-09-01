@@ -80,6 +80,19 @@ test('every remote MCP locale documents direct Supabase JWT, local refresh, RLS,
     assert.match(text, /claude mcp add/u, relativePath);
     assert.match(text, /Codex/u, relativePath);
     assert.match(text, /codex mcp login/u, relativePath);
+    assert.match(text, /\[mcp_servers\.tiangong_lca\.oauth\]/u, relativePath);
+    assert.match(text, /client_id = "<registered-codex-client-id>"/u, relativePath);
+    assert.match(
+      text,
+      /callback_url = "<exact-registered-loopback-callback>"/u,
+      relativePath,
+    );
+    assert.match(
+      text,
+      /oauth_resource = "https:\/\/lcamcp\.tiangong\.earth\/mcp"/u,
+      relativePath,
+    );
+    assert.doesNotMatch(text, /codex mcp add/u, relativePath);
     assert.match(text, /refresh token|Refresh-Token/iu, relativePath);
     assert.match(
       text,

@@ -32,18 +32,23 @@ claude mcp add --transport http --scope user \
 
 ## Codex
 
-使用运维为当前 Codex host 登记的 public client ID 与精确 loopback callback：
+登录前，把运维登记的 public client ID 与精确 loopback callback 写入 `~/.codex/config.toml`：
+
+```toml
+[mcp_servers.tiangong_lca]
+url = "https://lcamcp.tiangong.earth/mcp"
+oauth_resource = "https://lcamcp.tiangong.earth/mcp"
+
+[mcp_servers.tiangong_lca.oauth]
+client_id = "<registered-codex-client-id>"
+callback_url = "<exact-registered-loopback-callback>"
+```
 
 ```bash
-codex mcp add tiangong_lca \
-  --url https://lcamcp.tiangong.earth/mcp \
-  --oauth-client-id "<registered-codex-client-id>" \
-  --oauth-resource https://lcamcp.tiangong.earth/mcp
-
 codex mcp login tiangong_lca --scopes openid,email,profile
 ```
 
-Codex 会打开浏览器，并把 rotating refresh token 保存在本地凭据存储中。如果 loopback callback 与登记值不同，应停止并让运维登记精确的 client/callback pair；不要开启 DCR，也不要粘贴 bearer token。
+`callback_url` 必须与登记 URI 逐字一致，包括 scheme、host、port、path 和固定 callback suffix。Codex 会打开浏览器，并把 rotating refresh token 保存在本地凭据存储中。不要开启 DCR，不要添加 client secret，也不要粘贴 bearer token。
 
 ## MCP Inspector
 

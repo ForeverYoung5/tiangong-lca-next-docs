@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-09-02
-lastReviewedCommit: 616aabc1c7aad9e555a8718b41b79639d85db733
-lastReviewedNote: "Reviewed for Issue #175: all four remote MCP locales present client-local Supabase OAuth refresh, direct access JWT verification, client-bound RLS, and no server-side broker/Redis state."
+lastReviewedCommit: d3c3ee35881ff0825eb0585fd496e01a7b64026c
+lastReviewedNote: "Reviewed for Issue #177: all four remote MCP locales pin Codex's exact registered callback and client ID before direct Supabase OAuth login."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
