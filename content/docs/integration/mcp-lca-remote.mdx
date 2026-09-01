@@ -32,18 +32,25 @@ claude mcp add --transport http --scope user \
 
 ## Codex
 
-使用运维为当前 Codex host 登记的 public client ID 与精确 loopback callback：
+登录前，把运维登记的 public client ID、全局 loopback callback base 与固定监听端口写入 `~/.codex/config.toml`：
+
+```toml
+mcp_oauth_callback_url = "http://127.0.0.1:49193/callback"
+mcp_oauth_callback_port = 49193
+
+[mcp_servers.tiangong_lca]
+url = "https://lcamcp.tiangong.earth/mcp"
+oauth_resource = "https://lcamcp.tiangong.earth/mcp"
+
+[mcp_servers.tiangong_lca.oauth]
+client_id = "<registered-codex-client-id>"
+```
 
 ```bash
-codex mcp add tiangong_lca \
-  --url https://lcamcp.tiangong.earth/mcp \
-  --oauth-client-id "<registered-codex-client-id>" \
-  --oauth-resource https://lcamcp.tiangong.earth/mcp
-
 codex mcp login tiangong_lca --scopes openid,email,profile
 ```
 
-Codex 会打开浏览器，并把 rotating refresh token 保存在本地凭据存储中。如果 loopback callback 与登记值不同，应停止并让运维登记精确的 client/callback pair；不要开启 DCR，也不要粘贴 bearer token。
+Codex 会把这个 base 与该 MCP URL 的稳定 callback ID 组合成 `http://127.0.0.1:49193/callback/sB-dwg9ebTQE`；这是 Supabase 中逐字登记的最终 redirect URI。显式 URL 端口不会自动设置监听器，因此 `mcp_oauth_callback_port` 也必须保持为 `49193`。Codex 会打开浏览器，并把 rotating refresh token 保存在本地凭据存储中。不要开启 DCR，不要添加 client secret，也不要粘贴 bearer token。
 
 ## MCP Inspector
 

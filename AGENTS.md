@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-09-02
-lastReviewedCommit: 616aabc1c7aad9e555a8718b41b79639d85db733
-lastReviewedNote: "Reviewed for Issue #175: all four remote MCP locales present client-local Supabase OAuth refresh, direct access JWT verification, client-bound RLS, and no server-side broker/Redis state."
+lastReviewedCommit: d3c3ee35881ff0825eb0585fd496e01a7b64026c
+lastReviewedNote: "Reviewed for Issue #177: all four remote MCP locales pin Codex's callback base, listener port, effective registered redirect, and client ID before direct Supabase OAuth login."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -91,7 +91,7 @@ This repository does not own shipped product behavior, route truth, API semantic
 - EdgeOne's managed Node runtime already supplies pnpm. Its install command runs `pnpm install --frozen-lockfile` directly; do not run `corepack enable` in the managed build because that mutates shims beside the platform-owned Node executable. Local contributor setup may still enable Corepack.
 - Markdown lint uses the exact local `markdownlint-cli2` dependency through `pnpm exec`. Active repository automation has no npm/npx fallback, and every external GitHub Action is pinned to a reviewed executable commit rather than a tag object or moving tag.
 - Public AI retrieval is derived at build time through `/llms.txt` and `/search-records.json`; internal governance files remain excluded by `context7.json`.
-- The four CLI, remote LCA MCP, account-profile, and TIDAS-import locale families share one OAuth contract: human browser authorization, exact registered clients/callbacks, PKCE, client-local refresh rotation, direct Supabase access JWTs, downstream `auth.uid()` plus `client_id` authorization, local/connected-app revoke distinction, explicit headless limits, and no broker/Redis session, password/code/token/API-key handoff to AI.
+- The four CLI, remote LCA MCP, account-profile, and TIDAS-import locale families share one OAuth contract: human browser authorization, exact registered clients/callbacks, PKCE, client-local refresh rotation, direct Supabase access JWTs, downstream `auth.uid()` plus `client_id` authorization, local/connected-app revoke distinction, explicit headless limits, and no broker/Redis session, password/code/token/API-key handoff to AI. Codex uses the top-level callback base and listener port plus its deterministic MCP-server callback ID; its resulting redirect must equal the Supabase registration.
 - Reconciliation has two trust boundaries: production validates indexability and then enters the GitHub production environment for Algolia/Context7 mutation; preview validates `noindex`/robots plus production-canonical policy in a separate job path that cannot access those mutation steps.
 
 ## Required commands
