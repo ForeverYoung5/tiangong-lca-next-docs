@@ -33,9 +33,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-09-01
-lastReviewedCommit: 683e8c06fa82eb29b432c5df0df074c16b5e63c9
-lastReviewedNote: "Reviewed for Issue #171: localized CLI, remote MCP, and account content now exposes only the current OAuth model; site topology, locale structure, package graph, and runtime architecture remain unchanged."
+lastReviewedAt: 2026-09-02
+lastReviewedCommit: 616aabc1c7aad9e555a8718b41b79639d85db733
+lastReviewedNote: "Reviewed for Issue #175: four-locale remote MCP content now exposes direct Supabase access JWTs and client-local refresh with executable denial of the retired broker architecture."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -90,7 +90,7 @@ page.fr.mdx
 
 All four variants must change together when structure, links, examples, or user-visible facts change. Locale metadata files follow the same suffix convention.
 
-Authentication content is cross-page but not a second runtime. `integration/cli*`, `integration/mcp-lca-remote*`, `user-guide/account-profile*`, and `openapi/tidas-package-import*` must describe the same browser OAuth, PKCE, registered-client, connected-app revoke, token-lifetime, headless, and service-identity facts. `scripts/oauth-doc-contract.test.mjs` inventories those exact families and rejects LCA user API-key, demo, and manual-token setup, with English, Chinese, German, and French negative fixtures that prove localized generation phrases remain covered. Knowledge Base MCP and server-side GLAD authentication remain independently owned and are not rewritten by that LCA guard.
+Authentication content is cross-page but not a second runtime. `integration/cli*`, `integration/mcp-lca-remote*`, `user-guide/account-profile*`, and `openapi/tidas-package-import*` must describe the same browser OAuth, PKCE, registered-client, connected-app revoke, token-lifetime, headless, and service-identity facts. Remote LCA MCP pages additionally require client-local refresh, direct Supabase access JWT/JWKS verification, independent Edge `getClaims()`, and `auth.uid()` plus `client_id` RLS; they must not describe opaque broker tokens, encrypted server-side Supabase sessions, Redis OAuth state, or local authorization-server endpoints. `scripts/oauth-doc-contract.test.mjs` inventories those exact families and rejects both the broker architecture and LCA user API-key, demo, or manual-token setup, with English, Chinese, German, and French negative fixtures that prove localized generation phrases remain covered. Knowledge Base MCP and server-side GLAD authentication remain independently owned and are not rewritten by that LCA guard.
 
 Screenshot evidence is stored once under `public/assets/docs/<sha256-prefix>/<semantic-name>.png` and referenced through `/assets/docs/**` by the complete locale family. `scripts/check-screenshots.mjs` validates manifest bindings, references, image metadata, privacy evidence, and add/replace/reuse diff semantics. Replacement creates a new hash path and removes the previous asset only when no current MDX source still references it.
 

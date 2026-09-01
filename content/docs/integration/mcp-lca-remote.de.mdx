@@ -11,11 +11,39 @@ Der Remote-Endpunkt ist [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiang
 2. Die erste Verbindung erhält `401` mit `resource_metadata`. Der Host liest automatisch `/.well-known/oauth-protected-resource/mcp` und die Metadaten des Autorisierungsservers.
 3. Der Host öffnet den Browser mit einer vorregistrierten öffentlichen Client-ID und S256-PKCE. Dynamic Client Registration ist in der ersten Produktionsversion deaktiviert; nicht registrierte Clients oder Callbacks können keine Verbindung herstellen.
 4. Der Nutzer meldet sich auf der [TianGong Life Cycle Data Platform](https://lca.tiangong.earth) an, prüft Anwendung, Konto und Zugriff auf der Einwilligungsseite und erlaubt oder verweigert die Anfrage.
-5. Der Browser kehrt zum exakten Callback des Hosts zurück. Der Host tauscht den Code aus und speichert seine MCP-Sitzung. Der Nutzer kopiert keinen Autorisierungscode und sieht oder fügt kein Token ein.
+5. Der Browser kehrt zum exakten Callback des Hosts zurück. Der Host tauscht den Code direkt mit Supabase aus und speichert das rotierende Refresh-Token in seinem geschützten lokalen Anmeldedatenspeicher. Der Nutzer kopiert keinen Autorisierungscode und sieht oder fügt kein Token ein.
 
-Der MCP-Host erhält nur ein undurchsichtiges Token für `https://lcamcp.tiangong.earth/mcp`. Der Dienst hält eine getrennte, verschlüsselte Supabase-Sitzung für Edge Functions oder PostgREST; das eingehende MCP-Token wird nie nachgelagert weitergereicht.
+Supabase stellt ein standardmäßiges kurzlebiges Supabase access JWT aus. Der MCP Resource Server prüft die ES256-Signatur über Supabase JWKS sowie `iss`, `aud`, `exp`, `iat`, `sub`, `session_id`, `role` und die exakt zugelassene `client_id`. Anschließend leitet er dasselbe JWT an Edge Functions oder PostgREST weiter; Edge führt unabhängig `getClaims()` aus, und die Datenbank-RLS kombiniert `auth.uid()` mit `auth.jwt() ->> 'client_id'`. Der MCP-Dienst speichert weder OAuth-Sitzung noch Refresh-Token und verwendet kein Redis für die Authentifizierung.
 
 Geben Sie KI, Chat, Kommandoargumenten oder manuellen Headern niemals Benutzername, Passwort, Autorisierungscode oder Access-/Refresh-Token. Der Remote-Dienst unterstützt nur Authorization Code + S256-PKCE und Refresh, weder Password- noch Client-Credentials-Grant.
+
+## Claude Code
+
+Verwenden Sie die vom Betreiber für Claude Code registrierte öffentliche Client-ID mit festem Callback:
+
+```bash
+claude mcp add --transport http --scope user \
+  --client-id "<registered-claude-code-client-id>" \
+  --callback-port 49192 \
+  tiangong-lca https://lcamcp.tiangong.earth/mcp
+```
+
+Öffnen Sie Claude Code, wählen Sie in `/mcp` den Eintrag `tiangong-lca` und autorisieren Sie im Browser. Claude Code hält das Refresh-Token lokal; fügen Sie weder Authorization-Header noch Client Secret hinzu.
+
+## Codex
+
+Verwenden Sie die vom Betreiber für diesen Codex-Host registrierte öffentliche Client-ID und den exakten Loopback-Callback:
+
+```bash
+codex mcp add tiangong_lca \
+  --url https://lcamcp.tiangong.earth/mcp \
+  --oauth-client-id "<registered-codex-client-id>" \
+  --oauth-resource https://lcamcp.tiangong.earth/mcp
+
+codex mcp login tiangong_lca --scopes openid,email,profile
+```
+
+Codex öffnet den Browser und speichert das rotierende Refresh-Token lokal. Weicht sein Loopback-Callback vom registrierten Wert ab, muss der Betreiber das exakte Client-/Callback-Paar registrieren; aktivieren Sie nicht DCR und fügen Sie kein Bearer-Token ein.
 
 ## MCP Inspector
 
@@ -34,8 +62,8 @@ Das anfängliche Fixed-Client-Rollout unterstützt nur registrierte Hosts. Wenn 
 ## Sitzung, Refresh und Widerruf
 
 - Access-Tokens sind kurzlebig; der Host erneuert sie mit einem rotierenden Refresh-Token.
-- Lokales Trennen oder Abmelden soll die MCP-Sitzung des Hosts löschen, ersetzt aber nicht den kontoseitigen Widerruf.
-- Der Widerruf von „TianGong LCA MCP“ unter **Verbundene Anwendungen** verhindert sofort neue Supabase-Refreshes. Ein bereits ausgestelltes kurzlebiges Access-Token kann bis zum Ablauf gültig bleiben; sensible Vorgänge folgen ihrem eigenen Online-Validierungsvertrag.
+- Lokales Trennen oder Abmelden soll die lokalen OAuth-Anmeldedaten des Clients löschen, ersetzt aber nicht den kontoseitigen Widerruf.
+- Der Widerruf des entsprechenden Claude-Code-, Codex- oder Inspector-Clients unter **Verbundene Anwendungen** invalidiert sofort dessen Supabase-Sitzungen und Refresh-Tokens. Bei rein lokaler JWKS-Prüfung kann ein bereits ausgestelltes kurzlebiges Access JWT kryptografisch bis zum Ablauf gültig bleiben; sensible Vorgänge folgen ihrem eigenen Online-Validierungsvertrag.
 - Nach Widerruf, Refresh-Replay, Client-/Callback-Fehler oder ungültigem Grant erneut verbinden und im Browser autorisieren.
 
 ## Headless- und Dienstidentitäten

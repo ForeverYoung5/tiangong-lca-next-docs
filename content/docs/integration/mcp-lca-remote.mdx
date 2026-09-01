@@ -11,11 +11,39 @@ description: "通过标准 MCP OAuth 2.1 浏览器授权连接天工 LCA 远程�
 2. 首次连接会收到带 `resource_metadata` 的 `401`。host 自动读取 `/.well-known/oauth-protected-resource/mcp` 和授权服务器元数据。
 3. host 使用预注册的 public client ID 和 S256 PKCE 打开浏览器。首个生产版本关闭 Dynamic Client Registration；未登记的 client/回调无法连接。
 4. 用户在 [天工生命周期数据平台](https://lca.tiangong.earth)登录，并在授权页核对应用、账号和权限后选择允许或拒绝。
-5. 浏览器回到 host 的精确回调地址；host 自行交换 code 并保存 MCP session。用户不复制 authorization code，也不查看或粘贴 token。
+5. 浏览器回到 host 的精确回调地址；host 直接与 Supabase 交换 code，并把 rotating refresh token 保存在自己的本地受保护凭据存储中。用户不复制 authorization code，也不查看或粘贴 token。
 
-MCP host 只持有面向 `https://lcamcp.tiangong.earth/mcp` 的不透明 MCP token。服务端保存另一套加密的 Supabase session，用它访问 Edge Functions 或 PostgREST；入站 MCP token 不会被转发到下游。
+Supabase 签发标准的短期 Supabase access JWT。MCP resource server 通过 Supabase JWKS 验证 ES256 签名，并校验 `iss`、`aud`、`exp`、`iat`、`sub`、`session_id`、`role` 和精确准入的 `client_id`。随后它把同一个 JWT 转交给 Edge Functions 或 PostgREST；Edge 独立执行 `getClaims()`，数据库 RLS 同时使用 `auth.uid()` 和 `auth.jwt() ->> 'client_id'`。MCP 服务不保存 OAuth session 或 refresh token，认证也不使用 Redis。
 
 不要把用户名、密码、authorization code、access token 或 refresh token 交给 AI、聊天窗口、命令参数或手工 Header。远程服务只支持 Authorization Code + S256 PKCE 与 refresh，不支持 password 或 client-credentials grant。
+
+## Claude Code
+
+使用运维为 Claude Code 登记的 public client ID 与固定 callback：
+
+```bash
+claude mcp add --transport http --scope user \
+  --client-id "<registered-claude-code-client-id>" \
+  --callback-port 49192 \
+  tiangong-lca https://lcamcp.tiangong.earth/mcp
+```
+
+打开 Claude Code，在 `/mcp` 中选择 `tiangong-lca`，并在浏览器完成授权。Claude Code 在本地保存 refresh token；不要添加 Authorization Header 或 client secret。
+
+## Codex
+
+使用运维为当前 Codex host 登记的 public client ID 与精确 loopback callback：
+
+```bash
+codex mcp add tiangong_lca \
+  --url https://lcamcp.tiangong.earth/mcp \
+  --oauth-client-id "<registered-codex-client-id>" \
+  --oauth-resource https://lcamcp.tiangong.earth/mcp
+
+codex mcp login tiangong_lca --scopes openid,email,profile
+```
+
+Codex 会打开浏览器，并把 rotating refresh token 保存在本地凭据存储中。如果 loopback callback 与登记值不同，应停止并让运维登记精确的 client/callback pair；不要开启 DCR，也不要粘贴 bearer token。
 
 ## MCP Inspector
 
@@ -34,8 +62,8 @@ npx @modelcontextprotocol/inspector
 ## Session、刷新与撤销
 
 - access token 是短期凭据；host 使用 rotating refresh token 自动续期。
-- host 本地“断开/登出”应删除自己的 MCP session，但不会替代账号侧撤销。
-- 在账号页 **已连接应用** 中撤销“天工 LCA MCP”，会立即阻止新的 Supabase refresh。已签发的短期 access token 仍可能存活到到期；敏感操作按自身契约执行在线校验。
+- host 本地“断开/登出”应删除自己的客户端本地 OAuth 凭据，但不会替代账号侧撤销。
+- 在账号页 **已连接应用** 中撤销对应的 Claude Code、Codex 或 Inspector client，会立即使其 Supabase session 和 refresh token 失效。服务只做本地 JWKS 验证时，已签发的短期 access JWT 在密码学上仍可能有效到到期；敏感操作按自身契约执行在线校验。
 - 撤销、refresh replay、client/回调不匹配或账号 grant 失效后，重新连接并在浏览器中授权。
 
 ## Headless 与服务身份

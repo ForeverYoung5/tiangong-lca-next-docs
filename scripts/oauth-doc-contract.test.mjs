@@ -22,6 +22,8 @@ const importPages = locales.map(
 const authPages = [...cliPages, ...mcpPages, ...accountPages, ...importPages];
 const forbiddenCredentialSetup =
   /TIANGONG_LCA_API_KEY\s*=|USER_API_KEY|oauth\/demo|Generate\s+(?:an?\s+)?API[- ]?Key|生成\s*API[- ]?Key|API[- ]?Key\s*生成|API[- ]?(?:Key|Schlüssel)\s+generieren|G[eé]n[eé]rer\s+(?:une\s+)?cl[eé]\s+API|Authorization.*Bearer XXX|Exchange Authorization Code|Exchange for tokens/iu;
+const forbiddenMcpBroker =
+  /opaque\s+(?:MCP\s+)?token|不透明\s*MCP\s*token|undurchsichtig(?:es|e|en)?\s+MCP-Token|jeton\s+MCP\s+opaque|encrypted\s+Supabase\s+session|加密的\s*Supabase\s+session|verschlüsselte\s+Supabase-Sitzung|session\s+Supabase\s+distincte\s+et\s+chiffrée|MCP_AUTH_MODE|UPSTASH_REDIS|auth:mcp-oauth|OAuth\s+broker/iu;
 
 test('forbidden API-key generation fixtures are rejected in every locale', () => {
   for (const [locale, fixture] of [
@@ -62,18 +64,28 @@ test('every CLI locale documents browser login, local status, live doctor, and h
   }
 });
 
-test('every remote MCP locale documents discovery, PKCE, token separation, and revocation', () => {
+test('every remote MCP locale documents direct Supabase JWT, local refresh, RLS, and revocation', () => {
   for (const relativePath of mcpPages) {
     const text = read(relativePath);
+    assert.doesNotMatch(text, forbiddenMcpBroker, relativePath);
     assert.match(text, /oauth-protected-resource\/mcp/u, relativePath);
     assert.match(text, /S256/u, relativePath);
     assert.match(text, /Dynamic Client Registration/u, relativePath);
+    assert.match(text, /Supabase access JWT/u, relativePath);
+    assert.match(text, /Supabase JWKS/u, relativePath);
+    assert.match(text, /getClaims\(\)/u, relativePath);
+    assert.match(text, /auth\.uid\(\)/u, relativePath);
+    assert.match(text, /client_id/u, relativePath);
+    assert.match(text, /Claude Code/u, relativePath);
+    assert.match(text, /claude mcp add/u, relativePath);
+    assert.match(text, /Codex/u, relativePath);
+    assert.match(text, /codex mcp login/u, relativePath);
+    assert.match(text, /refresh token|Refresh-Token/iu, relativePath);
     assert.match(
       text,
       /Connected applications|已连接应用|Verbundene Anwendungen|applications connectées/iu,
       relativePath,
     );
-    assert.match(text, /Supabase session|Supabase-Sitzung|session Supabase/iu, relativePath);
   }
 });
 

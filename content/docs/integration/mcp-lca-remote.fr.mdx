@@ -11,11 +11,39 @@ Le point d'accès distant est [https://lcamcp.tiangong.earth/mcp](https://lcamcp
 2. La première connexion reçoit un `401` avec `resource_metadata`. L'hôte lit automatiquement `/.well-known/oauth-protected-resource/mcp` et les métadonnées du serveur d'autorisation.
 3. L'hôte ouvre le navigateur avec un identifiant public préenregistré et PKCE S256. Dynamic Client Registration est désactivé pour la première version de production ; un client ou callback non enregistré ne peut pas se connecter.
 4. L'utilisateur se connecte à la [plateforme TianGong Life Cycle Data](https://lca.tiangong.earth), vérifie l'application, le compte et l'accès demandé sur la page de consentement, puis accepte ou refuse.
-5. Le navigateur revient au callback exact de l'hôte. L'hôte échange le code et stocke sa session MCP. L'utilisateur ne copie jamais de code d'autorisation et ne voit ni ne colle de jeton.
+5. Le navigateur revient au callback exact de l'hôte. L'hôte échange le code directement avec Supabase et conserve le refresh token rotatif dans son stockage local protégé. L'utilisateur ne copie jamais de code d'autorisation et ne voit ni ne colle de jeton.
 
-L'hôte MCP reçoit uniquement un jeton opaque destiné à `https://lcamcp.tiangong.earth/mcp`. Le service conserve une session Supabase distincte et chiffrée pour Edge Functions ou PostgREST ; le jeton MCP entrant n'est jamais transmis en aval.
+Supabase émet un Supabase access JWT standard et de courte durée. Le MCP Resource Server vérifie sa signature ES256 avec Supabase JWKS ainsi que `iss`, `aud`, `exp`, `iat`, `sub`, `session_id`, `role` et la `client_id` précisément admise. Il transmet ensuite le même JWT à Edge Functions ou PostgREST ; Edge exécute indépendamment `getClaims()`, et la RLS de la base combine `auth.uid()` avec `auth.jwt() ->> 'client_id'`. Le service MCP ne stocke ni session OAuth ni refresh token et n'utilise pas Redis pour l'authentification.
 
 Ne donnez jamais à une IA, un chat, un argument de commande ou un en-tête manuel un nom d'utilisateur, mot de passe, code d'autorisation ou jeton d'accès/rafraîchissement. Le service distant prend uniquement en charge Authorization Code + PKCE S256 et refresh, sans grant password ni client-credentials.
+
+## Claude Code
+
+Utilisez l'identifiant public et le callback fixe enregistrés par l'opérateur pour Claude Code :
+
+```bash
+claude mcp add --transport http --scope user \
+  --client-id "<registered-claude-code-client-id>" \
+  --callback-port 49192 \
+  tiangong-lca https://lcamcp.tiangong.earth/mcp
+```
+
+Ouvrez Claude Code, sélectionnez `tiangong-lca` dans `/mcp`, puis autorisez dans le navigateur. Claude Code conserve le refresh token localement ; n'ajoutez ni en-tête Authorization ni secret client.
+
+## Codex
+
+Utilisez l'identifiant public et le callback loopback exact enregistrés par l'opérateur pour cet hôte Codex :
+
+```bash
+codex mcp add tiangong_lca \
+  --url https://lcamcp.tiangong.earth/mcp \
+  --oauth-client-id "<registered-codex-client-id>" \
+  --oauth-resource https://lcamcp.tiangong.earth/mcp
+
+codex mcp login tiangong_lca --scopes openid,email,profile
+```
+
+Codex ouvre le navigateur et conserve le refresh token rotatif dans son stockage local. Si le callback loopback diffère de la valeur enregistrée, demandez à l'opérateur d'enregistrer la paire client/callback exacte ; n'activez pas DCR et ne collez pas de jeton Bearer.
 
 ## MCP Inspector
 
@@ -34,8 +62,8 @@ Le déploiement initial à clients fixes ne prend en charge que les hôtes enreg
 ## Session, rafraîchissement et révocation
 
 - Les jetons d'accès sont courts ; l'hôte les renouvelle avec un jeton de rafraîchissement rotatif.
-- Une déconnexion locale doit supprimer la session MCP de l'hôte, mais ne remplace pas la révocation côté compte.
-- Révoquer « TianGong LCA MCP » dans les **applications connectées** bloque immédiatement les nouveaux rafraîchissements Supabase. Un jeton d'accès court déjà émis peut rester valide jusqu'à son expiration ; les opérations sensibles appliquent leur propre contrat de vérification en ligne.
+- Une déconnexion locale doit supprimer les identifiants OAuth locaux du client, mais ne remplace pas la révocation côté compte.
+- Révoquer le client Claude Code, Codex ou Inspector correspondant dans les **applications connectées** invalide immédiatement ses sessions Supabase et refresh tokens. Avec une validation JWKS purement locale, un access JWT court déjà émis peut rester cryptographiquement valide jusqu'à son expiration ; les opérations sensibles appliquent leur propre contrat de vérification en ligne.
 - Après révocation, replay de refresh, erreur client/callback ou grant invalide, reconnectez-vous et autorisez à nouveau dans le navigateur.
 
 ## Identités headless et de service
