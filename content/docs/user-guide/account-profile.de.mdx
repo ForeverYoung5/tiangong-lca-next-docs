@@ -41,4 +41,4 @@ Nach der ersten Browserautorisierung erscheinen CLI oder Remote-MCP unter **Verb
 - [TianGong LCA MCP – remote](/de/docs/integration/mcp-lca-remote/) nutzt MCP-Discovery und Browser-Einwilligung; Nutzer kopieren weder Code noch Token.
 - Supabase OAuth unterstützt weder Password- noch Client-Credentials-Grant. Headless-Arbeit benötigt eine menschlich autorisierte Refresh-Sitzung, ein kurzlebiges Akteur-Token vom Orchestrator oder eine separat geprüfte Service Capability.
 
-Der reversible Nutzer-API-Key ist ein ausgemusterter Kompatibilitätspfad, keine Einrichtung für neue Integrationen. Geben Sie KI oder externen Tools niemals Passwort, Autorisierungscode, Access-/Refresh-Token oder alten API-Key.
+Geben Sie KI oder externen Tools niemals Passwort, Autorisierungscode oder Access-/Refresh-Token. Externe Integrationen verwenden registrierte OAuth-Clients; Freigaben werden unter „Verbundene Anwendungen“ verwaltet.

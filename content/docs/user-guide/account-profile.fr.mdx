@@ -41,4 +41,4 @@ Après la première autorisation dans le navigateur, la CLI ou le MCP distant ap
 - [TianGong LCA MCP – distant](/fr/docs/integration/mcp-lca-remote/) utilise la découverte MCP et le consentement navigateur ; l'utilisateur ne copie ni code ni jeton.
 - Supabase OAuth ne prend en charge ni grant password ni client-credentials. Un travail headless nécessite une session de rafraîchissement autorisée par un humain, un jeton acteur court injecté par l'orchestrateur, ou une service capability auditée séparément.
 
-L'ancienne clé API utilisateur réversible est un chemin de compatibilité retiré, pas une configuration pour les nouvelles intégrations. Ne donnez jamais à une IA ou un outil externe un mot de passe, code d'autorisation, jeton d'accès/rafraîchissement ou ancienne clé API.
+Ne donnez jamais à une IA ou un outil externe un mot de passe, code d'autorisation ou jeton d'accès/rafraîchissement. Les intégrations externes utilisent des clients OAuth enregistrés et les autorisations se gèrent dans « Applications connectées ».

@@ -176,7 +176,7 @@ TIANGONG_LCA_REGION=us-east-1
 - Use `tiangong-lca auth whoami --json` for a redacted live identity and `tiangong-lca auth doctor-auth --json` before account-sensitive writes.
 - `auth logout` removes only the local session. To stop future refresh immediately, revoke TianGong CLI under Connected applications on the account page; an already issued short-lived access token can remain valid until expiry.
 
-Never give an AI, command argument, or chat window a username, password, authorization code, access token, refresh token, or the retired reversible user API key. Approved headless automation may receive one short-lived `TIANGONG_LCA_ACCESS_TOKEN` from its orchestrator; Supabase OAuth provides neither password nor client-credentials grants. Use a separate private `TIANGONG_LCA_SESSION_FILE` for each account/project/client context.
+Never give an AI, command argument, or chat window a username, password, authorization code, access token, or refresh token. Approved headless automation may receive one short-lived `TIANGONG_LCA_ACCESS_TOKEN` from its orchestrator; Supabase OAuth provides neither password nor client-credentials grants. Use a separate private `TIANGONG_LCA_SESSION_FILE` for each account/project/client context.
 
 ## Common commands
 
