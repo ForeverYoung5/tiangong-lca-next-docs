@@ -11,11 +11,39 @@ The remote endpoint is [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiango
 2. The first connection receives a `401` with `resource_metadata`. The host reads `/.well-known/oauth-protected-resource/mcp` and the authorization-server metadata automatically.
 3. The host opens the browser with a preregistered public client ID and S256 PKCE. Dynamic Client Registration is disabled for the initial production release; unregistered clients or callbacks cannot connect.
 4. The user signs in at the [TianGong Life Cycle Data Platform](https://lca.tiangong.earth), reviews the application, account, and requested access on the consent page, and allows or denies it.
-5. The browser returns to the host's exact callback. The host exchanges the code and stores its MCP session. The user never copies an authorization code or views or pastes a token.
+5. The browser returns to the host's exact callback. The host exchanges the code directly with Supabase and stores the rotating refresh token in its own protected local credential store. The user never copies an authorization code or views or pastes a token.
 
-The MCP host receives only an opaque token for `https://lcamcp.tiangong.earth/mcp`. The service keeps a separate encrypted Supabase session for Edge Functions or PostgREST; it never forwards the inbound MCP token downstream.
+Supabase issues a standard short-lived Supabase access JWT. The MCP resource server verifies its ES256 signature through Supabase JWKS and validates `iss`, `aud`, `exp`, `iat`, `sub`, `session_id`, `role`, and the exact admitted `client_id`. It forwards that same JWT to Edge Functions or PostgREST; Edge runs `getClaims()` independently, and database RLS combines `auth.uid()` with `auth.jwt() ->> 'client_id'`. The MCP service stores no OAuth session or refresh token and uses no Redis for authentication.
 
 Never give an AI, chat window, command argument, or manual header a username, password, authorization code, access token, or refresh token. The remote service supports only Authorization Code + S256 PKCE and refresh, with neither password nor client-credentials grants.
+
+## Claude Code
+
+Use the public client ID and fixed callback pair registered by the operator for Claude Code:
+
+```bash
+claude mcp add --transport http --scope user \
+  --client-id "<registered-claude-code-client-id>" \
+  --callback-port 49192 \
+  tiangong-lca https://lcamcp.tiangong.earth/mcp
+```
+
+Open Claude Code, select `tiangong-lca` from `/mcp`, and authenticate in the browser. Claude Code keeps the refresh token locally; do not add an Authorization header or client secret.
+
+## Codex
+
+Use the public client ID and exact loopback callback registered by the operator for this Codex host:
+
+```bash
+codex mcp add tiangong_lca \
+  --url https://lcamcp.tiangong.earth/mcp \
+  --oauth-client-id "<registered-codex-client-id>" \
+  --oauth-resource https://lcamcp.tiangong.earth/mcp
+
+codex mcp login tiangong_lca --scopes openid,email,profile
+```
+
+Codex opens the browser and keeps the rotating refresh token in its local credential store. If its loopback callback differs from the registered value, stop and have the operator register the exact client/callback pair; do not enable DCR or paste a bearer token.
 
 ## MCP Inspector
 
@@ -34,8 +62,8 @@ The initial fixed-client rollout supports only registered hosts. If Cherry Studi
 ## Session, refresh, and revocation
 
 - Access tokens are short-lived; the host renews them with a rotating refresh token.
-- Disconnecting or signing out locally should remove the host's MCP session, but it does not replace account-side revocation.
-- Revoking “TianGong LCA MCP” under **Connected applications** immediately prevents new Supabase refreshes. An already issued short-lived access token can remain valid until expiry; sensitive operations follow their own online-validation contract.
+- Disconnecting or signing out locally should remove the host's client-local OAuth credentials, but it does not replace account-side revocation.
+- Revoking the corresponding Claude Code, Codex, or Inspector client under **Connected applications** immediately invalidates its Supabase sessions and refresh tokens. An already issued short-lived access JWT can remain cryptographically valid until expiry when services use local JWKS validation; sensitive operations follow their own online-validation contract.
 - After revocation, refresh replay, a client/callback mismatch, or an invalid grant, reconnect and authorize again in the browser.
 
 ## Headless and service identities
