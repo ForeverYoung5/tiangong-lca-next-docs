@@ -1,9 +1,9 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-08-31"
-lastReviewedCommit: "55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce"
-reviewNote: "Reviewed for workspace Issue #768: existing public-content and site-structure rules cover the CLI dataset-maintenance docs update."
-lastReviewedNote: "Reviewed for workspace Issue #768: dataset-maintenance guidance only changes public CLI content; no routing, ownership, coverage, locale-count, or publication-trust rule change is required."
+lastReviewedAt: "2026-09-01"
+lastReviewedCommit: "1563a19e9116b967ebfea368cb795b2543d01675"
+reviewNote: "Reviewed for workspace Issue #769: existing public-content and site-structure rules cover the derivative rebuild CLI docs update."
+lastReviewedNote: "Reviewed for workspace Issue #769: derivative rebuild maintenance only changes localized public CLI content; no routing, ownership, coverage, locale-count, or publication-trust rule change is required."
 
 catalog:
   repos:

@@ -224,12 +224,14 @@ und Artefaktpfade, statt sich auf Terminaltext zu verlassen.
 ## Datensatzwartung
 
 `tiangong-lca dataset maintenance plan/apply/verify` dient kontrollierter kontobezogener Bereinigung,
-der Reparatur fehlerhafter Importe und dem Zusammenführen von Support-Daten-Aliasen. Es läuft als
-aktuell authentifizierter Nutzer und stützt sich auf serverseitige RLS, um sichtbare und schreibbare
-Zeilen zu begrenzen; behandeln Sie es nicht als kontoübergreifendes Admin-Batch-Werkzeug.
+der Reparatur fehlerhafter Importe, dem Zusammenführen von Support-Daten-Aliasen und geschützten
+Neuaufbauten von Prozess-Derivaten. Es läuft als aktuell authentifizierter Nutzer und stützt sich
+auf serverseitige RLS, um sichtbare und schreibbare Zeilen zu begrenzen; behandeln Sie es nicht als
+kontoübergreifendes Admin-Batch-Werkzeug.
 
 ```bash
 tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation redo-import --out-dir ./dataset-maintenance --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance plan --scope ./derivative-rebuild-scope.json --operation rebuild-derivatives --out-dir ./derivative-rebuild --json
 tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
 tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
 ```
@@ -250,6 +252,23 @@ vermeiden Sie parallele Bereinigung, Löschung oder Einfügung für dasselbe Kon
 Annahme der Freigabe oder Schreibvorgängen erneut den vollständigen Kontoscan samt Driftprüfung aus,
 und `verify` nutzt einen frischen vollständigen Readback-Nachweis statt nur dem Apply-Bericht zu
 vertrauen.
+
+`rebuild-derivatives` darf nur einen exakt versionierten aktuellen Nutzerentwurf eines Prozesses
+adressieren. Der Scope muss `action: "rebuild_derivatives"`, `target_mode: "owner_draft"`, den
+erwarteten aktuellen Owner, den erwarteten `state_code: 0` sowie den vollständigen Komponentensatz
+`extracted_md` plus `embedding_ft` deklarieren. Der Vorgang baut nur abgeleitetes Markdown und
+Embeddings neu auf; er ändert weder primäre Prozessnutzlast noch Owner, Status oder `modified_at`
+und kann keine öffentlichen/geteilten Zeilen, fremden Owner, Nicht-Entwürfe, andere Tabellen,
+mehrere Zeilen oder Teil-Komponentensätze adressieren.
+
+Bei `rebuild-derivatives` bedeutet ein erfolgreiches `apply` nur, dass die geschützte Datenbank-RPC
+die Anfrage angenommen und eingereiht hat. Es bedeutet nicht, dass Markdown oder Embedding schon
+fertig erzeugt sind. Das CLI bietet keinen Rückfall auf direkten Edge-Aufruf, `admin embedding-run`,
+Roh-Queue, SQL, service-role-Zugangsdaten oder rohe REST-Mutation; eine Wiederholung desselben Plans
+muss denselben dauerhaften Anfrage-Nachweis zurückgeben. `verify` liest die dauerhafte Anfrage plus
+einen frischen Prozess-Derivat-Snapshot und meldet nur `pending`, `passed` oder `failed`. Es besteht
+nur, wenn beide angeforderten Derivate aktuell sind und die eingefrorenen Primärfeld-Vorbedingungen
+weiterhin passen; behandeln Sie `pending` und `failed` als Nicht-Erfolg.
 
 ## `tiangong-lca`-Validierung und Fehlerberichte
 

@@ -213,12 +213,13 @@ tiangong-lca publish run --input ./publish-request.json --dry-run --json
 
 ## 数据集维护
 
-`tiangong-lca dataset maintenance plan/apply/verify` 面向受控的账号级数据清理、坏导入修复和
-支持数据别名合并。它以当前认证用户运行，依赖服务端 RLS 限制可见行和可写行；不要把它当成
-跨账号管理员批处理工具。
+`tiangong-lca dataset maintenance plan/apply/verify` 面向受控的账号级数据清理、坏导入修复、
+支持数据别名合并和受保护的过程派生物重建。它以当前认证用户运行，依赖服务端 RLS 限制可见行
+和可写行；不要把它当成跨账号管理员批处理工具。
 
 ```bash
 tiangong-lca dataset maintenance plan --scope ./maintenance-scope.json --operation redo-import --out-dir ./dataset-maintenance --page-size 1000 --timeout-ms 10000 --json
+tiangong-lca dataset maintenance plan --scope ./derivative-rebuild-scope.json --operation rebuild-derivatives --out-dir ./derivative-rebuild --json
 tiangong-lca dataset maintenance apply --plan ./dataset-maintenance/maintenance-plan.json --commit --approve-plan <sha256> --confirm <current-account-email> --timeout-ms 10000 --json
 tiangong-lca dataset maintenance verify --plan ./dataset-maintenance/maintenance-plan.json --out-dir ./dataset-maintenance/verify --page-size 1000 --timeout-ms 10000 --json
 ```
@@ -232,6 +233,19 @@ CLI 会请求 `Prefer: count=exact`，从每个 `Content-Range` 校验精确总�
 HTTP 请求完成，它不是单一时刻的事务级或 MVCC 快照；同账号维护期间应避免并发清理、删除或插入。
 `plan` 会把完整性证明写入不可变计划哈希，`apply` 在接受批准或写入前会重新执行完整账号扫描并
 检查漂移，`verify` 也会通过新的完整读回证明而不是只信任 apply 报告。
+
+`rebuild-derivatives` 只能面向一个精确版本的当前用户草稿过程，scope 中必须声明
+`action: "rebuild_derivatives"`、`target_mode: "owner_draft"`、期望的当前 owner、期望的
+`state_code: 0`，以及完整组件集 `extracted_md` 和 `embedding_ft`。它只重建派生的 Markdown
+与 embedding；不会更改主过程载荷、owner、状态或 `modified_at`，也不能面向公开/共享行、外部
+owner、非草稿行、其他表、多行或部分组件集。
+
+对 `rebuild-derivatives` 执行 `apply` 时，成功仅表示受保护数据库 RPC 已接受并排队该请求，
+不表示 Markdown 或 embedding 已完成。CLI 不提供直接 Edge 调用、`admin embedding-run`、原始
+队列、SQL、service-role 凭据或原始 REST 回退；重放同一计划时必须返回同一个持久请求证明。
+`verify` 会读取持久请求和新的过程派生物快照，只报告 `pending`、`passed` 或 `failed`。只有两种
+派生物都已更新且冻结的主字段前置条件仍匹配时才会通过；`pending` 与 `failed` 都应继续按非成功
+状态处理。
 
 ## `tiangong-lca` 校验与失败报告
 

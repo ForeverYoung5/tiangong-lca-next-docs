@@ -33,9 +33,9 @@ checkPaths:
   - edgeone.json
   - context7.json
   - .github/workflows/**
-lastReviewedAt: 2026-08-31
-lastReviewedCommit: 55a27547b5bbf234cee0ec2c6505cc61ef1ae6ce
-lastReviewedNote: "Reviewed for workspace Issue #768: CLI dataset-maintenance guidance adds localized public docs content only; site topology, locale structure, package graph, and runtime architecture remain unchanged."
+lastReviewedAt: 2026-09-01
+lastReviewedCommit: 1563a19e9116b967ebfea368cb795b2543d01675
+lastReviewedNote: "Reviewed for workspace Issue #769: derivative rebuild maintenance adds localized public CLI docs content only; site topology, locale structure, package graph, and runtime architecture remain unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
