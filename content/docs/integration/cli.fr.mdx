@@ -189,6 +189,45 @@ tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./pr
 tiangong-lca lifecyclemodel validate-build --run-dir ./lifecyclemodel-run --json
 ```
 
+## Commandes de release de données LCI/LCIA
+
+`tiangong-lca release ...` est la famille de commandes distantes du plan de contrôle des releases de
+données LCI/LCIA. Ce n'est ni le workflow de publication du paquet npm, ni un alias du constructeur
+local de packages `tidas`. Elle utilise la session OAuth décrite ci-dessus ; le serveur vérifie
+toujours l'accès `data_product_manager` pour les lectures privées et les opérations mutatives, et
+n'accepte pas de service-role key.
+
+La séquence habituelle est :
+
+```bash
+tiangong-lca release prepare --input ./release-prepare.json --json
+tiangong-lca release upload --input ./release-upload.json --output ./upload-receipt.json
+tiangong-lca release finalize --input ./release-finalize.json --json
+tiangong-lca release approve --input ./release-approval.json --json
+tiangong-lca release publish --input ./release-publish.json --json
+tiangong-lca release readback-verify --input ./release-readback.json --json
+tiangong-lca release status --release-run-id <release-run-id> --json
+```
+
+Les artefacts de release restent centrés fichier : la requête d'upload doit déclarer pour chaque ZIP
+son profil, son format, son chemin, sa taille en octets et son SHA-256. Le CLI vérifie les octets
+locaux avant de demander les URL d'upload signées. Les reçus, téléchargements et projections de
+Calculation Bundle sont écrits dans des fichiers privés plutôt que d'envoyer de gros payloads vers
+stdout.
+
+```bash
+tiangong-lca release calculation-bundle --package-id <package-id> --output ./calculation-bundle.json
+tiangong-lca release calculation-artifact --package-id <package-id> --artifact-path chunks/lci-00000.jsonl.gz --output ./lci-00000.jsonl.gz
+tiangong-lca release current --json
+tiangong-lca release artifact-download --artifact-id <artifact-id> --output ./release.zip
+```
+
+`calculation-bundle` ne renvoie qu'une projection de manifeste vérifiée avec des URL de téléchargement
+courtes. Avant de télécharger un artefact, vérifiez que le chemin exact figure dans ce manifeste ;
+après le téléchargement, le CLI revérifie la taille et le SHA-256. Ajoutez `--dry-run` pour inspecter
+une forme de requête avec identifiants masqués, et ne transmettez pas d'identifiants ni d'URL signées
+à une IA ou à un chat.
+
 Utilisez l'aide intégrée pour toutes les options :
 
 ```bash
@@ -196,6 +235,7 @@ tiangong-lca flow --help
 tiangong-lca process --help
 tiangong-lca lifecyclemodel --help
 tiangong-lca review --help
+tiangong-lca release --help
 ```
 
 ## Portes d'automatisation

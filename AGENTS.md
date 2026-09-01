@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-09-01
-lastReviewedCommit: 6d0d4f9dd9e81034efb3fb86e9b5b21338a109df
-lastReviewedNote: "Reviewed for workspace Issue #935: protected maintenance and flow-identity CLI guidance changes localized public CLI docs only; repository contract, site runtime, ownership, publication, and validation rules remain unchanged."
+lastReviewedCommit: ba0f28bbe5dec148d21a3332397b4476e383ff64
+lastReviewedNote: "Reviewed for workspace Issue #937: localized LCI/LCIA release, Calculation Bundle, and Model / Result Release guidance changes public MDX content only; repository contract, site runtime, ownership, publication, and validation rules remain unchanged."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

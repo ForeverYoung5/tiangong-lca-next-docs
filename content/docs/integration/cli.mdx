@@ -182,6 +182,39 @@ tiangong-lca process save-draft --input ./patched-processes.jsonl --out-dir ./pr
 tiangong-lca lifecyclemodel validate-build --run-dir ./lifecyclemodel-run --json
 ```
 
+## LCI/LCIA 数据发布命令
+
+`tiangong-lca release ...` 是面向 LCI/LCIA 数据发布控制面的远程命令族，不是 npm 包发布流程，
+也不是本地 `tidas` 包构建命令的别名。它使用前文的 OAuth 用户会话；私有读取和写入操作仍由
+服务端校验 `data_product_manager` 权限，不接受 service-role key。
+
+常用顺序如下：
+
+```bash
+tiangong-lca release prepare --input ./release-prepare.json --json
+tiangong-lca release upload --input ./release-upload.json --output ./upload-receipt.json
+tiangong-lca release finalize --input ./release-finalize.json --json
+tiangong-lca release approve --input ./release-approval.json --json
+tiangong-lca release publish --input ./release-publish.json --json
+tiangong-lca release readback-verify --input ./release-readback.json --json
+tiangong-lca release status --release-run-id <release-run-id> --json
+```
+
+发布制品保持 file-first：上传请求必须声明每个 ZIP 的 profile、格式、路径、字节数和 SHA-256。
+CLI 会先校验本地字节，再请求签名上传地址；回执、下载和 Calculation Bundle 投影都写入私有
+文件，而不是把大载荷输出到 stdout。
+
+```bash
+tiangong-lca release calculation-bundle --package-id <package-id> --output ./calculation-bundle.json
+tiangong-lca release calculation-artifact --package-id <package-id> --artifact-path chunks/lci-00000.jsonl.gz --output ./lci-00000.jsonl.gz
+tiangong-lca release current --json
+tiangong-lca release artifact-download --artifact-id <artifact-id> --output ./release.zip
+```
+
+`calculation-bundle` 只返回经过校验的清单投影和短期下载地址。下载具体 artifact 前，应确认路径
+存在于该清单中；下载完成后，CLI 会再次校验大小和 SHA-256。调试请求结构时优先加 `--dry-run`，
+用脱敏报告确认参数，不要把凭据或签名 URL 交给 AI 或聊天窗口。
+
 需要查看完整参数时，优先使用内置帮助：
 
 ```bash
@@ -189,6 +222,7 @@ tiangong-lca flow --help
 tiangong-lca process --help
 tiangong-lca lifecyclemodel --help
 tiangong-lca review --help
+tiangong-lca release --help
 ```
 
 ## 自动化质量门
