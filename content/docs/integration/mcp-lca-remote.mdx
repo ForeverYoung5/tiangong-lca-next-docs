@@ -15,7 +15,7 @@ description: "通过标准 MCP OAuth 2.1 浏览器授权连接天工 LCA 远程�
 
 MCP host 只持有面向 `https://lcamcp.tiangong.earth/mcp` 的不透明 MCP token。服务端保存另一套加密的 Supabase session，用它访问 Edge Functions 或 PostgREST；入站 MCP token 不会被转发到下游。
 
-不要把用户名、密码、authorization code、access token、refresh token 或旧用户 API Key 交给 AI、聊天窗口、命令参数或手工 Header。远程服务不再提供 OAuth demo/code 展示页，也不支持 password 或 client-credentials grant。
+不要把用户名、密码、authorization code、access token 或 refresh token 交给 AI、聊天窗口、命令参数或手工 Header。远程服务只支持 Authorization Code + S256 PKCE 与 refresh，不支持 password 或 client-credentials grant。
 
 ## MCP Inspector
 
@@ -25,7 +25,7 @@ npx @modelcontextprotocol/inspector
 
 1. 选择 **Streamable HTTP**。
 2. URL 填写 `https://lcamcp.tiangong.earth/mcp`。
-3. 使用运维提供的预注册 client ID；不要自行生成 client、填写 API Key 或粘贴 Bearer token。
+3. 使用运维提供的预注册 client ID；不要自行生成 client 或粘贴 Bearer token。
 4. 点击连接并在打开的浏览器中完成授权。
 5. 连接后打开 **Tools** → **List Tools**，运行搜索等工具。
 

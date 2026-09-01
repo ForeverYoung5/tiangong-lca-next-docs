@@ -15,7 +15,7 @@ The remote endpoint is [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiango
 
 The MCP host receives only an opaque token for `https://lcamcp.tiangong.earth/mcp`. The service keeps a separate encrypted Supabase session for Edge Functions or PostgREST; it never forwards the inbound MCP token downstream.
 
-Never give an AI, chat window, command argument, or manual header a username, password, authorization code, access token, refresh token, or retired user API key. The remote service no longer provides an OAuth demo/code-display page and supports neither password nor client-credentials grants.
+Never give an AI, chat window, command argument, or manual header a username, password, authorization code, access token, or refresh token. The remote service supports only Authorization Code + S256 PKCE and refresh, with neither password nor client-credentials grants.
 
 ## MCP Inspector
 
@@ -25,7 +25,7 @@ npx @modelcontextprotocol/inspector
 
 1. Select **Streamable HTTP**.
 2. Enter `https://lcamcp.tiangong.earth/mcp` as the URL.
-3. Use the preregistered client ID supplied by the operator. Do not generate a client, enter an API key, or paste a Bearer token.
+3. Use the preregistered client ID supplied by the operator. Do not generate a client or paste a Bearer token.
 4. Connect and complete authorization in the browser that opens.
 5. Open **Tools** → **List Tools** and run a search or another tool.
 

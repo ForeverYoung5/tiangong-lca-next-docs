@@ -166,7 +166,7 @@ TIANGONG_LCA_REGION=us-east-1
 - 使用 `tiangong-lca auth whoami --json` 查看脱敏的实时身份，账号敏感写入前运行 `tiangong-lca auth doctor-auth --json`。
 - `auth logout` 只删除本机 session。要立即阻止后续 refresh，请在账号页的“已连接应用”中撤销 TianGong CLI；已签发的短期 access token 仍可能存活到到期。
 
-不要向 AI、脚本参数或聊天窗口提供用户名、密码、authorization code、access token、refresh token 或旧的可逆用户 API Key。批准的 headless 自动化只能由 orchestrator 注入一个短期 `TIANGONG_LCA_ACCESS_TOKEN`；Supabase OAuth 不提供 password 或 client-credentials grant。多账号工作应为每个 account/project/client 使用独立私有 `TIANGONG_LCA_SESSION_FILE`。
+不要向 AI、脚本参数或聊天窗口提供用户名、密码、authorization code、access token 或 refresh token。批准的 headless 自动化只能由 orchestrator 注入一个短期 `TIANGONG_LCA_ACCESS_TOKEN`；Supabase OAuth 不提供 password 或 client-credentials grant。多账号工作应为每个 account/project/client 使用独立私有 `TIANGONG_LCA_SESSION_FILE`。
 
 ## 常用命令
 

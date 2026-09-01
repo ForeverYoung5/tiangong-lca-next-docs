@@ -41,4 +41,4 @@ After the CLI or remote MCP is authorized in the browser for the first time, it 
 - [TianGong LCA MCP - Remote](/en/docs/integration/mcp-lca-remote/) uses MCP discovery and browser consent; the user never copies a code or token.
 - Supabase OAuth supports neither password nor client-credentials grants. Headless work needs a human-authorized refresh session, an orchestrator-injected short-lived actor token, or a separately reviewed service capability.
 
-The reversible user API key is a retired compatibility path, not a setup option for new integrations. Never give an AI or external tool a password, authorization code, access token, refresh token, or legacy API key.
+Never give an AI or external tool a password, authorization code, access token, or refresh token. External integrations use registered OAuth clients, with grants managed under Connected applications.

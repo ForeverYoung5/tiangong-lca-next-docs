@@ -15,7 +15,7 @@ Le point d'accès distant est [https://lcamcp.tiangong.earth/mcp](https://lcamcp
 
 L'hôte MCP reçoit uniquement un jeton opaque destiné à `https://lcamcp.tiangong.earth/mcp`. Le service conserve une session Supabase distincte et chiffrée pour Edge Functions ou PostgREST ; le jeton MCP entrant n'est jamais transmis en aval.
 
-Ne donnez jamais à une IA, un chat, un argument de commande ou un en-tête manuel un nom d'utilisateur, mot de passe, code d'autorisation, jeton d'accès/rafraîchissement ou l'ancienne clé API utilisateur. Le service distant n'expose plus de page de démonstration/affichage de code OAuth et ne prend en charge ni grant password ni client-credentials.
+Ne donnez jamais à une IA, un chat, un argument de commande ou un en-tête manuel un nom d'utilisateur, mot de passe, code d'autorisation ou jeton d'accès/rafraîchissement. Le service distant prend uniquement en charge Authorization Code + PKCE S256 et refresh, sans grant password ni client-credentials.
 
 ## MCP Inspector
 
@@ -25,7 +25,7 @@ npx @modelcontextprotocol/inspector
 
 1. Sélectionnez **Streamable HTTP**.
 2. Saisissez `https://lcamcp.tiangong.earth/mcp` comme URL.
-3. Utilisez l'identifiant client préenregistré fourni par l'opérateur. Ne générez pas de client et ne collez ni clé API ni jeton Bearer.
+3. Utilisez l'identifiant client préenregistré fourni par l'opérateur. Ne générez pas de client et ne collez pas de jeton Bearer.
 4. Connectez-vous et terminez l'autorisation dans le navigateur ouvert.
 5. Ouvrez **Tools** → **List Tools** et exécutez une recherche ou un autre outil.
 

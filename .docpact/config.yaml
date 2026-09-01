@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-01"
-lastReviewedCommit: "ba0f28bbe5dec148d21a3332397b4476e383ff64"
-reviewNote: "Reviewed for workspace Issue #937: existing public-content rules cover the localized LCI/LCIA release, Calculation Bundle, and Model / Result Release docs update."
-lastReviewedNote: "Reviewed for workspace Issue #937: localized public docs changed only content/docs pages; routing, ownership, locale-count, and publication-trust rules remain unchanged."
+lastReviewedCommit: "683e8c06fa82eb29b432c5df0df074c16b5e63c9"
+reviewNote: "Reviewed for Issue #171: existing public-content and site-structure rules cover the OAuth-only authentication documentation cleanup."
+lastReviewedNote: "Reviewed for Issue #171: CLI, remote MCP, and account pages now describe only the live OAuth contract; routing, ownership, coverage, locale-count, and publication-trust rules remain unchanged."
 
 catalog:
   repos:

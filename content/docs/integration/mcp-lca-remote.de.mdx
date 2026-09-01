@@ -15,7 +15,7 @@ Der Remote-Endpunkt ist [https://lcamcp.tiangong.earth/mcp](https://lcamcp.tiang
 
 Der MCP-Host erhält nur ein undurchsichtiges Token für `https://lcamcp.tiangong.earth/mcp`. Der Dienst hält eine getrennte, verschlüsselte Supabase-Sitzung für Edge Functions oder PostgREST; das eingehende MCP-Token wird nie nachgelagert weitergereicht.
 
-Geben Sie KI, Chat, Kommandoargumenten oder manuellen Headern niemals Benutzername, Passwort, Autorisierungscode, Access-/Refresh-Token oder den ausgemusterten Nutzer-API-Key. Der Remote-Dienst bietet keine OAuth-Demo-/Code-Anzeigeseite mehr und unterstützt weder Password- noch Client-Credentials-Grant.
+Geben Sie KI, Chat, Kommandoargumenten oder manuellen Headern niemals Benutzername, Passwort, Autorisierungscode oder Access-/Refresh-Token. Der Remote-Dienst unterstützt nur Authorization Code + S256-PKCE und Refresh, weder Password- noch Client-Credentials-Grant.
 
 ## MCP Inspector
 
@@ -25,7 +25,7 @@ npx @modelcontextprotocol/inspector
 
 1. Wählen Sie **Streamable HTTP**.
 2. Tragen Sie `https://lcamcp.tiangong.earth/mcp` als URL ein.
-3. Verwenden Sie die vom Betreiber bereitgestellte vorregistrierte Client-ID. Erzeugen Sie keinen Client und fügen Sie weder API-Key noch Bearer-Token ein.
+3. Verwenden Sie die vom Betreiber bereitgestellte vorregistrierte Client-ID. Erzeugen Sie keinen Client und fügen Sie kein Bearer-Token ein.
 4. Stellen Sie die Verbindung her und schließen Sie die Browserautorisierung ab.
 5. Öffnen Sie **Tools** → **List Tools** und führen Sie eine Suche oder ein anderes Werkzeug aus.
 

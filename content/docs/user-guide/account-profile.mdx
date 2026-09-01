@@ -41,4 +41,4 @@ CLI 或远程 MCP 首次通过浏览器授权后，会出现在**已连接应用
 - [TianGong LCA MCP（远程）](/zh/docs/integration/mcp-lca-remote/) 使用 MCP discovery 与浏览器 consent；用户不复制 code 或 token。
 - Supabase OAuth 不支持 password/client-credentials grant。headless 任务需要人类预先授权的 refresh session、orchestrator 注入的短期 actor token，或单独审计的 service capability。
 
-旧的可逆用户 API Key 属于退役兼容路径，不再是新集成的设置方式。不要向 AI 或外部工具提供密码、authorization code、access token、refresh token 或旧 API Key。
+不要向 AI 或外部工具提供密码、authorization code、access token 或 refresh token。外部集成只使用已登记的 OAuth client，并在“已连接应用”中管理授权。

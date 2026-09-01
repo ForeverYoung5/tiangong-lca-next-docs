@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-09-01
-lastReviewedCommit: ba0f28bbe5dec148d21a3332397b4476e383ff64
-lastReviewedNote: "Reviewed for workspace Issue #937: localized LCI/LCIA release, Calculation Bundle, and Model / Result Release guidance changes public MDX content only; repository contract, site runtime, ownership, publication, and validation rules remain unchanged."
+lastReviewedCommit: 683e8c06fa82eb29b432c5df0df074c16b5e63c9
+lastReviewedNote: "Reviewed for Issue #171: all localized CLI, remote MCP, and account guidance now presents only the live OAuth contract; repository ownership, site runtime, publication, and validation rules remain unchanged."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md
@@ -112,7 +112,7 @@ DEPLOY_ENV=ci CANONICAL_ORIGIN=http://localhost:3000 NEXT_PUBLIC_SEARCH_MODE=sta
 - Keep all four locale variants aligned in the same change.
 - Do not add redirects, rewrites, or compatibility copies for retired routes.
 - Do not expose internal agent, plan, incident, TODO, or governance documents through public AI indexes.
-- Do not restore LCA user API-key generation in any locale, OAuth demo/code-copy, manual MCP bearer-paste, or password-to-AI instructions. The executable guard must retain negative fixtures for English, Chinese, German, and French generation phrases. The independently owned Knowledge Base MCP and server-side GLAD keys are separate surfaces.
+- Do not add LCA user API-key generation in any locale, OAuth demo/code-copy, manual MCP bearer-paste, or password-to-AI instructions. The executable guard must retain negative fixtures for English, Chinese, German, and French generation phrases. The independently owned Knowledge Base MCP and server-side GLAD keys are separate surfaces.
 - Do not introduce npm/npx execution, a second lockfile, movable external action references, or a second compiler generation.
 - Do not treat a successful child merge as workspace delivery completion while the root gitlink remains stale.
 - Record partial product/documentation drift in `TODO.docs-system-gaps.md` during the same session.
