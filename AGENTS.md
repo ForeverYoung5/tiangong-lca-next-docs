@@ -37,8 +37,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-09-02
-lastReviewedCommit: d3c3ee35881ff0825eb0585fd496e01a7b64026c
-lastReviewedNote: "Reviewed for Issue #177: all four remote MCP locales pin Codex's callback base, listener port, effective registered redirect, and client ID before direct Supabase OAuth login."
+lastReviewedCommit: 9f69ae5a4f9b74ddfe55892070efc32a1211ccbc
+lastReviewedNote: "Reviewed for docs-impact Issue #938: public content updates cover German app-locale header guidance and verified Calculation Bundle downloads without changing site ownership, routing, or validation contracts."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-architecture.md

@@ -1,9 +1,9 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-02"
-lastReviewedCommit: "d3c3ee35881ff0825eb0585fd496e01a7b64026c"
-reviewNote: "Reviewed for Issue #177: existing public-content and site-structure rules cover the four-locale effective Codex callback configuration contract."
-lastReviewedNote: "Reviewed for Issue #177: remote MCP pages pin the top-level Codex callback base and listener port plus the per-server public client before login; routing and publication boundaries remain unchanged."
+lastReviewedCommit: "9f69ae5a4f9b74ddfe55892070efc32a1211ccbc"
+reviewNote: "Reviewed for docs-impact Issue #938: existing public-content rules cover the four-locale key-functions, LCIA, and process-analysis edits."
+lastReviewedNote: "Reviewed for docs-impact Issue #938: German app-locale header guidance and verified Calculation Bundle download wording need no routing, ownership, or validation rule change."
 
 catalog:
   repos:

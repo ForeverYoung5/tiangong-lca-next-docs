@@ -32,8 +32,8 @@ checkPaths:
   - .github/workflows/**
   - .githooks/**
 lastReviewedAt: 2026-09-02
-lastReviewedCommit: d3c3ee35881ff0825eb0585fd496e01a7b64026c
-lastReviewedNote: "Reviewed for Issue #177: the four-locale Codex callback base/listener/effective redirect and client configuration is gated by focused OAuth tests, lint, links, build, and Docpact."
+lastReviewedCommit: 9f69ae5a4f9b74ddfe55892070efc32a1211ccbc
+lastReviewedNote: "Reviewed for docs-impact Issue #938: the four-locale public content edits remain covered by lint, typecheck, tests, static build, placement, visual-evidence, and Docpact gates."
 related:
   - AGENTS.md
   - .docpact/config.yaml

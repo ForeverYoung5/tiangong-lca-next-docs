@@ -34,8 +34,8 @@ checkPaths:
   - context7.json
   - .github/workflows/**
 lastReviewedAt: 2026-09-02
-lastReviewedCommit: d3c3ee35881ff0825eb0585fd496e01a7b64026c
-lastReviewedNote: "Reviewed for Issue #177: four-locale remote MCP content now pins Codex's top-level callback base and listener port, effective redirect, and per-server OAuth client before login."
+lastReviewedCommit: 9f69ae5a4f9b74ddfe55892070efc32a1211ccbc
+lastReviewedNote: "Reviewed for docs-impact Issue #938: public MDX content updates do not alter locale routing, static export, screenshot asset ownership, or site architecture."
 related:
   - AGENTS.md
   - .docpact/config.yaml

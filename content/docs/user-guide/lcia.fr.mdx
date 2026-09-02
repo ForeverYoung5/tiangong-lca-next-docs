@@ -67,8 +67,12 @@ Cela signifie :
   l'état vide ou indisponible correspondant.
 - Si le processus possède une release Model / Result courante, la visionneuse peut aussi afficher
   version de release, état de relecture, contrôles de validation, hachages de manifeste et ZIPs
-  téléchargeables. Les anciens résultats uniquement LCIA restent séparés ; ils ne sont pas
-  automatiquement équivalents à un Calculation Bundle ou à une release model-result.
+  téléchargeables. Lors du téléchargement du Calculation Bundle ou d'un artefact associé, la page
+  actualise d'abord les liens sécurisés et vérifie la taille en octets ainsi que le SHA-256 avant
+  l'enregistrement ; des liens expirés ou des métadonnées d'artefact modifiées déclenchent une
+  demande d'actualisation des liens sécurisés ou de rechargement. Les anciens résultats uniquement
+  LCIA restent séparés ; ils ne sont pas automatiquement équivalents à un Calculation Bundle ou à une
+  release model-result.
 
 ## LCIA au niveau modèle
 

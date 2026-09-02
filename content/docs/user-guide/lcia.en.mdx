@@ -64,9 +64,11 @@ That means:
   eligibility rules. If the related result set has not been published, is empty, or is temporarily
   unavailable, the page shows the corresponding empty or unavailable state.
 - If the process has a current Model / Result Release, the process viewer can also show release
-  version, readback status, validation items, manifest hashes, and downloadable ZIPs. Legacy
-  LCIA-only results remain separate; they are not automatically the same as a Calculation Bundle or
-  model-result release.
+  version, readback status, validation items, manifest hashes, and downloadable ZIPs. When you
+  download the Calculation Bundle or a sidecar artifact, the page refreshes secure links and verifies
+  byte size plus SHA-256 before saving; expired links or changed artifact metadata prompt you to
+  refresh secure links or reload. Legacy LCIA-only results remain separate; they are not
+  automatically the same as a Calculation Bundle or model-result release.
 
 ## Model-level LCIA
 

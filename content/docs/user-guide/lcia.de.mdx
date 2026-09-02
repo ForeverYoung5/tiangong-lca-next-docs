@@ -64,9 +64,12 @@ Das bedeutet:
   nicht veröffentlicht, leer oder vorübergehend nicht verfügbar, zeigt die Seite den entsprechenden
   leeren bzw. nicht verfügbaren Zustand.
 - Hat der Prozess einen aktuellen Model-/Result-Release, kann die Prozessansicht auch Release-Version,
-  Readback-Status, Prüfpunkte, Manifest-Hashes und herunterladbare ZIPs anzeigen. Alte reine
-  LCIA-Ergebnisse bleiben getrennt; sie sind nicht automatisch dasselbe wie ein Calculation Bundle
-  oder ein Model-Result-Release.
+  Readback-Status, Prüfpunkte, Manifest-Hashes und herunterladbare ZIPs anzeigen. Beim Download des
+  Calculation Bundle oder eines Sidecar-Artefakts aktualisiert die Seite zuerst sichere Links und
+  prüft Byte-Größe sowie SHA-256 vor dem Speichern; abgelaufene Links oder geänderte Artefaktmetadaten
+  führen zu einem Hinweis, sichere Links zu aktualisieren oder neu zu laden. Alte reine LCIA-Ergebnisse
+  bleiben getrennt; sie sind nicht automatisch dasselbe wie ein Calculation Bundle oder ein
+  Model-Result-Release.
 
 ## Modellbezogene LCIA
 
